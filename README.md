@@ -52,7 +52,7 @@ Client  <->  | TeaWeb  |  <->  | Nginx, Apache, Tomcat,     |
 5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息。
 
 # 构建自己的版本    
-1. 从*https://gitee.com/liuxiangchao/build*中下载项目，放到本地磁盘上；
+1. 从 *https://gitee.com/liuxiangchao/build* 中下载项目，放到本地磁盘上；
 2. 设置全局变量`GOPATH`为项目目录路径；
 3. 执行`init.sh`初始化项目；
 4. 执行`run.sh`启动项目；
