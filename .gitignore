@@ -9,6 +9,7 @@ src/github.com/pquerna
 src/github.com/shirou
 src/github.com/stretchr
 src/github.com/ua-parser
+src/github.com/TeaWeb/code
 src/gopkg.in
 bin/
 pkg/
