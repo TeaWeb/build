@@ -44,13 +44,19 @@ Client  <->  | TeaWeb  |  <->  | Nginx, Apache, Tomcat,     |
     cd teaweb-v0.0.1/
     bin/teaweb
     ~~~
-4. 如果没有出现错误的话，可以在浏览器端访问：
+4. 如果没有出现错误的话，可以在浏览器中访问：
     ~~~
     http://127.0.0.1:7777
     ~~~
     我们使用了`7777`端口，如果访问遇到了问题，请检查防火墙设置；
-5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息。    
+5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息。
 
+# 构建自己的版本    
+1. 从*https://gitee.com/liuxiangchao/build*中下载项目，放到本地磁盘上；
+2. 设置全局变量`GOPATH`为项目目录路径；
+3. 执行`init.sh`初始化项目；
+4. 执行`run.sh`启动项目；
+5. 在浏览器中访问`http://127.0.0.1:7777`。
 
 # 相关源码
 * [项目Go主源码](https://github.com/TeaWeb/code)
