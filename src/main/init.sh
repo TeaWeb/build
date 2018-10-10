@@ -34,5 +34,7 @@ go_get "github.com/ua-parser/uap-go"
 # system cpu, memory, disk ...
 go_get "github.com/shirou/gopsutil"
 
+# TeaWeb
+go_get "github.com/TeaWeb/code"
 
 echo "[done]"
