@@ -58,6 +58,9 @@ Client  <->  | TeaWeb  |  <->  | Nginx, Apache, Tomcat,     |
 4. 执行`run.sh`启动项目；
 5. 在浏览器中访问`http://127.0.0.1:7777`。
 
+# 报告问题
+请在 *https://github.com/TeaWeb/build/issues* 报告你所遇到的问题，或者加入QQ群199435611跟大家一起讨论.
+
 # 相关源码
 * [项目Go主源码](https://github.com/TeaWeb/code)
 
