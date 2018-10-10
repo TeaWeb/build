@@ -1,0 +1,176 @@
+{$layout}
+
+{$var "header"}
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+{$end}
+
+<div class="main-box">
+    <table class="ui table chart-table">
+        <tr>
+            <td>
+                <!-- 时间筛选：实时| ... | req pv uv -->
+                <div class="ui menu text blue filter-menu">
+                    <a class="ui item" :class="{active:dataRange=='hourly'}" v-on:click.prevent="changeRange('hourly')">24小时</a>
+                    <a class="ui item" style="padding:0">|</a>
+                    <a class="ui item" :class="{active:dataRange=='daily'}" v-on:click.prevent="changeRange('daily')">14日</a>
+                    <a class="ui item" style="padding:0">|</a>
+                    <a class="ui item" :class="{active:dataRange=='monthly'}" v-on:click.prevent="changeRange('monthly')">最近一年</a>
+
+                    <a class="ui item right" :class="{active:dataType=='req'}" v-on:click.prevent="changeType('req')">Req(请求)</a>
+                    <a class="ui item" style="padding:0">|</a>
+                    <a class="ui item" :class="{active:dataType=='pv'}" v-on:click.prevent="changeType('pv')">PV</a>
+                    <a class="ui item" style="padding:0">|</a>
+                    <a class="ui item" :class="{active:dataType=='uv'}" v-on:click.prevent="changeType('uv')">UV</a>
+
+
+                    <span class="title">{{chartTitle}}</span>
+                </div>
+
+                <div class="chart"></div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="ranks">
+        <!-- 访问量排行 -->
+        <div class="table-box">
+            <table class="ui table selectable">
+                <thead>
+                <tr>
+                    <th colspan="2">访问量排行</th>
+                </tr>
+                </thead>
+                <tr v-if="topRequests.length == 0">
+                    <td colspan="2">暂时还没有数据</td>
+                </tr>
+                <tr v-for="req in topRequests">
+                    <td>
+                        <span :title="req.url">{{req.uri}}</span>
+                        <a :href="req.url" target="_blank" title="新窗口打开"><i class="ui external icon tiny grey"></i></a>
+                    </td>
+                    <td class="five wide">{{formatPercent(req.percent)}}%
+                        <div class="ui progress tiny blue">
+                            <div class="bar" :style="{'width':req.compareMax  + '%'}"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 请求时间排行 -->
+        <div class="table-box">
+            <table class="ui table selectable">
+                <thead>
+                    <tr>
+                        <th colspan="2">请求耗时排行</th>
+                    </tr>
+                </thead>
+                <tr v-if="topCostRequests.length == 0">
+                    <td colspan="2">暂时还没有数据</td>
+                </tr>
+                <tr v-for="req in topCostRequests">
+                    <td>
+                        <span :title="req.url">{{req.uri}}</span>
+                        <a :href="req.url" target="_blank" title="新窗口打开"><i class="ui external icon tiny grey"></i></a>
+                    </td>
+                    <td class="five wide">{{formatMS(req.cost)}}ms
+                        <div class="ui progress tiny blue">
+                            <div class="bar" :style="{'width':req.compareMax  + '%'}"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 操作系统排行 -->
+        <div class="table-box">
+            <table class="ui table selectable">
+                <thead>
+                    <tr>
+                        <th colspan="2">操作系统排行</th>
+                    </tr>
+                </thead>
+                <tr v-if="topOS.length == 0">
+                    <td colspan="2">暂时还没有数据</td>
+                </tr>
+                <tr v-for="os in topOS">
+                    <td>{{os.family}}</td>
+                    <td class="five wide">{{formatPercent(os.percent)}}%
+
+                        <div class="ui progress tiny blue">
+                            <div class="bar" :style="{'width':os.compareMax  + '%'}"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 浏览器排行 -->
+        <div class="table-box">
+            <table class="ui table selectable">
+                <thead>
+                    <tr>
+                        <th colspan="2">浏览器排行</th>
+                    </tr>
+                </thead>
+                <tr v-if="topBrowsers.length == 0">
+                    <td colspan="2">暂时还没有数据</td>
+                </tr>
+                <tr v-for="browser in topBrowsers">
+                    <td>{{browser.family}}</td>
+                    <td class="five wide">{{formatPercent(browser.percent)}}%
+                        <div class="ui progress tiny blue">
+                            <div class="bar" :style="{'width':browser.compareMax  + '%'}"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 地区排行 -->
+        <div class="table-box">
+            <table class="ui table selectable">
+                <thead>
+                    <tr>
+                        <th colspan="2">地区排行</th>
+                    </tr>
+                </thead>
+                <tr v-if="topRegions.length == 0">
+                    <td colspan="2">暂时还没有数据</td>
+                </tr>
+                <tr v-for="region in topRegions">
+                    <td>{{region.region}}</td>
+                    <td class="five wide">{{formatPercent(region.percent)}}%
+                        <div class="ui progress tiny blue">
+                            <div class="bar" :style="{'width':region.compareMax  + '%'}"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 省份排行 -->
+        <div class="table-box">
+            <table class="ui table selectable">
+                <thead>
+                <tr>
+                    <th colspan="2">省（州）排名</th>
+                </tr>
+                </thead>
+                <tr v-if="topStates.length == 0">
+                    <td colspan="2">暂时还没有数据</td>
+                </tr>
+                <tr v-for="state in topStates">
+                    <td>{{state.state}}</td>
+                    <td class="five wide">{{formatPercent(state.percent)}}%
+                        <div class="ui progress tiny blue">
+                            <div class="bar" :style="{'width':state.compareMax  + '%'}"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+</div>

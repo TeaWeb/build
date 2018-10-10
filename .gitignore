@@ -1,0 +1,14 @@
+src/github.com/go-redis
+src/github.com/go-sql-driver
+src/github.com/go-yaml
+src/github.com/iwind
+src/github.com/mongodb
+src/github.com/oschwald
+src/github.com/pbnjay
+src/github.com/pquerna
+src/github.com/shirou
+src/github.com/stretchr
+src/github.com/ua-parser
+src/gopkg.in
+bin/
+pkg/

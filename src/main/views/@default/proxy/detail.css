@@ -1,0 +1,17 @@
+h3 {
+    padding-top: 1em!important;
+    padding-bottom: 0!important;
+    margin-bottom: 0!important;
+}
+
+h3 .icon {
+    font-size: 0.8em!important;
+}
+
+.normal {
+    font-weight: normal!important;
+}
+
+.menu.text {
+    margin-top: 0!important;
+}

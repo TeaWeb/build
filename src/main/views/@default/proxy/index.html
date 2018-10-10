@@ -1,0 +1,60 @@
+{$layout}
+
+<p class="ui message" v-if="servers.length == 0">暂时还没有服务，<a href="/proxy/add">现在就去添加</a>。</p>
+
+<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+
+<div class="servers-box">
+    <div class="table-box" v-if="servers.length > 0" v-for="server in servers">
+        <table class="ui table selectable">
+            <thead>
+                <tr>
+                    <th>
+                        <a :href="'/proxy/detail?filename=' + server.filename" title="详情">{{server.config.description}}</a>
+
+                        <span>
+                            <a :href="'/proxy/detail?filename=' + server.filename" title="详情"><i class="ui info icon circle"></i> </a>
+                            <a href="" data-tea-action=".delete" v-bind:data-filename="server.filename" data-tea-confirm="您确定要删除此服务吗？" title="删除"><i class="ui icon remove circle"></i> </a>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+                <td><strong>域名</strong></td>
+            </tr>
+            <tr v-if="server.config.name.length == 0">
+                <td>
+                    <a class="disabled">还没有设置域名</a>
+                </td>
+            </tr>
+            <tr v-for="name in server.config.name">
+                <td>{{name}}</td>
+            </tr>
+            <tr>
+                <td><strong>绑定地址</strong></td>
+            </tr>
+            <tr v-if="server.config.listen.length == 0">
+                <td>
+                    <a class="disabled">还没有绑定地址</a>
+                </td>
+            </tr>
+            <tr v-for="listen in server.config.listen">
+                <td>{{listen}}</td>
+            </tr>
+            <tr>
+                <td><strong>后端服务</strong></td>
+            </tr>
+            <tr v-if="server.config.backends.length == 0">
+                <td>
+                    <a class="disabled">还没有添加后端地址。</a>
+                </td>
+            </tr>
+            <tr v-for="backend in server.config.backends">
+                <td>{{backend}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="clear"></div>
+</div>
+
+

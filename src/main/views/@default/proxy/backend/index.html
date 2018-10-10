@@ -1,0 +1,69 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    <h3>{{proxy.description}}<span>（{{filename}}）</span></h3>
+
+    <div class="ui text menu blue">
+        <a :href="$url('/proxy/detail', { 'filename':filename })" class="item">基本信息</a>
+        <a :href="$url('/proxy/ssl', { 'filename':filename })" class="item">HTTPS<i class="ui icon expeditedssl" :class="{green:proxy.ssl && proxy.ssl.on, grey:!proxy.ssl || !proxy.ssl.on}"></i></a>
+        <a :href="$url('/proxy/backend', { 'filename':filename })" class="item active">后端服务器({{proxy.backends.length}})</a>
+        <a :href="$url('/proxy/locations', { 'filename':filename })" class="item">路径规则({{proxy.locations.length}})</a>
+    </div>
+
+    <form class="ui form">
+        <!-- 后端服务器 -->
+        <table class="ui table selectable width30">
+            <tbody v-if="proxy.backends.length == 0">
+            <tr>
+                <td colspan="2" class="normal">
+                    <a class="disabled">[暂时还没有后端服务器]</a>
+                </td>
+            </tr>
+            </tbody>
+            <tbody v-if="proxy.backends.length > 0" v-for="(backend, index) in proxy.backends">
+            <tr v-if="!backend.isEditing">
+                <td>{{backend.address}}</td>
+                <td class="two op">
+                    <a href="" title="修改" v-on:click.prevent="editBackend(index, backend)"><i class="ui icon edit small"></i> </a>
+                    <a href="" title="删除" v-on:click.prevent="deleteBackend(index)"><i class="ui icon remove small"></i> </a>
+                </td>
+            </tr>
+            <tr v-if="backend.isEditing">
+                <td>
+                    <input type="text" v-model="backend.address" />
+                </td>
+                <td class="two op">
+                    <a href="" title="保存" v-on:click.prevent="editBackendSave(index, backend)"><i class="ui icon check circle"></i> </a>
+                    <a href="" v-on:click.prevent="editBackendCancel(index, backend)" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+            </tbody>
+            <tr v-if="backendAdding">
+                <td>
+                    <div class="ui field">
+                        <label>地址</label>
+                        <input type="text" v-model="newBackendAddress" placeholder="比如 x.x.x.x:80"/>
+                    </div>
+                    <div class="ui field">
+
+                    </div>
+                </td>
+                <td>
+                    <a href="" v-on:click.prevent="addBackendSave()" title="保存"><i class="ui icon check circle"></i> </a>
+                    <a href="" v-on:click.prevent="backendAdding = false" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><a href="" v-on:click.prevent="addBackend()"><i class="ui icon plus circle"></i>新后端服务器</a></td>
+            </tr>
+        </table>
+    </form>
+</div>

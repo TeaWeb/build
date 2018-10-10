@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>登录</title>
+    {$TEA.VUE}
+    {$TEA.SEMANTIC}
+</head>
+<body>
+
+<div class="form-box">
+    <form class="ui form" data-tea-action="." autocomplete="off">
+        <div class="ui segment stacked">
+            <div class="ui header">
+                登录TeaWeb
+            </div>
+            <div class="ui field">
+                <div class="ui left icon input">
+                    <i class="ui user icon"></i>
+                    <input type="text" name="username" placeholder="请输入用户名" maxlength="30"/>
+                </div>
+            </div>
+            <div class="ui field">
+                <div class="ui left icon input">
+                    <i class="ui lock icon"></i>
+                    <input type="password" name="password" placeholder="请输入密码" maxlength="30"/>
+                </div>
+            </div>
+
+            <button class="ui button primary fluid" type="submit">登录</button>
+            <p class="comment">注意：为了安全起见，登录错误3次后，系统会被锁定，重启后才可以登录。</p>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+{$layout}
+
+<div>
+    <h3></h3>
+
+    <!-- @TODO 从本机已安装服务中读取  -->
+
+    <form class="ui form" data-tea-action=".update" autocomplete="off">
+        <input type="hidden" name="filename" :value="filename"/>
+        <table class="ui table">
+            <tr>
+                <td class="title">对外访问域名 *</td>
+                <td>
+                    <div class="ui field" v-for="(item, index) in names" :key="item.key">
+                        <input type="text" name="name" style="width: 20em" v-model="item.name" placeholder="比如 www.example.com"/>
+                        <button type="button" class="ui button" v-on:click="removeName(index)" v-if="index > 0">-</button>
+                    </div>
+                    <div class="ui field">
+                        <button type="button" class="ui button" v-on:click="addName()">+</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>监听地址 *<br/>（代理）</td>
+                <td>
+                    <div class="ui fields inline" v-for="(item, index) of listenArray" :key="item.key">
+                        <div class="ui field">
+                            域名或IP：
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="listenAddress" v-model="item.host" placeholder="x.x.x.x"/>
+                        </div>
+                        <div class="ui field">
+                            端口：
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="listenPort" v-model="item.port" style="width:80px;" maxlength="5"/>
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" v-on:click="removeListen(index)" v-if="index>0">-</button>
+                        </div>
+                    </div>
+                    <div class="ui fields">
+                        <button class="ui button" type="button" v-on:click="addListen()">+</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>后端服务地址 *<br/>（被代理）</td>
+                <td>
+                    <div class="ui fields inline" v-for="(item, index) of backendsArray" :key="item.key">
+                        <div class="ui field">
+                            域名或IP：
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="backendAddress" v-model="item.host" placeholder="x.x.x.x"/>
+                        </div>
+                        <div class="ui field">
+                            端口：
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="backendPort" v-model="item.port" style="width:80px;" maxlength="5"/>
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" v-on:click="removeBackend(index)" v-if="index>0">-</button>
+                        </div>
+                    </div>
+                    <div class="ui fields">
+                        <button class="ui button" type="button" v-on:click="addBackend()">+</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button class="ui button primary" type="submit">保存</button>
+    </form>
+</div>

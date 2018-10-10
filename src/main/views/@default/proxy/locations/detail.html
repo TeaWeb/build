@@ -1,0 +1,441 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    <h3>{{proxy.description}}<span>（{{filename}}）</span></h3>
+
+    <div class="ui text menu blue">
+        <a :href="$url('/proxy/detail', { 'filename':filename })" class="item">基本信息</a>
+        <a :href="$url('/proxy/ssl', { 'filename':filename })" class="item">HTTPS<i class="ui icon expeditedssl"
+                                                                                    :class="{green:proxy.ssl && proxy.ssl.on, grey:!proxy.ssl || !proxy.ssl.on}"></i></a>
+        <a :href="$url('/proxy/backend', { 'filename':filename })" class="item">后端服务器({{proxy.backends.length}})</a>
+        <a :href="$url('/proxy/locations', { 'filename':filename })" class="item">路径规则({{proxy.locations.length}})</a>
+        <a :href="$url('/proxy/locations/detail', { 'filename':filename, 'index':locationIndex })" class="item active">&raquo;
+            路径：{{location.pattern}}</a>
+    </div>
+
+    <form class="ui form">
+        <!-- 基本信息 -->
+        <h4>基本信息</h4>
+        <table class="ui table width30 selectable definition ">
+            <tr>
+                <td>是否启用</td>
+                <td colspan="3">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="location.on" v-on:click.prevent="switchOn()"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">选中表示启用此路径规则配置</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">规则<em>(pattern)</em></td>
+                <td>{{location.pattern}}</td>
+                <td class="two op">
+                    <a href="" title="修改" v-on:click.prevent="editPattern()"><i class="ui icon edit small"></i></a>
+                </td>
+            </tr>
+            <tr v-if="patternEditing">
+                <td></td>
+                <td>
+                    <input type="text" name="pattern" v-model="location.pattern"/>
+                </td>
+                <td>
+                    <a href="" title="保存" v-on:click.prevent="editPatternSave()"><i
+                            class="ui icon check circle"></i></a>
+                    <a href="" title="取消" v-on:click.prevent="editPattern()"><i class="ui icon left arrow circle"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>规则类型</td>
+                <td v-if="location.type == 1">匹配前缀</td>
+                <td v-if="location.type == 2">精准匹配</td>
+                <td v-if="location.type == 3">正则表达式匹配</td>
+                <td>
+                    <a href="" title="修改" v-on:click.prevent="editType()"><i class="ui icon edit small"></i></a>
+                </td>
+            </tr>
+            <tr v-if="typeEditing">
+                <td></td>
+                <td>
+                    <select class="ui dropdown" style="width:10em" name="typeId" v-model="location.type">
+                        <option v-for="option in typeOptions" :value="option.value">{{option.name}}</option>
+                    </select>
+                </td>
+                <td>
+                    <a href="" title="保存" v-on:click.prevent="editTypeSave()"><i class="ui icon check circle"></i></a>
+                    <a href="" title="取消" v-on:click.prevent="editType()"><i class="ui icon left arrow circle"></i> </a>
+                </td>
+            </tr>
+            <tr>
+                <td>反向匹配</td>
+                <td colspan="2">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="location.reverse" v-on:click.prevent="reverse()"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">选中表示匹配所有<strong>不符合</strong>规则的路径</p>
+                </td>
+            </tr>
+            <tr>
+                <td>不区分大小写</td>
+                <td colspan="2">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="location.caseInsensitive"
+                               v-on:click.prevent="switchCaseInsensitive()"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">选中表示匹配规则中的路径中的英文字母不区分大小写</p>
+                </td>
+            </tr>
+            <tr>
+                <td>文档根目录<em>(root)</em></td>
+                <td>
+                    <span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>
+                    <a class="disabled" v-if="location.root.length == 0">还没有设置。</a>
+                </td>
+                <td>
+                    <a href="" title="修改" v-on:click.prevent="editRoot()"><i class="ui icon edit small"></i> </a>
+                </td>
+            </tr>
+            <tr v-if="rootEditing">
+                <td></td>
+                <td>
+                    <input type="text" name="root" v-model="location.root"/>
+                </td>
+                <td class="two op">
+                    <a href="" v-on:click.prevent="editRootSave()" title="保存"><i class="ui icon check circle"></i></a>
+                    <a href="" v-on:click.prevent="editRoot" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+            <tr>
+                <td>字符编码<em>(charset)</em></td>
+                <td>
+                    <span v-if="location.charset.length > 0">{{location.charset}}</span>
+                    <a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>首页文件<em>(index)</em></td>
+                <td>
+                    <span v-if="location.index.length > 0">{{location.index.join(', ')}}</span>
+                    <a class="disabled" v-if="location.index.length == 0">还没有设置。</a>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- 重写规则配置 -->
+        <h4>重写规则</h4>
+        <p class="comment" v-if="location.rewrite.length == 0">暂时还没有重写规则。</p>
+
+        <table class="ui table selectable width30" v-if="location.rewrite.length > 0">
+            <thead>
+            <tr>
+                <th class="five wide">匹配规则</th>
+                <th>重写目标</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody v-for="(rewrite, index) in location.rewrite">
+            <tr>
+                <td>
+                    <span v-if="rewrite.on"> {{rewrite.pattern}}</span>
+                    <a class="disabled" v-if="!rewrite.on" title="未启用">{{rewrite.pattern}}</a>
+                </td>
+                <td>
+                    <a class="disabled">{{rewrite.proxy}}</a>{{rewrite.replace}}
+                </td>
+                <td class="two op">
+                    <a href="" title="修改" v-on:click.prevent="editRewrite(rewrite, index)"><i
+                            class="ui edit icon small"></i></a>
+                    <a href="" title="删除" v-on:click.prevent="deleteRewrite(index)"><i
+                            class="ui remove icon circle"></i> </a>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing">
+                <td>是否启用</td>
+                <td colspan="2">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="rewrite.on"
+                               v-on:click.prevent="switchRewriteIndex(rewrite, index)"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing">
+                <td class="title">匹配规则</td>
+                <td colspan="2">
+                    <input type="text" name="pattern" maxlength="256" v-model="rewrite.pattern"
+                           placeholder="比如 /hello/(.+)"/>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing">
+                <td>目标类型</td>
+                <td colspan="2">
+                    <select class="ui dropdown" name="targetType" v-model="rewrite.type" style="width:6em">
+                        <option value="url">URL</option>
+                        <option value="proxy">代理服务</option>
+                    </select>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing && rewrite.type == 'proxy'">
+                <td>转发到代理服务</td>
+                <td colspan="2">
+                    <a class="disabled" v-if="proxies.length == 0">还没有可用的代理服务。</a>
+                    <select class="ui dropdown" name="proxyId" v-model="rewrite.proxyId" style="width:8em">
+                        <option value="">[请选择]</option>
+                        <option v-for="otherProxy in proxies" :value="otherProxy.id">{{otherProxy.name}}
+                            （{{otherProxy.id}}）
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing">
+                <td>目标URL</td>
+                <td colspan="2">
+                    <input type="text" name="replace" maxlength="256" v-model="rewrite.replace"
+                           placeholder="比如 /hello/${1}.html"/>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing">
+                <td colspan="3">
+                    <a href="" title="保存" v-on:click.prevent="updateRewrite(rewrite, index)"><i
+                            class="ui icon check circle"></i></a>
+                    <a href="" title="取消" v-on:click.prevent="cancelEditRewrite(rewrite, index)"><i
+                            class="ui icon left arrow circle"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <table class="ui table selectable width30 definition" v-if="rewriteAdding">
+            <tr>
+                <td class="title">匹配规则</td>
+                <td>
+                    <input type="text" name="pattern" maxlength="256" v-model="addingPattern"
+                           placeholder="比如 /hello/(.+)"/>
+                </td>
+            </tr>
+            <tr>
+                <td>目标类型</td>
+                <td>
+                    <select class="ui dropdown" name="targetType" v-model="targetType" style="width:6em">
+                        <option value="url">URL</option>
+                        <option value="proxy">代理服务</option>
+                    </select>
+                </td>
+            </tr>
+            <tr v-if="targetType == 'proxy'">
+                <td>转发到代理服务</td>
+                <td>
+                    <a class="disabled" v-if="proxies.length == 0">还没有可用的代理服务。</a>
+                    <select class="ui dropdown" name="proxyId" v-model="proxyId" style="width:8em">
+                        <option value="">[请选择]</option>
+                        <option v-for="otherProxy in proxies" :value="otherProxy.id">{{otherProxy.name}}
+                            （{{otherProxy.id}}）
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>目标URL</td>
+                <td>
+                    <input type="text" name="replace" maxlength="256" v-model="addingReplace"
+                           placeholder="比如 /hello/${1}.html"/>
+                </td>
+            </tr>
+        </table>
+        <div class="ui field" v-if="rewriteAdding">
+            <a href="" title="保存" v-on:click.prevent="saveRewrite()"><i class="ui icon check circle"></i></a>
+            <a href="" title="取消" v-on:click.prevent="cancelRewrite()"><i class="ui icon left arrow circle"></i></a>
+        </div>
+
+        <div class="ui field">
+            <a href="" title="添加" v-on:click.prevent="addRewrite()"><i class="ui icon plus circle"></i> </a>
+        </div>
+
+        <!-- Fastcgi配置 -->
+        <h4>Fastcgi配置</h4>
+
+        <div v-if="location.fastcgi != null">
+            <table class="ui table selectable definition width40">
+                <tr>
+                    <td class="title">是否开启</td>
+                    <td>
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" :checked="location.fastcgi.on" v-on:click.prevent="switchFastcgiOn()"/>
+                            <label></label>
+                        </div>
+                    </td>
+                    <td class="two op"></td>
+                </tr>
+                <tr>
+                    <td>Fastcgi地址</td>
+                    <td>{{location.fastcgi.pass}}</td>
+                    <td class="two op">
+                        <a href="" title="修改" v-on:click.prevent="editFastcgiPass()"><i class="ui icon edit small"></i> </a>
+                    </td>
+                </tr>
+                <tr v-if="fastcgiPassEditing">
+                    <td></td>
+                    <td>
+                        <input type="text" v-model="location.fastcgi.pass" placeholder="比如 127.0.0.1:9000" maxlength="100" style="width:14em"/>
+                    </td>
+                    <td class="two op">
+                        <a href="" title="保存" v-on:click.prevent="editFastcgiPassSave()"><i class="ui icon check circle"></i> </a>
+                        <a href="" title="取消" v-on:click.prevent="editFastcgiPass()"><i class="ui icon left arrow circle"></i> </a>
+                    </td>
+                </tr>
+                <tbody v-for="(value, name, index) in location.fastcgi.params">
+                    <tr>
+                        <td v-if="index == 0">自定义参数集</td>
+                        <td v-if="index > 0"></td>
+                        <td>
+                            <div class="ui fields inline"  style="margin:0">
+                                <div class="ui field" style="width:10em">{{name}}</div>
+                                <div class="ui field" style="max-width:12em;word-break:break-all">{{value}}</div>
+                            </div>
+                        </td>
+                        <td class="two op">
+                            <a href="" title="修改" v-on:click.prevent="editFastcgiParam(name, value)"><i class="ui icon edit small"></i></a>
+                            <a href="" title="删除" v-on:click.prevent="deleteFastcgiParam(name)"><i class="ui icon remove circle"></i></a>
+                        </td>
+                    </tr>
+
+                    <tr v-if="fastcgiParamEditingName == name">
+                        <td></td>
+                        <td>
+                            <div class="ui fields inline">
+                                <div class="ui field">
+                                    <input type="text" name="name" placeholder="参数名" v-model="fastcgiNewParamName" style="width:9em" />
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" name="value" placeholder="参数值" v-model="fastcgiNewParamValue" style="width:9em"/>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="" title="保存" v-on:click.prevent="editFastcgiParamSave(name)"><i class="ui icon check circle"></i> </a>
+                            <a href="" title="取消" v-on:click.prevent="cancelFastcgiParamEdit()"><i class="ui icon left arrow circle"></i> </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tr v-if="fastcgiParamAdding">
+                    <td></td>
+                    <td>
+                        <div class="ui fields inline">
+                            <div class="ui field">
+                                <input type="text" name="name" placeholder="参数名" v-model="fastcgiNewParamName" style="width:9em" />
+                            </div>
+                            <div class="ui field">
+                                <input type="text" name="value" placeholder="参数值" v-model="fastcgiNewParamValue" style="width:9em"/>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="two op">
+                        <a href="" title="保存" v-on:click.prevent="addFastcgiParamSave()"><i class="ui icon check circle"></i> </a>
+                        <a href="" title="取消" v-on:click.prevent="addFastcgiParam()"><i class="ui icon left arrow circle"></i> </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        <a href="" title="添加" v-on:click.prevent="addFastcgiParam()" v-if="!fastcgiParamAdding"><i class="ui icon plus circle"></i> </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>超时时间</td>
+                    <td>{{location.fastcgi.readTimeout}}</td>
+                    <td>
+                        <a href="" title="修改" v-on:click.prevent="editFastcgiTimeout()"><i class="ui icon edit small"></i></a>
+                    </td>
+                </tr>
+                <tr v-if="fastcgiTimeoutEditing">
+                    <td></td>
+                    <td>
+                        <div class="ui right labeled input" style="width:7em">
+                            <input type="number" v-model="newFastcgiTimeout" placeholder="比如 30"/>
+                            <span class="ui basic label">秒</span>
+                        </div>
+                    </td>
+                    <td class="two op">
+                        <a href="" title="保存" v-on:click.prevent="editFastcgiTimeoutSave()"><i class="ui icon check circle"></i> </a>
+                        <a href="" title="取消" v-on:click.prevent="editFastcgiTimeout()"><i class="ui icon left arrow circle"></i> </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 添加fastcgi -->
+        <div v-if="fastcgiAdding">
+            <table class="ui table selectable definition width40">
+                <tr>
+                    <td class="title">是否开启</td>
+                    <td>
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" :checked="newFastcgiOn" v-on:click.prevent="switchNewFastcgiOn()"/>
+                            <label></label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fastcgi地址</td>
+                    <td>
+                        <input type="text" name="pass" v-model="newFastcgiPass" placeholder="比如 127.0.0.1:9000" maxlength="100" style="width:14em"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>自定义参数集</td>
+                    <td>
+                        <div v-for="(param, index) in newFastcgiParams">
+                            <div class="ui field" style="margin:0" v-if="param.nameZh.length > 0"><label>{{param.nameZh}}：</label></div>
+                            <div class="ui fields inline" >
+                                <div class="ui field">
+                                    <input type="text" placeholder="参数名" v-model="param.name" style="width:12em" />
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" placeholder="参数值" v-model="param.value" style="width:12em"/>
+                                </div>
+                                <div class="ui field">
+                                    <a href="" title="删除" v-on:click.prevent="removeNewFastcgiParam(index)"><i class="ui icon remove circle"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="" title="添加" v-on:click.prevent="addNewFastcgiParam()"><i class="ui icon plus circle"></i> </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>超时时间</td>
+                    <td>
+                        <div class="ui right labeled input" style="width:7em">
+                            <input type="number" v-model="newFastcgiTimeout" placeholder="比如 30"/>
+                            <span class="ui basic label">秒</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <a href="" title="保存" v-on:click.prevent="addFastcgiSave()"><i class="ui icon check circle"></i></a>
+            <a href="" title="取消" v-on:click.prevent="addFastcgi()"><i class="ui icon left arrow circle"></i></a>
+        </div>
+
+        <p class="comment" v-if="!fastcgiAdding && location.fastcgi == null">暂时还没有Fastcgi配置。</p>
+        <p v-if="location.fastcgi == null">
+            <a href="" title="添加" v-on:click.prevent="addFastcgi()"><i class="ui icon plus circle"></i> </a>
+        </p>
+        <p v-if="location.fastcgi != null">
+            <a href="" title="删除" v-on:click.prevent="deleteFastcgi()"><i class="ui icon remove circle"></i> </a>
+        </p>
+    </form>
+</div>

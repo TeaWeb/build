@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$.teaTitle}</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="stylesheet" type="text/css" href="/_/@default/layout.css" media="all"/>
+    <script type="text/javascript" src="/js/teaweb.js"></script>
+
+    {$TEA.SEMANTIC}
+    {$TEA.VUE}
+    {$echo "header"}
+
+    <script type="text/javascript" src="/js/chart.vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/chart.css" media="all"/>
+</head>
+<body>
+
+<div>
+    <!-- 顶部导航 -->
+    <div class="ui menu inverted top-nav blue">
+        <a href="/" class="item"><i class="icon leaf"></i>TeaWeb &nbsp; <sup>beta - 你的WEB开发伴侣</sup></a>
+        <div class="right menu">
+
+            <div class="item">
+                <i class="icon user"></i>
+                {{teaUsername}}
+            </div>
+            <!--<a v-bind:href="Tea.url('settings')" class="item" v-bind:class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>-->
+            <a v-bind:href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
+        </div>
+    </div>
+
+    <!-- 左侧主菜单 -->
+    <div class="main-menu">
+        <div class="ui labeled icon menu vertical blue">
+            <a v-bind:href="Tea.url('dashboard')" class="item" v-bind:class="{active:teaMenu == 'dashboard'}">
+                <i class="dashboard icon"></i>
+                仪表板
+            </a>
+
+            <!-- 数据管理模块 -->
+            <a v-for="module in teaModules" class="item" v-bind:href="Tea.url(module.code)" v-bind:class="{active:teaMenu == module.code}">
+                <i class="window restore outline icon" v-if="module.icon == null"></i>
+                <i class="ui icon" v-if="module.icon != null" :class="module.icon"></i>
+                {{module.menuName}}
+            </a>
+
+            <!--<a v-bind:href="Tea.url('team')" class="item" v-bind:class="{active:teaMenu == 'team'}">
+                <i class="puzzle icon"></i>
+                团队管理
+            </a>-->
+        </div>
+    </div>
+
+    <!-- 右侧主操作栏 -->
+    <div class="main" v-bind:class="{'without-menu': teaSubMenus.length == 0}" ng-cloak="">
+        <!-- 操作菜单 -->
+        <div class="ui top attached menu tabular tab-menu" v-if="teaTabbar.length > 0">
+            <a class="item" v-for="item in teaTabbar" v-bind:class="{active:item.active}" v-bind:href="item.url">
+                <var>{{item.name}}</var>
+                <span v-if="item.subName.length > 0">({{item.subName}})</span>
+            </a>
+        </div>
+
+        <!-- 功能区 -->
+        {$TEA.VIEW}
+
+        <!-- 快速到顶部 -->
+        <a href="" class="go-top-btn hidden" title="点击回到顶部" v-on:click.prevent="goTop()" ><i class="icon up arrow circle"></i></a>
+    </div>
+
+    <!-- 底部 -->
+    <div id="footer" class="ui menu inverted light-blue">
+        <div class="item">beta</div>
+        <a href="http://meloy.cn" target="_blank" class="item">官网</a>
+        <a href="https://github.com/iwind/TeaWeb" target="_blank" class="item">GitHub</a>
+        <div class="item">QQ群：199435611</div>
+    </div>
+</div>
+
+</body>
+</html>

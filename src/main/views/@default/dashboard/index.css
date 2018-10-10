@@ -1,0 +1,19 @@
+.chart-groups {
+}
+
+.chart-groups .chart-group {
+    width: 30%;
+    float: left;
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    margin-top: 0;
+}
+
+.chart-groups .chart-group .header {
+    font-weight: bold;
+    padding-bottom: 1em;
+}
+
+.chart-groups .chart-group .table-box {
+    margin-bottom: 1em;
+}

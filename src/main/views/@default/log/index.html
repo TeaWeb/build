@@ -1,0 +1,160 @@
+{$layout}
+
+<div>
+   <div>
+       <div class="ui grid five column segment">
+           <div class="ui tiny statistic column">
+               <div class="label">
+                   实时QPS
+               </div>
+               <div class="value">
+                   <span v-if="qps > 0">{{qps}}</span>
+                   <span v-if="qps == 0">-</span>
+               </div>
+               <div class="label unit">
+                   个请求/秒
+               </div>
+           </div>
+
+           <div class="ui tiny statistic column">
+               <div class="label">
+                   当天共
+               </div>
+               <div class="value" v-if="total > 0">
+                   {{total}}<span class="unit">万</span>
+               </div>
+               <div class="value" v-if="total == 0">-</div>
+               <div class="label unit">
+                   个请求
+               </div>
+           </div>
+
+           <div class="ui tiny statistic column">
+               <div class="label">
+                   当天共成功
+               </div>
+               <div class="value" v-if="countSuccess > 0">
+                   {{countSuccess}}<span class="unit">万</span>
+               </div>
+               <div class="value" v-if="countSuccess == 0">-</div>
+               <div class="label unit">
+                   个请求
+               </div>
+           </div>
+
+           <div class="ui tiny statistic column">
+               <div class="label">
+                   当天共失败
+               </div>
+               <div class="value" v-if="countFail > 0">
+                {{countFail}}<span class="unit">万</span>
+               </div>
+               <div class="value" v-if="countFail == 0">-</div>
+               <div class="label unit">
+                   个请求
+               </div>
+           </div>
+       </div>
+   </div>
+
+    <div class="search-box" v-show="!searchBoxVisible">
+        <button class="ui button tiny" type="button" v-on:click="showSearchBox()" :class="{primary:hasSearchConditions()}">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button>
+    </div>
+
+    <div class="search-box" v-show="searchBoxVisible">
+        <a href="" v-on:click.prevent="hideSearchBox()" class="close-btn" :class="{'clean-btn':!hasSearchConditions()}" title="收起窗口"><i class="ui icon chevron up circular"></i></a>
+        <a href="" v-on:click.prevent="resetSearchBox()" class="clean-btn" v-if="hasSearchConditions()" title="重置条件"><i class="ui icon undo circular"></i></a>
+        <form class="ui form">
+            <div class="ui grid three column">
+               <div class="ui field column">
+                   终端IP：<input type="text" placeholder="x.x.x.x" v-model="searchIp" :class="{focus:searchIp.trim().length > 0}"/>
+               </div>
+                <div class="ui field column">
+                    域名：<input type="text" name="domain" placeholder="比如 xxx.com" v-model="searchDomain" :class="{focus:searchDomain.trim().length > 0}"/>
+                </div>
+                <div class="ui field column">
+                    终端OS：<input type="text" name="os" placeholder="比如 windows" v-model="searchOs" :class="{focus:searchOs.trim().length > 0}"/>
+                </div>
+                <div class="ui field column">
+                    终端浏览器：<input type="text" name="browser" placeholder="比如 chrome" v-model="searchBrowser" :class="{focus:searchBrowser.trim().length > 0}"/>
+                </div>
+                <div class="ui field column">
+                    耗时大于：
+                    <div class="ui right labeled input">
+                        <input type="text" name="minCost" placeholder="比如 10" v-model="searchMinCost" :class="{focus:searchMinCost.trim().length > 0}"/>
+                        <div class="ui label">ms</div>
+                    </div>
+                </div>
+                <div class="ui field column">
+                    关键词：<input type="text" name="keyword" placeholder="比如 /user/profile" v-model="searchKeyword" :class="{focus:searchKeyword.trim().length > 0}"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div v-if="logs.length > 0">
+        <table class="ui table log-table">
+            <tr v-for="(log, index) in logs" class="log-row">
+                <td><p v-on:click="showLog(index)" v-bind:class="{ error:log.status>=400 }">
+                        {{log.remoteAddr}} [{{log.timeLocal}}] <em>&quot;{{log.requestMethod}} {{log.requestScheme}}://{{log.host}}{{log.requestURI}} <a :href="log.requestScheme + '://' + log.host + log.requestURI" target="_blank" title="新窗口打开" class="disabled"><i class="external icon tiny"></i> </a> {{log.proto}}&quot;</em> - 耗时:{{formatCost(log.requestTime)}} ms
+                        <i class="ui icon angle" v-bind:class="{ down:!log.isOpen, up:log.isOpen }"></i>
+                    </p>
+                    <table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen">
+                        <tr>
+                            <td width="50%">请求ID(ID)：{{log.id}}</td>
+                            <td>请求描述(Request)：{{log.request}}</td>
+                        </tr>
+                        <tr>
+                            <td>请求URI(RequestURI)：{{log.requestURI}}</td>
+                            <td>请求方法(RequestMethod)：{{log.requestMethod}}</td>
+                        </tr>
+                        <tr>
+                            <td>主机地址(Host)：{{log.host}}</td>
+                            <td>请求来源(Referer)：<span v-if="log.referer.length == 0">-</span><span v-if="log.referer.length > 0">{{log.referer}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>终端地址(RemoteAddr:RemotePort)：{{log.remoteAddr}}:{{log.remotePort}}</td>
+                            <td>终端信息(UserAgent)：{{log.userAgent}}</td>
+                        </tr>
+                        <tr>
+                            <td v-if="log.extend.client.os != null">操作系统(OS)：{{log.extend.client.os.family}} {{log.extend.client.os.major}}</td>
+                            <td>浏览器(Browser)：{{log.extend.client.browser.family}} {{log.extend.client.browser.major}}</td>
+                        </tr>
+                        <tr>
+                            <td>协议(Proto)：{{log.proto}}</td>
+                            <td v-bind:class="{error:log.status>=400}">状态(StatusMessage)：<span v-if="log.statusMessage.length == 0">-</span><span v-if="log.statusMessage.length > 0">{{log.statusMessage}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>文件类型(ContentType)：<span v-if="log.contentType.length == 0">-</span><span v-if="log.contentType.length > 0">{{log.contentType}}</span></td>
+                            <td>发送字节(BytesSent)：{{log.bytesSent}}</td>
+                        </tr>
+                        <tr>
+                            <td>ISO8601时间：{{log.timeISO8601}}</td>
+                            <td>本地时间(TimeLocal)：{{log.timeLocal}}</td>
+                        </tr>
+                        <tr>
+                            <td>后端服务（Backend）：
+                                <span v-if="log.backendAddress.length > 0">{{log.backendAddress}}</span>
+                                <span v-if="log.backendAddress.length == 0">-</span>
+                            </td>
+                            <td>
+                                Fastcgi服务：
+                                <span v-if="log.fastcgiAddress.length > 0">{{log.fastcgiAddress}}</span>
+                                <span v-if="log.fastcgiAddress.length == 0">-</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div v-if="started && logs.length == 0">
+        <a class="disabled" v-if="!hasSearchConditions()">当天还没有访问。</a>
+        <a class="disabled" v-if="hasSearchConditions()">当天还没有筛选符合条件的访问，可以尝试去掉筛选条件（<a href="" v-on:click.prevent="resetSearchBox()">清除筛选条件</a> ）。</a>
+    </div>
+
+    <!-- loading indicator -->
+    <div v-if="!started">
+        <div class="ui active inline loader small"></div> &nbsp; loading...
+    </div>
+</div>

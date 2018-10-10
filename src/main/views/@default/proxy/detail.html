@@ -1,0 +1,170 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    <h3>{{proxy.description}}<span>（{{filename}}）</span></h3>
+
+    <div class="ui text menu blue">
+        <a :href="$url('/proxy/detail', { 'filename':filename })" class="item active">基本信息</a>
+        <a :href="$url('/proxy/ssl', { 'filename':filename })" class="item green">HTTPS<i class="ui icon expeditedssl" :class="{green:proxy.ssl && proxy.ssl.on, grey:!proxy.ssl || !proxy.ssl.on}"></i></a>
+        <a :href="$url('/proxy/backend', { 'filename':filename })" class="item">后端服务器({{proxy.backends.length}})</a>
+        <a :href="$url('/proxy/locations', { 'filename':filename })" class="item">路径规则({{proxy.locations.length}})</a>
+    </div>
+
+    <form class="ui form" autocomplete="off" onsubmit="return false">
+    <table class="ui table selectable width40 definition">
+        <tbody>
+            <tr>
+                <td class="title">是否开启HTTP</td>
+                <td colspan="2">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="proxy.http" v-on:click.prevent="switchHttpOn()"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- 描述 -->
+            <tr>
+                <td class="title">代理说明</td>
+                <td>{{proxy.description}}</td>
+                <td class="two op"><a href="" v-on:click.prevent="editDescription()" title="修改"><i class="ui icon edit small"></i> </a></td>
+            </tr>
+        </tbody>
+
+        <tr v-if="proxyDescriptionEditing">
+            <td></td>
+            <td>
+                <input type="text" name="description" v-model="proxy.description"/>
+            </td>
+            <td>
+                <a href="" v-on:click.prevent="editDescriptionSave()" title="保存"><i class="ui icon check circle"></i></a>
+                <a href="" v-on:click.prevent="proxyDescriptionEditing = !proxyDescriptionEditing" title="取消"><i class="ui icon arrow left circle"></i></a>
+            </td>
+        </tr>
+        <tr v-if="proxy.name.length == 0">
+            <td>域名<em>(name)</em></td>
+            <td colspan="2">
+                <a class="disabled">[还没有绑定域名]</a>
+            </td>
+        </tr>
+        <tbody v-if="proxy.name.length > 0" v-for="(name, index) in proxy.name">
+            <tr v-if="index != editNameIndex">
+                <td v-if="index == 0">域名<em>(name)</em></td>
+                <td v-if="index > 0"></td>
+                <td>
+                    {{name}}
+                </td>
+                <td>
+                    <a href="" v-on:click.prevent="editName(index, name)" title="修改"><i class="ui icon edit small"></i></a> &nbsp; <a href="" v-on:click.prevent="deleteName(index)" title="删除"><i class="ui icon remove small"></i></a>
+                </td>
+            </tr>
+            <tr v-if="index == editNameIndex">
+                <td></td>
+                <td>
+                    <input type="text" name="name" v-model="proxy.name[index]"/>
+                </td>
+                <td>
+                    <a href="" v-on:click.prevent="editNameSave(index,name)" title="保存"><i class="ui icon check circle"></i></a>
+                    <a href="" v-on:click.prevent="editNameCancel()" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+        </tbody>
+        <tr v-if="nameAdding">
+            <td></td>
+            <td>
+                <input type="text" name="name" v-model="newName"/>
+            </td>
+            <td>
+                <a href="" v-on:click.prevent="addNameSave()" title="保存"><i class="ui icon check circle"></i></a>
+                <a href="" v-on:click.prevent="nameAdding = false" title="取消"><i class="ui icon arrow left circle"></i> </a>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <a href="" v-on:click.prevent="addName()" title="添加新域名"><i class="ui icon plus circle"></i>新域名</a>
+            </td>
+            <td></td>
+        </tr>
+        <tr v-if="proxy.listen.length == 0">
+            <td>监听地址<em>(listen)</em></td>
+            <td colspan="2"><a class="disabled">[还没有绑定监听地址]</a></td>
+        </tr>
+        <tbody v-for="(listen, index) in proxy.listen">
+            <tr v-if="index != editListenIndex">
+                <td><span v-if="index == 0">监听地址<em>(listen)</em></span></td>
+                <td>{{listen}}</td>
+                <td><a href="" v-on:click.prevent="editListen(index, listen)" title="修改"><i class="ui icon edit small"></i></a> &nbsp; <a href="" v-on:click.prevent="deleteListen(index)" title="删除"><i class="ui icon remove small"></i></a></td>
+            </tr>
+            <tr v-if="index == editListenIndex">
+                <td>监听地址<em>(listen)</em></td>
+                <td>
+                    <input type="text" name="listen" v-model="proxy.listen[index]" />
+                </td>
+                <td>
+                    <a href="" v-on:click.prevent="editListenSave(index,listen)" title="保存"><i class="ui icon check circle"></i></a>
+                    <a href="" v-on:click.prevent="editListenIndex = -1" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+        </tbody>
+        <tr v-if="listenAdding">
+            <td></td>
+            <td>
+                <input type="text" name="listen" v-model="newListen"/>
+            </td>
+            <td>
+                <a href="" v-on:click.prevent="addListenSave()" title="保存"><i class="ui icon check circle"></i></a>
+                <a href="" v-on:click.prevent="listenAdding = false" title="取消"><i class="ui icon arrow left circle"></i> </a>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="2"><a href="" v-on:click.prevent="addListen()" title="添加新监听地址"><i class="ui icon plus circle"></i>新监听地址</a></td>
+        </tr>
+        <tr>
+            <td>文档根目录<em>(root)</em></td>
+            <td>
+                <span style="word-break: break-all;" v-if="proxy.root.length > 0">{{proxy.root}}</span>
+                <a class="disabled" v-if="proxy.root.length == 0">还没有设置。</a>
+            </td>
+            <td class="two op">
+                <a href="" title="修改" v-on:click.prevent="editRoot()"><i class="ui icon edit small"></i> </a>
+            </td>
+        </tr>
+        <tr v-if="rootEditing">
+            <td></td>
+            <td>
+                <input type="text" name="root" v-model="proxy.root"/>
+            </td>
+            <td class="two op">
+                <a href="" v-on:click.prevent="editRootSave()" title="保存"><i class="ui icon check circle"></i></a>
+                <a href="" v-on:click.prevent="editRoot" title="取消"><i class="ui icon arrow left circle"></i> </a>
+            </td>
+        </tr>
+        <tr>
+            <td>字符编码<em>(charset)</em></td>
+            <td>
+                <span v-if="proxy.charset.length > 0">{{proxy.charset}}</span>
+                <a class="disabled" v-if="proxy.charset.length == 0">还没有设置。</a>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>首页文件<em>(index)</em></td>
+            <td>
+                <span v-if="proxy.index.length > 0">{{proxy.index.join(', ')}}</span>
+                <a class="disabled" v-if="proxy.index.length == 0">还没有设置。</a>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    </form>
+</div>

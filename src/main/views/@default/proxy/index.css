@@ -1,0 +1,30 @@
+.servers-box {
+    margin-top: 1em;
+}
+
+.servers-box .table-box {
+    min-width: 18em;
+    width: 28%;
+    float: left;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    height: 22em;
+    overflow-y: auto;
+}
+
+.servers-box .table-box::-webkit-scrollbar {
+    width: 2px;
+}
+
+.servers-box .table-box table td strong {
+    font-size: 0.9em;
+}
+
+.servers-box .table-box table thead th {
+    position: relative;
+}
+
+.servers-box .table-box table thead span {
+    position: absolute;
+    right: 0;
+}

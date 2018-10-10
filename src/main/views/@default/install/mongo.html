@@ -1,0 +1,21 @@
+{$layout}
+
+<div>
+    <h3>设置MongoDB</h3>
+    <p class="ui error message" v-if="error != null && error.length > 0">{{error}}</p>
+    <p class="ui message success" v-if="error == null || error.length == 0">MongoDB连接正常</p>
+    <form class="ui form" data-tea-action=".mongo">
+        <div class="ui fields inline">
+            <div class="ui field">连接DSN</div>
+            <div class="ui field">
+                <input type="text" name="uri" :value="uri" style="width:20em"/>
+            </div>
+            <div class="ui field">
+                <a href="https://docs.mongodb.com/manual/reference/connection-string/" target="_blank" title="关于MongoDB DSN"><i class="ui icon info circle"></i></a>
+            </div>
+        </div>
+        <div class="ui field">
+            <button class="ui button primary" type="submit">保存</button>
+        </div>
+    </form>
+</div>

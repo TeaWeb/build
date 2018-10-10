@@ -1,0 +1,88 @@
+.ui.statistic {
+}
+
+.ui.statistic .value {
+    padding: 0.2em;
+}
+
+.ui.statistic .value .unit {
+    font-weight: normal;
+    font-size: 0.5em;
+}
+
+.ui.statistic .label {
+
+}
+
+.ui.statistic .label.unit {
+    text-transform: none;
+    font-weight: normal
+}
+
+.log-table .log-row table {
+    background: #eee;
+    font-size: 12px;
+    margin-top: 0.5em;
+    width: 100%;
+}
+
+.log-table .log-row p {
+    color: #999;
+}
+
+.log-table .log-row p em {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.log-table .log-row .error {
+    color: #dc143c;
+}
+
+/** 搜索框 **/
+.search-box {
+    border: 1px rgba(0, 0, 0, 0.2) solid;
+    padding: 0.8em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    position: relative;
+    border-radius: 0.3em;
+}
+
+.search-box button {
+    margin: 0 auto!important;
+    display: block!important;
+}
+
+.search-box .close-btn {
+    position: absolute;
+    left: 50%;
+    margin-left: -1em;
+    top: 0.8em;
+    z-index: 1;
+}
+
+.search-box .clean-btn {
+    position: absolute;
+    right: 0.8em;
+    top: 0.8em;
+    z-index: 1;
+}
+
+.search-box .column {
+    margin-bottom: 0!important;
+    margin-top: 0!important;
+    padding-top: 1em!important;
+    padding-bottom: 0!important;
+}
+
+.search-box .column input {
+    margin-top: 0.2em!important;
+}
+
+.search-box .buttons {
+    margin-top: 0.5em;
+}
+
+.search-box .focus {
+    border:1px #85b7d9 solid!important;
+}

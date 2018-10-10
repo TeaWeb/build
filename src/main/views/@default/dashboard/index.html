@@ -1,0 +1,32 @@
+{$layout}
+
+{$var "header"}
+<script type="text/javascript" src="/js/echarts.min.js"></script>
+{$end}
+
+<div class="chart-groups" v-cloak>
+   <div class="ui chart-group" v-for="group in widgetGroups">
+       <div class="header">{{group.name}}</div>
+
+        <div class="table-box" v-for="widget in group.widgets" v-if="group.widgets.length > 0 && widget.charts.length > 0">
+            <table class="ui table">
+                <thead>
+                    <tr>
+                        <th>{{widget.name}} <a :href="widget.moreUrl" v-if="widget.moreUrl.length > 0" title="更多信息"><i class="ui icon external small"></i></a></th>
+                    </tr>
+                </thead>
+                <tr v-for="chart in widget.charts">
+                    <td v-if="chart.type == 'progressBar'" v-html="CHART.progressBar(chart)"></td>
+                    <td v-if="chart.type == 'pie'" v-html="CHART.pie(chart)"></td>
+                    <td v-if="chart.type == 'line'" v-html="CHART.line(chart)"></td>
+                    <td v-if="chart.type == 'gauge'" v-html="CHART.gauge(chart)"></td>
+                    <td v-if="chart.type == 'table'" v-html="CHART.table(chart)"></td>
+                </tr>
+            </table>
+        </div>
+        <div v-if="group.widgets.length == 0"><a class="disabled">暂时还没有{{group.name}}</a></div>
+   </div>
+
+
+    <div class="clear"></div>
+</div>

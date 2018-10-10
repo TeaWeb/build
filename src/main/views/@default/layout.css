@@ -1,0 +1,300 @@
+
+/** 通用 **/
+.clear {
+    clear: both;
+}
+
+.hidden {
+    display: none;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+.mask {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, .4);
+    z-index: 9999;
+}
+
+a.disabled, a.disabled:hover, a.disabled:active {
+    color: #ccc!important;
+}
+
+a.enabled {
+    color: #2ecc40;
+}
+
+tbody {
+    background: transparent;
+}
+
+.table.width30 {
+    width: 30em!important;
+}
+
+.table.width35 {
+    width: 35em!important;
+}
+
+.table.width40 {
+    width: 40em!important;
+}
+
+form p.comment {
+    color: rgba(0, 0, 0, 0.3);
+    padding-top: 0.4em;
+}
+
+.truncate {
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/** 操作按钮容器 **/
+.op.two {
+    width: 6em;
+}
+
+.op.four {
+    width: 10em;
+}
+
+.op a {
+    padding:0 0.2em;
+}
+
+/** 主菜单 **/
+.main-menu .ui.labeled.icon.menu .item {
+    font-size: 0.9em;
+}
+
+.main-menu .ui.menu .item {
+    padding: 0.9em 0;
+}
+
+/** 扩展UI **/
+.field.text {
+    padding: .5em;
+}
+
+/** body **/
+body.expanded .main-menu {
+    display: none;
+}
+
+body.expanded .sub-menu {
+    display: none;
+}
+
+body.expanded .main {
+    left: 1em;
+}
+
+/** 布局相关 */
+.top-nav {
+    border-radius: 0!important;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+/** 右侧主操作区 **/
+.main {
+    position: absolute;
+    left: 20em;
+    top: 4em;
+    padding-bottom: 5em;
+    padding-right: 1em;
+    right: 4em;
+}
+
+.main.without-menu {
+    left: 7em;
+}
+
+.main table td.title {
+    width: 10em;
+}
+
+.main table td.middle-title {
+    width: 14em;
+}
+
+.main table td {
+    vertical-align: top;
+}
+
+.main table td.vertical-top {
+    vertical-align: top;
+}
+
+.main table td.vertical-middle {
+    vertical-align: middle;
+}
+
+.main table td em {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 0.9em;
+}
+
+.main h3 {
+    font-weight: normal;
+}
+
+.main h3 span {
+    font-size: 0.8em;
+}
+
+.main h3 span.label {
+    color: #6435c9;
+}
+
+.main h4 {
+    font-weight: normal;
+}
+
+.main td span.small {
+    font-size: 0.8em;
+}
+
+.main .button.mini {
+    font-size: 0.8em;
+    padding: 0.2em;
+    margin-left: 1em;
+}
+
+.main-menu {
+    position: fixed;
+    top: 4em;
+    bottom: 3em;
+    overflow-y: auto;
+}
+
+.main .tab-menu {
+
+}
+
+.main .tab-menu .item {
+    padding: 1em!important;
+}
+.main .tab-menu .item var {
+    font-style: normal;
+}
+
+.main .tab-menu .item span {
+    font-size: 0.8em;
+    padding-left: 0.3em;
+}
+
+.main .message .icon {
+    position: absolute;
+    right: 1em;
+}
+
+.main .go-top-btn {
+    position: fixed;
+    right: 2.6em;
+    bottom: 2em;
+    font-size: 2em;
+    line-height: 1.4em;
+    border-radius: 1em;
+    z-index: 999999;
+    background: white;
+}
+
+/** 子菜单 **/
+.sub-menu {
+    position: fixed;
+    left: 7em;
+    top: 4em;
+}
+
+.sub-menu .menu {
+    width: 12em!important;
+}
+
+.sub-menu .menu a {
+    display: block;
+    word-break: break-all;
+}
+
+.sub-menu .menu .item .menu {
+    margin-top: 0!important;
+}
+
+.sub-menu .fourth-menu {
+    margin-left: 1.2em;
+}
+
+.sub-menu .fourth-menu .icon, .sub-menu .third-menu .icon {
+    float: left!important;
+}
+
+/** 小助手相关样式 **/
+#helpers-box {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 4em;
+}
+
+#helpers-box .item {
+    text-transform: uppercase;
+    font-size: 1.3em;
+}
+
+#helpers-box .tooltip {
+    position: fixed;
+    bottom: 4em;
+}
+
+#helpers-box .item {
+    position: relative;
+}
+
+#helpers-box .item a {
+    display: block;
+    width: 100%;
+}
+
+
+#helpers-box .tooltip .icon {
+    width: 4em;
+}
+
+#helper-view {
+    position: fixed;
+    top: 4em;
+    right: 4em;
+}
+
+#helper-view iframe {
+    border: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+/** 脚部相关样式 **/
+#footer {
+    position: fixed;
+    bottom: 0;
+    text-align: left;
+    color: gray;
+    width: 100%;
+    border-radius: 0!important;
+}
+
+#footer a {
+    font-size: 0.9em;
+}
