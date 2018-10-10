@@ -1,0 +1,53 @@
+{$layout}
+
+<div v-if="error.length > 0" class="ui message warning">
+{{error}}
+</div>
+
+<div v-if="serverChanged" class="ui message warning">
+    配置已改变，会在你重启TeaWeb服务后生效。
+</div>
+
+<div v-if="error.length == 0">
+    <h3>HTTPS</h3>
+
+    <form data-tea-action=".httpsUpdate" class="ui form">
+        <table class="ui table definition selectable">
+            <tr>
+                <td>状态</td>
+                <td>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" name="on" value="1" v-model="server.https.on"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">绑定地址</td>
+                <td>
+                    <textarea name="addresses" style="width:20em;height:5em" placeholder="每行一个地址" v-model="addresses"></textarea>
+                    <p class="comment">每行一个地址，地址格式为："IP:端口"，比如："127.0.0.1:7777"。</p>
+                    <p class="comment">如果地址中的IP是0.0.0.0，表示服务器的所有IP都可以用来使用访问此服务。</p>
+                </td>
+            </tr>
+            <tr>
+                <td>证书文件<span class="small">（Cert）</span></td>
+                <td>
+                    <input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"/>
+                    <p class="comment" v-if="server.https.cert.length > 0">已上传：{{server.https.cert}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>私钥文件<span class="small">（Key）</span></td>
+                <td>
+                    <input type="file" name="keyFile" accept="application/pkcs8"/>
+                    <p class="comment" v-if="server.https.key.length > 0">已上传：{{server.https.key}}</p>
+                </td>
+            </tr>
+        </table>
+
+        <button class="ui button primary">保存</button>
+    </form>
+
+
+</div>

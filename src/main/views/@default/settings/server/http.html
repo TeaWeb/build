@@ -1,0 +1,39 @@
+{$layout}
+
+<div v-if="error.length > 0" class="ui message warning">
+{{error}}
+</div>
+
+<div v-if="serverChanged" class="ui message warning">
+    配置已改变，会在你重启TeaWeb服务后生效。
+</div>
+
+<div v-if="error.length == 0">
+    <h3>HTTP</h3>
+
+    <form data-tea-action=".httpUpdate" class="ui form">
+        <table class="ui table definition selectable">
+            <tr>
+                <td>状态</td>
+                <td>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" name="on" value="1" v-model="server.http.on"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">绑定地址</td>
+                <td>
+                    <textarea name="addresses" style="width:20em;height:5em" placeholder="每行一个地址" v-model="addresses"></textarea>
+                    <p class="comment">每行一个地址，地址格式为："IP:端口"，比如："127.0.0.1:7777"。</p>
+                    <p class="comment">如果地址中的IP是0.0.0.0，表示服务器的所有IP都可以用来使用访问此服务。</p>
+                </td>
+            </tr>
+        </table>
+
+        <button class="ui button primary">保存</button>
+    </form>
+
+
+</div>

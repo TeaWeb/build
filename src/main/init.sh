@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# initialize project
+
 export GOPATH=`pwd`/../../
 
 # go_get function

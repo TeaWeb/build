@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# build project for darwin (Mac OS X)
+
 . utils.sh
 
 export GOPATH=`pwd`/../../

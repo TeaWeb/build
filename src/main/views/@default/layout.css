@@ -22,11 +22,11 @@ pre {
     z-index: 9999;
 }
 
-a.disabled, a.disabled:hover, a.disabled:active {
+a.disabled, a.disabled:hover, a.disabled:active, span.disabled  {
     color: #ccc!important;
 }
 
-a.enabled {
+a.enabled, span.enabled {
     color: #2ecc40;
 }
 
@@ -148,6 +148,7 @@ body.expanded .main {
 
 .main h3 {
     font-weight: normal;
+    margin-top: 0.4em!important;
 }
 
 .main h3 span {
@@ -156,6 +157,12 @@ body.expanded .main {
 
 .main h3 span.label {
     color: #6435c9;
+}
+
+.main h3 a {
+    position: absolute;
+    font-size: 14px!important;
+    right: 1em;
 }
 
 .main h4 {

@@ -1,6 +1,10 @@
 {$layout}
 
-<div>
+<div v-if="mongoError.length > 0" class="ui message warning">
+    {{mongoError}}，<a href="/install/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
+</div>
+
+<div v-if="mongoError.length == 0">
    <div>
        <div class="ui grid five column segment">
            <div class="ui tiny statistic column">
@@ -150,7 +154,7 @@
     </div>
     <div v-if="started && logs.length == 0">
         <a class="disabled" v-if="!hasSearchConditions()">当天还没有访问。</a>
-        <a class="disabled" v-if="hasSearchConditions()">当天还没有筛选符合条件的访问，可以尝试去掉筛选条件（<a href="" v-on:click.prevent="resetSearchBox()">清除筛选条件</a> ）。</a>
+        <span class="disabled" v-if="hasSearchConditions()">当天还没有筛选符合条件的访问，可以尝试去掉筛选条件（<a href="" v-on:click.prevent="resetSearchBox()">清除筛选条件</a> ）。</span>
     </div>
 
     <!-- loading indicator -->

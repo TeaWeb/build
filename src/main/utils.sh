@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# shell utilities
+
 function build() {
     VERSION_DATA=`cat ${GOPATH}/src/github.com/TeaWeb/code/teaconst/const.go`
     VERSION_DATA=${VERSION_DATA#*"Version = \""}

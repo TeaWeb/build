@@ -12,6 +12,9 @@ src/github.com/ua-parser
 src/github.com/TeaWeb/code
 src/gopkg.in
 src/main/tmp/
+src/main/configs/*.key
+src/main/configs/*.pem
+src/main/configs/*.proxy.conf
 bin/
 dist/
 docs/

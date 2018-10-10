@@ -4,7 +4,11 @@
 <script type="text/javascript" src="/js/echarts.min.js"></script>
 {$end}
 
-<div class="main-box">
+<div v-if="mongoError.length > 0" class="ui message warning">
+    {{mongoError}}，<a href="/install/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/stat">刷新此页面</a>。
+</div>
+
+<div class="main-box" v-if="mongoError.length == 0">
     <table class="ui table chart-table">
         <tr>
             <td>

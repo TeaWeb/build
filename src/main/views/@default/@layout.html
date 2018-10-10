@@ -4,6 +4,7 @@
     <title>{$.teaTitle}</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
     <link rel="stylesheet" type="text/css" href="/_/@default/layout.css" media="all"/>
     <script type="text/javascript" src="/js/teaweb.js"></script>
 
@@ -26,7 +27,7 @@
                 <i class="icon user"></i>
                 {{teaUsername}}
             </div>
-            <!--<a v-bind:href="Tea.url('settings')" class="item" v-bind:class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>-->
+            <a v-bind:href="Tea.url('settings')" class="item" v-bind:class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
             <a v-bind:href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
         </div>
     </div>
