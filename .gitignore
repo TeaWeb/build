@@ -11,5 +11,6 @@ src/github.com/stretchr
 src/github.com/ua-parser
 src/github.com/TeaWeb/code
 src/gopkg.in
+src/main/tmp/
 bin/
 pkg/
