@@ -31,8 +31,17 @@ Client  <->  | TeaWeb  |  <->  | Nginx, Apache, Tomcat,     |
 
 ![预览](./resources/screen-shot-2.jpg)
 
+# 已经构建好的版本
+[在这里查看Release版本](https://github.com/TeaWeb/build/releases)。
+
+**注意要运行TeaWeb需要你安装[MongoDB](https://www.mongodb.com/)**
+
+# 相关源码
+* [项目Go主源码](https://github.com/TeaWeb/code)
+
 # 感谢
 * [Semantic UI](https://semantic-ui.com) - 一个非常好用的UI组件库
 * [Vue.js](https://cn.vuejs.org/) - 支持双向绑定的DOM操作库
 * [Axios](https://github.com/axios/axios) - 一个好用的HTTP客户端
 * [echarts](http://echarts.baidu.com/) - 一个很酷炫的图表库
+* [geolite](https://dev.maxmind.com/geoip/legacy/geolite/) - Geo-IP数据库

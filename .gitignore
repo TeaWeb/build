@@ -12,6 +12,7 @@ src/github.com/ua-parser
 src/github.com/TeaWeb/code
 src/gopkg.in
 src/main/tmp/
-docs/
 bin/
+dist/
+docs/
 pkg/
