@@ -98,7 +98,7 @@
                     <td colspan="2">暂时还没有数据</td>
                 </tr>
                 <tr v-for="os in topOS">
-                    <td>{{os.family}}</td>
+                    <td>{{os.family}} {{os.version}}</td>
                     <td class="five wide">{{formatPercent(os.percent)}}%
 
                         <div class="ui progress tiny blue">
@@ -121,7 +121,7 @@
                     <td colspan="2">暂时还没有数据</td>
                 </tr>
                 <tr v-for="browser in topBrowsers">
-                    <td>{{browser.family}}</td>
+                    <td>{{browser.family}} {{browser.version}}</td>
                     <td class="five wide">{{formatPercent(browser.percent)}}%
                         <div class="ui progress tiny blue">
                             <div class="bar" :style="{'width':browser.compareMax  + '%'}"></div>
