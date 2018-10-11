@@ -1,1 +1,31 @@
 {$layout}
+
+<div>
+    <h3>MongoDB连接设置 <a href="/settings/mongo/update">修改</a></h3>
+
+    <table class="ui table definition selectable">
+        <tr>
+            <td style="width:11em">主机地址<em>（host）</em></td>
+            <td>{{config.host}}</td>
+        </tr>
+        <tr>
+            <td>端口<em>（port）</em></td>
+            <td>{{config.port}}</td>
+        </tr>
+        <tr v-if="config.username.length > 0">
+            <td>用户名<em>（username）</em></td>
+            <td>{{config.username}}</td>
+        </tr>
+        <tr v-if="config.password.length > 0">
+            <td>密码<em>（password）</em></td>
+            <td>{{config.password}}</td>
+        </tr>
+    </table>
+
+    <h4>组合后连接URI</h4>
+    <p class="ui info message">{{uri}}</p>
+
+    <h4>连接状态</h4>
+    <p class="ui info message" v-if="error.length == 0">连接成功</p>
+    <p class="ui error message" v-if="error.length > 0">连接失败，需要修复： {{error}}</p>
+</div>

@@ -305,3 +305,9 @@ body.expanded .main {
 #footer a {
     font-size: 0.9em;
 }
+
+
+/** Vue **/
+[v-cloak] {
+    display: none;
+}

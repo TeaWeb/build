@@ -19,21 +19,21 @@
 
 <div>
     <!-- 顶部导航 -->
-    <div class="ui menu inverted top-nav blue">
+    <div class="ui menu inverted top-nav blue" v-cloak="">
         <a href="/" class="item"><i class="icon leaf"></i>TeaWeb &nbsp; <sup>beta - 你的WEB开发伴侣</sup></a>
         <div class="right menu">
 
-            <div class="item">
+            <a href="/settings/login" class="item">
                 <i class="icon user"></i>
                 {{teaUsername}}
-            </div>
+            </a>
             <a v-bind:href="Tea.url('settings')" class="item" v-bind:class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
             <a v-bind:href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
         </div>
     </div>
 
     <!-- 左侧主菜单 -->
-    <div class="main-menu">
+    <div class="main-menu" v-cloak="">
         <div class="ui labeled icon menu vertical blue">
             <a v-bind:href="Tea.url('dashboard')" class="item" v-bind:class="{active:teaMenu == 'dashboard'}">
                 <i class="dashboard icon"></i>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- 右侧主操作栏 -->
-    <div class="main" v-bind:class="{'without-menu': teaSubMenus.length == 0}" ng-cloak="">
+    <div class="main" v-bind:class="{'without-menu': teaSubMenus.length == 0}" v-cloak="">
         <!-- 操作菜单 -->
         <div class="ui top attached menu tabular tab-menu" v-if="teaTabbar.length > 0">
             <a class="item" v-for="item in teaTabbar" v-bind:class="{active:item.active}" v-bind:href="item.url">

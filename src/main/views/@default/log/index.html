@@ -1,7 +1,7 @@
 {$layout}
 
 <div v-if="mongoError.length > 0" class="ui message warning">
-    {{mongoError}}，<a href="/install/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
+    {{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
 </div>
 
 <div v-if="mongoError.length == 0">

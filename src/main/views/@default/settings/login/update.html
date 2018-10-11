@@ -1,0 +1,39 @@
+{$layout}
+
+<h3>登录设置</h3>
+
+<form class="ui form" data-tea-action=".update">
+    <table class="ui table selectable definition">
+        <tr>
+            <td class="title">登录用户名</td>
+            <td>
+                <input type="text" name="username" :value="username" maxlength="20"/>
+                <p class="ui comment">只能包含英文字母、数字，长度不超过20位</p>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <a href="" v-on:click.prevent="updatePassword()" v-if="!passwordUpdating">修改密码<i class="icon down angle"></i> </a>
+                <a href="" v-on:click.prevent="updatePassword()" v-if="passwordUpdating">不修改密码<i class="icon up angle"></i></a>
+
+            </td>
+        </tr>
+        <tr v-if="passwordUpdating">
+            <td>登录密码</td>
+            <td>
+                <input type="password" name="password" placeholder="留空表示不修改" maxlength="20"/>
+                <p class="ui comment">只能包含英文字母、数字，长度不超过20位</p>
+            </td>
+        </tr>
+        <tr v-if="passwordUpdating">
+            <td>确认登录密码</td>
+            <td>
+                <input type="password" name="password2" placeholder="留空表示不修改" maxlength="20"/>
+                <p class="ui comment">再次输入密码，以便确认密码输入正确</p>
+            </td>
+        </tr>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button>
+</form>
