@@ -6,19 +6,22 @@ TeaWeb集静态资源、缓存、代理、统计、监控于一体的可视化�
              |---------|       |----------------------------| 
 Client  <->  | TeaWeb  |  <->  | Nginx, Apache, Tomcat,     |
              |---------|       | Fastcgi, Static Files, ... |
-               Web             |----------------------------|
-               Proxy
-               Log
-               Monitor
-               Statistics
-               Security
-               ...
+                  |            |----------------------------|
+                  |
+                  |
+             |-------------|  
+             |  Web        | 
+             |  Proxy      |
+             |  Log        |
+             |  Monitor    |
+             |  Statistics |
+             |  Security   |
+             | ...         |
+             |-------------|
 ~~~
 
 # 故事 
 在无数的深夜里，我们不停地下载、安装各式各样的产品：监控是一套、统计是一套、日志收集又是一套。。。
-
-冷静想下来，我们经历过的产品有几个能坚持很久并能成功的？我们在不成功的产品上，花了太多的时间去做周边的事情，而不是专注于业务。
 
 大量不同的开源组合，固然免费，但又要去学习每一套软件如何使用，花了很多时间，做了很多事情之后，尝试各种不同的配置，你会惊奇地发现，自己的系统并没有因此而变得强壮而稳定。
 
@@ -70,3 +73,4 @@ Client  <->  | TeaWeb  |  <->  | Nginx, Apache, Tomcat,     |
 * [Axios](https://github.com/axios/axios) - 一个好用的HTTP客户端
 * [echarts](http://echarts.baidu.com/) - 一个很酷炫的图表库
 * [geolite](https://dev.maxmind.com/geoip/legacy/geolite/) - Geo-IP数据库
+* [BrowserScope](http://www.browserscope.org/) - 社区驱动的Web浏览器信息聚合平台
