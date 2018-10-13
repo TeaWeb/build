@@ -27,5 +27,5 @@
 
     <h4>连接状态</h4>
     <p class="ui info message" v-if="error.length == 0">连接成功</p>
-    <p class="ui error message" v-if="error.length > 0">连接失败，需要修复： {{error}}</p>
+    <p class="ui error message" v-if="error.length > 0">连接失败，需要修复： {{error}}。<a href="/settings/mongo/update">[修改连接设置]</a> </p>
 </div>

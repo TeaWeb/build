@@ -1,3 +1,4 @@
+/** 统计表 **/
 .ui.statistic {
 }
 
@@ -19,26 +20,8 @@
     font-weight: normal
 }
 
-.log-table .log-row table {
-    background: #eee;
-    font-size: 12px;
-    margin-top: 0.5em;
-    width: 100%;
-}
 
-.log-table .log-row p {
-    color: #999;
-}
-
-.log-table .log-row p em {
-    color: rgba(0, 0, 0, 0.87);
-}
-
-.log-table .log-row .error {
-    color: #dc143c;
-}
-
-/** 搜索框 **/
+/** 筛选框 **/
 .search-box {
     border: 1px rgba(0, 0, 0, 0.2) solid;
     padding: 0.8em;
@@ -85,4 +68,54 @@
 
 .search-box .focus {
     border:1px #85b7d9 solid!important;
+}
+
+/** 日志表 **/
+.log-table .log-row table {
+    background: #eee;
+    font-size: 12px;
+    margin-top: 0.5em;
+    width: 100%;
+}
+
+.log-table .log-row p {
+    color: #999;
+}
+
+.log-table .log-row p em {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.log-table .log-row .error {
+    color: #dc143c;
+}
+
+.log-table .log-row .menu .item {
+    padding: 0.4em 0.7em!important;
+}
+
+.log-table .log-row .browser span {
+    display: inline-block;
+    background: grey;
+    color: white;
+    font-size: 0.7em;
+    text-transform: lowercase;
+    padding: 0 0.2em;
+}
+
+.log-table .preview-box {
+
+}
+
+.log-table .map-box {
+    height: 20em;
+}
+
+.log-table .map-box .anchorBL {
+    left: auto!important;
+    right: 1em!important;
+}
+
+.log-table .map-box .BMap_cpyCtrl.anchorBL {
+    display: none;
 }
