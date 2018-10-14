@@ -30,6 +30,15 @@ Tea.context(function () {
     this.CHART.line = function (options) {
         var chartId = this.id(options);
 
+        // 最大值
+        var maxValues = [];
+        options.lines.$each(function (k, line) {
+            maxValues.push(line.values.$max());
+        });
+        var maxValue = maxValues.$max();
+
+        var paddingLeft = parseInt(maxValue).toString().length * 16;
+
         setTimeout(function () {
             var chartBox = document.getElementById(chartId);
             if (chartBox == null) {
@@ -42,7 +51,7 @@ Tea.context(function () {
                 },
                 title: {
                     text: options.name,
-                    top: -4,
+                    top: 4,
                     x: "center",
                     textStyle: {
                         fontSize: 12,
@@ -105,10 +114,10 @@ Tea.context(function () {
                     };
                 }),
                 grid: {
-                    left: 30,
+                    left: paddingLeft,
                     right: 0,
-                    bottom: 50,
-                    top: 20
+                    bottom: 30,
+                    top: (options.name != null && options.name.length > 0) ? 50 : 30
                 },
                 axisPointer: {
                     show: false
@@ -221,6 +230,7 @@ Tea.context(function () {
             if (chartBox == null) {
                 return;
             }
+
             var chart = echarts.init(chartBox);
 
             var option = {
@@ -258,7 +268,7 @@ Tea.context(function () {
                         }
                     ],
                     radius: "80%",
-                    center: ["50%", "60%"],
+                    center: ["50%", (options.name != null && options.name.length > 0) ? "60%" : "50%"],
 
                     splitNumber: 5,
                     splitLine: {
@@ -275,7 +285,7 @@ Tea.context(function () {
                     },
                     axisLabel: {
                         formatter: function (v) {
-                            return v + options.unit
+                            return v;
                         },
                         textStyle: {
                             fontSize: 8
@@ -283,7 +293,7 @@ Tea.context(function () {
                     },
                     detail: {
                         formatter: function (v) {
-                            return v + options.unit
+                            return v + options.unit;
                         },
                         textStyle: {
                             fontSize: 12

@@ -11,6 +11,11 @@ Tea.context(function () {
 
     this.started = false;
 
+    // chart
+    this.qpsChartOptions = null;
+    this.bandwidthChartOptions = null;
+    this.requestChartOptions = null;
+
     // 搜索相关
     this.searchBoxVisible = teaweb.getBool("searchBoxVisible");
     this.searchIp = teaweb.getString("searchIp");
@@ -61,6 +66,16 @@ Tea.context(function () {
                 "size": loadSize
             })
             .success(function (response) {
+                // QPS
+                this.qpsChartOptions = response.data.qpsChart;
+
+                // 带宽
+                this.bandwidthChartOptions = response.data.bandwidthChart;
+
+                // 请求
+                this.requestChartOptions = response.data.requestChart;
+
+                // 日志
                 lastSize = response.data.logs.length;
                 if (lastSize == loadSize) {
                     loadSize = 1000;
@@ -84,6 +99,10 @@ Tea.context(function () {
                     log.browserIcon = "";
                     if ([ "chrome", "firefox", "safari", "opera", "edge", "internet explorer" ].$contains(browserFamily)) {
                         log.browserIcon = browserFamily;
+                    } else if (browserFamily == "ie") {
+                        log.browserIcon = "internet explorer";
+                    } else if (browserFamily == "other") {
+                        log.extend.client.browser.family = "";
                     }
                 });
 
@@ -107,12 +126,31 @@ Tea.context(function () {
             });
     };
 
+    this.log_animation = function (log) {
+        return;
+        /**if (log.animationIsInitialized) {
+            return "log-line";
+        }
+       log.animationIsInitialized = true;
+        return "log-animation-init";**/
+    };
+
     this.showLog = function (index) {
         var log = this.logs[index];
         log.isOpen = !log.isOpen;
+        log.tabName = "summary";
 
         // 由于Vue的限制直接设置 log.isOpen 并不起作用
         this.$set(this.logs, index, log);
+
+        // 关闭别的
+        if (log.isOpen) {
+            this.logs.$each(function (k, v) {
+                if (v.id != log.id) {
+                    v.isOpen = false;
+                }
+            });
+        }
     };
 
     this.formatCost = function (seconds) {
@@ -234,6 +272,13 @@ Tea.context(function () {
                 this.$get(".requestHeader." + log.id)
                     .success(function (response) {
                         log.requestHeaders = response.data.headers;
+                        log.hasRequestHeaders = false;
+                        for (var k in log.requestHeaders) {
+                            if (log.requestHeaders.hasOwnProperty(k)) {
+                                log.hasRequestHeaders = true;
+                                break;
+                            }
+                        }
                     });
             }
         }
@@ -253,6 +298,11 @@ Tea.context(function () {
                     .done(function () {
                         log.previewImageLoaded = true;
                     });
+            } else {
+                if (typeof(log.responseHeaders["Content-Type"]) != "undefined" && log.responseHeaders["Content-Type"].length > 0 && log.responseHeaders["Content-Type"][0].match(/image\//)) {
+                    log.previewImageURL = log.requestScheme + "://" + log.host + log.requestURI;
+                }
+                log.previewImageLoaded = true;
             }
         }
 

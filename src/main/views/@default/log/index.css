@@ -1,25 +1,11 @@
 /** 统计表 **/
-.ui.statistic {
+.charts-box .column {
+    height: 15em;
 }
 
-.ui.statistic .value {
-    padding: 0.2em;
+.charts-box .column.gauge {
+    height: 9em!important;
 }
-
-.ui.statistic .value .unit {
-    font-weight: normal;
-    font-size: 0.5em;
-}
-
-.ui.statistic .label {
-
-}
-
-.ui.statistic .label.unit {
-    text-transform: none;
-    font-weight: normal
-}
-
 
 /** 筛选框 **/
 .search-box {
@@ -101,6 +87,63 @@
     font-size: 0.7em;
     text-transform: lowercase;
     padding: 0 0.2em;
+}
+
+@keyframes log-move-in {
+    from {
+        left: 4em;
+        opacity: 0.3;
+        height: 0.1em;
+    }
+    to {
+        left: 0;
+        opacity: 1;
+        height: 2.2em;
+    }
+    100% {
+        position: relative;
+    }
+}
+
+.log-table .log-line {
+    -webkit-animation-name: log-move-in;
+    -moz-animation-name: log-move-in;
+    -o-animation-name: log-move-in;
+    animation-name: log-move-in;
+    -webkit-animation-duration: 0.1s;
+    -moz-animation-duration: 0.1s;
+    -o-animation-duration: 0.1s;
+    animation-duration: 0.1s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+
+    border-bottom: 1px solid rgba(34,36,38,.1);
+
+    position: absolute;
+    overflow: hidden;
+    height: 0;
+    white-space: nowrap;
+    text-overflow-ellipsis: ellipsis;
+}
+
+.log-table .log-td {
+    position: relative;
+    overflow: hidden;
+    border: 0!important;
+}
+
+.log-table .log-animation-init {
+    position: absolute;
+    left: 4em;
+    right: 0.1em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow-ellipsis: ellipsis;
+    opacity: 0;
+    height: 0;
+    /**display: none;**/
 }
 
 .log-table .preview-box {
