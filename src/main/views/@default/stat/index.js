@@ -51,7 +51,7 @@ Tea.context(function () {
     });
 
     this.loadChart = function () {
-        this.$get("/stat/data?type=" + this.dataType + "&range=" + this.dataRange)
+        this.$get("/stat/data?type=" + this.dataType + "&range=" + this.dataRange + "&serverId=" + this.serverId)
             .success(function (response) {
                 this.chartTitle = response.data.title;
 
