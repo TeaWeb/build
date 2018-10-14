@@ -10,7 +10,7 @@
             <thead>
                 <tr>
                     <th colspan="5">
-                        <a :href="'/proxy/detail?filename=' + server.filename" title="详情">{{server.config.description}} &raquo;<em v-if="server.config.root.length > 0"><i class="ui folder icon"></i>{{server.config.root}}</em></a>
+                        <a :href="'/proxy/detail?filename=' + server.filename" title="详情">{{server.config.description}} <i class="icon circle tiny green" title="最近10分钟有请求" v-if="server.isActive"></i> &raquo;<em v-if="server.config.root.length > 0"><i class="ui folder icon"></i>{{server.config.root}}</em></a>
                         <span>
                             <a :href="'/proxy/detail?filename=' + server.filename" title="详情"><i class="ui info icon circle"></i> </a>
                             <a href="" data-tea-action=".delete" v-bind:data-filename="server.filename" data-tea-confirm="您确定要删除此服务吗？" title="删除"><i class="ui icon remove circle"></i> </a>
