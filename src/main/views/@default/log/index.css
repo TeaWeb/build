@@ -1,4 +1,8 @@
 /** 统计表 **/
+.charts-box {
+    height: 15em;
+}
+
 .charts-box .column {
     height: 15em;
 }
@@ -17,9 +21,13 @@
     border-radius: 0.3em;
 }
 
+.search-box.close {
+    text-align: center;
+}
+
 .search-box button {
     margin: 0 auto!important;
-    display: block!important;
+    display: inline-block!important;
 }
 
 .search-box .close-btn {

@@ -9,6 +9,7 @@ Tea.context(function () {
     this.countFail = 0;
     this.qps = 0;
 
+    this.isPlaying = true;
     this.started = false;
 
     // chart
@@ -59,6 +60,11 @@ Tea.context(function () {
 
     var loadSize = 100;
     this.loadLogs = function () {
+        // 是否正在播放日志
+        if (!this.isPlaying) {
+            return;
+        }
+
         var lastSize = 0;
         this.$get(".get")
             .params({
@@ -417,5 +423,13 @@ Tea.context(function () {
 
         log.tabName = tabName;
         this.$set(this.logs, index, log);
+    };
+
+    this.pause = function () {
+        this.isPlaying = !this.isPlaying;
+
+        if (this.isPlaying) {
+            this.loadLogs();
+        }
     };
 });

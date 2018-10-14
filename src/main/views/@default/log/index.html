@@ -26,8 +26,14 @@
        </div>
    </div>
 
-    <div class="search-box" v-show="!searchBoxVisible">
-        <button class="ui button tiny" type="button" v-on:click="showSearchBox()" :class="{primary:hasSearchConditions()}">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button>
+    <div class="search-box close" v-show="!searchBoxVisible">
+        <button class="ui button tiny" type="button" v-on:click="showSearchBox()" :class="{primary:hasSearchConditions()}" title="展开筛选条件">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button> &nbsp;
+        <button class="ui button tiny" type="button" v-if="isPlaying" v-on:click="pause()" title="暂停日志刷新">暂停 <i class="ui icon pause"></i> </button>
+        <button class="ui button tiny" type="button" v-if="!isPlaying" v-on:click="pause()" title="恢复日志刷新">继续 <i class="ui icon play"></i> </button>
+    </div>
+
+    <div class="ui message warning" v-if="!isPlaying">
+        日志刷新功能已被暂停， <a href="" v-on:click.prevent="pause()">恢复日志刷新</a>
     </div>
 
     <div class="search-box" v-show="searchBoxVisible">
@@ -91,39 +97,39 @@
                     <!-- 综合信息 -->
                     <table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && (log.tabName == null || log.tabName == 'summary')">
                         <tr>
-                            <td width="50%">请求ID(ID)：{{log.id}}</td>
-                            <td>请求描述(Request)：{{log.request}}</td>
+                            <td width="50%">请求ID<em>(ID)</em>：{{log.id}}</td>
+                            <td>请求概要<em>(Request)</em>：{{log.request}}</td>
                         </tr>
                         <tr>
-                            <td>请求URI(RequestURI)：{{log.requestURI}}</td>
-                            <td>请求方法(RequestMethod)：{{log.requestMethod}}</td>
+                            <td>请求URI<em>(RequestURI)</em>：{{log.requestURI}}</td>
+                            <td>请求方法<em>(RequestMethod)</em>：{{log.requestMethod}}</td>
                         </tr>
                         <tr>
-                            <td>主机地址(Host)：{{log.host}}</td>
-                            <td>请求来源(Referer)：<span v-if="log.referer.length == 0">-</span><span v-if="log.referer.length > 0">{{log.referer}}</span></td>
+                            <td>主机地址<em>(Host)</em>：{{log.host}}</td>
+                            <td>请求来源<em>(Referer)</em>：<span v-if="log.referer.length == 0">-</span><span v-if="log.referer.length > 0">{{log.referer}}</span></td>
                         </tr>
                         <tr>
-                            <td>终端地址(RemoteAddr:RemotePort)：{{log.remoteAddr}}:{{log.remotePort}}</td>
-                            <td>终端信息(UserAgent)：{{log.userAgent}}</td>
+                            <td>终端地址<em>(RemoteAddr:RemotePort)</em>：{{log.remoteAddr}}:{{log.remotePort}}</td>
+                            <td>终端信息<em>(UserAgent)</em>：{{log.userAgent}}</td>
                         </tr>
                         <tr>
                             <td v-if="log.extend.client.os != null">操作系统(OS)：{{log.extend.client.os.family}} {{log.extend.client.os.major}}</td>
-                            <td>浏览器(Browser)：{{log.extend.client.browser.family}} {{log.extend.client.browser.major}}</td>
+                            <td>浏览器<em>(Browser)</em>：{{log.extend.client.browser.family}} {{log.extend.client.browser.major}}</td>
                         </tr>
                         <tr>
-                            <td>协议(Proto)：{{log.proto}}</td>
-                            <td v-bind:class="{error:log.status>=400}">状态(StatusMessage)：<span v-if="log.statusMessage.length == 0">-</span><span v-if="log.statusMessage.length > 0">{{log.statusMessage}}</span></td>
+                            <td>协议<em>(Proto)</em>：{{log.proto}}</td>
+                            <td v-bind:class="{error:log.status>=400}">状态<em>(StatusMessage)</em>：<span v-if="log.statusMessage.length == 0">-</span><span v-if="log.statusMessage.length > 0">{{log.statusMessage}}</span></td>
                         </tr>
                         <tr>
-                            <td>文件类型(ContentType)：<span v-if="log.contentType.length == 0">-</span><span v-if="log.contentType.length > 0">{{log.contentType}}</span></td>
-                            <td>发送字节(BytesSent)：{{log.bytesSent}}</td>
+                            <td>文件类型<em>(ContentType)</em>：<span v-if="log.contentType.length == 0">-</span><span v-if="log.contentType.length > 0">{{log.contentType}}</span></td>
+                            <td>发送字节<em>(BytesSent)</em>：{{log.bytesSent}}</td>
                         </tr>
                         <tr>
                             <td>ISO8601时间：{{log.timeISO8601}}</td>
                             <td>本地时间(TimeLocal)：{{log.timeLocal}}</td>
                         </tr>
                         <tr>
-                            <td>后端服务（Backend）：
+                            <td>后端服务<em>(Backend)</em>：
                                 <span v-if="log.backendAddress.length > 0">{{log.backendAddress}}</span>
                                 <span v-if="log.backendAddress.length == 0">-</span>
                             </td>
@@ -198,30 +204,39 @@
                     <table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'client'">
                         <tbody>
                             <tr>
-                                <td width="50%">设备：
+                                <td class="middle-title">综合信息<em>(UserAgent)</em></td>
+                                <td>{{log.userAgent}}</td>
+                            </tr>
+                            <tr>
+                                <td>IP</td>
+                                <td>{{log.remoteAddr}}</td>
+                            </tr>
+                            <tr>
+                                <td>设备<em>(Device)</em></td>
+                                <td>
                                     <span v-if="log.extend.client.device.family.length > 0 && log.extend.client.device.family != 'Other'">{{log.extend.client.device.family}}</span>
                                     <span v-if="log.extend.client.device.family.length == 0 || log.extend.client.device.family == 'Other'">暂时无法识别</span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>操作系统<em>(OS)</em></td>
                                 <td>
-                                    操作系统：
                                     <span v-if="log.osVersion.length > 0">{{log.osVersion}}</span>
                                     <span v-if="log.osVersion.length == 0">暂时无法识别</span>
                                 </td>
                             <tr>
+                                <td>浏览器<em>(Browser)</em></td>
                                 <td>
-                                    浏览器：
                                     <span v-if="log.browserVersion.length > 0">{{log.browserVersion}}</span>
                                     <span v-if="log.browserVersion.length == 0">暂时无法识别</span>
                                 </td>
-                                <td></td>
                             </tr>
                             <tr>
+                                <td>地理位置<em>(Location)</em></td>
                                 <td>
-                                    地理位置：
                                     <span v-if="log.geoAddr.length > 0">{{log.geoAddr}}</span>
                                     <span v-if="log.geoAddr.length == 0">暂时无法识别</span>
                                 </td>
-                                <td></td>
                             </tr>
                             <tr v-if="log.geoAddr.length > 0">
                                 <td colspan="2">

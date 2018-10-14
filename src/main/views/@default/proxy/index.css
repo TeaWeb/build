@@ -3,17 +3,8 @@
 }
 
 .servers-box .table-box {
-    min-width: 18em;
-    width: 28%;
-    float: left;
     margin-right: 1em;
     margin-bottom: 1em;
-    height: 22em;
-    overflow-y: auto;
-}
-
-.servers-box .table-box::-webkit-scrollbar {
-    width: 2px;
 }
 
 .servers-box .table-box table td strong {
@@ -26,5 +17,42 @@
 
 .servers-box .table-box table thead span {
     position: absolute;
-    right: 0;
+    top: 1em;
+    right: 1em;
+}
+
+.servers-box .table-box table thead em {
+    display: block;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 0.8em;
+    color: grey;
+}
+
+.servers-box .table-box table thead a {
+    color: rgba(0,0,0,.87);
+}
+
+.servers-box .table-box table thead span a {
+    color: grey;
+}
+
+.servers-box .table-box div.grey {
+    color: grey;
+}
+
+.servers-box .table-box div.fix-height {
+    max-height: 9em;
+    overflow-y: auto;
+}
+
+.servers-box .table-box div p {
+    padding: 0;
+    margin: 0;
+    line-height: 1.8;
+}
+
+.servers-box .table-box div.fix-height::-webkit-scrollbar {
+    width: 2px;
+
 }

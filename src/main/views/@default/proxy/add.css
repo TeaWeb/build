@@ -1,0 +1,40 @@
+.add-form {
+
+}
+
+.add-form table {
+    max-width: 40em;
+}
+
+
+.grid {
+    position: relative!important;
+}
+
+.servers-box {
+    position: fixed!important;
+    padding-left: 6em!important;
+    right: 4em;
+}
+
+.servers-box .table-box table td strong {
+    font-size: 0.9em;
+}
+
+.servers-box .table-box table thead th {
+    position: relative;
+}
+
+.servers-box .table-box table thead span {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.servers-box .table-box table thead em {
+    display: block;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 0.8em;
+    color: grey;
+}
