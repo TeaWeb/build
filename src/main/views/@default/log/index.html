@@ -1,11 +1,11 @@
 {$layout}
 
-{$var "header"}
-<!-- 地图相关 -->
-<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=DF6fe2b62ea3a7b2cd7a30694b79069f"  async defer></script>
-
+{$var "footer"}
 <!-- 图表相关 -->
 <script type="text/javascript" src="/js/echarts.min.js"></script>
+
+<!-- 地图相关 -->
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=DF6fe2b62ea3a7b2cd7a30694b79069f" ></script>
 {$end}
 
 <div v-if="mongoError.length > 0" class="ui message warning">

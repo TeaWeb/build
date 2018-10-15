@@ -15,6 +15,7 @@ src/main/tmp/
 src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf
+plugins/demo.so
 bin/
 dist/
 docs/

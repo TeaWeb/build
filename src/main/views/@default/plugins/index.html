@@ -1,0 +1,42 @@
+{$layout}
+
+<p class="ui message warning" v-if="plugins.length == 0">暂时还没有安装插件。</p>
+
+<table class="ui table selectable">
+    <thead>
+        <tr>
+            <th class="three wide">插件名</th>
+            <th class="four wide">插件介绍</th>
+            <th class="two wide">版本</th>
+            <th class="two wide">日期</th>
+            <th class="three wide">开发者</th>
+            <th>技术支持网站</th>
+        </tr>
+    </thead>
+    <tr v-for="plugin in plugins">
+        <td>
+            <span v-if="plugin.name.length > 0">{{plugin.name}}</span>
+            <span v-if="plugin.name.length == 0">-</span>
+        </td>
+        <td>
+            <span v-if="plugin.description.length > 0">{{plugin.description}}</span>
+            <span v-if="plugin.description.length == 0">-</span>
+        </td>
+        <td>
+            <span v-if="plugin.version.length > 0">{{plugin.version}}</span>
+            <span v-if="plugin.version.length == 0">-</span>
+        </td>
+        <td>
+            <span v-if="plugin.date.length > 0">{{plugin.date}}</span>
+            <span v-if="plugin.date.length == 0">-</span>
+        </td>
+        <td>
+            <span v-if="plugin.developer.length > 0">{{plugin.developer}}</span>
+            <span v-if="plugin.developer.length == 0">-</span>
+        </td>
+        <td>
+            <a :href="plugin.site" target="_blank" v-if="plugin.site.length > 0" title="打开"><i class="ui icon external small"></i> </a>
+            <span v-if="plugin.site.length == 0">-</span>
+        </td>
+    </tr>
+</table>
