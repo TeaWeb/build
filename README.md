@@ -34,6 +34,8 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 
 ![预览](./resources/screen-shot-2.jpg)
 
+![预览](./resources/screen-shot-3.jpg)
+
 # 已经构建好的版本
 [在这里查看Release版本](https://github.com/TeaWeb/build/releases)。
 
