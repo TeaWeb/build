@@ -36,8 +36,13 @@ Tea.context(function () {
             maxValues.push(line.values.$max());
         });
         var maxValue = maxValues.$max();
-
+        var hasLabels = (options.labels == null) ? false : options.labels.$any(function (k, v) {
+            return v.length > 0;
+        });
         var paddingLeft = parseInt(maxValue).toString().length * 16;
+        if (parseInt(maxValue) < 10) {
+            paddingLeft += 10;
+        }
 
         setTimeout(function () {
             var chartBox = document.getElementById(chartId);
@@ -116,7 +121,7 @@ Tea.context(function () {
                 grid: {
                     left: paddingLeft,
                     right: 0,
-                    bottom: 30,
+                    bottom: hasLabels ? 40 : 30,
                     top: (options.name != null && options.name.length > 0) ? 50 : 30
                 },
                 axisPointer: {

@@ -2,3 +2,17 @@ table tr td {
     -ms-word-break: break-all;
     word-break: break-all;
 }
+
+table tr td span.code {
+    display: block;
+    font-size: 0.8em;
+    color: grey;
+}
+
+table tr td p.interfaces {
+    margin-top: 0.3em;
+}
+
+table tr td p.interfaces .label {
+    margin-bottom: 0.2em;
+}

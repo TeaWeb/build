@@ -17,6 +17,10 @@
         <td>
             <span v-if="plugin.name.length > 0">{{plugin.name}}</span>
             <span v-if="plugin.name.length == 0">-</span>
+            <span class="code" v-if="plugin.code.length > 0">{{plugin.code}}</span>
+            <p class="interfaces">
+                <span class="ui label code tiny" v-for="interface in plugin.interfaces">{{interface}}</span>
+            </p>
         </td>
         <td>
             <span v-if="plugin.description.length > 0">{{plugin.description}}</span>
