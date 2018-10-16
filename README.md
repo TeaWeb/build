@@ -63,6 +63,9 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 4. 执行`run.sh`启动项目；
 5. 在浏览器中访问`http://127.0.0.1:7777`。
 
+# 扩展TeaWeb
+* [如何实现自己的插件](https://github.com/TeaWeb/plugin)
+
 # 报告问题
 请在 *https://github.com/TeaWeb/build/issues* 报告你所遇到的问题，或者加入QQ群199435611跟大家一起讨论.
 
@@ -76,3 +79,5 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [echarts](http://echarts.baidu.com/) - 一个很酷炫的图表库
 * [geolite](https://dev.maxmind.com/geoip/legacy/geolite/) - Geo-IP数据库
 * [BrowserScope](http://www.browserscope.org/) - 社区驱动的Web浏览器信息聚合平台
+* [Array.js](https://github.com/iwind/Array.js) - 帮助开发人员更优雅地操作Javascript数组
+* [gofcgi](https://github.com/iwind/gofcgi) - golang client for fastcgi
