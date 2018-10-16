@@ -1,0 +1,52 @@
+{$layout}
+
+<h3></h3>
+<div class="ui message success" v-if="isConnected">已正常连接到MongoDB</div>
+<div v-if="!isConnected">
+    <p class="ui message warning">如果已经通过TeaWeb下载过MongoDB，TeaWeb会自动直接尝试启动。</p>
+
+    <form class="ui form">
+        <table class="ui table selectable definition" style="width:40em">
+            <tr>
+                <td class="title">1. 下载MongoDB</td>
+                <td>
+                    <div class="ui progress blue tiny" style="padding:0;margin:0">
+                        <div class="bar" :style="{width: downloadProgress + '%'}"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2. 安装MongoDB</td>
+                <td>
+                    <div class="ui progress blue tiny" style="padding:0;margin:0">
+                        <div class="bar" :style="{width: installProgress + '%'}"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>3. 启动MongoDB</td>
+                <td>
+                    <div class="ui progress blue tiny" style="padding:0;margin:0">
+                        <div class="bar" :style="{width: startProgress + '%'}"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>4. 检查MongoDB</td>
+                <td>
+                    <div class="ui progress blue tiny" style="padding:0;margin:0">
+                        <div class="bar" :style="{width: checkProgress + '%'}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div v-if="!isInstalled">
+            <button class="ui button primary" type="button" v-if="!isInstalling" v-on:click="install()">开始安装</button>
+            <button class="ui button" type="button" v-if="isInstalling">安装中，请耐心等待...</button>
+        </div>
+        <div v-if="isInstalled">
+            <button class="ui button primary" type="button" v-if="!isInstalling" v-on:click="install()">已安装，现在启动</button>
+        </div>
+    </form>
+</div>

@@ -2,7 +2,7 @@
 
 <p class="ui message warning" v-if="plugins.length == 0">暂时还没有安装插件。</p>
 
-<table class="ui table selectable">
+<table class="ui table selectable" v-if="plugins.length > 0">
     <thead>
         <tr>
             <th class="three wide">插件名</th>

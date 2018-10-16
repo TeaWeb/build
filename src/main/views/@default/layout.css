@@ -309,5 +309,5 @@ body.expanded .main {
 
 /** Vue **/
 [v-cloak] {
-    display: none;
+    display: none!important;
 }

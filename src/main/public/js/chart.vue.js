@@ -39,7 +39,7 @@ Tea.context(function () {
         var hasLabels = (options.labels == null) ? false : options.labels.$any(function (k, v) {
             return v.length > 0;
         });
-        var paddingLeft = parseInt(maxValue).toString().length * 16;
+        var paddingLeft = parseInt(maxValue).toString().length * 20;
         if (parseInt(maxValue) < 10) {
             paddingLeft += 10;
         }

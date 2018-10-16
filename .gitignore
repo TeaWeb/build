@@ -16,6 +16,8 @@ src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf
 src/main/plugins/demo.so
+src/main/mongodb
+src/tests/
 bin/
 dist/
 docs/

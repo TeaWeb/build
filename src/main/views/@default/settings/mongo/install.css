@@ -1,0 +1,7 @@
+ .progress .bar {
+     min-width: 0!important;
+}
+
+ .table td {
+     font-style: normal!important;
+ }
