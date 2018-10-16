@@ -16,7 +16,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
              |  Monitor    |
              |  Statistics |
              |  Security   |
-             | ...         |
+             |  ...        |
              |-------------|
 ~~~
 
@@ -47,7 +47,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 3. 然后执行：
     ~~~shell
     cd teaweb-v0.0.1/
-    bin/teaweb
+    bin/teaweb start
     ~~~
 4. 如果没有出现错误的话，可以在浏览器中访问：
     ~~~
@@ -65,6 +65,9 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 
 # 扩展TeaWeb
 * [如何实现自己的插件](https://github.com/TeaWeb/plugin)
+
+# 在线演示
+[点击这里查看在线演示的版本](http://meloy.cn:7777/)
 
 # 报告问题
 请在 *https://github.com/TeaWeb/build/issues* 报告你所遇到的问题，或者加入QQ群199435611跟大家一起讨论.
