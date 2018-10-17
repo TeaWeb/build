@@ -5,6 +5,7 @@
 
 {$var "header"}
 <script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+<script type="text/javascript" src="/_/@default/proxy/@headers.js"></script>
 {$end}
 <!--  检测配置是否有更新 end -->
 
@@ -464,5 +465,8 @@
         <p v-if="location.fastcgi != null">
             <a href="" title="删除" v-on:click.prevent="deleteFastcgi()"><i class="ui icon remove circle"></i> </a>
         </p>
+
+        <h4>自定义Headers</h4>
+        {$template "/proxy/headers"}
     </form>
 </div>
