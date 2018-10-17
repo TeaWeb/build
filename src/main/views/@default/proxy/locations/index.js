@@ -1,4 +1,6 @@
 Tea.context(function () {
+    this.location = null;
+
     this.locationAdding = false;
     this.pattern = "";
     this.typeId = 1;

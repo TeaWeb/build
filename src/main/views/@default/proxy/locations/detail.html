@@ -11,15 +11,7 @@
 <div>
     <h3>{{proxy.description}}<span>（{{filename}}）</span></h3>
 
-    <div class="ui text menu blue">
-        <a :href="$url('/proxy/detail', { 'filename':filename })" class="item">基本信息</a>
-        <a :href="$url('/proxy/ssl', { 'filename':filename })" class="item">HTTPS<i class="ui icon expeditedssl"
-                                                                                    :class="{green:proxy.ssl && proxy.ssl.on, grey:!proxy.ssl || !proxy.ssl.on}"></i></a>
-        <a :href="$url('/proxy/backend', { 'filename':filename })" class="item">后端服务器({{proxy.backends.length}})</a>
-        <a :href="$url('/proxy/locations', { 'filename':filename })" class="item">路径规则({{proxy.locations.length}})</a>
-        <a :href="$url('/proxy/locations/detail', { 'filename':filename, 'index':locationIndex })" class="item active">&raquo;
-            路径：{{location.pattern}}</a>
-    </div>
+    {$template "/proxy/menu"}
 
     <form class="ui form">
         <!-- 基本信息 -->
