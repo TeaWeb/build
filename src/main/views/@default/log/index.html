@@ -27,9 +27,9 @@
    </div>
 
     <div class="search-box close" v-show="!searchBoxVisible">
-        <button class="ui button tiny" type="button" v-on:click="showSearchBox()" :class="{primary:hasSearchConditions()}" title="展开筛选条件">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button> &nbsp;
-        <button class="ui button tiny" type="button" v-if="isPlaying" v-on:click="pause()" title="暂停日志刷新">暂停 <i class="ui icon pause"></i> </button>
-        <button class="ui button tiny" type="button" v-if="!isPlaying" v-on:click="pause()" title="恢复日志刷新">继续 <i class="ui icon play"></i> </button>
+        <button class="ui button tiny basic" type="button" v-on:click="showSearchBox()" :class="{primary:hasSearchConditions()}" title="展开筛选条件">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button> &nbsp;
+        <button class="ui button tiny basic" type="button" v-if="isPlaying" v-on:click="pause()" title="暂停日志刷新">暂停 <i class="ui icon pause"></i> </button>
+        <button class="ui button tiny basic" type="button" v-if="!isPlaying" v-on:click="pause()" title="恢复日志刷新">继续 <i class="ui icon play"></i> </button>
     </div>
 
     <div class="ui message warning" v-if="!isPlaying">

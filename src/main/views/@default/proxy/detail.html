@@ -1,9 +1,10 @@
 {$layout}
 
 <!-- 检测配置是否有更新 begins -->
-<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+<p class="ui message warning proxy-changed" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
 
 {$var "header"}
+<link rel="stylesheet" href="/_/@default/proxy/@global.css"/>
 <script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
 {$end}
 <!--  检测配置是否有更新 end -->
@@ -95,17 +96,17 @@
             <td></td>
         </tr>
         <tr v-if="proxy.listen.length == 0">
-            <td>监听地址<em>(listen)</em></td>
-            <td colspan="2"><a class="disabled">[还没有绑定监听地址]</a></td>
+            <td>绑定地址<em>(listen)</em></td>
+            <td colspan="2"><a class="disabled">[还没有绑定网络地址]</a></td>
         </tr>
         <tbody v-for="(listen, index) in proxy.listen">
             <tr v-if="index != editListenIndex">
-                <td><span v-if="index == 0">监听地址<em>(listen)</em></span></td>
+                <td><span v-if="index == 0">绑定地址<em>(listen)</em></span></td>
                 <td>{{listen}}</td>
                 <td><a href="" v-on:click.prevent="editListen(index, listen)" title="修改"><i class="ui icon edit small"></i></a> &nbsp; <a href="" v-on:click.prevent="deleteListen(index)" title="删除"><i class="ui icon remove small"></i></a></td>
             </tr>
             <tr v-if="index == editListenIndex">
-                <td>监听地址<em>(listen)</em></td>
+                <td>绑定地址<em>(listen)</em></td>
                 <td>
                     <input type="text" name="listen" v-model="proxy.listen[index]" />
                 </td>
@@ -127,7 +128,7 @@
         </tr>
         <tr>
             <td></td>
-            <td colspan="2"><a href="" v-on:click.prevent="addListen()" title="添加新监听地址"><i class="ui icon plus circle"></i>新监听地址</a></td>
+            <td colspan="2"><a href="" v-on:click.prevent="addListen()" title="绑定新地址"><i class="ui icon plus circle"></i>绑定新地址</a></td>
         </tr>
         <tr>
             <td>文档根目录<em>(root)</em></td>
@@ -149,21 +150,54 @@
                 <a href="" v-on:click.prevent="editRoot" title="取消"><i class="ui icon arrow left circle"></i> </a>
             </td>
         </tr>
-        <tr>
+
+        <!-- 字符编码 -->
+        <tr v-if="!charsetEditing">
             <td>字符编码<em>(charset)</em></td>
             <td>
                 <span v-if="proxy.charset.length > 0">{{proxy.charset}}</span>
                 <a class="disabled" v-if="proxy.charset.length == 0">还没有设置。</a>
             </td>
-            <td></td>
+            <td class="two op">
+                <a href="" title="修改" v-on:click.prevent="editCharset()"><i class="ui icon edit small"></i> </a>
+            </td>
         </tr>
-        <tr>
+        <tr v-if="charsetEditing">
+            <td>字符编码<em>(charset)</em></td>
+            <td>
+                <select class="ui dropdown" v-model="proxy.charset">
+                    <optgroup label="常用"></optgroup>
+                    <option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} ({{charset.name}})</option>
+                    <optgroup label="所有"></optgroup>
+                    <option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} ({{charset.name}})</option>
+                </select>
+            </td>
+            <td class="two op">
+                <a href="" v-on:click.prevent="editCharsetSave()" title="保存"><i class="ui icon check circle"></i></a>
+                <a href="" v-on:click.prevent="editCharset" title="取消"><i class="ui icon arrow left circle"></i> </a>
+            </td>
+        </tr>
+
+        <!-- 首页文件 -->
+        <tr v-if="!indexEditing">
             <td>首页文件<em>(index)</em></td>
             <td>
-                <span v-if="proxy.index.length > 0">{{proxy.index.join(', ')}}</span>
+                <span v-if="proxy.index.length > 0">{{indexNames}}</span>
                 <a class="disabled" v-if="proxy.index.length == 0">还没有设置。</a>
             </td>
-            <td></td>
+            <td class="two op">
+                <a href="" title="修改" v-on:click.prevent="editIndex()"><i class="ui icon edit small"></i> </a>
+            </td>
+        </tr>
+        <tr v-if="indexEditing">
+            <td>首页文件<em>(index)</em></td>
+            <td>
+                <input type="text" name="index" v-model="indexes"/>
+            </td>
+            <td>
+                <a href="" v-on:click.prevent="editIndexSave()" title="保存"><i class="ui icon check circle"></i></a>
+                <a href="" v-on:click.prevent="editIndex" title="取消"><i class="ui icon arrow left circle"></i> </a>
+            </td>
         </tr>
     </table>
     </form>

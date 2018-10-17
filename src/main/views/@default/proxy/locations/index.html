@@ -20,14 +20,14 @@
 
     <form class="ui form">
         <table class="ui table selectable width35 definition">
-            <tbody v-if="proxy.locations.length == 0">
+            <tbody v-if="!locationAdding && proxy.locations.length == 0">
                 <tr>
                     <td colspan="3" class="normal">
                         <a class="disabled">[暂时还没有路径配置]</a>
                     </td>
                 </tr>
             </tbody>
-            <tbody v-if="proxy.locations.length > 0">
+            <tbody v-if="!locationAdding && proxy.locations.length > 0">
                 <tr v-for="(location, index) in locations">
                     <td v-if="location.type == 1">前缀</td>
                     <td v-if="location.type == 2">精准匹配</td>
@@ -44,6 +44,8 @@
                     </td>
                 </tr>
             </tbody>
+
+            <!-- 添加location -->
             <tbody v-if="locationAdding">
                 <tr>
                     <td class="title">规则</td>

@@ -76,27 +76,6 @@
                 </td>
             </tr>
             <tr>
-                <td>反向匹配</td>
-                <td colspan="2">
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" :checked="location.reverse" v-on:click.prevent="reverse()"/>
-                        <label></label>
-                    </div>
-                    <p class="comment">选中表示匹配所有<strong>不符合</strong>规则的路径</p>
-                </td>
-            </tr>
-            <tr>
-                <td>不区分大小写</td>
-                <td colspan="2">
-                    <div class="ui toggle checkbox">
-                        <input type="checkbox" :checked="location.caseInsensitive"
-                               v-on:click.prevent="switchCaseInsensitive()"/>
-                        <label></label>
-                    </div>
-                    <p class="comment">选中表示匹配规则中的路径中的英文字母不区分大小写</p>
-                </td>
-            </tr>
-            <tr>
                 <td>文档根目录<em>(root)</em></td>
                 <td>
                     <span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>
@@ -122,15 +101,71 @@
                     <span v-if="location.charset.length > 0">{{location.charset}}</span>
                     <a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
                 </td>
-                <td></td>
+                <td class="two op">
+                    <a href="" title="修改" v-on:click.prevent="editCharset()"><i class="ui icon edit small"></i> </a>
+                </td>
             </tr>
-            <tr>
+            <tr v-if="charsetEditing">
+                <td>字符编码<em>(charset)</em></td>
+                <td>
+                    <select class="ui dropdown" v-model="location.charset">
+                        <optgroup label="常用"></optgroup>
+                        <option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} ({{charset.name}})</option>
+                        <optgroup label="所有"></optgroup>
+                        <option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} ({{charset.name}})</option>
+                    </select>
+                </td>
+                <td class="two op">
+                    <a href="" v-on:click.prevent="editCharsetSave()" title="保存"><i class="ui icon check circle"></i></a>
+                    <a href="" v-on:click.prevent="editCharset" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+
+            <!-- 首页配置 -->
+            <tr v-if="!indexEditing">
                 <td>首页文件<em>(index)</em></td>
                 <td>
-                    <span v-if="location.index.length > 0">{{location.index.join(', ')}}</span>
+                    <span v-if="location.index.length > 0">{{indexNames}}</span>
                     <a class="disabled" v-if="location.index.length == 0">还没有设置。</a>
                 </td>
-                <td></td>
+                <td class="two op">
+                    <a href="" title="修改" v-on:click.prevent="editIndex()"><i class="ui icon edit small"></i> </a>
+                </td>
+            </tr>
+            <tr v-if="indexEditing">
+                <td>首页文件<em>(index)</em></td>
+                <td>
+                    <input type="text" name="index" v-model="indexes"/>
+                </td>
+                <td>
+                    <a href="" v-on:click.prevent="editIndexSave()" title="保存"><i class="ui icon check circle"></i></a>
+                    <a href="" v-on:click.prevent="editIndex" title="取消"><i class="ui icon arrow left circle"></i> </a>
+                </td>
+            </tr>
+        </table>
+
+        <h4>特殊设置</h4>
+        <table class="ui table width30 selectable definition ">
+            <tr>
+                <td class="title">反向匹配</td>
+                <td colspan="2">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="location.reverse" v-on:click.prevent="reverse()"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">选中表示匹配所有<strong>不符合</strong>规则的路径</p>
+                </td>
+            </tr>
+            <tr>
+                <td>不区分大小写</td>
+                <td colspan="2">
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" :checked="location.caseInsensitive"
+                               v-on:click.prevent="switchCaseInsensitive()"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">选中表示匹配规则中的路径中的英文字母不区分大小写</p>
+                </td>
             </tr>
         </table>
 

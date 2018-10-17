@@ -141,4 +141,54 @@ Tea.context(function () {
                 this.rootEditing = false;
             });
     };
+
+    /**
+     * 字符集
+     */
+    this.charsetEditing = false;
+    var charset = "";
+    this.editCharset = function () {
+        this.charsetEditing = !this.charsetEditing;
+
+        if (!this.charsetEditing) {
+            this.proxy.charset = charset;
+        } else {
+            charset = this.proxy.charset;
+        }
+    };
+
+    this.editCharsetSave = function () {
+        this.$post("/proxy/updateCharset")
+            .params({
+                "charset": this.proxy.charset,
+                "filename": this.filename
+            })
+            .success(function () {
+                this.charsetEditing = false;
+            });
+    };
+
+    // 首页
+    this.indexEditing = false;
+    this.indexes = this.proxy.index.join(" ");
+    this.editIndex = function () {
+        this.indexEditing = !this.indexEditing;
+    };
+
+    this.indexNames = this.proxy.index.join(", ");
+
+    this.editIndexSave = function () {
+        this.$post("/proxy/updateIndex")
+            .params({
+                "filename": this.filename,
+                "index": this.indexes
+            })
+            .success(function (response) {
+                if (response.data.indexes != null) {
+                    this.proxy.index = response.data.indexes;
+                    this.indexNames = this.proxy.index.join(", ");
+                }
+                this.indexEditing = false;
+            });
+    };
 });
