@@ -6,12 +6,14 @@ src/github.com/mongodb
 src/github.com/oschwald
 src/github.com/pbnjay
 src/github.com/pquerna
+src/github.com/robertkrimen
 src/github.com/shirou
 src/github.com/stretchr
 src/github.com/ua-parser
 src/github.com/TeaWeb/code
 src/gopkg.in
 src/main/tmp/
+src/main/logs/*.log
 src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf

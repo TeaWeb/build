@@ -1,0 +1,19 @@
+.log-container {
+
+}
+
+.log-box {
+    position: fixed;
+    top: 8em;
+    bottom: 4em;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    line-height: 1.7;
+    overflow-y: auto;
+    left: 8em;
+    right: 8em;
+}
+
+.log-box::-webkit-scrollbar {
+    width: 2px;
+}
