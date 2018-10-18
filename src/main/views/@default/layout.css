@@ -186,6 +186,10 @@ body.expanded .main {
     overflow-y: auto;
 }
 
+.main-menu::-webkit-scrollbar {
+    width: 2px;
+}
+
 .main .tab-menu {
 
 }
