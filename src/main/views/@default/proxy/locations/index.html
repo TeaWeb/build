@@ -14,7 +14,14 @@
     {$template "/proxy/menu"}
 
     <form class="ui form">
-        <table class="ui table selectable width35 definition">
+        <table class="ui table selectable width35 celled">
+            <thead>
+                <tr>
+                    <th>规则</th>
+                    <th>类型</th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody v-if="!locationAdding && proxy.locations.length == 0">
                 <tr>
                     <td colspan="3" class="normal">
@@ -24,13 +31,13 @@
             </tbody>
             <tbody v-if="!locationAdding && proxy.locations.length > 0">
                 <tr v-for="(location, index) in locations">
-                    <td v-if="location.type == 1">前缀</td>
-                    <td v-if="location.type == 2">精准匹配</td>
-                    <td v-if="location.type == 3">正则表达式</td>
                     <td>
                         <span v-if="location.on">{{location.pattern}}</span>
                         <a class="disabled" v-if="!location.on">{{location.pattern}}</a>
                     </td>
+                    <td v-if="location.type == 1">前缀</td>
+                    <td v-if="location.type == 2">精准匹配</td>
+                    <td v-if="location.type == 3">正则表达式</td>
                     <td class="four op">
                         <a :href="$url('/proxy/locations/detail', { 'filename':filename,'index':index })"><i class="ui icon info circle"></i> </a>
                         <a href="" v-on:click.prevent="deleteLocation(index)"><i class="ui icon remove circle"></i> </a>

@@ -45,9 +45,12 @@
                     <i class="ui icon right arrow"></i>
                 </td>
                 <td>
-                    <span v-if="server.config.backends.length == 0" class="disabled">还没有设置后端地址</span>
+                    <span v-if="server.config.backends.length == 0 && server.fastcgi.length == 0" class="disabled">还没有设置后端服务地址</span>
                     <div class="fix-height" v-if="server.config.backends.length > 0">
-                        <p v-for="backend in server.config.backends"><i class="ui icon hdd outline"></i> {{backend}}</p>
+                        <p v-for="backend in server.config.backends"><i class="ui icon hdd outline"></i> <em>[Http] </em>{{backend}}</p>
+                    </div>
+                    <div class="fix-height" v-if="server.fastcgi.length > 0">
+                        <p v-for="fastcgi in server.fastcgi"><i class="ui icon folder outline"></i> <em>[Fastcgi] </em>{{fastcgi}}</p>
                     </div>
                 </td>
             </tr>

@@ -39,7 +39,7 @@ Tea.context(function () {
         var hasLabels = (options.labels == null) ? false : options.labels.$any(function (k, v) {
             return v.length > 0;
         });
-        var paddingLeft = parseInt(maxValue).toString().length * 20;
+        var paddingLeft = parseInt(maxValue).toString().length * 18;
         if (parseInt(maxValue) < 10) {
             paddingLeft += 10;
         }
@@ -85,6 +85,12 @@ Tea.context(function () {
                 },
                 axisLabel: {
                     formatter: function (v) {
+                        if (v == null) {
+                            return v;
+                        }
+                        if (typeof(v) == "number") {
+                            return Math.ceil(v * 100) / 100;
+                        }
                         return v;
                     },
                     textStyle: {
