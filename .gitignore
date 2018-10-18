@@ -20,5 +20,5 @@ src/main/mongodb
 src/tests/
 bin/
 dist/
-draft/
+drafts/
 pkg/
