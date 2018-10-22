@@ -40,6 +40,9 @@ go_get "github.com/shirou/gopsutil"
 # javascript
 go_get "github.com/robertkrimen/otto"
 
+# msg pack
+go_get "github.com/vmihailenco/msgpack"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

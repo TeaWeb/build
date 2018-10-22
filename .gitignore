@@ -11,13 +11,15 @@ src/github.com/shirou
 src/github.com/stretchr
 src/github.com/ua-parser
 src/github.com/TeaWeb/code
+src/github.com/TeaWeb/plugin
+src/github.com/vmihailenco
 src/gopkg.in
 src/main/tmp/
 src/main/logs/*.log
 src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf
-src/main/plugins/demo.so
+src/main/plugins/demo.tea
 src/main/mongodb
 src/tests/
 bin/

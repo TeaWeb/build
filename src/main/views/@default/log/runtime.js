@@ -25,7 +25,10 @@ Tea.context(function () {
 
         this.$post(".runtime")
             .success(function (resp) {
-                this.logText = this.logText + resp.data.data.replace(/\n/g, "<br/>");
+                this.logText = this.logText + resp.data.data
+                    .replace(/ /g, "&nbsp;")
+                    .replace(/\t/, "&nbsp; &nbsp; ")
+                    .replace(/\n/g, "<br/>");
             })
             .done(function () {
                 this.$delay(function () {
