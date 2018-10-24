@@ -50,10 +50,10 @@ Tea.context(function () {
 
                this.detailApp.version = this.detailApp.version.replace(/ /g, "&nbsp;").replace(/\n/g, "<br/>");
 
-               this.detailApp.memory = resp.data.memory;
+               this.detailApp.memoryPercent = resp.data.memoryPercent;
                this.detailApp.memoryRSS = resp.data.memoryRSS;
                this.detailApp.memoryVMS = resp.data.memoryVMS;
-               this.detailApp.cpu = resp.data.cpu;
+               this.detailApp.cpuPercent = resp.data.cpuPercent;
 
                var listens = [];
                var connections = [];

@@ -15,13 +15,13 @@
                 <th colspan="2">
                     <i class="icon gem outline" :class="{grey:!app.isRunning, green:app.isRunning}"></i>
                 {{app.name}} &nbsp;
-                    &nbsp;<a href="" title="更多信息" v-on:click.prevent="showApp(app.id)"><i class="ui icon info circle small"></i></a>
-                    <a :href="app.site" v-if="app.site.length > 0" target="_blank" title="打开官方网站"><i class="ui icon external small"></i> </a>
-                    <a :href="app.docSite" v-if="app.docSite.length > 0" target="_blank" title="打开文档网站"><i class="ui icon book small"></i> </a>
-                    <a href="" v-on:click.prevent="reloadApp(app.id)"><i class="ui icon refresh small"></i></a>
+                    &nbsp;<a href="" title="更多信息" v-on:click.prevent="showApp(app.id)"><i class="ui icon info circle small grey"></i></a>
+                    <a :href="app.site" v-if="app.site.length > 0" target="_blank" title="打开官方网站"><i class="ui icon external small grey"></i> </a>
+                    <a :href="app.docSite" v-if="app.docSite.length > 0" target="_blank" title="打开文档网站"><i class="ui icon book small grey"></i> </a>
+                    <a href="" v-on:click.prevent="reloadApp(app.id)"><i class="ui icon refresh small grey"></i></a>
 
-                    <a href="" title="关注" v-if="!app.isFavored" v-on:click.prevent="favor(app)"><i class="ui icon heart outline small"></i> </a>
-                    <a href="" title="取消关注" v-if="app.isFavored" v-on:click.prevent="cancelFavor(app)"><i class="ui icon heart small"></i> </a>
+                    <a href="" title="关注" v-if="!app.isFavored" v-on:click.prevent="favor(app)"><i class="ui icon heart outline small grey"></i></a>
+                    <a href="" title="取消关注" v-if="app.isFavored" v-on:click.prevent="cancelFavor(app)"><i class="ui icon heart small grey"></i> </a>
                 </th>
             </tr>
             </thead>
@@ -64,13 +64,13 @@
                 <th colspan="2">
                      <i class="icon gem outline" :class="{grey:!app.isRunning, green:app.isRunning}"></i>
                      {{app.name}} &nbsp;
-                    &nbsp;<a href="" title="更多信息" v-on:click.prevent="showApp(app.id)"><i class="ui icon info circle small"></i></a>
-                     <a :href="app.site" v-if="app.site.length > 0" target="_blank" title="打开官方网站"><i class="ui icon external small"></i> </a>
-                     <a :href="app.docSite" v-if="app.docSite.length > 0" target="_blank" title="打开文档网站"><i class="ui icon book small"></i> </a>
-                     <a href="" v-on:click.prevent="reloadApp(app.id)"><i class="ui icon refresh small"></i></a>
+                    &nbsp;<a href="" title="更多信息" v-on:click.prevent="showApp(app.id)"><i class="ui icon info circle small grey"></i></a>
+                     <a :href="app.site" v-if="app.site.length > 0" target="_blank" title="打开官方网站"><i class="ui icon external small grey"></i> </a>
+                     <a :href="app.docSite" v-if="app.docSite.length > 0" target="_blank" title="打开文档网站"><i class="ui icon book small grey"></i> </a>
+                     <a href="" v-on:click.prevent="reloadApp(app.id)"><i class="ui icon refresh small grey"></i></a>
 
-                    <a href="" title="关注" v-if="!app.isFavored" v-on:click.prevent="favor(app)"><i class="ui icon heart outline small"></i> </a>
-                    <a href="" title="取消关注" v-if="app.isFavored" v-on:click.prevent="cancelFavor(app)"><i class="ui icon heart small"></i> </a>
+                    <a href="" title="关注" v-if="!app.isFavored" v-on:click.prevent="favor(app)"><i class="ui icon heart outline small grey"></i> </a>
+                    <a href="" title="取消关注" v-if="app.isFavored" v-on:click.prevent="cancelFavor(app)"><i class="ui icon heart small grey"></i> </a>
                 </th>
             </tr>
             </thead>
@@ -133,7 +133,7 @@
             </tr>
             <tr>
                 <td class="title">CPU（比例）</td>
-                <td>{{detailApp.cpu.percent}}%</td>
+                <td>{{detailApp.cpuPercent}}%</td>
             </tr>
             <tr>
                 <td>内存（RSS）</td>
@@ -145,7 +145,7 @@
             </tr>
             <tr>
                 <td>内存（比例）</td>
-                <td>{{detailApp.memory.percent}}%</td>
+                <td>{{detailApp.memoryPercent}}%</td>
             </tr>
         </table>
     </div>
