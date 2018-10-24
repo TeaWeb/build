@@ -1,14 +1,10 @@
-src/github.com/go-redis
-src/github.com/go-sql-driver
 src/github.com/go-yaml
 src/github.com/iwind
 src/github.com/mongodb
 src/github.com/oschwald
-src/github.com/pbnjay
 src/github.com/pquerna
 src/github.com/robertkrimen
 src/github.com/shirou
-src/github.com/stretchr
 src/github.com/ua-parser
 src/github.com/TeaWeb/code
 src/github.com/TeaWeb/plugin
@@ -19,7 +15,8 @@ src/main/logs/*.log
 src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf
-src/main/plugins/demo.tea
+src/main/configs/apps_favor.conf
+src/main/plugins/*.tea
 src/main/mongodb
 src/tests/
 bin/

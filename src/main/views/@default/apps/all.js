@@ -1,8 +1,16 @@
 Tea.context(function () {
-    this.isRefreshing = false;
+    this.refreshingAppId = "";
+    this.hasFavoredApps = false;
+
+    this.hasFavoredApps = this.apps.$any(function (k, v) {
+        return v.isFavored;
+    });
+    this.hasNotFavoredApps = this.apps.$any(function (k, v) {
+        return !v.isFavored;
+    });
 
    this.reloadApp = function (appId) {
-       this.isRefreshing = true;
+       this.refreshingAppId = appId;
        this.$get("/apps/app/reload")
            .params({
                "appId": appId
@@ -22,7 +30,7 @@ Tea.context(function () {
            })
            .done(function () {
                this.$delay(function () {
-                   this.isRefreshing = false;
+                   this.refreshingAppId = "";
                }, 500);
            });
    };
@@ -38,6 +46,7 @@ Tea.context(function () {
            .success(function (resp) {
                this.detailTab = "system";
                this.detailApp = resp.data.app;
+               this.detailApp.pluginName = resp.data.plugin;
 
                this.detailApp.version = this.detailApp.version.replace(/ /g, "&nbsp;").replace(/\n/g, "<br/>");
 
@@ -79,4 +88,40 @@ Tea.context(function () {
    this.closeApp = function () {
        this.showAppDetail = false;
    };
+
+   this.favor = function (app) {
+       this.$post("/apps/app/favor")
+           .params({
+               "appId": app.id
+           })
+           .success(function () {
+                app.isFavored = true;
+
+               this.hasFavoredApps = this.apps.$any(function (k, v) {
+                   return v.isFavored;
+               });
+
+               this.hasNotFavoredApps = this.apps.$any(function (k, v) {
+                   return !v.isFavored;
+               });
+           });
+   };
+
+    this.cancelFavor = function (app) {
+        this.$post("/apps/app/cancelFavor")
+            .params({
+                "appId": app.id
+            })
+            .success(function () {
+                app.isFavored = false;
+
+                this.hasFavoredApps = this.apps.$any(function (k, v) {
+                    return v.isFavored;
+                });
+
+                this.hasNotFavoredApps = this.apps.$any(function (k, v) {
+                    return !v.isFavored;
+                });
+            });
+    };
 });

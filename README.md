@@ -84,3 +84,5 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [BrowserScope](http://www.browserscope.org/) - 社区驱动的Web浏览器信息聚合平台
 * [Array.js](https://github.com/iwind/Array.js) - 帮助开发人员更优雅地操作Javascript数组
 * [gofcgi](https://github.com/iwind/gofcgi) - golang client for fastcgi
+* [go msgpack](https://github.com/vmihailenco/msgpack) - Go语言版本的msgpack
+* [go psutil](https://github.com/shirou/gopsutil) - Go语言版本的psutil

@@ -24,9 +24,6 @@ go_get "github.com/iwind/gofcgi"
 go_get "github.com/oschwald/maxminddb-golang"
 go_get "github.com/oschwald/geoip2-golang"
 
-# cache memory
-go_get "github.com/pbnjay/memory"
-
 # mongodb
 go_get "github.com/mongodb/mongo-go-driver"
 echo "   Don't worry, you can ignore 'no Go files' warning in mongodb"
@@ -38,7 +35,7 @@ go_get "github.com/ua-parser/uap-go"
 go_get "github.com/shirou/gopsutil"
 
 # javascript
-go_get "github.com/robertkrimen/otto"
+# go_get "github.com/robertkrimen/otto"
 
 # msg pack
 go_get "github.com/vmihailenco/msgpack"

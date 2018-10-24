@@ -25,6 +25,7 @@ function build() {
 
     echo "[build static file]"
     go build -o ${TARGET}/bin/teaweb ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
+    go build -o ${TARGET}/plugins/apps.tea ${GOPATH}/src/github.com/TeaWeb/plugin/main/apps_plugin.go
 
     echo "[copy files]"
     cp -R configs/admin.conf ${TARGET}/configs/

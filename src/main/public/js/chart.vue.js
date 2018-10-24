@@ -345,13 +345,25 @@ Tea.context(function () {
         if (options.rows.length == 0) {
             s += '<tr><td>还没有数据</td></tr>';
         } else {
+            var maxColumns = 0;
+            options.rows.$each(function (_, row) {
+                if (row.columns.length > maxColumns) {
+                    maxColumns = row.columns.length;
+                }
+            });
+
             options.rows.$each(function (_, row) {
                 s += "<tr>";
-                row.columns.$each(function (_, column) {
-                    if (column.width > 0) {
-                        s += "<td width=\"" + column.width + "%\">" + column.text + "</td>";
+                row.columns.$each(function (index, column) {
+                    if (index == row.columns.length - 1 && row.columns.length < maxColumns) {
+                        var cols = maxColumns - row.columns.length + 1;
+                        s += "<td colspan=\"" + cols + "\">" + column.text + "</td>";
                     } else {
-                        s += "<td>" + column.text + "</td>";
+                        if (column.width > 0) {
+                            s += "<td width=\"" + column.width + "%\">" + column.text + "</td>";
+                        } else {
+                            s += "<td>" + column.text + "</td>";
+                        }
                     }
                 });
                 s += "</tr>";

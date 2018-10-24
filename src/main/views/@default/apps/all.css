@@ -13,6 +13,17 @@
     border: 1px #2185d0 solid!important
 }
 
+.table-box .table th {
+    position: relative;
+}
+
+.table-box .table th .heart {
+    position: absolute;
+    right: 0.6em;
+    top: 50%;
+    margin-top: -0.4em;
+}
+
 .modal {
     position: fixed;
     left: 15em!important;
@@ -57,4 +68,18 @@
 
 .modal .table span.version {
     line-height: 1.8!important;
+}
+
+.modal .table td {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+.fitted.divider {
+    margin-top: 3em!important;
+}
+
+.other-apps {
+    margin-top: 4em;
+    opacity: 0.4;
 }
