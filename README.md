@@ -10,7 +10,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
                   |
                   |
              |-------------|        |-------------|
-             |  Web        |        |  [Plugins]  | 
+             |  Web        |        | [Plugins]   | 
              |  Proxy      |  <--   |  Apps       |
              |  Log        |        |  Widgets    |
              |  Monitor    |        |  Filters    |
@@ -73,7 +73,8 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 请在 *https://github.com/TeaWeb/build/issues* 报告你所遇到的问题，或者加入QQ群199435611跟大家一起讨论.
 
 # 相关源码
-* [项目Go语言源码](https://github.com/TeaWeb/code)
+* [主项目Go语言源码](https://github.com/TeaWeb/code)
+* [插件Go语言源码](https://github.com/TeaWeb/plugin)
 
 # 感谢
 * [Semantic UI](https://semantic-ui.com) - 一个非常好用的UI组件库
