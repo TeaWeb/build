@@ -47,4 +47,6 @@ go_get "github.com/vmihailenco/msgpack"
 go_get "github.com/TeaWeb/code"
 echo "   Don't worry, you can ignore 'no Go files' warning in TeaWeb code"
 
+go_get "github.com/TeaWeb/plugin"
+
 echo "[done]"

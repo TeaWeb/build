@@ -9,12 +9,12 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
                   |                 |----------------------------|
                   |
                   |
-             |-------------|  
-             |  Web        | 
-             |  Proxy      |
-             |  Log        |
-             |  Monitor    |
-             |  Statistics |
+             |-------------|        |-------------|
+             |  Web        |        |  [Plugins]  | 
+             |  Proxy      |  <--   |  Apps       |
+             |  Log        |        |  Widgets    |
+             |  Monitor    |        |  Filters    |
+             |  Statistics |        |-------------|
              |  Security   |
              |  ...        |
              |-------------|

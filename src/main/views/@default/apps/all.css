@@ -1,0 +1,60 @@
+.table-box {
+    width: 30%;
+    float: left;
+    margin-right: 2%;
+    margin-bottom: 1em;
+}
+
+.table-box .table th a .icon {
+    margin-right: 0.6em;
+}
+
+.table-box .table.loading {
+    border: 1px #2185d0 solid!important
+}
+
+.modal {
+    position: fixed;
+    left: 15em!important;
+    right: 15em!important;
+    margin: auto!important;
+}
+
+.modal.hidden {
+    display: none!important;
+}
+
+.modal .header {
+
+}
+
+.modal .header .icon.close {
+    font-size: 14px;
+    position: absolute;
+    right: 1em;
+    font-weight: normal!important;
+}
+
+.modal .content {
+    padding-top: 0!important;
+    max-height: 20em;
+    overflow-y: auto;
+}
+
+.modal .content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal .content .cwd {
+    font-size: 0.8em;
+}
+
+.modal .menu {
+    margin: 0!important;
+    margin-left: 0.8em!important;
+}
+
+
+.modal .table span.version {
+    line-height: 1.8!important;
+}

@@ -72,6 +72,10 @@ form p.comment {
 }
 
 /** 主菜单 **/
+.main-menu .ui.menu {
+
+}
+
 .main-menu .ui.labeled.icon.menu .item {
     font-size: 0.9em;
 }
