@@ -75,6 +75,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 # 相关源码
 * [主项目Go语言源码](https://github.com/TeaWeb/code)
 * [插件Go语言源码](https://github.com/TeaWeb/plugin)
+* [UserAgent Parser](https://github.com/TeaWeb/uaparser)
 
 # 感谢
 * [Semantic UI](https://semantic-ui.com) - 一个非常好用的UI组件库
