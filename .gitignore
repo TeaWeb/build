@@ -5,9 +5,9 @@ src/github.com/oschwald
 src/github.com/pquerna
 src/github.com/robertkrimen
 src/github.com/shirou
-src/github.com/ua-parser
 src/github.com/TeaWeb/code
 src/github.com/TeaWeb/plugin
+src/github.com/TeaWeb/uaparser
 src/github.com/vmihailenco
 src/gopkg.in
 src/main/tmp/

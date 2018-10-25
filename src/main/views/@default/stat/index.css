@@ -6,10 +6,7 @@
 }
 
 .main-box .ranks .table-box {
-    width: 30%;
-    float: left;
-    margin-right: 1em;
-    margin-bottom: 1em;
+
 }
 
 .main-box .ranks .table-box::-webkit-scrollbar {

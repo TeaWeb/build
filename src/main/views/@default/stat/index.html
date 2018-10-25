@@ -40,143 +40,146 @@
     </table>
 
     <div class="ranks">
-        <!-- 访问量排行 -->
-        <div class="table-box">
-            <table class="ui table selectable">
-                <thead>
-                <tr>
-                    <th colspan="2">访问量排行</th>
-                </tr>
-                </thead>
-                <tr v-if="topRequests.length == 0">
-                    <td colspan="2">暂时还没有数据</td>
-                </tr>
-                <tr v-for="req in topRequests">
-                    <td>
-                        <span :title="req.url">{{req.uri}}</span>
-                        <a :href="req.url" target="_blank" title="新窗口打开"><i class="ui external icon tiny grey"></i></a>
-                    </td>
-                    <td class="five wide">{{formatPercent(req.percent)}}%
-                        <div class="ui progress tiny blue">
-                            <div class="bar" :style="{'width':req.compareMax  + '%'}"></div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- 请求时间排行 -->
-        <div class="table-box">
-            <table class="ui table selectable">
-                <thead>
+        <div class="ui grid three columns">
+            <!-- 访问量排行 -->
+            <div class="table-box column">
+                <table class="ui table selectable">
+                    <thead>
                     <tr>
-                        <th colspan="2">请求耗时排行</th>
+                        <th colspan="2">访问量排行</th>
                     </tr>
-                </thead>
-                <tr v-if="topCostRequests.length == 0">
-                    <td colspan="2">暂时还没有数据</td>
-                </tr>
-                <tr v-for="req in topCostRequests">
-                    <td>
-                        <span :title="req.url">{{req.uri}}</span>
-                        <a :href="req.url" target="_blank" title="新窗口打开"><i class="ui external icon tiny grey"></i></a>
-                    </td>
-                    <td class="five wide">{{formatMS(req.cost)}}ms
-                        <div class="ui progress tiny blue">
-                            <div class="bar" :style="{'width':req.compareMax  + '%'}"></div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                    </thead>
+                    <tr v-if="topRequests.length == 0">
+                        <td colspan="2">暂时还没有数据</td>
+                    </tr>
+                    <tr v-for="req in topRequests">
+                        <td>
+                            <span :title="req.url">{{req.uri}}</span>
+                            <a :href="req.url" target="_blank" title="新窗口打开"><i class="ui external icon tiny grey"></i></a>
+                        </td>
+                        <td class="five wide">{{formatPercent(req.percent)}}%
+                            <div class="ui progress tiny blue">
+                                <div class="bar" :style="{'width':req.compareMax  + '%'}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <!-- 操作系统排行 -->
-        <div class="table-box">
-            <table class="ui table selectable">
-                <thead>
+            <!-- 请求时间排行 -->
+            <div class="table-box column">
+                <table class="ui table selectable">
+                    <thead>
+                        <tr>
+                            <th colspan="2">请求耗时排行</th>
+                        </tr>
+                    </thead>
+                    <tr v-if="topCostRequests.length == 0">
+                        <td colspan="2">暂时还没有数据</td>
+                    </tr>
+                    <tr v-for="req in topCostRequests">
+                        <td>
+                            <span :title="req.url">{{req.uri}}</span>
+                            <a :href="req.url" target="_blank" title="新窗口打开"><i class="ui external icon tiny grey"></i></a>
+                        </td>
+                        <td class="five wide">{{formatMS(req.cost)}}ms
+                            <div class="ui progress tiny blue">
+                                <div class="bar" :style="{'width':req.compareMax  + '%'}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 操作系统排行 -->
+            <div class="table-box column">
+                <table class="ui table selectable">
+                    <thead>
+                        <tr>
+                            <th colspan="2">操作系统排行</th>
+                        </tr>
+                    </thead>
+                    <tr v-if="topOS.length == 0">
+                        <td colspan="2">暂时还没有数据</td>
+                    </tr>
+                    <tr v-for="os in topOS">
+                        <td>{{os.family}} {{os.version}}</td>
+                        <td class="five wide">{{formatPercent(os.percent)}}%
+
+                            <div class="ui progress tiny blue">
+                                <div class="bar" :style="{'width':os.compareMax  + '%'}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 浏览器排行 -->
+            <div class="table-box column">
+                <table class="ui table selectable">
+                    <thead>
+                        <tr>
+                            <th colspan="2">浏览器排行</th>
+                        </tr>
+                    </thead>
+                    <tr v-if="topBrowsers.length == 0">
+                        <td colspan="2">暂时还没有数据</td>
+                    </tr>
+                    <tr v-for="browser in topBrowsers">
+                        <td>{{browser.family}} {{browser.version}}</td>
+                        <td class="five wide">{{formatPercent(browser.percent)}}%
+                            <div class="ui progress tiny blue">
+                                <div class="bar" :style="{'width':browser.compareMax  + '%'}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 地区排行 -->
+            <div class="table-box column">
+                <table class="ui table selectable">
+                    <thead>
+                        <tr>
+                            <th colspan="2">地区排行</th>
+                        </tr>
+                    </thead>
+                    <tr v-if="topRegions.length == 0">
+                        <td colspan="2">暂时还没有数据</td>
+                    </tr>
+                    <tr v-for="region in topRegions">
+                        <td>{{region.region}}</td>
+                        <td class="five wide">{{formatPercent(region.percent)}}%
+                            <div class="ui progress tiny blue">
+                                <div class="bar" :style="{'width':region.compareMax  + '%'}"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- 省份排行 -->
+            <div class="table-box column">
+                <table class="ui table selectable">
+                    <thead>
                     <tr>
-                        <th colspan="2">操作系统排行</th>
+                        <th colspan="2">省（州）排名</th>
                     </tr>
-                </thead>
-                <tr v-if="topOS.length == 0">
-                    <td colspan="2">暂时还没有数据</td>
-                </tr>
-                <tr v-for="os in topOS">
-                    <td>{{os.family}} {{os.version}}</td>
-                    <td class="five wide">{{formatPercent(os.percent)}}%
-
-                        <div class="ui progress tiny blue">
-                            <div class="bar" :style="{'width':os.compareMax  + '%'}"></div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- 浏览器排行 -->
-        <div class="table-box">
-            <table class="ui table selectable">
-                <thead>
-                    <tr>
-                        <th colspan="2">浏览器排行</th>
+                    </thead>
+                    <tr v-if="topStates.length == 0">
+                        <td colspan="2">暂时还没有数据</td>
                     </tr>
-                </thead>
-                <tr v-if="topBrowsers.length == 0">
-                    <td colspan="2">暂时还没有数据</td>
-                </tr>
-                <tr v-for="browser in topBrowsers">
-                    <td>{{browser.family}} {{browser.version}}</td>
-                    <td class="five wide">{{formatPercent(browser.percent)}}%
-                        <div class="ui progress tiny blue">
-                            <div class="bar" :style="{'width':browser.compareMax  + '%'}"></div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- 地区排行 -->
-        <div class="table-box">
-            <table class="ui table selectable">
-                <thead>
-                    <tr>
-                        <th colspan="2">地区排行</th>
+                    <tr v-for="state in topStates">
+                        <td>{{state.state}}</td>
+                        <td class="five wide">{{formatPercent(state.percent)}}%
+                            <div class="ui progress tiny blue">
+                                <div class="bar" :style="{'width':state.compareMax  + '%'}"></div>
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tr v-if="topRegions.length == 0">
-                    <td colspan="2">暂时还没有数据</td>
-                </tr>
-                <tr v-for="region in topRegions">
-                    <td>{{region.region}}</td>
-                    <td class="five wide">{{formatPercent(region.percent)}}%
-                        <div class="ui progress tiny blue">
-                            <div class="bar" :style="{'width':region.compareMax  + '%'}"></div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </table>
+            </div>
 
-        <!-- 省份排行 -->
-        <div class="table-box">
-            <table class="ui table selectable">
-                <thead>
-                <tr>
-                    <th colspan="2">省（州）排名</th>
-                </tr>
-                </thead>
-                <tr v-if="topStates.length == 0">
-                    <td colspan="2">暂时还没有数据</td>
-                </tr>
-                <tr v-for="state in topStates">
-                    <td>{{state.state}}</td>
-                    <td class="five wide">{{formatPercent(state.percent)}}%
-                        <div class="ui progress tiny blue">
-                            <div class="bar" :style="{'width':state.compareMax  + '%'}"></div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
         </div>
 
         <div class="clear"></div>

@@ -26,10 +26,7 @@ go_get "github.com/oschwald/geoip2-golang"
 
 # mongodb
 go_get "github.com/mongodb/mongo-go-driver"
-echo "   Don't worry, you can ignore 'no Go files' warning in mongodb"
-
-# usa parser
-go_get "github.com/ua-parser/uap-go"
+echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in mongodb"
 
 # system cpu, memory, disk ...
 go_get "github.com/shirou/gopsutil"
@@ -42,8 +39,9 @@ go_get "github.com/vmihailenco/msgpack"
 
 # TeaWeb
 go_get "github.com/TeaWeb/code"
-echo "   Don't worry, you can ignore 'no Go files' warning in TeaWeb code"
+echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"
 
 go_get "github.com/TeaWeb/plugin"
+go_get "github.com/TeaWeb/uaparser"
 
 echo "[done]"
