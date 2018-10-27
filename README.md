@@ -54,14 +54,14 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
     http://127.0.0.1:7777
     ~~~
     其中`127.0.0.1`可能需要换成你服务器的IP，而且我们默认使用了`7777`端口（可以在`configs/server.conf`中修改），如果访问遇到了问题，请检查防火墙设置；
-5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息。
+5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息，也可以在设置界面中修改。
 
 # 构建自己的版本    
 1. 从 *https://github.com/TeaWeb/build* 中下载项目，放到本地磁盘上；
 2. 设置全局变量`GOPATH`为项目目录路径；
-3. 执行`init.sh`初始化项目；
-4. 执行`run.sh`启动项目；
-5. 在浏览器中访问`http://127.0.0.1:7777`。
+3. 执行 `init.sh` 初始化项目，如果下载中出现网络错误，可以尝试多次运行此脚本；
+4. 执行 `run.sh` 启动项目，运行 `build-[系统版本].sh` 构建可执行文件；
+5. 在浏览器中访问 `http://127.0.0.1:7777` 。
 
 # 扩展TeaWeb
 * [如何实现自己的插件](https://github.com/TeaWeb/plugin)

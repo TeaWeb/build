@@ -1,4 +1,5 @@
 # 帮助文档
+* [安装](main/Install.md)
 * [常用命令](main/Commands.md)
 * 代理
   * 原理
