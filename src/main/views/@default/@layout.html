@@ -25,7 +25,7 @@
 
             <a href="/settings/profile" class="item"  :class="{active: teaMenu == 'settings.profile'}">
                 <i class="icon user" v-if="teaUserAvatar.length == 0"></i>
-                <img class="avatar" :src="teaUserAvatar"/>
+                <img class="avatar" :src="teaUserAvatar" v-if="teaUserAvatar.length > 0"/>
                 {{teaUsername}}
             </a>
             <a :href="Tea.url('settings')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
