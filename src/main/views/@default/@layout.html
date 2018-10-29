@@ -19,7 +19,7 @@
 
 <div>
     <!-- 顶部导航 -->
-    <div class="ui menu inverted top-nav blue" v-cloak="">
+    <div class="ui menu inverted top-nav blue small borderless" v-cloak="">
         <a href="/" class="item"><i class="icon leaf"></i>TeaWeb &nbsp; <sup>v{{teaVersion}} - 可视化智能Web服务</sup></a>
         <div class="right menu">
 
@@ -36,7 +36,8 @@
 
     <!-- 左侧主菜单 -->
     <div class="main-menu" v-cloak="">
-        <div class="ui labeled icon menu vertical blue">
+        <div class="ui labeled menu vertical blue inverted tiny">
+            <a class="item"></a>
             <a v-bind:href="Tea.url('dashboard')" class="item" v-bind:class="{active:teaMenu == 'dashboard'}">
                 <i class="ui dashboard icon"></i>
                 仪表板
@@ -54,7 +55,7 @@
     <!-- 右侧主操作栏 -->
     <div class="main" v-bind:class="{'without-menu': teaSubMenus.length == 0}" v-cloak="">
         <!-- 操作菜单 -->
-        <div class="ui top attached menu tabular tab-menu" v-if="teaTabbar.length > 0">
+        <div class="ui top menu tabular tab-menu" v-if="teaTabbar.length > 0">
             <a class="item" v-for="item in teaTabbar" v-bind:class="{active:item.active}" v-bind:href="item.url">
                 <var>{{item.name}}</var>
                 <span v-if="item.subName.length > 0">({{item.subName}})</span>
@@ -69,7 +70,7 @@
     </div>
 
     <!-- 底部 -->
-    <div id="footer" class="ui menu inverted light-blue">
+    <div id="footer" class="ui menu inverted light-blue borderless small">
         <div class="item">TeaWeb v{{teaVersion}}</div>
         <!--<a href="http://meloy.cn" target="_blank" class="item">官网</a>-->
         <a href="https://github.com/TeaWeb/build" target="_blank" class="item">GitHub</a>

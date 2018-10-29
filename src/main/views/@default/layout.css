@@ -73,7 +73,8 @@ form p.comment {
 
 /** 主菜单 **/
 .main-menu .ui.menu {
-
+    width: 10em!important;
+    border-radius: 0!important;
 }
 
 .main-menu .ui.labeled.icon.menu .item {
@@ -81,22 +82,22 @@ form p.comment {
 }
 
 .main-menu .ui.menu .item {
-    padding: 0.9em 0;
+
 }
 
 .main-menu .ui.menu .item .icon.dog {
-    background:url(/images/dog.png)!important;
-    width: 30px!important;
-    height: 30px!important;
+    background:url(/images/dog.png?v=1)!important;
+    width: 16px!important;
+    height: 16px!important;
     display: block!important;
     -webkit-background-size: cover!important;
     background-size: cover!important;
 }
 
 .main-menu .ui.menu .item.active .icon.dog {
-    background:url(/images/dog-active.png)!important;
-    width: 30px!important;
-    height: 30px!important;
+    background:url(/images/dog-active.png?v=1)!important;
+    width: 16px!important;
+    height: 16px!important;
     display: block!important;
     -webkit-background-size: cover!important;
     background-size: cover!important;
@@ -131,7 +132,9 @@ body.expanded .main {
 .top-nav img.avatar {
     width: 1.6em!important;
     height: 1.6em!important;
-    background: #eee;
+    padding: 0.2em;
+    background: #fff;
+    border-radius: 0.9em;
     margin-right: 0.5em!important;
 }
 
@@ -146,7 +149,7 @@ body.expanded .main {
 }
 
 .main.without-menu {
-    left: 7em;
+    left: 9em;
 }
 
 .main table td.title {
@@ -210,9 +213,10 @@ body.expanded .main {
 
 .main-menu {
     position: fixed;
-    top: 4em;
-    bottom: 3em;
+    top: 1.05em;
+    bottom: 0;
     overflow-y: auto;
+    background: #2185d0;
 }
 
 .main-menu::-webkit-scrollbar {
