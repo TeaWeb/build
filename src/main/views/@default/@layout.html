@@ -28,7 +28,8 @@
                 <img class="avatar" :src="teaUserAvatar" v-if="teaUserAvatar.length > 0"/>
                 {{teaUsername}}
             </a>
-            <a :href="Tea.url('settings')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
+            <a v-if="teaIsSuper" :href="Tea.url('settings')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
+            <a v-if="!teaIsSuper" :href="Tea.url('settings.login')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
             <a :href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
         </div>
     </div>
