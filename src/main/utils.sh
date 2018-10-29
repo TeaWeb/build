@@ -24,8 +24,22 @@ function build() {
     mkdir ${TARGET}/configs
 
     echo "[build static file]"
+
+    # remove plus
+    if [ -f ${GOPATH}/src/github.com/TeaWeb/code/teaweb/plus.go ]
+    then
+        rm -f ${GOPATH}/src/github.com/TeaWeb/code/teaweb/plus.go
+    fi
+
+    # build main & plugin
     go build -o ${TARGET}/bin/teaweb ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
     go build -o ${TARGET}/plugins/apps.tea ${GOPATH}/src/github.com/TeaWeb/plugin/main/apps_plugin.go
+
+    # restore plus
+    if [ -f ${GOPATH}/drafts/src/plus.go ]
+    then
+        cp ${GOPATH}/drafts/src/plus.go ${GOPATH}/src/github.com/TeaWeb/code/teaweb/plus.go
+    fi
 
     echo "[copy files]"
     cp -R configs/admin.conf ${TARGET}/configs/
@@ -35,6 +49,9 @@ function build() {
     cp -R public ${TARGET}/
     cp -R resources ${TARGET}/
     cp -R views ${TARGET}/
+
+    # remove plus files
+    rm -rf ${TARGET}/views/@default/plus
 
     echo "[zip files]"
     cd ${TARGET}/../

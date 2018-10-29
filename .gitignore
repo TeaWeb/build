@@ -16,6 +16,9 @@ src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf
 src/main/configs/apps_favor.conf
+src/main/configs/admin.conf
+src/main/configs/avatars
+src/main/views/@default/plus
 src/main/plugins/*.tea
 src/main/mongodb
 src/tests/

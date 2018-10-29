@@ -84,6 +84,24 @@ form p.comment {
     padding: 0.9em 0;
 }
 
+.main-menu .ui.menu .item .icon.dog {
+    background:url(/images/dog.png)!important;
+    width: 30px!important;
+    height: 30px!important;
+    display: block!important;
+    -webkit-background-size: cover!important;
+    background-size: cover!important;
+}
+
+.main-menu .ui.menu .item.active .icon.dog {
+    background:url(/images/dog-active.png)!important;
+    width: 30px!important;
+    height: 30px!important;
+    display: block!important;
+    -webkit-background-size: cover!important;
+    background-size: cover!important;
+}
+
 /** 扩展UI **/
 .field.text {
     padding: .5em;
@@ -108,6 +126,13 @@ body.expanded .main {
     position: fixed;
     width: 100%;
     z-index: 1000;
+}
+
+.top-nav img.avatar {
+    width: 1.6em!important;
+    height: 1.6em!important;
+    background: #eee;
+    margin-right: 0.5em!important;
 }
 
 /** 右侧主操作区 **/

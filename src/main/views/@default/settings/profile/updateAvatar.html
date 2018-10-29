@@ -1,0 +1,21 @@
+{$layout}
+
+<h3>我的头像</h3>
+
+<div class="avatar-box">
+    <img class="avatar" :src="user.avatar" v-if="user.avatar.length > 0"/>
+    <img class="avatar default" v-if="user.avatar.length == 0" src="/images/avatar.png"/>
+</div>
+
+<h3></h3>
+<form class="ui form" data-tea-action=".updateAvatar" style="width:30em">
+    <div class="ui field">
+        <label>新头像：</label>
+    </div>
+    <div class="ui field">
+        <input type="file" name="avatarFile" accept="image/png, image/jpeg, image/gif"/>
+        <p class="ui comment">可以上传png，jpeg或gif的图片</p>
+    </div>
+
+    <button class="ui primary button" type="submit">上传</button>
+</form>

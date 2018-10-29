@@ -1,0 +1,19 @@
+{$layout}
+
+<h3>个人资料  </h3>
+<form class="ui form" data-tea-action=".update">
+    <table class="ui table selectable definition">
+        <tr>
+            <td class="title">姓名</td>
+            <td><input type="text" name="name" :value="user.name" maxlength="20"/></td>
+        </tr>
+        <tr>
+            <td>联系电话</td>
+            <td>
+                <input type="text" name="tel" :value="user.tel" placeholder="可以是手机号" maxlength="20"/>
+            </td>
+        </tr>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button>
+</form>

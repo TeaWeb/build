@@ -1,0 +1,44 @@
+{$layout}
+
+
+
+<div class="ui grid two columns">
+    <div class="ui column">
+        <h3>个人资料 <a href="/settings/profile/update">修改</a> </h3>
+        <table class="ui table selectable definition">
+            <tr>
+                <td class="title">姓名</td>
+                <td>
+                    <span v-if="user.name.length > 0">{{user.name}}</span>
+                    <span v-if="user.name.length == 0">-</span>
+                </td>
+            </tr>
+            <tr>
+                <td>联系电话</td>
+                <td>
+                    <span v-if="user.tel.length > 0">{{user.tel}}</span>
+                    <span v-if="user.tel.length == 0">-</span>
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td>{{user.createdTime}}</td>
+            </tr>
+            <tr>
+                <td>最后登录时间</td>
+                <td>{{user.loggedTime}}</td>
+            </tr>
+            <tr>
+                <td>最后登录IP</td>
+                <td>{{user.loggedIP}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="ui column">
+        <h3>我的头像 <a href="/settings/profile/updateAvatar">修改</a></h3>
+        <div class="avatar-box">
+            <img class="avatar" :src="user.avatar" v-if="user.avatar.length > 0"/>
+            <img class="avatar default" src="/images/avatar.png" v-if="user.avatar.length == 0"/>
+        </div>
+    </div>
+</div>

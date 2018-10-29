@@ -23,12 +23,13 @@
         <a href="/" class="item"><i class="icon leaf"></i>TeaWeb &nbsp; <sup>v{{teaVersion}} - 可视化智能Web服务</sup></a>
         <div class="right menu">
 
-            <a href="/settings/login" class="item">
-                <i class="icon user"></i>
+            <a href="/settings/profile" class="item"  :class="{active: teaMenu == 'settings.profile'}">
+                <i class="icon user" v-if="teaUserAvatar.length == 0"></i>
+                <img class="avatar" :src="teaUserAvatar"/>
                 {{teaUsername}}
             </a>
-            <a v-bind:href="Tea.url('settings')" class="item" v-bind:class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
-            <a v-bind:href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
+            <a :href="Tea.url('settings')" class="item" :class="{active: teaMenu == 'settings'}"><i class="icon setting"></i>设置</a>
+            <a :href="Tea.url('logout')" class="item" title="安全退出登录"><i class="icon sign out"></i>退出</a>
         </div>
     </div>
 

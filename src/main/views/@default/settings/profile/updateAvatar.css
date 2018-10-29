@@ -1,0 +1,10 @@
+.avatar-box .avatar {
+    width: 15em;
+    height: 15em;
+    background: #eee;
+    border: 2px #eee solid;
+}
+
+.avatar-box .avatar.default {
+
+}

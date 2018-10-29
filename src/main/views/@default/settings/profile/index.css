@@ -1,0 +1,14 @@
+.column .avatar-box {
+    text-align: center;
+}
+
+.column .avatar-box .avatar {
+    width: 15em;
+    height: 15em;
+    background: #eee;
+    border: 2px #eee solid;
+}
+
+.column .avatar-box .avatar.default {
+
+}
