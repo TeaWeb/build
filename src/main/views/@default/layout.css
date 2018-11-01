@@ -73,7 +73,7 @@ form p.comment {
 
 /** 主菜单 **/
 .main-menu .ui.menu {
-    width: 10em!important;
+    width: 9.5em!important;
     border-radius: 0!important;
 }
 
@@ -213,7 +213,8 @@ body.expanded .main {
 
 .main-menu {
     position: fixed;
-    top: 1.05em;
+    /**top: 1.05em;**/
+    top: 2em;
     bottom: 0;
     overflow-y: auto;
     background: #2185d0;
