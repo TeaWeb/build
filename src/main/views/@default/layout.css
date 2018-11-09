@@ -27,7 +27,7 @@ a.disabled, a.disabled:hover, a.disabled:active, span.disabled  {
 }
 
 a.enabled, span.enabled {
-    color: #2ecc40;
+    color: #21ba45;
 }
 
 tbody {
