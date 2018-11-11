@@ -670,6 +670,7 @@ window.Tea.action = function (action) {
  * - data-tea-success
  * - data-tea-fail
  * - data-tea-error
+ * - data-tea-done
  * - data-tea-progress
  */
 window.Tea.activate = function (element) {
@@ -716,6 +717,7 @@ window.Tea.runActionOn = function (element) {
     var failFn = form.attr("data-tea-fail");
     var errorFn = form.attr("data-tea-error");
     var progressFn = form.attr("data-tea-progress");
+    var doneFn = form.attr("data-tea-done");
     if (confirm != null && confirm.length > 0 && !window.confirm(confirm)) {
         return;
     }
@@ -763,6 +765,14 @@ window.Tea.runActionOn = function (element) {
         if (typeof(Tea.Vue[progressFn]) === "function") {
             actionObject.progress(function () {
                 Tea.Vue[progressFn].apply(Tea.Vue, arguments);
+            });
+        }
+    }
+
+    if (doneFn != null && doneFn.length > 0) {
+        if (typeof(Tea.Vue[doneFn]) === "function") {
+            actionObject.done(function () {
+                Tea.Vue[doneFn].apply(Tea.Vue, arguments);
             });
         }
     }

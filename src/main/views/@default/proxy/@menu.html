@@ -9,5 +9,5 @@
 
     <a :href="$url('/proxy/headers', { 'filename':filename })" class="item" :class="{active:selectedTab == 'header'}">自定义Header({{proxy.headers.length}})</a>
 
-
+    <a :href="$url('/proxy/frontend', { 'filename':filename })" class="item" :class="{active:selectedTab == 'frontend'}">前端代理</a>
 </div>
