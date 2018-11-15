@@ -15,3 +15,15 @@
 
 ## MongoDB
 TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，可以在"设置">"MongoDB"中修改MongoDB的连接参数。如果还没有安装，可以使用TeaWeb帮你安装（"设置">"MongoDB"界面的底部），也可以从 [https://www.mongodb.com/download-center](https://www.mongodb.com/download-center)下载并安装符合你的系统的MongoDB。
+
+## CentOS7
+如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
+~~~
+firewall-cmd --zone=public --add-port=7777/tcp --permanent
+firewall-cmd —reload
+~~~
+
+要使用插件服务，请确保`ps`、`pgrep`和`lsof`命令可用，如果没有安装对应的命令，可以使用以下命令安装：
+~~~
+yum install lsof
+~~~

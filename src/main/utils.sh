@@ -49,6 +49,7 @@ function build() {
     cp -R public ${TARGET}/
     cp -R resources ${TARGET}/
     cp -R views ${TARGET}/
+    cp -R libs ${TARGET}
 
     # remove plus files
     rm -rf ${TARGET}/views/@default/plus
