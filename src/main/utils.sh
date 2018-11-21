@@ -42,14 +42,14 @@ function build() {
     fi
 
     echo "[copy files]"
-    cp -R configs/admin.conf ${TARGET}/configs/
-    cp -R configs/mongo.conf ${TARGET}/configs/
-    cp -R configs/server.conf ${TARGET}/configs/
+    cp -R ${GOPATH}/src/main/configs/admin.sample.conf ${TARGET}/configs/admin.conf
+    cp -R ${GOPATH}/src/main/configs/mongo.conf ${TARGET}/configs/
+    cp -R ${GOPATH}/src/main/configs/server.conf ${TARGET}/configs/
 
-    cp -R public ${TARGET}/
-    cp -R resources ${TARGET}/
-    cp -R views ${TARGET}/
-    cp -R libs ${TARGET}
+    cp -R ${GOPATH}/src/main/public ${TARGET}/
+    cp -R ${GOPATH}/src/main/resources ${TARGET}/
+    cp -R ${GOPATH}/src/main/views ${TARGET}/
+    cp -R ${GOPATH}/src/main/libs ${TARGET}
 
     # remove plus files
     rm -rf ${TARGET}/views/@default/plus

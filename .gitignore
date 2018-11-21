@@ -25,6 +25,7 @@ src/main/configs/admin.conf
 src/main/configs/avatars
 src/main/views/@default/plus
 src/main/plugins/*.tea
+src/main/plus
 src/main/mongodb
 src/tests/
 bin/
