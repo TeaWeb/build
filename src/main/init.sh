@@ -32,7 +32,7 @@ echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in mongodb"
 go_get "github.com/shirou/gopsutil"
 
 # javascript
-# go_get "github.com/robertkrimen/otto"
+go_get "github.com/robertkrimen/otto"
 
 # msg pack
 go_get "github.com/vmihailenco/msgpack"

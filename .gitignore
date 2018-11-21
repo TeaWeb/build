@@ -15,6 +15,11 @@ src/main/logs/*.log
 src/main/configs/*.key
 src/main/configs/*.pem
 src/main/configs/*.proxy.conf
+src/main/configs/api.*
+src/main/configs/script.*
+src/main/configs/plan.*
+src/main/configs/report.*
+src/main/configs/grant.*
 src/main/configs/apps_favor.conf
 src/main/configs/admin.conf
 src/main/configs/avatars

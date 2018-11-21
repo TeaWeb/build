@@ -9,6 +9,7 @@ function APIObject(path) {
         path: path,
         method: "",
         params: [],
+        body: null,
         repeat: 1,
         timeout: 30,
         concurrent: 100,
@@ -57,6 +58,31 @@ function APIObject(path) {
             "name": name,
             "value": value
         });
+        return this;
+    };
+
+    this.body = function (body) {
+        if (body == null) {
+            this.attrs.body = null;
+            return this;
+        }
+        if (typeof(body) == "boolean") {
+            if (body) {
+                this.attrs.body = "1"
+            } else {
+                this.attrs.body = ""
+            }
+            return this;
+        }
+        if (typeof(body) == "number") {
+            this.attrs.body = body.toString();
+            return this;
+        }
+        if (typeof(body) == "string") {
+            this.attrs.body = body;
+            return this;
+        }
+        this.attrs.body = JSON.stringify(body);
         return this;
     };
 
@@ -165,12 +191,12 @@ function APIObject(path) {
     };
 
     this._runAssertFormat = function (assert) {
-       var format = assert.args[0];
-       if (format == "json") {
-           if (_resp.bodyJSON == null) {
+        var format = assert.args[0];
+        if (format == "json") {
+            if (_resp.bodyJSON == null) {
                 this.assertFail(assert);
-           }
-       }
+            }
+        }
     };
 
     this.assertHeader = function (name, value, message) {
@@ -453,7 +479,7 @@ function APIObject(path) {
         }
 
         if (type == "float") {
-            if (typeof(value)  != "number" || parseInt(value) == value) {
+            if (typeof(value) != "number" || parseInt(value) == value) {
                 this.assertFail(assert);
             }
             return;
@@ -588,7 +614,7 @@ function APIObject(path) {
         }
 
         // assert
-        for (var i = 0; i < this.attrs.assertions.length; i ++) {
+        for (var i = 0; i < this.attrs.assertions.length; i++) {
             var assertion = this.attrs.assertions[i];
             var rule = assertion.rule;
             var method = "_runAssert" + rule[0].toUpperCase() + rule.substring(1);
@@ -628,7 +654,7 @@ function APIObject(path) {
         }
         var pieces = field.split(".");
         var last = _resp.bodyJSON;
-        for (var i = 0; i < pieces.length; i ++) {
+        for (var i = 0; i < pieces.length; i++) {
             var piece = pieces[i];
             if (last === null) {
                 return null;
@@ -651,7 +677,7 @@ function APIObject(path) {
         }
         var pieces = field.split(".");
         var last = _resp.bodyJSON;
-        for (var i = 0; i < pieces.length; i ++) {
+        for (var i = 0; i < pieces.length; i++) {
             var piece = pieces[i];
             if (last === null) {
                 return false;
