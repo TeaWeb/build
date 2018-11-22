@@ -7,6 +7,11 @@ function build() {
     VERSION_DATA=${VERSION_DATA#*"Version = \""}
     VERSION=${VERSION_DATA%%[!0-9.]*}
     TARGET=${GOPATH}/dist/teaweb-v${VERSION}
+    EXT=""
+    if [ ${GOOS} = "windows" ]
+    then
+        EXT=".exe"
+    fi
 
     echo "[================ building ${GOOS}/${GOARCH}/v${VERSION}] ================]"
 
@@ -32,8 +37,8 @@ function build() {
     fi
 
     # build main & plugin
-    go build -o ${TARGET}/bin/teaweb ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
-    go build -o ${TARGET}/plugins/apps.tea ${GOPATH}/src/github.com/TeaWeb/plugin/main/apps_plugin.go
+    go build -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
+    go build -o ${TARGET}/plugins/apps.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/plugin/main/apps_plugin.go
 
     # restore plus
     if [ -f ${GOPATH}/drafts/src/plus.go ]
@@ -51,11 +56,20 @@ function build() {
     cp -R ${GOPATH}/src/main/views ${TARGET}/
     cp -R ${GOPATH}/src/main/libs ${TARGET}
 
+    if [ ${GOOS} = "windows" ]
+    then
+        cp ${GOPATH}/src/main/start.bat ${TARGET}
+    fi
+
     # remove plus files
     rm -rf ${TARGET}/views/@default/plus
 
     echo "[zip files]"
     cd ${TARGET}/../
+     if [ -f teaweb-${GOOS}-${GOARCH}-v${VERSION}.zip ]
+    then
+        rm -f teaweb-${GOOS}-${GOARCH}-v${VERSION}.zip
+    fi
     zip -r -X -q teaweb-${GOOS}-${GOARCH}-v${VERSION}.zip  teaweb-v${VERSION}/
     cd -
 

@@ -44,7 +44,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 # 快速启动
 **注意** 要运行TeaWeb需要你安装[MongoDB](https://www.mongodb.com/)
 
-1. 下载对应的Release版本，目前只支持MacOS(darwin)和Linux两个版本；
+1. 下载对应的Release版本，目前支持MacOS(darwin)、Linux(32bit/64bit)、Windows(32bit/64bit)三种操作系统；
 2. 使用unzip解压到某个目录，比如 teaweb-v0.0.1/；
 3. 然后执行：
     ~~~shell
