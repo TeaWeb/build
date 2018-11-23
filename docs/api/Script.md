@@ -14,8 +14,44 @@
 
 ## 内置函数
 测试脚本中可以默认使用以下函数（或叫做方法）：
+* [API()](#api)
+* [api.method()](#apimethod)
+* [api.param()](#apiparam)
+* [api.body()](#apibody)
+* [api.repeat()](#apirepeat)
+* [api.timeout()](#apitimeout)
+* [api.concurrent()](#apiconcurrent)
+* [api.header()](#apiheader)
+* [api.remoteAddr()](#apiremoteaddr)
+* [api.domain()](#apidomain)
+* [api.file()](#apifile)
+* [api.cookie()](#apicookie)
+* [api.author()](#apiauthor)
+* [api.description()](#apidescription)
+* [api.assertFormat()](#apiassertformat)
+* [api.assertHeader()](#apiassertheader)
+* [api.assertStatus()](#apiassertstatus)
+* [api.assertEqual()](#apiassertequal)
+* [api.assertGt()](#apiassertgt)
+* [api.assertGte()](#apiassertgte)
+* [api.assertLt()](#apiassertlt)
+* [api.assertLte()](#apiassertlte)
+* [api.assertTrue()](#apiasserttrue)
+* [api.assertFalse()](#apiassertfalse)
+* [api.assertArray()](#apiassertarray)
+* [api.assertLength()](#apiassertlength)
+* [api.assertNotEmpty()](#apiassertnotempty)
+* [api.assertEmpty()](#apiassertempty)
+* [api.assertExist()](#apiassertexist)
+* [api.assertNotExist()](#apiassertnotexist)
+* [api.assertType()](#apiasserttype)
+* [api.assert()](#apiassert)
+* [api.addFailure()](#apiaddfailure)
+* [api.onSuccess()](#apionsuccess)
+* [api.onError()](#apionerror)
+* [api.onDone()](#apiondone)
 
-### API
+### API()
 调用API，会返回一个API对象。
 
 调用方法：
@@ -246,7 +282,7 @@ api.assertHeader("名称", "值", "错误消息")
 api.assertHeader("Content-Type", "application/json; charset=utf-8", "返回的Content-Type错误")
 ~~~
      
-### api.assertStatus(状态码, "错误消息")
+### api.assertStatus()
 判断返回的状态码，如果失败则显示错误消息，错误消息参数可以省略。
 
 调用方法：
@@ -606,7 +642,7 @@ api.assertNotExist("data.books");
 **/
 ~~~
 
-### api.assertType("字段", "类型", "错误消息")
+### api.assertType()
 判断字段类型，类型可以为string、number、bool（或boolean）、int、float、array、object、null，如果失败则显示错误消息，错误消息参数可以省略。
 
 调用方法：
@@ -666,7 +702,7 @@ api.assert("data.age", function (value) {
 });
 ~~~
      
-### api.addFailure("错误信息")
+### api.addFailure()
 添加自定义的错误信息。
 
 调用方法：
