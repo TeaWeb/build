@@ -27,8 +27,8 @@ resp.value("字段");
 
 示例：
 ~~~
-var code = resp.value("code");
-var age = resp.value("data.age");
+var code = resp.value("code"); // => 10000
+var age = resp.value("data.age"); // => 20
 
 /**
 // 示例数据

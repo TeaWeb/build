@@ -16,13 +16,19 @@ h3 .icon {
     margin-top: 0!important;
 }
 
-pre {
-    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
 table th em {
     font-style: normal;
     font-weight: normal;
+}
+
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
 }
