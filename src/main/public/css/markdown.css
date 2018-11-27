@@ -1,0 +1,38 @@
+.markdown {
+
+}
+
+.markdown p {
+    margin: 0.2em 0;
+}
+
+.markdown em {
+    font-style: italic;
+}
+
+.markdown strong {
+
+}
+
+.markdown code {
+    color: grey;
+}
+
+.markdown pre {
+    padding: 0.4em;
+}
+
+.markdown ul, .markdown ol {
+    line-height: 1.8;
+    margin-left: 0;
+    padding-left: 1em;
+}
+
+.markdown blockquote {
+    border-left: 4px #ccc solid;
+    padding-left: 1em;
+}
+
+.markdown .CodeMirror {
+    border: 1px #ddd solid;
+}

@@ -37,6 +37,12 @@ go_get "github.com/robertkrimen/otto"
 # msg pack
 go_get "github.com/vmihailenco/msgpack"
 
+# markdown
+go_get "github.com/russross/blackfriday"
+
+# fsnotify
+go_get "github.com/fsnotify/fsnotify"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

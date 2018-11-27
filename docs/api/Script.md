@@ -700,6 +700,19 @@ api.assert("data.age", function (value) {
         return false;
     }
 });
+
+/**
+// 示例数据
+{
+    "code": 10000,
+    "data": {
+        "name": "lu",
+        "age": 20,
+        "books": [ "Golang", "Python", "PHP" ],
+        "isVip": true
+    }
+}
+**/
 ~~~
      
 ### api.addFailure()
