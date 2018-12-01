@@ -48,6 +48,7 @@ function build() {
 
     echo "[copy files]"
     cp -R ${GOPATH}/src/main/configs/admin.sample.conf ${TARGET}/configs/admin.conf
+    cp -R ${GOPATH}/src/main/configs/server.prod.conf ${TARGET}/configs/server.conf
     cp -R ${GOPATH}/src/main/configs/mongo.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/configs/server.conf ${TARGET}/configs/
 
