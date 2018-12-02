@@ -28,22 +28,6 @@
     * Varnish
     * Squid
     * HAProxy
-* API
-  * 定义API
-  * 测试API
-    * 单元测试
-    * 脚本测试
-    * [测试脚本](api/Script.md)
-    * 自动测试
-      * [测试计划](api/TestPlan.md)
-  * 状态码
-    * [数据分析脚本](api/ParseStatus.md)
-  * 认证设置
-  * 流量和并发控制
-  * 统计  
-  * 发布API
-  * 安全设置
-  * SDK
 * 插件
   * [写一个插件](https://github.com/TeaWeb/plugin)
   * [安装插件](https://github.com/TeaWeb/plugin#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)  
