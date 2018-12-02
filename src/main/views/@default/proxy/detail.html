@@ -139,6 +139,7 @@
             <td></td>
             <td>
                 <input type="text" name="root" v-model="proxy.root"/>
+                <p class="ui comment">请使用绝对路径</p>
             </td>
             <td class="two op">
                 <a href="" v-on:click.prevent="editRootSave()" title="保存"><i class="ui icon check circle"></i></a>
@@ -188,6 +189,7 @@
             <td>首页文件<em>(index)</em></td>
             <td>
                 <input type="text" name="index" v-model="indexes"/>
+                <p class="ui comment">如果有多个首页文件名，可以使用空格隔开</p>
             </td>
             <td>
                 <a href="" v-on:click.prevent="editIndexSave()" title="保存"><i class="ui icon check circle"></i></a>

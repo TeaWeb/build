@@ -17,7 +17,7 @@
   * 后端服务
   * 路径规则
   * 自定义Header
-  * Fastcgi
+  * [Fastcgi](proxy/Fastcgi.md)
   * 重写规则
   * 访问日志
   * 缓存
