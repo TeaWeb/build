@@ -27,3 +27,6 @@ firewall-cmd —reload
 ~~~
 yum install lsof
 ~~~
+
+## Windows
+Windows版本的目录下自带有*start.bat*，请解压后，直接双击运行*start.bat*即可。
