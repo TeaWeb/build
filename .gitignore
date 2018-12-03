@@ -23,6 +23,7 @@ src/main/configs/plan.*
 src/main/configs/report.*
 src/main/configs/test.*
 src/main/configs/grant.*
+src/main/configs/mock.*
 src/main/configs/apps_favor.conf
 src/main/configs/admin.conf
 src/main/configs/avatars

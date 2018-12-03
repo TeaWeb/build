@@ -1004,6 +1004,16 @@ function TeaElementObjects(elements) {
         return elements[0].value;
     };
 
+    this.remove = function () {
+        this.each(function (_, element) {
+            var parent = element.parentNode;
+            if (parent != null) {
+                parent.removeChild(element);
+            }
+        });
+        return this;
+    };
+
     this.length = elements.length;
 }
 
