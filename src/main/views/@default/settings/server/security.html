@@ -1,0 +1,52 @@
+{$layout}
+
+<div>
+    <h3>安全设置</h3>
+    <p class="comment">你当前的IP：{{userIP}}</p>
+    <form class="ui form" data-tea-action=".security">
+        <table class="ui table">
+            <tr>
+                <td class="title">允许访问的IP</td>
+                <td>
+                    <div class="ui field">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="allowAll" value="1" v-model="allowAll"/>
+                            <label class="grey">允许<strong>所有</strong>的IP</label>
+                        </div>
+                    </div>
+                    <div v-if="!allowAll" id="allow-ips-box">
+                        <div class="ui fields inline" v-for="(ip, index) in security.allow" v-if="ip != 'all'">
+                            <div class="ui field">
+                                <input type="text" name="allowIPs" v-model="security.allow[index]"  style="width:10em" placeholder="IP地址"/>
+                            </div>
+                            <div class="ui field">
+                                <a href="" @click.prevent="deleteAllowIP(index)"><i class="ui icon remove"></i> </a>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" @click.prevent="addAllowIP()">+</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>禁止访问的IP</td>
+                <td id="deny-ips-box">
+                    <div class="ui fields inline" v-for="(ip, index) in security.deny" :key="index">
+                       <div class="ui field">
+                           <input type="text" name="denyIPs" v-model="security.deny[index]" style="width:10em" placeholder="IP地址"/>
+                       </div>
+                        <div class="ui field">
+                            <a href="" @click.prevent="deleteDenyIP(index)"><i class="ui icon remove"></i> </a>
+                        </div>
+                    </div>
+                    <div class="ui field">
+                        <button class="ui button" type="button" @click.prevent="addDenyIP()">+</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <button class="ui button primary" type="submit">保存</button>
+    </form>
+</div>

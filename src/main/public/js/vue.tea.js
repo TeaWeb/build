@@ -863,9 +863,17 @@ function TeaElementObjects(elements) {
     };
 
     this.first = function () {
-        var first = elements.$first;
+        var first = elements.$first();
         if (first != null) {
-            return Tea.element(elements.$first());
+            return Tea.element(first);
+        }
+        return new TeaElementObjects([]);
+    };
+
+    this.last = function () {
+        var last = elements.$last();
+        if (last != null) {
+            return Tea.element(last);
         }
         return new TeaElementObjects([]);
     };
@@ -920,6 +928,12 @@ function TeaElementObjects(elements) {
             return;
         }
         first[0].focus();
+    };
+
+    this.blur = function () {
+        this.each(function (k, v) {
+            v.blur();
+        });
     };
 
     this.each = function (iterator) {

@@ -11,7 +11,6 @@
 <div v-if="error.length == 0">
     <h3>HTTP <a href="/settings/server/http">修改</a> </h3>
 
-    <form>
     <table class="ui table definition selectable">
         <tr>
             <td>状态</td>
@@ -61,5 +60,25 @@
         </tr>
     </table>
 
+    <h3>安全设置 <a href="/settings/server/security">修改</a></h3>
+    <form class="ui form">
+        <table class="ui table">
+            <tr>
+                <td class="title">允许访问的IP</td>
+                <td>
+                    <span v-if="security.allow.$contains('all')">允许所有的IP</span>
+                    <span v-if="security.allow.length == 0" class="grey">暂时还没有允许访问的IP</span>
+                    <span v-if="!security.allow.$contains('all') && security.allow.length > 0">{{security.allow.join(", ")}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>禁止访问的IP</td>
+                <td>
+                    <span v-if="security.deny.$contains('all')">禁止所有的IP</span>
+                    <span v-if="security.deny.length == 0" class="grey">暂时还没有禁止访问的IP</span>
+                    <span v-if="!security.deny.$contains('all') && security.deny.length > 0">{{security.deny.join(", ")}}</span>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
