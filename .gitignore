@@ -16,7 +16,7 @@ src/main/tmp/
 src/main/logs/*.log
 src/main/configs/*.key
 src/main/configs/*.pem
-src/main/configs/*.proxy.conf
+
 src/main/configs/api.*
 src/main/configs/script.*
 src/main/configs/plan.*
