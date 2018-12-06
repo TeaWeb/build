@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # initialize project
-
 export GOPATH=`pwd`/../../
 
 # go_get function
@@ -25,8 +24,8 @@ go_get "github.com/oschwald/maxminddb-golang"
 go_get "github.com/oschwald/geoip2-golang"
 
 # mongodb
-go_get "github.com/mongodb/mongo-go-driver"
-echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in mongodb"
+# go_get "github.com/mongodb/mongo-go-driver"
+# echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in mongodb"
 
 # system cpu, memory, disk ...
 go_get "github.com/shirou/gopsutil"
