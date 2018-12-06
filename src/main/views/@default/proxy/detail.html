@@ -125,6 +125,8 @@
             <td></td>
             <td colspan="2"><a href="" v-on:click.prevent="addListen()" title="绑定新地址"><i class="ui icon plus circle"></i>绑定新地址</a></td>
         </tr>
+
+        <!-- 文档根目录 -->
         <tr>
             <td>文档根目录<em>(root)</em></td>
             <td>
@@ -138,7 +140,12 @@
         <tr v-if="rootEditing">
             <td></td>
             <td>
-                <input type="text" name="root" v-model="proxy.root"/>
+                <textarea name="root" id="web-root-input" v-model="proxy.root" @input="changeRoot(proxy.root)" rows="3"></textarea>
+                <div class="ui menu vertical blue" v-if="localPaths.length > 0" style="width:100%;margin-top:0">
+                    <div class="ui dropdown">
+                    <a href="" class="item" style="word-break:break-all;line-height:1.4" v-for="path in localPaths" @click.prevent="selectRoot(path)">{{path}}</a>
+                    </div>
+                </div>
                 <p class="ui comment">请使用绝对路径</p>
             </td>
             <td class="two op">

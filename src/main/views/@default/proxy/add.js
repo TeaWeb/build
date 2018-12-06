@@ -12,6 +12,8 @@ Tea.context(function () {
     this.backend = "";
     this.backendArray = [];
 
+    this.localPaths = [];
+
     this.$delay(function () {
         this.$find("form input[name='description']").focus();
 
@@ -27,4 +29,22 @@ Tea.context(function () {
             this.backendArray = newValue.trim().split(/\s+/);
         });
     });
+
+    this.changeRoot = function (root) {
+        this.$get(".localPath")
+            .params({
+                "prefix": root
+            })
+            .success(function (resp) {
+                this.localPaths = resp.data.paths;
+            });
+    };
+
+    this.selectRoot = function (root) {
+        this.root =root;
+        this.localPaths = [];
+        this.$delay(function () {
+            this.$find("#web-root-input").focus();
+        });
+    };
 });

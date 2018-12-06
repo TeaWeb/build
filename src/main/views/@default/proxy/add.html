@@ -51,7 +51,12 @@
                     <tr v-if="serviceType == 2">
                         <td>网站根目录</td>
                         <td>
-                            <input type="text" name="root" v-model="root" placeholder="比如 /home/www/mysite"/>
+                            <textarea name="root" id="web-root-input" v-model="root" @input="changeRoot(root)" placeholder="比如 /home/www/mysite" rows="3"></textarea>
+                            <div class="ui menu vertical blue" v-if="localPaths.length > 0" style="margin-top:0;width:100%">
+                                <div class="ui dropdown" style="word-break:break-all;line-height:1.4">
+                                 <a href="" class="item" v-for="path in localPaths" @click.prevent="selectRoot(path)">{{path}}</a>
+                                </div>
+                            </div>
                             <p class="comment">请确保目录是相对于服务器文件系统的根目录的绝对路径。</p>
                         </td>
                     </tr>

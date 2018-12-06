@@ -142,6 +142,26 @@ Tea.context(function () {
             });
     };
 
+    this.localPaths = [];
+    this.changeRoot = function (root) {
+        this.$get(".localPath")
+            .params({
+                "prefix": root
+            })
+            .success(function (resp) {
+                this.localPaths = resp.data.paths;
+            });
+    };
+
+    this.selectRoot = function (root) {
+        this.proxy.root =root;
+        this.localPaths = [];
+
+        this.$delay(function () {
+            this.$find("#web-root-input").focus();
+        });
+    };
+
     /**
      * 字符集
      */
