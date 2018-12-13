@@ -40,7 +40,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 ![预览](./resources/screen-shot-3.jpg)
 
 # 已经构建好的版本
-[在这里查看Release版本](https://github.com/TeaWeb/build/releases)。
+[在这里查看编译好的Release版本](https://github.com/TeaWeb/build/releases)，可以直接下载运行。
 
 # 快速启动
 **注意** 要运行TeaWeb需要你安装[MongoDB](https://www.mongodb.com/)

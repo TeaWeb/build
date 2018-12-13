@@ -45,6 +45,9 @@ go_get "github.com/russross/blackfriday"
 # fsnotify
 go_get "github.com/fsnotify/fsnotify"
 
+# yaml
+go_get "github.com/go-yaml/yaml"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"
