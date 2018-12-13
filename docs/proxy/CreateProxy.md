@@ -20,6 +20,6 @@
      images/
        logo.png
   ~~~
-  那么请输入 */home/www/mysite*，然后添加后就可以通过"http://服务地址/index.html"，"http://服务地址/images/logo.png"来访问这些静态文件了。
+  那么请输入 */home/www/mysite*，然后添加后就可以通过 "http://服务地址/index.html"，"http://服务地址/images/logo.png" 来访问这些静态文件了。
 
 所有项目填完后，可以点击"确定添加"即可完成；添加完毕后，系统会提示"代理服务已被修改，点此重启后生效"，点击重启后就可以在浏览器上试着访问绑定的域名或者绑定的网络地址了。

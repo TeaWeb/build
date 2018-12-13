@@ -28,7 +28,9 @@
     * Varnish
     * Squid
     * HAProxy
-* 插件
-  * [写一个插件](https://github.com/TeaWeb/plugin)
-  * [安装插件](https://github.com/TeaWeb/plugin#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)  
+* 开发者
+  * [从源码启动或编译](main/Build.md)    
+  * 插件
+    * [写一个插件](https://github.com/TeaWeb/plugin)
+    * [安装插件](https://github.com/TeaWeb/plugin#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)  
 * [TeaWeb+](plus/Index.md)  

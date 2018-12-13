@@ -62,9 +62,10 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 # 构建自己的版本    
 1. 从 *https://github.com/TeaWeb/build* 中下载项目，放到本地磁盘上；
 2. 设置全局变量`GOPATH`为项目目录路径；
-3. 执行 `init.sh` 初始化项目，如果下载中出现网络错误，可以尝试多次运行此脚本；
-4. 执行 `run.sh` 启动项目，运行 `build-[系统版本].sh` 构建可执行文件；
-5. 在浏览器中访问 `http://127.0.0.1:7777` 。
+3. `cd` 到 *src/main* 目录
+4. 执行 `init.sh` 初始化项目，如果下载中出现网络错误，可以尝试多次运行此脚本；
+5. 执行 `run.sh` 启动项目，运行 `build-[系统版本].sh` 构建可执行文件；
+6. 在浏览器中访问 `http://127.0.0.1:7777` 。
 
 # 扩展TeaWeb
 * [如何实现自己的插件](https://github.com/TeaWeb/plugin)
