@@ -36,6 +36,9 @@ go_get "github.com/robertkrimen/otto"
 # msg pack
 go_get "github.com/vmihailenco/msgpack"
 
+# redis
+go_get "github.com/go-redis/redis"
+
 # markdown
 go_get "github.com/russross/blackfriday"
 

@@ -18,6 +18,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
              |  Monitor    |        |  Filters    |
              |  Statistics |        |-------------|
              |  Security   |
+             |  Cache      |
              |  ...        |
              |-------------|
 ~~~
