@@ -29,6 +29,16 @@ Tea.context(function () {
     }
 
     /**
+     * key
+     */
+    var that = this;
+    this.formatKey = function () {
+        var key = that.policy.key;
+        key = key.replace(/\${(.+?)}/g, "${<a>$1</a>}");
+        return key;
+    };
+
+    /**
      * 状态管理
      */
     this.statusList = this.policy.status;

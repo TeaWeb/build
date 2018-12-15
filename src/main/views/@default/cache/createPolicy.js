@@ -2,6 +2,17 @@ Tea.context(function () {
     this.advancedVisible = false;
 
     /**
+     * key
+     */
+    var that = this;
+    this.key = "${host}${requestURI}";
+    this.formatKey = function () {
+        var key = that.key;
+        key = key.replace(/\${(.+?)}/g, "${<a>$1</a>}");
+        return key;
+    };
+
+    /**
      * 状态管理
      */
     this.statusList = [ "200" ];

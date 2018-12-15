@@ -264,7 +264,7 @@ Tea.context(function () {
 
     this.addFastcgiSave = function () {
         var m = {};
-        for (var i = 0; i < this.newFastcgiParams.length; i ++) {
+        for (var i = 0; i < this.newFastcgiParams.length; i++) {
             m[this.newFastcgiParams[i]["name"]] = this.newFastcgiParams[i]["value"];
         }
 
@@ -489,6 +489,38 @@ Tea.context(function () {
                     this.indexNames = this.location.index.join(", ");
                 }
                 this.indexEditing = false;
+            });
+    };
+
+    /**
+     * 缓存策略
+     */
+    this.cacheEditing = false;
+    this.selectedCachePolicy = this.cachePolicyFile;
+
+    this.editCache = function () {
+        this.cacheEditing = !this.cacheEditing;
+    };
+
+    this.cancelCacheEditing = function () {
+        this.cacheEditing = false;
+    };
+
+    this.saveCacheEditing = function () {
+        this.$post(".updateCache")
+            .params({
+                "server": this.server.filename,
+                "locationIndex": this.location.index,
+                "policy": this.selectedCachePolicy
+            })
+            .success(function (resp) {
+                this.cacheEditing = false;
+
+                if (this.selectedCachePolicy.length == 0) {
+                    this.cachePolicy = "";
+                } else {
+                    this.cachePolicy = resp.data.policy.name + "（" + resp.data.policy.typeName + "）";
+                }
             });
     };
 });

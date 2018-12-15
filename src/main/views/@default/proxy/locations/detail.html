@@ -468,5 +468,26 @@
 
         <h4>自定义Headers</h4>
         {$template "/proxy/headers"}
+
+        <h4>缓存设置</h4>
+        <p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
+        <div v-if="cachePolicyList.length > 0">
+            <p v-if="cachePolicy.length == 0" class="grey">没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
+            <p v-if="cachePolicy.length > 0" class="grey">{{cachePolicy}}，<a href="" @click.prevent="editCache()">修改</a></p>
+        </div>
+        <div v-if="cachePolicyList.length > 0 && cacheEditing" style="margin-top:1em">
+            <table class="ui table definition width30" >
+                <tr>
+                    <td class="title">选择策略</td>
+                    <td>
+                        <select class="ui dropdown" v-model="selectedCachePolicy">
+                            <option value="">[不使用缓存]</option>
+                            <option v-for="policy in cachePolicyList" :value="policy.filename">{{policy.name}}（{{policy.type}}）</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <button class="ui button primary" type="button" @click.prevent="saveCacheEditing()">保存</button> &nbsp; <a href="" @click.prevent="cancelCacheEditing()">取消</a>
+        </div>
     </form>
 </div>

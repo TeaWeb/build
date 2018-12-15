@@ -2,6 +2,7 @@
 
 <div class="ui menu text blue top-menu">
     <a class="item active" href="/cache">策略列表</a>
+    <a class="item" style="padding-left:0">&raquo; 修改"{{policy.name}}"</a>
     <a class="item" href="/cache/createPolicy">添加新策略</a>
 </div>
 
@@ -18,7 +19,7 @@
             <td>缓存Key</td>
             <td>
                 <input type="text" name="key" value="" v-model="policy.key"/>
-                <p class="comment">这是每个缓存的唯一标识，更多可使用的变量可以<a href="https://github.com/TeaWeb/build/blob/master/docs/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">在这里查看</a>。</p>
+                <p class="comment"><span v-html="formatKey()"></span> 这是每个缓存的唯一标识，更多可使用的变量可以<a href="https://github.com/TeaWeb/build/blob/master/docs/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">在这里查看</a>。</p>
             </td>
         </tr>
         <tr>
