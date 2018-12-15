@@ -33,11 +33,11 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 何为"智能化"？`TeaWeb`会智能发现软件服务、智能提醒软件状态、智能提供性能优化建议，无需太多的配置，当你启动的时候，一切都为你准备好了。
 
 # 预览
-![预览](./resources/screen-shot-1.jpg)
+![预览](./docs/screenshots/screen-shot-1.png)
 
-![预览](./resources/screen-shot-2.jpg)
+![预览](./docs/screenshots/screen-shot-2.png)
 
-![预览](./resources/screen-shot-3.jpg)
+![预览](./docs/screenshots/screen-shot-3.png)
 
 # 已经构建好的版本
 [在这里查看编译好的Release版本](https://github.com/TeaWeb/build/releases)，可以直接下载运行。
