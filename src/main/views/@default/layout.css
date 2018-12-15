@@ -30,7 +30,7 @@ a.enabled, span.enabled {
     color: #21ba45;
 }
 
-span.grey, label.grey {
+span.grey, label.grey, p.grey {
     color: grey!important;
 }
 

@@ -1,5 +1,48 @@
 {$layout}
 
-<div>
-
+<div class="ui menu text blue top-menu">
+    <a class="item active" href="/cache">策略列表</a>
+    <a class="item" href="/cache/createPolicy">添加新策略</a>
 </div>
+
+<p class="grey">可以在这里配置缓存策略，然后可以在代理中使用这些缓存策略。</p>
+<div class="ui message warning" v-if="policyList.length == 0">暂时还没有缓存策略。</div>
+
+<table class="ui table selectable" v-if="policyList.length > 0">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>存储类型</th>
+            <th>缓存有效期</th>
+            <th>支持的状态码</th>
+            <th>最大内容长度</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tr v-for="policy of policyList">
+        <td>{{policy.name}}</td>
+        <td><span class="ui label">{{policy.typeName}}</span>
+            <p class="comment" v-if="policy.type == 'file'">{{policy.options.dir}}</p>
+            <p class="comment" v-if="policy.type == 'redis'">
+                <span v-if="policy.options.network == 'tcp'">{{policy.options.host}}:{{policy.options.port}}</span>
+                <span v-if="policy.options.network == 'sock'">{{policy.options.sock}}</span>
+            </p>
+        </td>
+        <td>
+            <span v-if="policy.hasLife">{{policy.life}}</span>
+            <span v-if="!policy.hasLife">-</span>
+        </td>
+        <td>
+            <span v-if="policy.status.length > 0">{{policy.status}}</span>
+            <span v-if="policy.status.length == 0">-</span>
+        </td>
+        <td>
+            <span v-if="policy.hasMaxSize">{{policy.maxSize}}</span>
+            <span v-if="!policy.hasMaxSize">-</span>
+        </td>
+        <td>
+            <a :href="'/cache/updatePolicy?filename=' + policy.filename">修改</a> &nbsp;
+            <a href="" @click.prevent="deletePolicy(policy.filename)">删除</a>
+        </td>
+    </tr>
+</table>
