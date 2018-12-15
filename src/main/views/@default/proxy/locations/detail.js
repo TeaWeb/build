@@ -500,6 +500,11 @@ Tea.context(function () {
 
     this.editCache = function () {
         this.cacheEditing = !this.cacheEditing;
+        if (this.cacheEditing) {
+            this.$delay(function () {
+                window.scroll(0, 10000);
+            });
+        }
     };
 
     this.cancelCacheEditing = function () {

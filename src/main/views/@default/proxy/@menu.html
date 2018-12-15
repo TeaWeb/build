@@ -8,6 +8,6 @@
         路径：{{location.pattern}}</a>
 
     <a :href="$url('/proxy/headers', { 'filename':filename })" class="item" :class="{active:selectedTab == 'header'}">自定义Header({{proxy.headers.length}})</a>
-
+    <a :href="$url('/proxy/cache', { 'filename':filename })" class="item" :class="{active:selectedTab == 'cache'}">缓存<span v-if="proxy.cachePolicy.length > 0">(已设置)</span></a>
     <a :href="$url('/proxy/frontend', { 'filename':filename })" class="item" :class="{active:selectedTab == 'frontend'}">前端代理</a>
 </div>

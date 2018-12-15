@@ -1,0 +1,40 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<p class="ui message warning proxy-changed" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+
+{$var "header"}
+<link rel="stylesheet" href="/_/@default/proxy/@global.css"/>
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    <h3>{{proxy.description}}<span>（{{filename}}）</span></h3>
+
+    {$template "menu"}
+
+    <p>在这里可以设置<strong>全局的请求缓存策略</strong>，如果你想只对某些URL进行缓存，请点击"路径规则"进行设置。</p>
+
+    <form class="ui form">
+        <p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
+        <div v-if="cachePolicyList.length > 0">
+            <p v-if="cachePolicy.length == 0" class="grey">还没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
+            <p v-if="cachePolicy.length > 0" class="grey">{{cachePolicy}}，<a href="" @click.prevent="editCache()">修改</a></p>
+        </div>
+        <div v-if="cachePolicyList.length > 0 && cacheEditing" style="margin-top:1em">
+            <table class="ui table definition width30" >
+                <tr>
+                    <td class="title">选择策略</td>
+                    <td>
+                        <select class="ui dropdown" v-model="selectedCachePolicy">
+                            <option value="">[不使用缓存]</option>
+                            <option v-for="policy in cachePolicyList" :value="policy.filename">{{policy.name}}（{{policy.type}}）</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <button class="ui button primary" type="button" @click.prevent="saveCacheEditing()">保存</button> &nbsp; <a href="" @click.prevent="cancelCacheEditing()">取消</a>
+        </div>
+    </form>
+</div>
