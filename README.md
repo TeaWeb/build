@@ -84,6 +84,27 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [插件Go语言源码](https://github.com/TeaWeb/plugin)
 * [UserAgent Parser](https://github.com/TeaWeb/uaparser)
 
+# 开发路线图
+* v0.1 实现基础的代理、日志、统计、缓存等功能
+  * v0.0.5 - 提供请求缓存设置
+  * v0.0.6 - 改进本地服务，增加自定义探测规则
+* v0.2 增强系统稳定性
+* v0.3 增加本地日志收集
+* v0.4 增加本地服务监控
+* v0.5 增强系统稳定性 
+* v0.6 增加分布式的Agent
+* v0.7 增强系统稳定性、性能
+* v1.0 正式发布全功能版本
+* v2.0 打通运行系统、应用、代码之间的联系
+
+# 贡献
+想参与项目贡献？我们目前有以下工作需要完成：
+* 安装打包：我们需要实现docker、yum、apt、npm、brew、composer、gradle等安装方式
+* 文档：仍然有大量的文档需要补充
+* 本地服务探测：需要书写和测试大量的常用的服务探测规则
+* 独立项目：我们希望将项目分离出多个子项目进行，如果你有兴趣，可以研究：GeoIP分析、UserAgent分析、CGI协议、日志分析、文件识别等独立项目，我们可以整合进项目
+* 报告问题：有问题报告给我们也是参与贡献的一环，你可以在[这里](https://github.com/TeaWeb/build/issues)提问题，或者加入QQ群（199435611）一起讨论
+
 # 感谢
 * [Semantic UI](https://semantic-ui.com) - 一个非常好用的UI组件库
 * [Vue.js](https://cn.vuejs.org/) - 支持双向绑定的DOM操作库
@@ -95,3 +116,6 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [gofcgi](https://github.com/iwind/gofcgi) - golang client for fastcgi
 * [go msgpack](https://github.com/vmihailenco/msgpack) - Go语言版本的msgpack
 * [go psutil](https://github.com/shirou/gopsutil) - Go语言版本的psutil
+* [CodeMirror](https://codemirror.net/) - 一个很好的在线代码编辑器
+* [clipboard](https://github.com/zenorocha/clipboard.js) - Javascript控制剪切板
+
