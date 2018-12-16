@@ -1,6 +1,7 @@
 # 帮助文档
 * [简介](main/Summary.md)
 * [安装](main/Install.md)
+* [升级](main/Upgrade.md)
 * [常用命令](main/Commands.md)
 * [登录](main/Login.md)
 * 通用设置
@@ -28,6 +29,10 @@
     * Varnish
     * Squid
     * HAProxy
+* Apps
+  * [安装ps命令](apps/InstallPs.md)
+  * [安装pgrep命令](apps/InstallPgrep.md)
+  * [安装lsof命令](apps/InstallLsof.md)    
 * 开发者
   * [从源码启动或编译](main/Build.md)    
   * 插件
