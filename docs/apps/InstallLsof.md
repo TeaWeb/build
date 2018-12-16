@@ -7,7 +7,7 @@ yum install -y lsof
 ~~~
 
 ## 使用apt
-Ubuntu、Debia系统等：
+Ubuntu、Debian系统等：
 ~~~bash
 apt-get update
 apt-get install -y lsof
