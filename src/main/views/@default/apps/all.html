@@ -1,8 +1,9 @@
 {$layout}
 
 
-<p class="ui message warning" v-if="apps.length == 0">暂时还没有检测到服务。</p>
+<p class="ui message error" v-for="message in messages" v-html="message"></p>
 
+<p class="ui message warning" v-if="apps.length == 0">暂时还没有检测到服务。</p>
 
 <!-- 已关注的 -->
 <div v-if="hasFavoredApps">
