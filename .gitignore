@@ -8,6 +8,7 @@ src/github.com/robertkrimen
 src/github.com/russross
 src/github.com/shirou
 src/github.com/TeaWeb/code
+src/github.com/TeaWeb/jsapps
 src/github.com/TeaWeb/plugin
 src/github.com/TeaWeb/uaparser
 src/github.com/vmihailenco
@@ -29,6 +30,7 @@ src/main/configs/apps_favor.conf
 src/main/configs/cache.*
 src/main/configs/admin.conf
 src/main/configs/avatars
+src/main/configs/*.js
 src/main/views/@default/plus
 src/main/plugins/*.tea
 src/main/plus

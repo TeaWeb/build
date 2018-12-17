@@ -581,7 +581,13 @@ window.Tea.Action = function (action, params) {
                         formData.append(key, "");
                     }
                     else {
-                        formData.append(key, params[key]);
+                        if (typeof(params[key]) == "object" && (params[key] instanceof Array)) {
+                            for (var i = 0; i < params[key].length; i ++) {
+                                formData.append(key, params[key][i]);
+                            }
+                        } else {
+                            formData.append(key, params[key]);
+                        }
                     }
                 }
 

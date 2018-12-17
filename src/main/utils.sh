@@ -40,6 +40,12 @@ function build() {
     go build -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
     go build -o ${TARGET}/plugins/apps.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/plugin/main/apps_plugin.go
 
+    if [ -d ${GOPATH}/src/github.com/TeaWeb/jsapps ]
+    then
+        go build -o ${TARGET}/plugins/jsapps.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/jsapps/main/plugin.go
+        cp ${GOPATH}/src/github.com/TeaWeb/jsapps/main/jsapps.js ${TARGET}/configs/jsapps.js
+    fi
+
     # restore plus
     if [ -f ${GOPATH}/drafts/src/plus.go ]
     then

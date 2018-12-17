@@ -64,7 +64,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 2. 设置全局变量`GOPATH`为项目目录路径；
 3. `cd` 到 *src/main* 目录
 4. 执行 `init.sh` 初始化项目，如果下载中出现网络错误，可以尝试多次运行此脚本；
-5. 执行 `run.sh` 启动项目，运行 `build-[系统版本].sh` 构建可执行文件；
+5. 执行 `run.sh` 启动项目，或者运行 `build-[系统版本].sh` 构建可执行文件；
 6. 在浏览器中访问 `http://127.0.0.1:7777` 。
 
 # 扩展TeaWeb
@@ -85,9 +85,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [UserAgent Parser](https://github.com/TeaWeb/uaparser)
 
 # 开发路线图
-* v0.1 实现基础的代理、日志、统计、缓存等功能
-  * v0.0.5 - 提供请求缓存设置
-  * v0.0.6 - 改进本地服务，增加自定义探测规则
+* v0.1 实现基础的代理、日志、统计、缓存、服务探针等功能
 * v0.2 增强系统稳定性
 * v0.3 增加本地日志收集
 * v0.4 增加本地服务监控
