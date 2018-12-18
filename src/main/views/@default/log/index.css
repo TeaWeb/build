@@ -140,6 +140,8 @@
     position: relative;
     overflow: hidden;
     border: 0!important;
+    -ms-word-break: break-all;
+    word-break: break-all;
 }
 
 .log-table .log-animation-init {

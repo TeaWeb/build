@@ -69,7 +69,8 @@ Tea.context(function () {
         this.$get(".get")
             .params({
                 "fromId": this.fromId,
-                "size": loadSize
+                "size": loadSize,
+                "bodyFetching": this.bodyFetching ? 1 : 0
             })
             .success(function (response) {
                 // QPS
@@ -268,6 +269,7 @@ Tea.context(function () {
                 this.$get(".responseHeader." + log.id)
                     .success(function (response) {
                         log.responseHeaders = response.data.headers;
+                        log.responseBody = response.data.body;
                     });
             }
         }
@@ -278,6 +280,7 @@ Tea.context(function () {
                 this.$get(".requestHeader." + log.id)
                     .success(function (response) {
                         log.requestHeaders = response.data.headers;
+                        log.requestBody = response.data.body;
                         log.hasRequestHeaders = false;
                         for (var k in log.requestHeaders) {
                             if (log.requestHeaders.hasOwnProperty(k)) {
@@ -296,6 +299,7 @@ Tea.context(function () {
                 this.$get(".responseHeader." + log.id)
                     .success(function (response) {
                         log.responseHeaders = response.data.headers;
+                        log.responseBody = response.data.body;
 
                         if (typeof(log.responseHeaders["Content-Type"]) != "undefined" && log.responseHeaders["Content-Type"].length > 0 && log.responseHeaders["Content-Type"][0].match(/image\//)) {
                             log.previewImageURL = log.requestScheme + "://" + log.host + log.requestURI;
@@ -431,5 +435,10 @@ Tea.context(function () {
         if (this.isPlaying) {
             this.loadLogs();
         }
+    };
+
+    this.bodyFetching = false;
+    this.startBodyFetching = function () {
+        this.bodyFetching = !this.bodyFetching;
     };
 });

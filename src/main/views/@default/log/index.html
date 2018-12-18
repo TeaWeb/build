@@ -27,18 +27,22 @@
    </div>
 
     <div class="search-box close" v-show="!searchBoxVisible">
-        <button class="ui button tiny basic" type="button" v-on:click="showSearchBox()" :class="{primary:hasSearchConditions()}" title="展开筛选条件">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button> &nbsp;
-        <button class="ui button tiny basic" type="button" v-if="isPlaying" v-on:click="pause()" title="暂停日志刷新">暂停 <i class="ui icon pause"></i> </button>
-        <button class="ui button tiny basic" type="button" v-if="!isPlaying" v-on:click="pause()" title="恢复日志刷新">继续 <i class="ui icon play"></i> </button>
+        <button class="ui button tiny basic" type="button" @click="showSearchBox()" :class="{primary:hasSearchConditions()}" title="展开筛选条件">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button> &nbsp;
+        <button class="ui button tiny basic" type="button" v-if="isPlaying" @click="pause()" title="暂停日志刷新">暂停 <i class="ui icon pause"></i> </button>
+        <button class="ui button tiny basic blue" type="button" v-if="!isPlaying" @click="pause()" title="恢复日志刷新">继续 <i class="ui icon play"></i> </button> &nbsp;
+        <button class="ui button tiny basic" :class="{blue:bodyFetching}" type="button" @click="startBodyFetching()">抓取 <i class="ui icon code"></i> </button>
     </div>
 
-    <div class="ui message warning" v-if="!isPlaying">
-        日志刷新功能已被暂停， <a href="" v-on:click.prevent="pause()">恢复日志刷新</a>
+    <div class="ui message info" v-if="!isPlaying">
+        日志刷新功能已被暂停， <a href="" @click.prevent="pause()">[恢复日志刷新]</a>
+    </div>
+    <div class="ui message info" v-if="bodyFetching">
+        正在抓取请求的内容，可以在单个日志详情中的响应数据（Response）和请求数据（Request）中查看这些内容，<a href="" @click.prevent="startBodyFetching()">[停止]</a>
     </div>
 
     <div class="search-box" v-show="searchBoxVisible">
-        <a href="" v-on:click.prevent="hideSearchBox()" class="close-btn" :class="{'clean-btn':!hasSearchConditions()}" title="收起窗口"><i class="ui icon chevron up circular"></i></a>
-        <a href="" v-on:click.prevent="resetSearchBox()" class="clean-btn" v-if="hasSearchConditions()" title="重置条件"><i class="ui icon undo circular"></i></a>
+        <a href="" @click.prevent="hideSearchBox()" class="close-btn" :class="{'clean-btn':!hasSearchConditions()}" title="收起窗口"><i class="ui icon chevron up circular"></i></a>
+        <a href="" @click.prevent="resetSearchBox()" class="clean-btn" v-if="hasSearchConditions()" title="重置条件"><i class="ui icon undo circular"></i></a>
         <form class="ui form">
             <div class="ui grid three column">
                <div class="ui field column">
@@ -72,26 +76,26 @@
             <tr v-for="(log, index) in logs" class="log-row">
                 <td class="log-td">
                     <div :id="'animation-' + log.id" :class="log_animation(log)">
-                        <p v-on:click="showLog(index)" v-bind:class="{ error:log.status>=400 }">
+                        <p @click="showLog(index)" :class="{ error:log.status>=400 }">
                             <span class="browser">
                                 <i class="icon" :class="log.browserIcon" v-if="log.browserIcon.length > 0"></i>
                                 <span v-if="log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
                             </span>
 
                             {{log.remoteAddr}} [{{log.timeLocal}}] <em>&quot;{{log.requestMethod}} {{log.requestScheme}}://{{log.host}}{{log.requestURI}} <a :href="log.requestScheme + '://' + log.host + log.requestURI" target="_blank" title="新窗口打开" class="disabled"><i class="external icon tiny"></i> </a> {{log.proto}}&quot;</em> - 耗时:{{formatCost(log.requestTime)}} ms
-                            <i class="ui icon angle" v-bind:class="{ down:!log.isOpen, up:log.isOpen }"></i>
+                            <i class="ui icon angle" :class="{ down:!log.isOpen, up:log.isOpen }"></i>
                         </p>
                     </div>
 
                     <!-- 详情菜单 -->
                     <div class="ui top attached menu tabular tab-menu small" v-if="log.isOpen">
-                        <a class="item" :class="{active:log.tabName == null || log.tabName == 'summary'}" v-on:click.prevent="showLogTab(log, index, 'summary')">综合信息</a>
-                        <a class="item" :class="{active:log.tabName == 'responseHeader'}" v-on:click.prevent="showLogTab(log, index, 'responseHeader')">响应数据<span>（Response Header）</span></a>
-                        <a class="item" :class="{active:log.tabName == 'request'}" v-on:click.prevent="showLogTab(log, index, 'request')">请求数据<span>（Request Header）</span></a>
-                        <a class="item" :class="{active:log.tabName == 'preview'}" v-on:click.prevent="showLogTab(log, index, 'preview')">预览</a>
-                        <!--<a class="item" :class="{active:log.tabName == 'responseBody'}" v-on:click.prevent="showLogTab(log, index, 'responseBody')">响应内容<span>（Response）</span></a>-->
-                        <a class="item" :class="{active:log.tabName == 'cookie'}" v-on:click.prevent="showLogTab(log, index, 'cookie')">Cookie</a>
-                        <a class="item" :class="{active:log.tabName == 'client'}" v-on:click.prevent="showLogTab(log, index, 'client')">终端信息</a>
+                        <a class="item" :class="{active:log.tabName == null || log.tabName == 'summary'}" @click.prevent="showLogTab(log, index, 'summary')">综合信息</a>
+                        <a class="item" :class="{active:log.tabName == 'responseHeader'}" @click.prevent="showLogTab(log, index, 'responseHeader')">响应数据<span>（Response）</span></a>
+                        <a class="item" :class="{active:log.tabName == 'request'}" @click.prevent="showLogTab(log, index, 'request')">请求数据<span>（Request）</span></a>
+                        <a class="item" :class="{active:log.tabName == 'preview'}" @click.prevent="showLogTab(log, index, 'preview')">预览</a>
+                        <!--<a class="item" :class="{active:log.tabName == 'responseBody'}" @click.prevent="showLogTab(log, index, 'responseBody')">响应内容<span>（Response）</span></a>-->
+                        <a class="item" :class="{active:log.tabName == 'cookie'}" @click.prevent="showLogTab(log, index, 'cookie')">Cookie</a>
+                        <a class="item" :class="{active:log.tabName == 'client'}" @click.prevent="showLogTab(log, index, 'client')">终端信息</a>
                     </div>
 
                     <!-- 综合信息 -->
@@ -143,12 +147,21 @@
 
                     <!-- 响应数据 -->
                     <table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'responseHeader' && log.responseHeaders != null">
+                        <tr>
+                            <td>Status</td>
+                            <td>{{log.proto}} {{log.statusMessage}}</td>
+                        </tr>
                         <tbody v-for="(value, key) in log.responseHeaders">
                             <tr v-for="subValue in value">
                                 <td class="middle-title">{{key}}</td>
                                 <td>{{subValue}}</td>
                             </tr>
                         </tbody>
+                        <tr v-if="bodyFetching">
+                            <td colspan="2">
+                                <pre>{{log.responseBody}}</pre>
+                            </td>
+                        </tr>
                     </table>
 
                     <!-- 请求数据 -->
@@ -164,6 +177,11 @@
                                 <td>{{subValue}}</td>
                             </tr>
                         </tbody>
+                        <tr v-if="bodyFetching">
+                            <td colspan="2">
+                                <pre>{{log.requestBody}}</pre>
+                            </td>
+                        </tr>
                     </table>
 
                     <!-- 预览 -->
@@ -251,7 +269,7 @@
     </div>
     <div v-if="started && logs.length == 0">
         <a class="disabled" v-if="!hasSearchConditions()">当天还没有访问。</a>
-        <span class="disabled" v-if="hasSearchConditions()">当天还没有筛选符合条件的访问，可以尝试去掉筛选条件（<a href="" v-on:click.prevent="resetSearchBox()">清除筛选条件</a> ）。</span>
+        <span class="disabled" v-if="hasSearchConditions()">当天还没有筛选符合条件的访问，可以尝试去掉筛选条件（<a href="" @click.prevent="resetSearchBox()">清除筛选条件</a> ）。</span>
     </div>
 
     <!-- loading indicator -->
