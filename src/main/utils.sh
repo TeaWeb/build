@@ -38,7 +38,6 @@ function build() {
 
     # build main & plugin
     go build -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
-    go build -o ${TARGET}/plugins/apps.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/plugin/main/apps_plugin.go
 
     if [ -d ${GOPATH}/src/github.com/TeaWeb/jsapps ]
     then

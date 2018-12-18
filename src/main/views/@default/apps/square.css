@@ -9,7 +9,3 @@ table tr td span.label {
     color: grey;
     margin-left: 0.8em!important;
 }
-
-table tr td span.label.my {
-    background: #ccc!important;
-}

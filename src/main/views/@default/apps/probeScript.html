@@ -11,8 +11,8 @@
 {$end}
 
 <div class="ui menu text blue top-menu">
-    <a href="/apps/probes" class="item active">已添加探针</a>
-    <!--<a href="/apps/square" class="item">探针广场</a>-->
+    <a href="/apps/probes" class="item" :class="{active:isLocal || fromList}">已添加探针</a>
+    <a href="/apps/square" class="item" :class="{active:!isLocal && !fromList}">探针广场</a>
     <a href="/apps/addProbe" class="item">制作探针</a>
 </div>
 
@@ -20,8 +20,13 @@
 
 <div class="editor-box">
     <div id="editor"></div>
-    <div class="buttons-box">
+    <div class="buttons-box" v-if="isLocal">
         <button class="ui button primary" type="button" @click.prevent="save()">保存</button> &nbsp;
+        <a href="" @click.prevent="test()">试运行</a>
+    </div>
+    <div class="buttons-box" v-if="!isLocal">
+        <span class="comment" v-if="isAdded">正在使用此探针</span>
+        <button class="ui button" type="button" v-if="!isAdded" @click="addProbe(probeId)">使用这个探针</button> &nbsp;
         <a href="" @click.prevent="test()">试运行</a>
     </div>
 </div>
@@ -62,6 +67,14 @@
                 <span v-if="app.version.length == 0" class="grey">-</span>
                 <span v-if="app.version.length > 0">{{app.version}}</span>
             </td>
+        </tr>
+        <tr>
+            <td>命令文件</td>
+            <td>{{app.file}}</td>
+        </tr>
+        <tr>
+            <td>命令目录</td>
+            <td>{{app.dir}}</td>
         </tr>
         <tr>
             <td>进程</td>

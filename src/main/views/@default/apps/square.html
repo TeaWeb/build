@@ -1,29 +1,26 @@
 {$layout}
 
 <div class="ui menu text blue top-menu">
-    <a href="/apps/probes" class="item active">已添加探针</a>
-    <a href="/apps/square" class="item">探针广场</a>
+    <a href="/apps/probes" class="item">已添加探针</a>
+    <a href="/apps/square" class="item active">探针广场</a>
     <a href="/apps/addProbe" class="item">制作探针</a>
 </div>
-
-<div class="ui message error" style="margin-top:0" v-if="error.length > 0">{{error}}</div>
-<div class="ui message" style="margin-top:0" v-if="error.length == 0 && probes.length == 0">暂时还没有添加探针，<a href="/apps/square">现在去添加</a>。</div>
 
 <div v-if="probes.length > 0">
     <table class="ui table selectable">
         <thead>
-            <tr>
-                <th>App名称</th>
-                <th>命令名</th>
-                <th>开发者</th>
-                <th>官方网站</th>
-                <th>文档网址</th>
-                <th class="two wide">操作</th>
-            </tr>
+        <tr>
+            <th>App名称</th>
+            <th>命令名</th>
+            <th>开发者</th>
+            <th>官方网站</th>
+            <th>文档网址</th>
+            <th class="two wide">操作</th>
+        </tr>
         </thead>
         <tr v-for="(probe, index) in probes">
             <td><strong>{{probe.name}}</strong>
-               <span class="ui label tiny my" v-if="probe.isLocal">自定义</span>
+
                 <span class="ui label tiny" v-if="!probe.isLocal">官方</span>
             </td>
             <td>{{probe.commandName}}</td>
@@ -40,9 +37,9 @@
                 <span v-if="probe.docSite.length == 0">-</span>
             </td>
             <td>
-                <a :href="'/apps/probeScript?fromList=1&probeId=' + probe.id">脚本</a> &nbsp;
-                <!--<a href="" @click.prevent="">分享</a> &nbsp;-->
-                <a href="" @click.prevent="deleteProbe(probe.id)">删除</a>
+                <a :href="'/apps/probeScript?probeId=' + probe.id">脚本</a> &nbsp;
+                <a href="" v-if="!probe.isAdded" @click.prevent="addProbe(probe.id)">使用</a>
+                <span class="grey" v-if="probe.isAdded">使用中</span>
             </td>
         </tr>
     </table>

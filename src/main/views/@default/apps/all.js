@@ -49,6 +49,7 @@ Tea.context(function () {
             .success(function (resp) {
                 if (resp.data.isChanged) {
                     this.apps = resp.data.apps;
+                    this.$find(".top.menu .item.active span").html("(" + (this.apps.length) + ")");
                 }
             })
             .done(function () {

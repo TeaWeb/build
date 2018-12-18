@@ -2,7 +2,7 @@
 
 <p class="ui message error" v-for="message in messages" v-html="message"></p>
 
-<p class="ui message warning" v-if="apps.length == 0">暂时还没有检测到服务。</p>
+<p class="ui message warning" v-if="apps.length == 0">暂时还没有检测到服务，<a v-if="countProbes == 0" href="/apps/square">去添加服务探针</a>。</p>
 
 <!-- 已关注的 -->
 <div v-if="hasFavoredApps">
@@ -12,9 +12,9 @@
         <table class="ui table selectable" :class="{loading:refreshingAppId == app.id}">
             <thead>
             <tr>
-                <th colspan="2">
+                <th colspan="2" nowrap="">
                     <i class="icon gem outline" :class="{grey:!app.isRunning, green:app.isRunning}"></i>
-                {{app.name}} &nbsp;
+                    {{app.name}} &nbsp;
                     &nbsp;<a href="" title="更多信息" v-on:click.prevent="showApp(app.id)"><i class="ui icon info circle small grey"></i></a>
                     <a :href="app.site" v-if="app.site.length > 0" target="_blank" title="打开官方网站"><i class="ui icon external small grey"></i> </a>
                     <a :href="app.docSite" v-if="app.docSite.length > 0" target="_blank" title="打开文档网站"><i class="ui icon book small grey"></i> </a>
