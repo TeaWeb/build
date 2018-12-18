@@ -43,6 +43,7 @@ function build() {
     then
         go build -o ${TARGET}/plugins/jsapps.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/jsapps/main/plugin.go
         cp ${GOPATH}/src/github.com/TeaWeb/jsapps/main/jsapps.js ${TARGET}/configs/jsapps.js
+        cp ${GOPATH}/src/main/plugins/jsapps.js ${TARGET}/plugins/jsapps.js
     fi
 
     # restore plus

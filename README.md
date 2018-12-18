@@ -85,7 +85,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [UserAgent Parser](https://github.com/TeaWeb/uaparser)
 
 # 开发路线图
-* v0.1 实现基础的代理、日志、统计、缓存、服务探针等功能
+* v0.1 `[当前]`实现基础的代理、日志、统计、缓存、服务探针等功能
 * v0.2 增强系统稳定性
 * v0.3 增加本地日志收集
 * v0.4 增加本地服务监控
