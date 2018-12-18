@@ -1,0 +1,77 @@
+{$layout}
+
+{$var "header"}
+<!-- codemirror: https://github.com/codemirror/codemirror -->
+<script src="/codemirror/lib/codemirror.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/codemirror/lib/codemirror.css" type="text/css"/>
+<script src="/codemirror/mode/javascript/javascript.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/codemirror/theme/idea.css" type="text/css"/>
+<script src="/codemirror/addon/selection/active-line.js" type="text/javascript"></script>
+<script src="/codemirror/addon/edit/matchbrackets.js" type="text/javascript"></script>
+{$end}
+
+<div class="ui menu text blue top-menu">
+    <a href="/apps/probes" class="item active">已添加探针</a>
+    <!--<a href="/apps/square" class="item">探针广场</a>-->
+    <a href="/apps/addProbe" class="item">制作探针</a>
+</div>
+
+<p class="comment">下面脚本使用Javascript语言，可以在<a href="https://github.com/TeaWeb/build/blob/master/docs/apps/Probe.md" target="_blank">这里查看API说明文档</a>：</p>
+
+<div class="editor-box">
+    <div id="editor"></div>
+    <div class="buttons-box">
+        <button class="ui button primary" type="button" @click.prevent="save()">保存</button> &nbsp;
+        <a href="" @click.prevent="test()">试运行</a>
+    </div>
+</div>
+
+<!-- 试运行结果 -->
+<p v-if="loading">loading ...</p>
+<div v-if="results.length > 0" style="margin-top:1em">
+    <p class="comment">成功找到 {{results.length}} 个App</p>
+    <table class="ui table" v-for="app in results">
+        <tr>
+            <td class="title">App名称（服务名称）</td>
+            <td>{{app.name}}</td>
+        </tr>
+        <tr>
+            <td>开发者</td>
+            <td>
+                <span v-if="app.developer.length == 0" class="grey">没有设置</span>
+                <span v-if="app.developer.length > 0">{{app.developer}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>官方网站</td>
+            <td>
+                <span v-if="app.site.length == 0" class="grey">没有设置</span>
+                <a :href="app.site" target="_blank" v-if="app.site.length > 0">{{app.site}}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>官方文档网址</td>
+            <td>
+                <span v-if="app.docSite.length == 0" class="grey">没有设置</span>
+                <a :href="app.docSite" target="_blank" v-if="app.docSite.length > 0">{{app.docSite}}</a>
+            </td>
+        </tr>
+        <tr>
+            <td>版本</td>
+            <td>
+                <span v-if="app.version.length == 0" class="grey">-</span>
+                <span v-if="app.version.length > 0">{{app.version}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>进程</td>
+            <td>
+                <div class="ui field line" v-for="process in app.processes">
+                    <div class="ui field">
+                        <span title="PID">[{{process.pid}}]</span> {{process.cmdline}}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

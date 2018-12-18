@@ -2,6 +2,10 @@ Tea.context(function () {
     this.refreshingAppId = "";
     this.hasFavoredApps = false;
 
+    this.$delay(function () {
+        this.watch();
+    });
+
     this.hasFavoredApps = this.apps.$any(function (k, v) {
         return v.isFavored;
     });
@@ -33,6 +37,25 @@ Tea.context(function () {
                    this.refreshingAppId = "";
                }, 500);
            });
+   };
+
+   this.watch = function () {
+        this.$post(".watch")
+            .params({
+                "appIds": this.apps.$map(function (k, v) {
+                    return v.id;
+                })
+            })
+            .success(function (resp) {
+                if (resp.data.isChanged) {
+                    this.apps = resp.data.apps;
+                }
+            })
+            .done(function () {
+                this.$delay(function () {
+                    this.watch();
+                }, 1000);
+            });
    };
 
    this.showAppDetail = false;
