@@ -1,9 +1,9 @@
 # 安装
-1. 可以从 [https://github.com/TeaWeb/build/releases](https://github.com/TeaWeb/build/releases) 下载对应的Release版本，目前支持MacOS(darwin)、Linux、Windows三种版本；
+1. 可以从 [http://plus.meloy.cn/download](http://plus.meloy.cn/download) 下载对应的Release版本，目前支持MacOS(darwin)、Linux、Windows三种版本；
 2. 使用unzip解压到某个目录，比如 teaweb-v0.0.1/；
 3. 然后执行：
-    ~~~shell
-    cd teaweb-v0.0.1/
+    ~~~bash
+    cd teaweb-v0.0.1/  # 转到teaweb目录
     bin/teaweb start
     ~~~
 4. 如果没有出现错误的话，可以在浏览器中访问：
@@ -18,13 +18,13 @@ TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，�
 
 ## CentOS7
 在CentOS7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
-~~~
+~~~bash
 firewall-cmd --zone=public --add-port=7777/tcp --permanent
-firewall-cmd —reload
+firewall-cmd —-reload
 ~~~
 
 要使用插件服务，请确保`ps`、`pgrep`和`lsof`命令可用，如果没有安装对应的命令，可以使用以下命令安装：
-~~~
+~~~bash
 yum install procps
 yum install lsof
 ~~~

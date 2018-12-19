@@ -4,6 +4,7 @@
 * [升级](main/Upgrade.md)
 * [常用命令](main/Commands.md)
 * [登录](main/Login.md)
+* [常见问题](main/FAQ.md)
 * 通用设置
   * [管理界面](settings/Service.md)
   * [个人资料](settings/Profile.md)
@@ -24,19 +25,20 @@
   * 缓存
   * [内置变量](proxy/Variables.md)
   * 前端代理
-    * Nginx
-    * Apache
-    * Varnish
-    * Squid
-    * HAProxy
+     * [Nginx](proxy/Nginx.md)
+     * Apache
+     * Varnish
+     * Squid
+     * HAProxy
 * Apps
+  * [本地服务](apps/Index.md)
   * [安装ps命令](apps/InstallPs.md)
   * [安装pgrep命令](apps/InstallPgrep.md)
   * [安装lsof命令](apps/InstallLsof.md)    
   * [自定义探针](apps/Probe.md)
 * 开发者
-  * [从源码启动或编译](main/Build.md)    
+  * [从源码启动或编译](main/Build.md)
   * 插件
-    * [写一个插件](https://github.com/TeaWeb/plugin)
-    * [安装插件](https://github.com/TeaWeb/plugin#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6)  
+     * [写一个插件](plugins/Write.md)
+     * [安装插件](plugins/Install.md)
 * [TeaWeb+](plus/Index.md)  
