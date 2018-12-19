@@ -71,7 +71,7 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [如何实现自己的插件](https://github.com/TeaWeb/plugin)
 
 # 文档
-[点这里进入文档，持续完善中](https://github.com/TeaWeb/build/blob/master/docs/Index.md)
+[点这里进入文档，持续完善中](http://plus.meloy.cn/doc)
 
 # 在线演示
 [点击这里查看在线演示的版本](http://meloy.cn:7777/)

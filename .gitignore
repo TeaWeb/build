@@ -40,3 +40,4 @@ bin/
 dist/
 drafts/
 pkg/
+docs/proxy/CreateProxy.md
