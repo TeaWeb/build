@@ -34,7 +34,7 @@
   * [本地服务](apps/Index.md)
   * [安装ps命令](apps/InstallPs.md)
   * [安装pgrep命令](apps/InstallPgrep.md)
-  * [安装lsof命令](apps/InstallLsof.md)    
+  * [安装lsof命令](apps/InstallLsof.md)
   * [自定义探针](apps/Probe.md)
 * 开发者
   * [从源码启动或编译](main/Build.md)

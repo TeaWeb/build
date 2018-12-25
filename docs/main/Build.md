@@ -19,6 +19,6 @@
 
 # 使用Git下载源码
 如果你想使用Git下载源码，可以使用下面命令： 
-~~~
+~~~bash
 git clone https://github.com/TeaWeb/build.git
 ~~~

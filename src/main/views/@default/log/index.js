@@ -12,11 +12,6 @@ Tea.context(function () {
     this.isPlaying = true;
     this.started = false;
 
-    // chart
-    this.qpsChartOptions = null;
-    this.bandwidthChartOptions = null;
-    this.requestChartOptions = null;
-
     // 搜索相关
     this.searchBoxVisible = teaweb.getBool("searchBoxVisible");
     this.searchIp = teaweb.getString("searchIp");
@@ -68,20 +63,12 @@ Tea.context(function () {
         var lastSize = 0;
         this.$get(".get")
             .params({
+                "server": this.server.filename,
                 "fromId": this.fromId,
                 "size": loadSize,
                 "bodyFetching": this.bodyFetching ? 1 : 0
             })
             .success(function (response) {
-                // QPS
-                this.qpsChartOptions = response.data.qpsChart;
-
-                // 带宽
-                this.bandwidthChartOptions = response.data.bandwidthChart;
-
-                // 请求
-                this.requestChartOptions = response.data.requestChart;
-
                 // 日志
                 lastSize = response.data.logs.length;
                 if (lastSize == loadSize) {

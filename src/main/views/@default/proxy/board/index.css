@@ -1,0 +1,14 @@
+.chart-list .chart-box {
+    height: 12em;
+    position: relative;
+    line-height: 1.8;
+    overflow-y: auto;
+}
+
+.chart-list .chart-box::-webkit-scrollbar, .chart-list .chart-box div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chart-list .column {
+    padding-bottom: 0!important;
+}

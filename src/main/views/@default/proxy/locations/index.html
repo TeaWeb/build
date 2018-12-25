@@ -39,7 +39,7 @@
                     <td v-if="location.type == 2">精准匹配</td>
                     <td v-if="location.type == 3">正则表达式</td>
                     <td class="four op">
-                        <a :href="$url('/proxy/locations/detail', { 'filename':filename,'index':index })"><i class="ui icon info circle"></i> </a>
+                        <a :href="$url('/proxy/locations/detail', { 'server':filename,'index':index })"><i class="ui icon info circle"></i> </a>
                         <a href="" v-on:click.prevent="deleteLocation(index)"><i class="ui icon remove circle"></i> </a>
                         <a href="" v-if="index > 0" title="上移" v-on:click.prevent="moveUp(index)"><i class="ui icon up arrow circle"></i></a>
                         <a href="" v-if="locations.length > 1 && index < locations.length - 1" title="下移" v-on:click.prevent="moveDown(index)"><i class="ui icon down arrow circle"></i></a>

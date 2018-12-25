@@ -12,9 +12,7 @@
 }
 
 .servers-box {
-    position: fixed!important;
-    padding-left: 6em!important;
-    right: 4em;
+
 }
 
 .servers-box .table-box table td strong {
@@ -37,4 +35,7 @@
     font-style: normal;
     font-size: 0.8em;
     color: grey;
+}
+
+.servers-box p {
 }

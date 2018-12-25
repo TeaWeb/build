@@ -13,19 +13,6 @@
 </div>
 
 <div v-if="mongoError.length == 0">
-   <div>
-       <div class="ui grid four column segment charts-box">
-           <!-- QPS -->
-           <div class="ui column" v-if="qpsChartOptions != null" v-html="CHART.gauge(qpsChartOptions)"></div>
-
-           <!-- Bandwidth -->
-           <div class="ui column" v-if="bandwidthChartOptions != null" v-html="CHART.gauge(bandwidthChartOptions)"></div>
-
-           <!-- Requests -->
-           <div class="ui column" v-if="requestChartOptions != null" v-html="CHART.line(requestChartOptions)" style="width:46%"></div>
-       </div>
-   </div>
-
     <div class="search-box close" v-show="!searchBoxVisible">
         <button class="ui button tiny basic" type="button" @click="showSearchBox()" :class="{primary:hasSearchConditions()}" title="展开筛选条件">筛选 <i class="ui icon chevron down" :class="{white:hasSearchConditions()}"></i> </button> &nbsp;
         <button class="ui button tiny basic" type="button" v-if="isPlaying" @click="pause()" title="暂停日志刷新">暂停 <i class="ui icon pause"></i> </button>

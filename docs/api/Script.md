@@ -57,19 +57,20 @@
 
 调用方法：
 ~~~javascript
-API("API路径");
+apis.API("API路径");
 ~~~
+这里有一个 `apis` ，类似于命名空间，防止同其他脚本中定义的变量冲突。
 
 示例：
 ~~~javascript
-var api = API("$"); // 调用当前API
-var api = API("/hello/world"); // 调用某个特定的API 
+var api = apis.API("$"); // 调用当前API
+var api = apis.API("/hello/world"); // 调用某个特定的API 
 ~~~
 
 也可以在API中增加URL参数：
 ~~~javascript
-var api = API("$?name=lu"); // 调用当前API
-var api = API("/hello/world?age=20&city=Beijing"); // 调用某个特定的API 
+var api = apis.API("$?name=lu"); // 调用当前API
+var api = apis.API("/hello/world?age=20&city=Beijing"); // 调用某个特定的API 
 ~~~
 
 ### api.method()
@@ -790,4 +791,4 @@ api.onDone(function (resp) {
 ~~~
 
 ## 内置函数源码
-可以在[这里](https://github.com/TeaWeb/build/blob/master/src/main/libs/api-testing.js)查看内置函数的源码。
+可以在[这里](https://github.com/TeaWeb/build/blob/master/src/main/libs/api.testing.js)查看内置函数的源码。

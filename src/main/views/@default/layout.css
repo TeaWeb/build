@@ -26,12 +26,16 @@ a.disabled, a.disabled:hover, a.disabled:active, span.disabled  {
     color: #ccc!important;
 }
 
-a.enabled, span.enabled {
+a.enabled, span.enabled, span.green {
     color: #21ba45;
 }
 
 span.grey, label.grey, p.grey {
     color: grey!important;
+}
+
+span.red {
+    color: #db2828;
 }
 
 tbody {
@@ -131,6 +135,7 @@ body.expanded .main {
     position: fixed;
     width: 100%;
     z-index: 1000;
+    background: #276ac6!important;
 }
 
 .top-nav img.avatar {
@@ -140,6 +145,29 @@ body.expanded .main {
     background: #fff;
     border-radius: 0.9em;
     margin-right: 0.5em!important;
+}
+
+/** 服务器菜单 **/
+.sub-menu {
+    position: absolute;
+    left: 8em!important;
+    width: 11.5em!important;
+    top: 0;
+    bottom: 2.8em;
+    overflow-y: auto;
+}
+
+.sub-menu::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.sub-menu .menu {
+    max-width: 11.1em!important;
+}
+
+.sub-menu .menu .item.active {
+    font-weight: normal!important;
 }
 
 /** 右侧主操作区 **/
@@ -221,7 +249,11 @@ body.expanded .main {
     top: 2em;
     bottom: 0;
     overflow-y: auto;
-    background: #2185d0;
+    background: #276ac6!important;
+}
+
+.main-menu .menu {
+    background: #276ac6!important;
 }
 
 .main-menu::-webkit-scrollbar {
