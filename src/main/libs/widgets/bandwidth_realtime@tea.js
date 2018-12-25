@@ -7,7 +7,7 @@ var widget = {
 
 widget.run = function () {
 	var chart = new charts.LineChart();
-	chart.options.name = "实时带宽（KB/s）";
+	chart.options.name = "实时带宽<em>（KB/s）</em>";
 	chart.options.columns = 2;
 	chart.xShowTick = false;
 

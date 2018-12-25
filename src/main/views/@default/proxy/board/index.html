@@ -6,7 +6,10 @@
 {$end}
 
 <!-- 检测配置是否有更新 begins -->
-<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
 
 {$var "header"}
 <script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
@@ -19,10 +22,10 @@
 <div class="ui grid two columns chart-list">
     <div v-for="chart in charts" :class="{'one column row':chart.options.columns > 1, 'column':chart.options.columns <= 1}">
         <div :class="{'column':chart.options.columns > 1}">
-            <table class="ui table">
+            <table class="ui table small">
                 <thead>
                     <tr>
-                        <th>{{chart.options.name}}</th>
+                        <th v-html="chart.options.name"></th>
                     </tr>
                 </thead>
                 <tr>

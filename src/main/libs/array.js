@@ -143,3 +143,24 @@ Array.prototype.$map = function (fn) {
 	}
 	return arr;
 };
+
+Array.prototype.$contains = function (v) {
+	var that = this;
+	if (that == null) {
+		return false;
+	}
+	for (var i = 0; i < that.length; i++) {
+		if (that[i] == v) {
+			return true;
+		}
+	}
+	return false;
+};
+
+Array.prototype.$include = function (v) {
+	var that = this;
+	if (that == null) {
+		return false;
+	}
+	return that.$contains(v);
+};

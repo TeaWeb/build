@@ -58,6 +58,7 @@ function build() {
     cp -R ${GOPATH}/src/main/configs/mongo.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/configs/server.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/configs/server.www.proxy.conf ${TARGET}/configs/
+    cp -R ${GOPATH}/src/main/configs/board.default.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/www ${TARGET}/
 
     cp -R ${GOPATH}/src/main/public ${TARGET}/

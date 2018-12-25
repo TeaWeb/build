@@ -1,7 +1,10 @@
 {$layout}
 
 <!-- 检测配置是否有更新 begins -->
-<p class="ui message warning" v-if="statusChanged">代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a></p>
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
 
 {$var "header"}
 <script type="text/javascript" src="/_/@default/proxy/@global.js"></script>

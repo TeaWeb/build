@@ -19,6 +19,14 @@ widget.run = function () {
 			padding: 2px; \
 			margin-left: 8px; \
 		} \
+		.locations-box p { \
+		    display: inline-block; \
+		    margin-left: 0.5em; \
+		    margin-right: 0.5em; \
+		    border: 1px #ddd solid; \
+		    border-radius: 4px; \
+		    padding: 3px; \
+        } \
 		</style>";
 		chart.html += "<div class=\"locations-box\">";
 		for (var i = 0; i < locations.length; i++) {

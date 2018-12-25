@@ -1,5 +1,5 @@
 var widget = {
-	"name": "请求时间",
+	"name": "请求耗时",
 	"code": "request_time@tea",
 	"author": "TeaWeb",
 	"version": "0.0.1"
@@ -7,7 +7,7 @@ var widget = {
 
 widget.run = function () {
 	var chart = new charts.LineChart();
-	chart.options.name = "请求时间趋势（最近五分钟平均时间，单位：ms）";
+	chart.options.name = "请求耗时趋势<em>（最近五分钟平均时间，单位：ms）</em>";
 	chart.options.columns = 2;
 	chart.xShowTick = false;
 

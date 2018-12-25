@@ -12,3 +12,9 @@
 .chart-list .column {
     padding-bottom: 0!important;
 }
+
+.chart-list .table th em {
+    font-weight: normal;
+    font-style: normal;
+    color: grey;
+}

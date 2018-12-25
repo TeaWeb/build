@@ -7,7 +7,7 @@ var widget = {
 
 widget.run = function () {
 	var chart = new charts.LineChart();
-	chart.options.name = "实时请求（Req/s）";
+	chart.options.name = "实时请求<em>（Req/s）</em>";
 	chart.options.columns = 2;
 	chart.xShowTick = false;
 

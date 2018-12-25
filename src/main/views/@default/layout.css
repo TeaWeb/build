@@ -276,11 +276,6 @@ body.expanded .main {
     padding-left: 0.3em;
 }
 
-.main .message .icon {
-    position: absolute;
-    right: 1em;
-}
-
 .main .go-top-btn {
     position: fixed;
     right: 2.6em;

@@ -34,7 +34,7 @@ widget.run = function () {
 		</style>";
 	var timestamp = times.now().unix();
 	if (errorLogs.length == 0) {
-		chart.html = "<p class='grey'>暂时还没有错误日志</p>";
+		chart.html = "<p class='grey'><i class='icon history'></i>暂时还没有错误日志</p>";
 	} else {
 		errorLogs.$each(function (k, v) {
 			var currentTime = times.unix(v.timestamp);

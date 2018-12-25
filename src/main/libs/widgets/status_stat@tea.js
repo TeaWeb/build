@@ -7,7 +7,7 @@ var widget = {
 
 widget.run = function () {
 	var chart = new charts.PieChart();
-	chart.options.name = "HTTP状态码分布";
+	chart.options.name = "HTTP状态码分布<em>（今日）</em>";
 	chart.options.columns = 1;
 
 	var query = new logs.Query();
@@ -27,16 +27,23 @@ widget.run = function () {
 	chart.labels.$each(function (k, v) {
 		chart.values.push(result[v]["count"]);
 	});
-	if (chart.labels[0] == "200") {
-		chart.colors = [colors.GREEN];
-		colors.ARRAY.$each(function (k, v) {
-			if (v != colors.GREEN) {
-				chart.colors.push(v);
-			}
-		});
+	if (chart.labels.length == 0) {
+        chart = new charts.HTMLChart();
+        chart.options.name = "HTTP状态码分布<em>（今日）</em>";
+        chart.options.columns = 1;
+        chart.html = "<p class='grey'><i class='ui icon pie chart'></i>暂时还没有请求。</p>";
 	} else {
-		chart.colors = colors.ARRAY;
-	}
+        if (chart.labels[0] == "200") {
+            chart.colors = [colors.GREEN];
+            colors.ARRAY.$each(function (k, v) {
+                if (v != colors.GREEN) {
+                    chart.colors.push(v);
+                }
+            });
+        } else {
+            chart.colors = colors.ARRAY;
+        }
+    }
 
 	chart.render();
 };

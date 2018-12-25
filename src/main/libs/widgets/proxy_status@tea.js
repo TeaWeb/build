@@ -9,6 +9,27 @@ widget.run = function () {
 	var chart = new charts.HTMLChart();
 	chart.options.name = "代理状态";
 	chart.options.columns = 1;
+
+	// ports
+	var ports = [];
+	context.server.listen.$each(function (k, v) {
+		if (v.length > 0) {
+			var index = v.indexOf(":");
+			var port = "80";
+			if (index > -1) {
+				port = v.substring(index + 1);
+			}
+			if (!ports.$contains(port)) {
+				ports.push(port);
+			}
+		}
+	});
+	if (ports.length > 0) {
+		chart.options.name = "代理状态<em>（已绑定端口：" + ports.join(", ") + "）</em>";
+	} else {
+		chart.options.name = "代理状态<em>（还没有绑定网络地址）</em>";
+	}
+
 	chart.html = "<style type='text/css'> \
     .backends-box { \
 		position: absolute; \
@@ -62,6 +83,7 @@ widget.run = function () {
 		line-height: 120px; \
 		color: white; \
 		font-size: 70px; \
+		opacity: 0.7; \
     } \
     .summary-state.red .circle  { \
         background: #db2828; \
