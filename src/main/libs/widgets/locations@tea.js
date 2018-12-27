@@ -1,9 +1,9 @@
-var widget = {
+var widget = new widgets.Widget({
 	"name": "路径规则",
 	"code": "locations@tea",
 	"author": "TeaWeb",
 	"version": "0.0.1"
-};
+});
 
 widget.run = function () {
 	var chart = new charts.HTMLChart();

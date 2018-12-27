@@ -1,9 +1,10 @@
-var widget = {
+var widget = new widgets.Widget({
 	"name": "最近的错误日志",
 	"code": "latest_error_log@tea",
 	"author": "TeaWeb",
-	"version": "0.0.1"
-};
+	"version": "0.0.1",
+	"requirements": ["mongo"]
+});
 
 widget.run = function () {
 	var chart = new charts.HTMLChart();

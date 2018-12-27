@@ -125,7 +125,7 @@ logs.Query = function () {
 	};
 
 	this.execute = function () {
-		return executeQuery(query);
+		return callExecuteQuery(query);
 	};
 
 	this.count = function () {

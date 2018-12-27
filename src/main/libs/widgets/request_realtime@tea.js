@@ -1,9 +1,10 @@
-var widget = {
+var widget = new widgets.Widget({
 	"name": "实时请求",
 	"code": "request_realtime@tea",
 	"author": "TeaWeb",
-	"version": "0.0.1"
-};
+	"version": "0.0.1",
+	"requirements": ["mongo"]
+});
 
 widget.run = function () {
 	var chart = new charts.LineChart();

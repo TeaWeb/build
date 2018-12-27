@@ -8,6 +8,6 @@ charts.Chart = function () {
 
 	this.render = function () {
 		//stub
-		renderChart(this);
+		callChartRender(this);
 	};
 };

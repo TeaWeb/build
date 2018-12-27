@@ -1,9 +1,9 @@
-var widget = {
+var widget = new widgets.Widget({
 	"name": "代理状态",
 	"code": "proxy_status@tea",
 	"author": "TeaWeb",
 	"version": "0.0.1"
-};
+});
 
 widget.run = function () {
 	var chart = new charts.HTMLChart();

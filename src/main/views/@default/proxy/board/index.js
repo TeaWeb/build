@@ -16,6 +16,7 @@ Tea.context(function () {
                 "server": this.server.filename,
                 "config": this.config
             })
+            .timeout(10)
             .success(function (resp) {
                 //console.log(JSON.stringify(resp.data.charts, 1, "  "));
                 this.widgetError = resp.data.widgetError;
