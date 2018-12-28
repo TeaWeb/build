@@ -21,6 +21,7 @@
             <tr>
                 <th>地址</th>
                 <th>权重</th>
+                <th>已失败</th>
                 <th>ID</th>
                 <th style="width:7em">操作</th>
             </tr>
@@ -31,9 +32,15 @@
                <span class="ui label tiny grey" v-if="!backend.on">停用</span>
 
                <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
-               <span class="ui label tiny red" v-if="backend.isDown">下线中</span></td>
-           <td>
-           {{backend.weight}}
+               <span class="ui label tiny red" v-if="backend.isDown">下线中</span>
+
+               <br/>
+               <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
+           <td>{{backend.weight}}</td>
+           <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0">不限</span>
+
+               <br/>
+               <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
            </td>
            <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
            </td>
@@ -52,6 +59,7 @@
         <tr>
             <th>地址</th>
             <th>权重</th>
+            <th>已失败</th>
             <th>ID</th>
             <th style="width:7em">操作</th>
         </tr>
@@ -62,12 +70,18 @@
                 <span class="ui label tiny grey" v-if="!backend.on">停用</span>
 
                 <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
-                <span class="ui label tiny grey" v-if="backend.isDown">下线中</span></td>
-            <td>
-                {{backend.weight}}
+                <span class="ui label tiny red" v-if="backend.isDown">下线中</span>
+
+                <br/>
+                <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a>
+            </td>
+            <td>{{backend.weight}}</td>
+            <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0">不限</span>
+
+                <br/>
+                <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
             </td>
             <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
-
             </td>
             <td>
                 <a :href="'/proxy/backend/update?server=' + proxy.filename + '&backend=' + backend.id">修改</a> &nbsp; <a href=""  @click.prevent="deleteBackend(backend.id)">删除</a>

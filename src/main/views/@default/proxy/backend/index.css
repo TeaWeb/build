@@ -21,3 +21,9 @@ div.margin {
 .table .progress .bar {
     min-width: 0;
 }
+
+table td a.small {
+    display: inline-block;
+    margin-top: 0.4em;
+    font-size: 0.9em;
+}
