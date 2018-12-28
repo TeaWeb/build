@@ -1,26 +1,16 @@
-h3 {
-    padding-top: 0.2em!important;
-    padding-bottom: 0!important;
+.tab-menu {
     margin-bottom: 0!important;
 }
 
-h3 .icon {
-    font-size: 0.8em!important;
-}
-
-.normal {
-    font-weight: normal!important;
-}
-
-.menu.text {
+.main .menu.text {
     margin-top: 0!important;
+    margin-bottom: 0!important;
 }
 
 table th em {
     font-style: normal;
     font-weight: normal;
 }
-
 
 /** codemirror **/
 .CodeMirror {

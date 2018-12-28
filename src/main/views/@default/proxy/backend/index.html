@@ -12,56 +12,74 @@
 <!--  检测配置是否有更新 end -->
 
 <div>
-    <h3>{{proxy.description}}<span>（{{filename}}）</span></h3>
-
     {$template "/proxy/menu"}
 
-    <form class="ui form">
-        <!-- 后端服务器 -->
-        <table class="ui table selectable width30">
-            <tbody v-if="proxy.backends.length == 0">
+    <h3 class="normal-h3">正常服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename">[添加服务器]</a></h3>
+    <p class="grey" v-if="normalBackends.length == 0">暂时还没有正常服务器。</p>
+   <table class="ui table" v-if="normalBackends.length > 0">
+        <thead>
             <tr>
-                <td colspan="2" class="normal">
-                    <a class="disabled">[暂时还没有后端服务器]</a>
-                </td>
+                <th>地址</th>
+                <th>权重</th>
+                <th>ID</th>
+                <th style="width:7em">操作</th>
             </tr>
-            </tbody>
-            <tbody v-if="proxy.backends.length > 0" v-for="(backend, index) in proxy.backends">
-            <tr v-if="!backend.isEditing">
-                <td>{{backend.address}}</td>
-                <td class="two op">
-                    <a href="" title="修改" v-on:click.prevent="editBackend(index, backend)"><i class="ui icon edit small"></i> </a>
-                    <a href="" title="删除" v-on:click.prevent="deleteBackend(index)"><i class="ui icon remove small"></i> </a>
-                </td>
-            </tr>
-            <tr v-if="backend.isEditing">
-                <td>
-                    <input type="text" v-model="backend.address" />
-                </td>
-                <td class="two op">
-                    <a href="" title="保存" v-on:click.prevent="editBackendSave(index, backend)"><i class="ui icon check circle"></i> </a>
-                    <a href="" v-on:click.prevent="editBackendCancel(index, backend)" title="取消"><i class="ui icon arrow left circle"></i> </a>
-                </td>
-            </tr>
-            </tbody>
-            <tr v-if="backendAdding">
-                <td>
-                    <div class="ui field">
-                        <label>地址</label>
-                        <input type="text" v-model="newBackendAddress" placeholder="比如 x.x.x.x:80"/>
-                    </div>
-                    <div class="ui field">
+        </thead>
+       <tr v-for="backend in normalBackends">
+           <td>{{backend.address}}<br/>
+               <span class="ui label tiny green" v-if="backend.on">启用</span>
+               <span class="ui label tiny grey" v-if="!backend.on">停用</span>
 
-                    </div>
-                </td>
-                <td>
-                    <a href="" v-on:click.prevent="addBackendSave()" title="保存"><i class="ui icon check circle"></i> </a>
-                    <a href="" v-on:click.prevent="backendAdding = false" title="取消"><i class="ui icon arrow left circle"></i> </a>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2"><a href="" v-on:click.prevent="addBackend()"><i class="ui icon plus circle"></i>新后端服务器</a></td>
-            </tr>
-        </table>
-    </form>
+               <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
+               <span class="ui label tiny red" v-if="backend.isDown">下线中</span></td>
+           <td>
+           {{backend.weight}}
+           </td>
+           <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
+           </td>
+           <td>
+               <a :href="'/proxy/backend/update?server=' + proxy.filename + '&backend=' + backend.id">修改</a> &nbsp; <a href="" @click.prevent="deleteBackend(backend.id)">删除</a>
+           </td>
+       </tr>
+   </table>
+
+    <div class="margin"></div>
+
+    <h3>备用服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename + '&backup=1'">[添加服务器]</a></h3>
+    <p class="grey" v-if="backupBackends.length == 0">暂时还没有备用服务器。</p>
+    <table class="ui table" v-if="backupBackends.length > 0">
+        <thead>
+        <tr>
+            <th>地址</th>
+            <th>权重</th>
+            <th>ID</th>
+            <th style="width:7em">操作</th>
+        </tr>
+        </thead>
+        <tr v-for="backend in backupBackends">
+            <td>{{backend.address}}<br/>
+                <span class="ui label tiny green" v-if="backend.on">启用</span>
+                <span class="ui label tiny grey" v-if="!backend.on">停用</span>
+
+                <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
+                <span class="ui label tiny grey" v-if="backend.isDown">下线中</span></td>
+            <td>
+                {{backend.weight}}
+            </td>
+            <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
+
+            </td>
+            <td>
+                <a :href="'/proxy/backend/update?server=' + proxy.filename + '&backend=' + backend.id">修改</a> &nbsp; <a href=""  @click.prevent="deleteBackend(backend.id)">删除</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="margin"></div>
+
+    <div class="ui divider"></div>
+
+    <h3>请求分发调度算法</h3>
+    <div class="ui segment">当前正在使用 <strong>{{scheduling.name}}</strong> &nbsp; <a :href="'/proxy/backend/scheduling?server=' + proxy.filename">[修改]</a>
+        <p class="grey">{{scheduling.description}}。</p> </div>
 </div>

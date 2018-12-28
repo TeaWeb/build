@@ -42,6 +42,10 @@ Tea.context(function () {
         this.$watch("searchKeyword", function (value) {
             that.filterLogs()
         });
+
+        this.$find(".menu").bind("click", function () {
+            window.scrollTo(0, 0);
+        });
     });
 
     window.addEventListener("unload", function () {

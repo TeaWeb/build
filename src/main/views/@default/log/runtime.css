@@ -4,7 +4,7 @@
 
 .log-box {
     position: fixed;
-    top: 8em;
+    top: 4em;
     bottom: 4em;
     -ms-word-break: break-all;
     word-break: break-all;
@@ -15,5 +15,5 @@
 }
 
 .log-box::-webkit-scrollbar {
-    width: 2px;
+    width: 4px;
 }

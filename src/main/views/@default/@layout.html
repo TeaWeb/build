@@ -22,7 +22,6 @@
     <div class="ui menu inverted top-nav blue small borderless" v-cloak="">
         <a href="/" class="item"><i class="icon leaf"></i>{{teaName}} &nbsp; <sup>v{{teaVersion}} - 可视化智能Web服务</sup></a>
         <div class="right menu">
-
             <a href="/settings/profile" class="item"  :class="{active: teaMenu == 'settings.profile'}">
                 <i class="icon user" v-if="teaUserAvatar.length == 0"></i>
                 <img class="avatar" :src="teaUserAvatar" v-if="teaUserAvatar.length > 0"/>

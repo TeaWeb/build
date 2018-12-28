@@ -1,0 +1,113 @@
+{$layout}
+
+{$template "/proxy/menu"}
+
+<form class="ui form" data-tea-action="/proxy/backend/update" data-tea-success="updateSuccess">
+    <input type="hidden" name="server" :value="proxy.filename"/>
+    <input type="hidden" name="backendId" :value="backend.id"/>
+    <p class="ui comment" style="padding-top:0">下面表单中标星号（*）的为必填项。</p>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">ID</td>
+            <td>{{backend.id}}</td>
+        </tr>
+        <tr>
+            <td>地址 *</td>
+            <td>
+                <input type="text" name="address" v-model="backend.address" placeholder="比如 192.168.1.100:8800"/>
+                <p class="ui comment">服务器地址，可以是一个IP，也可以是一个Unix Socket。</p>
+            </td>
+        </tr>
+        <tr>
+            <td>权重</td>
+            <td>
+                <input type="text" name="weight" v-model="backend.weight" maxlength="4"/>
+                <p class="ui comment">使用权重来计算请求分发的比例，最小为1。</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
+                <a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+        <tr>
+            <td>是否启用</td>
+            <td>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="on" value="1" v-model="backend.on"/>
+                    <label></label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>是否下线</td>
+            <td>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="isDown" value="1" v-model="backend.isDown"/>
+                    <label></label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>代号</td>
+            <td>
+                <input type="text" name="code" maxlength="100" v-model="backend.code" placeholder="比如 server001"/>
+                <p class="comment">只能是英文字母、下划线、数字的组合，一个好记的代号，用于某些转发算法中的参数。</p>
+            </td>
+        </tr>
+        <tr>
+            <td>连接失败超时</td>
+            <td>
+                <div class="ui fields inline">
+                    <div class="ui field">
+                        <input type="text" name="failTimeout" value="10" size="5" v-model="backend.failTimeout"/>
+                    </div>
+                    <div class="ui field">
+                        秒
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>连接最多失败次数</td>
+            <td>
+                <input type="text" name="maxFails" value="1" size="5" v-model="backend.maxFails"/>
+                <p class="comment">0表示不限制，即使连接失败也不会自动下线</p>
+            </td>
+        </tr>
+        <tr>
+            <td>最大并发连接数</td>
+            <td>
+                <input type="text" name="maxConns" value="0" v-model="backend.maxConns"/>
+                <p class="comment">0表示不限制</p>
+            </td>
+        </tr>
+        <tr>
+            <td>启动等待时间</td>
+            <td>
+                <div class="ui fields inline">
+                    <div class="ui field">
+                        <input type="text" name="slowStart" v-model="backend.slowStart" size="5" maxlength="10"/>
+                    </div>
+                    <div class="ui field">
+                        秒
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>是否为备份服务器</td>
+            <td>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="isBackup" value="1" v-model="backend.isBackup"/>
+                    <label></label>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button>
+</form>

@@ -11,3 +11,4 @@
     <a :href="$url('/proxy/cache', { 'server':filename })" class="item" :class="{active:selectedTab == 'cache'}">缓存<span v-if="proxy.cachePolicy.length > 0">(已设置)</span></a>
     <a :href="$url('/proxy/frontend', { 'server':filename })" class="item" :class="{active:selectedTab == 'frontend'}">前端代理</a>
 </div>
+<div class="ui divider" style="margin-top:0"></div>

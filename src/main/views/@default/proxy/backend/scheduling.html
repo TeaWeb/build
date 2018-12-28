@@ -1,0 +1,50 @@
+{$layout}
+
+{$template "/proxy/menu"}
+
+<p>在这里可以设置TeaWeb到后端服务器的调度算法。</p>
+
+<form class="ui form" data-tea-action="/proxy/backend/scheduling" data-tea-success="saveSuccess">
+    <input type="hidden" name="server" :value="proxy.filename"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">选择算法</td>
+            <td>
+                <select class="ui dropdown" style="width:12em" name="type" v-model="type"
+                        @change="changeSchedulingType()">
+                    <option v-for="schedulingType in schedulingTypes"
+                            :value="schedulingType.code">{{schedulingType.name}}</option>
+                </select>
+                <p class="comment">{{schedulingTypeDescription}}</p>
+            </td>
+        </tr>
+        <tr v-if="type == 'hash'">
+            <td>
+                Key
+            </td>
+            <td>
+                <input type="text" name="hashKey" v-model="hashKey" maxlength="100"/>
+                <p class="comment">用来计算Hash的字符串，<a href="http://plus.meloy.cn/doc/proxy/Variables.md" target="_blank">在这里查看可以使用的变量</a>
+                </p>
+            </td>
+        </tr>
+        <tr v-if="type == 'sticky'">
+            <td>参数类型</td>
+            <td>
+                <select class="ui dropdown" style="width:12em" name="stickyType" v-model="stickyType">
+                    <option value="cookie">Cookie</option>
+                    <option value="header">HTTP Header</option>
+                    <option value="argument">URL参数</option>
+                </select>
+            </td>
+        </tr>
+        <tr v-if="type == 'sticky'">
+            <td>参数名</td>
+            <td>
+                <input type="text" name="stickyParam" v-model="stickyParam" maxlength="50"/>
+                <p class="comment">记录或指定后端服务器的参数名，只能是英文字母和数字的组合，不允许有下划线（因为在HTTP Header中下划线是不标准的）</p>
+            </td>
+        </tr>
+    </table>
+    <button class="ui button primary" type="submit">保存</button>
+</form>
