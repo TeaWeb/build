@@ -9,6 +9,9 @@ Tea.context(function () {
 
    this.addLocation = function () {
         this.locationAdding = !this.locationAdding;
+        this.$delay(function () {
+            this.$find("#locationAddingField").focus();
+        });
    };
 
    this.reverse = function () {

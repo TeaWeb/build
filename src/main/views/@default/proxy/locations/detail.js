@@ -109,6 +109,7 @@ Tea.context(function () {
     this.rewriteAdding = false;
     this.addingPattern = "";
     this.addingReplace = "";
+    this.addingRedirectMethod = "p";
     this.targetType = "url";
     this.proxyId = "";
 
@@ -124,11 +125,15 @@ Tea.context(function () {
             rewrite.type = "url";
             rewrite.proxyId = "";
         }
+
         return rewrite;
     });
 
     this.addRewrite = function () {
         this.rewriteAdding = !this.rewriteAdding;
+        this.$delay(function () {
+            this.$find("#rewriteAddingPattern").focus();
+        });
     };
 
     this.cancelRewrite = function () {
@@ -143,7 +148,8 @@ Tea.context(function () {
                 "pattern": this.addingPattern,
                 "replace": this.addingReplace,
                 "targetType": this.targetType,
-                "proxyId": this.proxyId
+                "proxyId": this.proxyId,
+                "redirectMethod": this.addingRedirectMethod
             });
     };
 
@@ -218,7 +224,8 @@ Tea.context(function () {
                 "pattern": rewrite.pattern,
                 "replace": rewrite.replace,
                 "targetType": rewrite.type,
-                "proxyId": rewrite.proxyId
+                "proxyId": rewrite.proxyId,
+                "redirectMethod": rewrite.redirectMethod
             });
     };
 

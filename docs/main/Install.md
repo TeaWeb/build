@@ -20,7 +20,7 @@ TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，�
 在CentOS7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
 ~~~bash
 firewall-cmd --zone=public --add-port=7777/tcp --permanent
-firewall-cmd —-reload
+firewall-cmd --reload
 ~~~
 
 要使用插件服务，请确保`ps`、`pgrep`和`lsof`命令可用，如果没有安装对应的命令，可以使用以下命令安装：

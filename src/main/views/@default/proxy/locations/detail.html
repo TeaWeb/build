@@ -229,11 +229,21 @@
                     </select>
                 </td>
             </tr>
-            <tr v-if="rewrite.isEditing">
+            <tr v-if="rewrite.isEditing && rewrite.type == 'url'">
                 <td>目标URL</td>
                 <td colspan="2">
                     <input type="text" name="replace" maxlength="256" v-model="rewrite.replace"
                            placeholder="比如 /hello/${1}.html"/>
+                    <p class="comment">URL中可以包含一些<a href="http://plus.meloy.cn/doc/proxy/Variables.md" target="_blank">内置的变量</a>。</p>
+                </td>
+            </tr>
+            <tr v-if="rewrite.isEditing && rewrite.type == 'url'">
+                <td>转发方式</td>
+                <td>
+                    <select class="ui dropdown" v-model="rewrite.redirectMethod" style="width:12em">
+                        <option value="p">代理</option>
+                        <option value="r">跳转</option>
+                    </select>
                 </td>
             </tr>
             <tr v-if="rewrite.isEditing">
@@ -247,12 +257,12 @@
             </tbody>
         </table>
 
-
+        <!-- 添加rewrite -->
         <table class="ui table selectable width30 definition" v-if="rewriteAdding">
             <tr>
                 <td class="title">匹配规则</td>
                 <td>
-                    <input type="text" name="pattern" maxlength="256" v-model="addingPattern"
+                    <input type="text" id="rewriteAddingPattern" name="pattern" maxlength="256" v-model="addingPattern"
                            placeholder="比如 /hello/(.+)"/>
                 </td>
             </tr>
@@ -277,11 +287,21 @@
                     </select>
                 </td>
             </tr>
-            <tr>
+            <tr v-if="targetType == 'url'">
                 <td>目标URL</td>
                 <td>
                     <input type="text" name="replace" maxlength="256" v-model="addingReplace"
                            placeholder="比如 /hello/${1}.html"/>
+                    <p class="comment">URL中可以包含一些<a href="http://plus.meloy.cn/doc/proxy/Variables.md" target="_blank">内置的变量</a>。</p>
+                </td>
+            </tr>
+            <tr v-if="targetType == 'url'">
+                <td>转发方式</td>
+                <td>
+                    <select class="ui dropdown" v-model="addingRedirectMethod" style="width:12em">
+                        <option value="p">代理</option>
+                        <option value="r">跳转</option>
+                    </select>
                 </td>
             </tr>
         </table>
@@ -290,7 +310,7 @@
             <a href="" title="取消" v-on:click.prevent="cancelRewrite()"><i class="ui icon left arrow circle"></i></a>
         </div>
 
-        <div class="ui field">
+        <div class="ui field" v-if="!rewriteAdding">
             <a href="" title="添加" v-on:click.prevent="addRewrite()"><i class="ui icon plus circle"></i> </a>
         </div>
 

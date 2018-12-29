@@ -53,7 +53,7 @@
                 <tr>
                     <td class="title">规则</td>
                     <td colspan="2">
-                        <input type="text" name="pattern" v-model="pattern" placeholder="比如 /hello/world"/>
+                        <input type="text" id="locationAddingField" name="pattern" v-model="pattern" placeholder="比如 /hello/world"/>
                     </td>
                 </tr>
                 <tr>
@@ -92,7 +92,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tr>
+            <tr v-if="!locationAdding">
                 <td class="title"></td>
                 <td class="normal" colspan="2">
                     <a href="" v-on:click.prevent="addLocation()"><i class="ui icon plus circle"></i>新路径配置</a>
