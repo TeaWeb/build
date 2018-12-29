@@ -57,7 +57,7 @@
        </tr>
    </table>
 
-    <div class="margin"></div>
+    <div class="ui divider margin"></div>
 
     <h3>备用服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename + '&backup=1'">[添加服务器]</a></h3>
     <p class="grey" v-if="backupBackends.length == 0">暂时还没有备用服务器。</p>
@@ -101,9 +101,7 @@
         </tr>
     </table>
 
-    <div class="margin"></div>
-
-    <div class="ui divider"></div>
+    <div class="ui divider margin"></div>
 
     <h3>请求分发调度算法</h3>
     <div class="ui segment">当前正在使用 <strong>{{scheduling.name}}</strong> &nbsp; <a :href="'/proxy/backend/scheduling?server=' + proxy.filename">[修改]</a>

@@ -20,7 +20,7 @@ widget.run = function () {
 	while (true) {
 		timeList.push(passed.format("YmdHis"));
 		passed = passed.addTime(0, 0, 0, 0, 0, 4);
-		if (passed.unix() > now.unix()) {
+		if (passed.unix() >= now.unix()) {
 			break;
 		}
 	}
@@ -37,7 +37,12 @@ widget.run = function () {
 	});
 
 	var max = values.$max();
-	if (max < 10) {
+	if (max < 1) {
+        chart.options.name = "实时带宽（B/s）";
+        values = values.$map(function (k, v) {
+            return v  * 1024;
+        });
+    } else if (max < 10) {
 		chart.max = 10;
 	} else if (max > 1000) {
 		chart.options.name = "实时带宽（MB/s）";

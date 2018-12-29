@@ -1,0 +1,33 @@
+{$layout}
+
+<h3>检查版本更新</h3>
+
+<form class="ui form">
+    <table class="ui table selectable">
+        <tr>
+            <td class="title">你当前的版本</td>
+            <td>v{{currentVersion}}</td>
+        </tr>
+        <tr>
+            <td>版本检查地址</td>
+            <td>
+                <a :href="'http://plus.meloy.cn/services/version?version=' + currentVersion" target="_blank">http://plus.meloy.cn/services/version?version={{currentVersion}}</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="ui segment green" v-if="success && !hasNew">
+        恭喜，你已经拥有最新版本！
+    </div>
+
+    <div class="ui segment blue" v-if="success && hasNew">
+        发现最新版本 v{{latest}}，<a href="http://plus.meloy.cn/download" target="_blank">去下载 &raquo;</a>
+    </div>
+
+    <div class="ui segment red" v-if="errorMessage.length > 0">
+        发生错误：{{errorMessage}}
+    </div>
+
+    <button class="ui button primary" type="button" @click="checkVersion()" v-if="!success && !loading">检查版本更新</button>
+    <button class="ui button" type="button" v-if="loading">请等待几秒钟 ...</button>
+</form>

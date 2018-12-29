@@ -28,6 +28,16 @@
                 </p>
             </td>
         </tr>
+        <tr v-if="type == 'hash'">
+            <td>常用变量</td>
+            <td>
+                <select class="ui dropdown" style="width:12em" v-model="hashVar" @change="changeHashVar()">
+                    <option></option>
+                    <option value="${remoteAddr}">客户端IP</option>
+                    <option value="${host}${requestURI}">请求URL</option>
+                </select>
+            </td>
+        </tr>
         <tr v-if="type == 'sticky'">
             <td>参数类型</td>
             <td>

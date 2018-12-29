@@ -11,13 +11,22 @@ Tea.context(function () {
     };
     this.changeSchedulingType();
 
+    // hash
     this.hashKey = "";
+    this.hashVar = "";
     if (this.scheduling.code == "hash") {
         this.hashKey = this.scheduling.options.key;
     } else {
         this.hashKey = "${remoteAddr}";
     }
 
+    this.changeHashVar = function () {
+        if (this.hashVar.length > 0) {
+            this.hashKey = this.hashVar;
+        }
+    };
+
+    // sticky
     if (this.scheduling.code == "sticky") {
         this.stickyType = this.scheduling.options.type;
         this.stickyParam = this.scheduling.options.param;

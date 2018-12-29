@@ -19,7 +19,7 @@
 
     <form class="ui form">
         <p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
-        <div v-if="cachePolicyList.length > 0">
+        <div v-if="cachePolicyList.length > 0" class="ui segment">
             <p v-if="cachePolicy.length == 0" class="grey">还没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
             <p v-if="cachePolicy.length > 0" class="grey">正在使用"{{cachePolicy}}"，<a href="" @click.prevent="editCache()">修改</a></p>
         </div>

@@ -380,6 +380,22 @@ body.expanded .main {
     font-size: 0.9em;
 }
 
+#footer a form {
+    display: none;
+}
+
+#footer a:hover span, #footer a:active span {
+    display: none;
+}
+
+#footer a:hover form, #footer a:active form {
+    display: block;
+}
+
+#footer form input {
+    padding: 0;
+    margin: 0;
+}
 
 /** Vue **/
 [v-cloak] {
