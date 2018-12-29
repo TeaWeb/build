@@ -1,4 +1,4 @@
-# TeaWeb - 可视化智能Web服务
+# TeaWeb - 可视化的Web代理服务
 TeaWeb是一款集静态资源、缓存、代理、统计、监控于一体的可视化智能WebServer。
 
 TeaWeb使用Go语言实现，在高可定制化前提下，保证高性能、高并发。

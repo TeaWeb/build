@@ -23,6 +23,7 @@
                                 <a href="" @click.prevent="deleteAllowIP(index)"><i class="ui icon remove"></i> </a>
                             </div>
                         </div>
+                        <p class="comment">如果允许的IP中包含0.0.0.0，表示允许所有的IP访问。</p>
                         <div class="ui field">
                             <button class="ui button" type="button" @click.prevent="addAllowIP()">+</button>
                         </div>

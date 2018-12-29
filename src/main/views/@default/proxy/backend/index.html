@@ -14,14 +14,17 @@
 <div>
     {$template "/proxy/menu"}
 
-    <h3 class="normal-h3">正常服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename">[添加服务器]</a></h3>
-    <p class="grey" v-if="normalBackends.length == 0">暂时还没有正常服务器。</p>
+    <h3 class="normal-h3">普通服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename">[添加服务器]</a></h3>
+    <p class="grey" v-if="normalBackends.length == 0">暂时还没有普通服务器。</p>
    <table class="ui table" v-if="normalBackends.length > 0">
         <thead>
             <tr>
                 <th>地址</th>
                 <th>权重</th>
-                <th>已失败</th>
+                <th>已失败次数
+                    <br/>/最多次数
+                </th>
+                <th>并发数</th>
                 <th>ID</th>
                 <th style="width:7em">操作</th>
             </tr>
@@ -32,15 +35,19 @@
                <span class="ui label tiny grey" v-if="!backend.on">停用</span>
 
                <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
-               <span class="ui label tiny red" v-if="backend.isDown">下线中</span>
+               <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
 
                <br/>
                <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
            <td>{{backend.weight}}</td>
-           <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0">不限</span>
+           <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0" class="grey">不限</span>
 
                <br/>
                <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
+           </td>
+           <td>
+               <span v-if="backend.maxConns > 0">{{backend.maxConns}}</span>
+               <span v-if="backend.maxConns == 0" class="grey">不限</span>
            </td>
            <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
            </td>
@@ -59,7 +66,8 @@
         <tr>
             <th>地址</th>
             <th>权重</th>
-            <th>已失败</th>
+            <th>已失败次数<br/>/最多次数</th>
+            <th>并发数</th>
             <th>ID</th>
             <th style="width:7em">操作</th>
         </tr>
@@ -70,16 +78,20 @@
                 <span class="ui label tiny grey" v-if="!backend.on">停用</span>
 
                 <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
-                <span class="ui label tiny red" v-if="backend.isDown">下线中</span>
+                <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
 
                 <br/>
                 <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a>
             </td>
             <td>{{backend.weight}}</td>
-            <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0">不限</span>
+            <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0" class="grey">不限</span>
 
                 <br/>
                 <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
+            </td>
+            <td>
+                <span v-if="backend.maxConns > 0">{{backend.maxConns}}</span>
+                <span v-if="backend.maxConns == 0" class="grey">不限</span>
             </td>
             <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
             </td>

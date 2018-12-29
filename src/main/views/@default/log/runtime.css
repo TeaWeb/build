@@ -1,5 +1,5 @@
 .log-container {
-
+    position: relative;
 }
 
 .log-box {
@@ -8,12 +8,19 @@
     bottom: 4em;
     -ms-word-break: break-all;
     word-break: break-all;
-    line-height: 1.7;
+    line-height: 1.8;
     overflow-y: auto;
     left: 10em;
-    right: 8em;
+    right: 4em;
+    border: 1px #eee solid;
+    padding: 0.6em;
 }
 
 .log-box::-webkit-scrollbar {
     width: 4px;
+}
+
+.log-box em {
+    font-style: normal;
+    color: grey;
 }

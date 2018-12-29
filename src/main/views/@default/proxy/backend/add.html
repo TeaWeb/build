@@ -38,6 +38,7 @@
                         <input type="checkbox" name="on" value="1" checked="checked"/>
                         <label></label>
                     </div>
+                    <p class="comment">启用后才会被分发请求。</p>
                 </td>
             </tr>
             <tr>
@@ -58,6 +59,7 @@
                             秒
                         </div>
                     </div>
+                    <p class="comment">0表示不限制</p>
                 </td>
             </tr>
             <tr>
@@ -75,25 +77,13 @@
                 </td>
             </tr>
             <tr>
-                <td>启动等待时间</td>
-                <td>
-                    <div class="ui fields inline">
-                        <div class="ui field">
-                            <input type="text" name="slowStart" value="1" size="5" maxlength="10"/>
-                        </div>
-                        <div class="ui field">
-                            秒
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>是否为备份服务器</td>
+                <td>是否为备用服务器</td>
                 <td>
                     <div class="ui checkbox">
                         <input type="checkbox" name="isBackup" value="1" v-model="isBackup"/>
                         <label></label>
                     </div>
+                    <p class="comment">当普通服务器全部不可用时，会自动将请求转发到备用服务器</p>
                 </td>
             </tr>
         </tbody>

@@ -19,6 +19,7 @@ Tea.context(function () {
     });
 
     this.load = function () {
+
         if (!this.stopScrolling) {
             this.$find(".log-box")[0].scrollTop = 10000;
         }
@@ -27,8 +28,9 @@ Tea.context(function () {
             .success(function (resp) {
                 this.logText = this.logText + resp.data.data
                     .replace(/ /g, "&nbsp;")
-                    .replace(/\t/, "&nbsp; &nbsp; ")
+                    .replace(/\t/g, "&nbsp; &nbsp; ")
                     .replace(/\n/g, "<br/>");
+                this.logText = this.logText.replace(/(^|>)(\d+\/\d+\/\d+&nbsp;\d+:\d+:\d+)/g, "$1<em>[$2]</em> ");
             })
             .done(function () {
                 this.$delay(function () {
