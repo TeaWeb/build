@@ -1,0 +1,8 @@
+.status-list {
+    margin-top: 1em;
+}
+
+.status-list .label {
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+}

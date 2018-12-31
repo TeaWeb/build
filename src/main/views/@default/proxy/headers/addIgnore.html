@@ -1,0 +1,21 @@
+{$layout}
+
+<h3>添加要屏蔽的Header</h3>
+<p class="comment" style="padding-top: 0">屏蔽的Header在对客户端响应时不会出现。</p>
+
+<form  class="ui form" data-tea-action="/proxy/headers/addIgnore" data-tea-success="addSuccess">
+    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <input type="hidden" name="rewriteId" :value="rewriteId"/>
+    <input type="hidden" name="backendId" :value="backendId"/>
+    <input type="hidden" name="fastcgiId" :value="fastcgiId"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">名称</td>
+            <td>
+                <input type="text" name="name" placeholder="类似于 Server、Content-Type之类" maxlength="100"/>
+            </td>
+        </tr>
+    </table>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>

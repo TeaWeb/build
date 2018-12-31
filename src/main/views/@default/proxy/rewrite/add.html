@@ -1,0 +1,106 @@
+{$layout}
+
+<h3>添加重写规则</h3>
+
+<form  class="ui form" data-tea-action="/proxy/rewrite/add" data-tea-success="addSuccess">
+    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">匹配规则</td>
+            <td>
+                <input type="text" name="pattern" maxlength="256" placeholder="比如 /hello/(.+)"/>
+                <p class="comment">需要符合正则表达式规范</p>
+            </td>
+        </tr>
+        <tr>
+            <td>目标类型</td>
+            <td>
+                <select class="ui dropdown" name="targetType" v-model="targetType" style="width:12em">
+                    <option value="url">转发到URL</option>
+                    <option value="proxy">转发到其他代理服务</option>
+                </select>
+            </td>
+        </tr>
+        <tr v-if="targetType == 'proxy'">
+            <td>转发到代理服务</td>
+            <td>
+                <a class="disabled" v-if="proxies.length == 0">还没有可用的代理服务。</a>
+                <select class="ui dropdown" name="proxyId" v-model="proxyId" style="width:14em">
+                    <option value="">[请选择]</option>
+                    <option v-for="otherProxy in proxies" :value="otherProxy.id">{{otherProxy.name}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>目标URL</td>
+            <td>
+                <input type="text" name="replace" maxlength="256" placeholder="比如 /hello/${1}.html"/>
+                <p class="comment">URL中可以包含一些<a href="http://plus.meloy.cn/doc/proxy/Variables.md" target="_blank">内置的变量</a>，也可以是一个完整的URL，比如：http://example.com/hello。</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+                <a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+            <tr v-if="targetType == 'url'">
+                <td>转发方式</td>
+                <td>
+                    <select class="ui dropdown" name="redirectMode" v-model="redirectMode" style="width:12em">
+                        <option value="r">跳转</option>
+                        <option value="p">代理</option>
+                    </select>
+                    <p class="comment" v-if="redirectMode == 'r'">通过<span class="ui label tiny">307 Temporary Redirect</span>在客户端（比如浏览器）跳转到目标URL。</p>
+                    <p class="comment" v-if="redirectMode == 'p'">将目标URL隐藏于客户端。</p>
+                </td>
+            </tr>
+            <tr>
+                <td>过滤条件</td>
+                <td>
+                    <table class="ui table without-definition" v-if="conds.length > 0">
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>运算符</th>
+                                <th>对比值</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tr v-for="(cond, index) in conds" :key="index">
+                            <td>
+                                <input type="text" name="condParams" v-model="cond.param"/>
+                            </td>
+                            <td>
+                                <select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">
+                                    <option v-for="op in operators" :value="op.op">{{op.name}}</option>
+                                </select>
+                                <p class="comment">{{cond.description}}</p>
+                            </td>
+                            <td class="value-td">
+                                <input type="text" name="condValues" v-model="cond.value"/>
+                            </td>
+                            <td>
+                                <a href="" @click.prevent="removeCond(index)" title="删除"><i class="icon remove"></i></a>
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="button" class="ui button" @click="addCond()">+</button>
+                    <p class="comment">满足以上条件时重写规则才会生效。参数中可以使用一些内置的变量：<a href="http://plus.meloy.cn/doc/proxy/Variables.md" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+                </td>
+            </tr>
+            <tr>
+                <td>是否启用</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="on" value="1" checked="checked"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>

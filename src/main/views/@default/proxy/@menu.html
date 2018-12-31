@@ -1,14 +1,14 @@
 <div class="ui text menu blue">
-    <a :href="$url('/proxy/detail', { 'server':filename })" class="item" :class="{active:selectedTab == 'basic'}">基本信息</a>
-    <a :href="$url('/proxy/ssl', { 'server':filename })" class="item green" :class="{active:selectedTab == 'https'}">HTTPS<i class="ui icon expeditedssl" :class="{green:proxy.ssl && proxy.ssl.on, grey:!proxy.ssl || !proxy.ssl.on}"></i></a>
-    <a :href="$url('/proxy/backend', { 'server':filename })" class="item" :class="{active:selectedTab == 'backend'}">后端服务器({{proxy.backends.length}})</a>
-    <a :href="$url('/proxy/locations', { 'server':filename })" class="item" :class="{active:selectedTab == 'location'}">路径规则({{proxy.locations.length}})</a>
+    <a :href="$url('/proxy/detail', { 'server':filename })" class="item" :class="{active:selectedTab == 'basic'}"><i class="ui icon info circle small"></i>基本信息</a>
+    <a :href="$url('/proxy/ssl', { 'server':filename })" class="item green" :class="{active:selectedTab == 'https'}"><i class="ui icon expeditedssl small" :class="{green:proxy.ssl && proxy.ssl.on, grey:!proxy.ssl || !proxy.ssl.on}"></i>HTTPS</a>
+    <a :href="$url('/proxy/backend', { 'server':filename })" class="item" :class="{active:selectedTab == 'backend'}"><i class="ui icon server small"></i>后端服务器({{proxy.backends.length}})</a>
+    <a :href="$url('/proxy/locations', { 'server':filename })" class="item" :class="{active:selectedTab == 'location'}"><i class="ui icon folder small"></i>路径规则({{proxy.locations.length}})</a>
 
-    <a  v-if="selectedTab == 'location' && location != null" :href="$url('/proxy/locations/detail', { 'server':filename, 'index':locationIndex })" class="item active">&raquo;
+    <a v-if="selectedTab == 'location' && location != null" :href="$url('/proxy/locations/detail', { 'server':filename, 'locationId':location.id })" class="item active">&raquo;
         路径：{{location.pattern}}</a>
 
-    <a :href="$url('/proxy/headers', { 'server':filename })" class="item" :class="{active:selectedTab == 'header'}">自定义Header({{proxy.headers.length}})</a>
-    <a :href="$url('/proxy/cache', { 'server':filename })" class="item" :class="{active:selectedTab == 'cache'}">缓存<span v-if="proxy.cachePolicy.length > 0">(已设置)</span></a>
-    <a :href="$url('/proxy/frontend', { 'server':filename })" class="item" :class="{active:selectedTab == 'frontend'}">前端代理</a>
+    <a :href="$url('/proxy/headers', { 'server':filename })" class="item" :class="{active:selectedTab == 'header'}"><i class="ui icon file alternate small"></i>自定义Header({{proxy.headers.length}})</a>
+    <a :href="$url('/proxy/cache', { 'server':filename })" class="item" :class="{active:selectedTab == 'cache'}"><i class="ui icon save small"></i>缓存<span v-if="proxy.cachePolicy.length > 0">(已设置)</span></a>
+    <a :href="$url('/proxy/frontend', { 'server':filename })" class="item" :class="{active:selectedTab == 'frontend'}"><i class="ui icon paper plane small"></i>前端代理</a>
 </div>
 <div class="ui divider" style="margin-top:0"></div>

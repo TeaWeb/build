@@ -31,7 +31,7 @@ widget.run = function () {
 		chart.html += "<div class=\"locations-box\">";
 		for (var i = 0; i < locations.length; i++) {
 			var location = locations[i];
-			chart.html += "<p><a href='/proxy/locations/detail?server=" + context.server.filename + "&index=" + i + "'><i class='icon folder'></i> " + location.pattern + "</a>";
+			chart.html += "<p><a href='/proxy/locations/detail?server=" + context.server.filename + "&locationId=" + location.id + "'><i class='icon folder'></i> " + location.pattern + "</a>";
 			if (location.root.length > 0) {
 				chart.html += "<span class='ui label tiny'>root</span>";
 			}

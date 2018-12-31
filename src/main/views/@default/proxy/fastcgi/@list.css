@@ -1,0 +1,20 @@
+.divider {
+    margin-bottom: 0!important;
+}
+
+.margin {
+    margin-top: 2em!important;
+}
+
+table td .label.tiny {
+    padding: 3px!important;
+}
+
+table td .label.filename {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    max-width: 34em!important;
+    line-height: 1.5;
+}

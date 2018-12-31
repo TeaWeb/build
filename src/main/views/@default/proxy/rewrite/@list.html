@@ -1,0 +1,33 @@
+<h3>重写规则（RewriteRule） <a :href="'/proxy/rewrite/add?' + query + '&from=' + from">[添加]</a> </h3>
+<p class="grey" v-if="isLoaded && rewriteList.length == 0">暂时还没有设置重写规则。</p>
+<table class="ui table selectable" v-if="isLoaded && rewriteList.length > 0">
+    <thead>
+        <tr>
+            <th>匹配规则</th>
+            <th>转发目标</th>
+            <th>转发方式</th>
+            <th class="three wide">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="rewrite in rewriteList">
+        <td><span class="ui ">{{rewrite.pattern}}</span>
+            <br/>
+            <span class="ui label tiny" v-if="!rewrite.on">未启用</span>
+        </td>
+        <td>
+            <span v-if="rewrite.targetProxyName.length > 0 && rewrite.targetProxyFilename.length == 0" class="ui label tiny red">{{rewrite.targetProxyName}}</span>
+            <a v-if="rewrite.targetProxyName.length > 0 && rewrite.targetProxyFilename.length > 0" :href="'/proxy/board?server=' + rewrite.targetProxyFilename" class="ui label tiny">{{rewrite.targetProxyName}}</a>
+
+            <span class="">{{rewrite.targetURL}}</span>
+        </td>
+        <td>
+            <span v-if="rewrite.flags.$contains('r')">跳转</span>
+            <span v-if="rewrite.flags.$contains('p') || rewrite.targetProxyName.length > 0">代理</span>
+        </td>
+        <td>
+            <a :href="'/proxy/rewrite/update?rewriteId=' + rewrite.id + '&' + query + '&from=' + from">修改</a>
+            &nbsp;
+            <a href="" @click.prevent="deleteRewrite(rewrite)">删除</a>
+        </td>
+    </tr>
+</table>

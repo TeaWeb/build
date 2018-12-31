@@ -1,0 +1,11 @@
+.divider {
+    margin-bottom: 0!important;
+}
+
+.margin {
+    margin-top: 2em!important;
+}
+
+table td .label.tiny {
+    padding: 3px!important;
+}

@@ -1,0 +1,67 @@
+{$layout}
+
+<h3>添加Header</h3>
+<p class="comment" style="padding-top: 0">添加的Header在对客户端响应时会加上这些信息。</p>
+
+<form  class="ui form" data-tea-action="/proxy/headers/add" data-tea-success="addSuccess">
+    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <input type="hidden" name="rewriteId" :value="rewriteId"/>
+    <input type="hidden" name="backendId" :value="backendId"/>
+    <input type="hidden" name="fastcgiId" :value="fastcgiId"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">名称<em>（Name）</em></td>
+            <td>
+                <input type="text" name="name" placeholder="类似于 Server、Content-Type之类" maxlength="100"/>
+            </td>
+        </tr>
+        <tr>
+            <td>值<em>（Value）</em></td>
+            <td>
+                <input type="text" name="value" placeholder="" maxlength="100"/>
+                <p class="comment"><a href="http://plus.meloy.cn/doc/proxy/Variables.md" target="_blank">在这里查看支持的内置变量</a>。</p>
+            </td>
+        </tr>
+        <tr>
+            <td>HTTP状态码</td>
+            <td>
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" value="1" name="allStatus" v-model="supportAllStatus"/>
+                    <label v-if="supportAllStatus">支持所有的HTTP状态码</label>
+                    <label v-if="!supportAllStatus" class="grey">支持所有的HTTP状态码</label>
+                </div>
+                <div v-if="!supportAllStatus" class="status-list">
+                    <label class="ui label" v-for="(status, index) in statusList" :key="index">{{status}}
+                        <input type="hidden" name="statusList" :value="status"/>
+                        <a href="" @click.prevent="deleteStatus(index)"><i class="ui icon remove"></i></a>
+                    </label>
+                    <div style="margin-top:1em" v-if="!statusAdding">
+                        <button class="ui button small" type="button" @click.prevent="addStatus()">+</button>
+                    </div>
+                    <div style="margin-top:1em" v-if="statusAdding">
+                        <div class="ui fields inline">
+                            <div class="ui field">
+                                <input type="number" name="addingStatus" @keyup.enter="addStatusConfirm" v-model="addingStatus" style="width:5em" maxlength="3" @keypress.enter.prevent="1"/>
+                            </div>
+                            <div class="ui field">
+                                <button class="ui button" type="button" @click.prevent="addStatusConfirm()">添加</button> &nbsp; <a href="" @click.prevent="cancelAdding()">取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="comment">支持的HTTP状态码，必须是3位数字</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>是否启用</td>
+            <td>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="on" value="1" checked="checked"/>
+                    <label></label>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>

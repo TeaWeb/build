@@ -1,0 +1,37 @@
+<h3>Fastcgi设置<a :href="'/proxy/fastcgi/add?' + query + '&from=' + from">[添加]</a></h3>
+<p class="ui grey" v-if="fastcgiList.length > 0">如果设置了多个Fastcgi，则每次请求会随机调用其中一个。</p>
+<p class="ui grey" v-if="fastcgiList.length == 0 && loaded">暂时还没有设置Fastcgi。</p>
+
+<table class="ui table selectable" v-if="fastcgiList.length > 0">
+    <thead>
+        <tr>
+            <th class="three wide">Fastcgi地址</th>
+            <th>脚本文件</th>
+            <th class="three wide">读取超时时间</th>
+            <th class="three wide">连接池尺寸</th>
+            <th class="three wide">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="fastcgi in fastcgiList">
+        <td>{{fastcgi.pass}}
+            <br/>
+            <span class="ui label tiny" v-if="!fastcgi.on">未启用</span>
+        </td>
+        <td>
+            <span v-if="fastcgi.scriptFilename.length == 0" class="disabled">没有设置</span>
+            <span v-if="fastcgi.scriptFilename.length > 0" class="ui label filename">{{fastcgi.scriptFilename}}</span>
+        </td>
+        <td>
+            <span v-if="fastcgi.readTimeout == '0s'" class="grey">默认</span>
+            <span v-if="fastcgi.readTimeout != '0s'">{{fastcgi.readTimeout}}</span>
+        </td>
+        <td>
+            <span v-if="fastcgi.poolSize == 0" class="grey">默认</span>
+            <span v-if="fastcgi.poolSize > 0">{{fastcgi.poolSize}}</span>
+        </td>
+        <td>
+            <a :href="'/proxy/fastcgi/update?fastcgiId=' + fastcgi.id + '&' + query + '&from=' + from">修改</a> &nbsp;
+            <a href="" @click.prevent="deleteFastcgi(fastcgi.id)">删除</a>
+        </td>
+    </tr>
+</table>

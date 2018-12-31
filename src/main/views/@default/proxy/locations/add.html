@@ -1,0 +1,134 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    {$template "/proxy/menu"}
+
+    <div class="ui text menu blue small">
+        <a :href="'/proxy/locations?server=' + proxy.filename" class="ui item">所有路径规则</a>
+        <span class="item">|</span>
+        <a :href="'/proxy/locations/add?server=' + proxy.filename"  class="u item active">添加新路径规则</a>
+    </div>
+
+    <form class="ui form" data-tea-action="/proxy/locations/add" data-tea-success="submitSuccess">
+        <input type="hidden" name="server" :value="server.filename"/>
+        <table class="ui table definition">
+            <tr>
+                <td class="title">匹配路径<em>（Pattern）</em></td>
+                <td>
+                    <input type="text" name="pattern" v-model="pattern" maxlength="100"/>
+                    <p class="comment">如果匹配类型是正则表达式匹配，则可以是一个正则表达式</p>
+                </td>
+            </tr>
+            <tr>
+                <td>匹配类型</td>
+                <td>
+                    <select class="ui dropdown" style="width:10em" name="patternType" v-model="type" @change="changePatternType(type)">
+                        <option v-for="patternType in patternTypes" :value="patternType.type">{{patternType.name}}</option>
+                    </select>
+                    <p class="comment">{{patternDescription}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+                    <a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+                </td>
+            </tr>
+            <tbody v-show="advancedOptionsVisible">
+                <tr>
+                    <td>文档根目录<em>（Root）</em></td>
+                    <td>
+                        <input type="text" name="root" v-model="root"/>
+                        <p class="comment">可以访问此根目录下的静态资源</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>字符编码<em>(charset)</em></td>
+                    <td>
+                        <select name="charset" class="ui dropdown" v-model="charset">
+                            <optgroup label="常用"></optgroup>
+                            <option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
+                            <optgroup label="所有"></optgroup>
+                            <option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} （{{charset.name}}）</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>首页文件<em>(index)</em></td>
+                    <td>
+                        <span class="ui label" v-for="(index, arrayIndex) in indexes" :key="arrayIndex">
+                            {{index}}
+                            <input type="hidden" name="index" :value="index"/>
+                            <a href="" @click.prevent="removeLocationIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+                        </span>
+
+                        <div class="ui fields inline" v-if="indexAdding" style="margin-top:0.8em">
+                            <div class="ui field">
+                                <input type="text" name="addingIndexName" style="width:16em" maxlength="10" placeholder="首页文件名，比如 index.php" @keyup.enter="confirmAddIndex()" @keypress.enter.prevent="1" v-model="addingIndexName" />
+                            </div>
+                            <div class="ui field">
+                                <button class="ui button" type="button" @click="confirmAddIndex()">确定</button>
+                                &nbsp; <a href="" @click.prevent="cancelIndexAdding()">取消</a>
+                            </div>
+                        </div>
+                        <div class="ui field" style="margin-top: 1em">
+                            <button class="ui button" type="button" @click="addIndex()">+</button>
+                        </div>
+                        <p class="comment">访问路径未指定文件名时，自动查找这些文件</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否启用</td>
+                    <td colspan="3">
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="on" v-model="on"/>
+                            <label></label>
+                        </div>
+                        <p class="comment">选中表示启用此路径规则配置</p>
+                    </td>
+                </tr>
+            </tbody>
+            <tr>
+                <td colspan="2">
+                    <a href="" v-if="!specialSettingsVisible" @click.prevent="showSpecialSettings()" style="font-weight:normal">特殊设置 <i class="icon down angle"></i> </a>
+                    <a href="" v-if="specialSettingsVisible" @click.prevent="showSpecialSettings()" style="font-weight:normal">收起特殊设置 <i class="icon up angle"></i> </a>
+                </td>
+            </tr>
+            <tbody v-show="specialSettingsVisible">
+                <tr>
+                    <td>不区分大小写</td>
+                    <td colspan="2">
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="isCaseInsensitive" v-model="isCaseInsensitive"/>
+                            <label></label>
+                        </div>
+                        <p class="comment">选中表示匹配规则中的路径中的英文字母不区分大小写</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">反向匹配</td>
+                    <td colspan="2">
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="isReverse" v-model="isReverse"/>
+                            <label></label>
+                        </div>
+                        <p class="comment">选中表示匹配所有<strong>不符合</strong>规则的路径</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="ui button primary" type="submit">保存</button>
+    </form>
+</div>

@@ -16,7 +16,7 @@
 
     <h3 class="normal-h3">普通服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename">[添加服务器]</a></h3>
     <p class="grey" v-if="normalBackends.length == 0">暂时还没有普通服务器。</p>
-   <table class="ui table" v-if="normalBackends.length > 0">
+   <table class="ui table selectable" v-if="normalBackends.length > 0">
         <thead>
             <tr>
                 <th>地址</th>
@@ -61,7 +61,7 @@
 
     <h3>备用服务器 <a :href="'/proxy/backend/add?server=' + proxy.filename + '&backup=1'">[添加服务器]</a></h3>
     <p class="grey" v-if="backupBackends.length == 0">暂时还没有备用服务器。</p>
-    <table class="ui table" v-if="backupBackends.length > 0">
+    <table class="ui table selectable" v-if="backupBackends.length > 0">
         <thead>
         <tr>
             <th>地址</th>

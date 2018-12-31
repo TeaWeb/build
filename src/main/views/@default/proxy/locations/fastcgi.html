@@ -8,13 +8,15 @@
 
 {$var "header"}
 <script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
-<script src="/_/@default/proxy/headers/@list.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/_/@default/proxy/headers/@list.css" type="text/css"/>
+<script src="/_/@default/proxy/fastcgi/@list.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/_/@default/proxy/fastcgi/@list.css" type="text/css"/>
 {$end}
 <!--  检测配置是否有更新 end -->
 
 <div>
     {$template "/proxy/menu"}
 
-    {$template "/proxy/headers/list"}
+    {$template "menu"}
+
+    {$template "/proxy/fastcgi/list"}
 </div>

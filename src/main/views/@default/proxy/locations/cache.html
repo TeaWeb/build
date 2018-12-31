@@ -1,0 +1,39 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+
+<div>
+    {$template "/proxy/menu"}
+
+    {$template "menu"}
+
+    <p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
+    <div v-if="cachePolicyList.length > 0" class="ui segment">
+        <p v-if="cachePolicy.length == 0" class="grey">没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
+        <p v-if="cachePolicy.length > 0" class="grey">当前正在使用 <strong>{{cachePolicy}}</strong>，<a href="" @click.prevent="editCache()">修改</a></p>
+    </div>
+    <div v-if="cachePolicyList.length > 0 && cacheEditing" style="margin-top:1em">
+        <table class="ui table definition width30" >
+            <tr>
+                <td class="title">选择策略</td>
+                <td>
+                    <select class="ui dropdown" v-model="selectedCachePolicy">
+                        <option value="">[不使用缓存]</option>
+                        <option v-for="policy in cachePolicyList" :value="policy.filename">{{policy.name}}（{{policy.type}}）</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button class="ui button primary" type="button" @click.prevent="saveCacheEditing()">保存</button> &nbsp; <a href="" @click.prevent="cancelCacheEditing()">取消</a>
+    </div>
+</div>

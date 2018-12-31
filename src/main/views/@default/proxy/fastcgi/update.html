@@ -1,0 +1,64 @@
+{$layout}
+
+<h3>修改Fastcgi服务</h3>
+
+<form  class="ui form" data-tea-action="/proxy/fastcgi/update" data-tea-success="addSuccess">
+    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <input type="hidden" name="fastcgiId" :value="fastcgi.id"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">Fastcgi地址</td>
+            <td>
+                <input type="text" name="pass" v-model="fastcgi.pass" placeholder="比如 127.0.0.1:9000" maxlength="100" style="width:14em"/>
+            </td>
+        </tr>
+        <tr>
+            <td>自定义参数集</td>
+            <td>
+                <div v-for="(param, index) in params">
+                    <div class="ui field" style="margin:0" v-if="param.nameZh.length > 0"><label>{{param.nameZh}}：</label></div>
+                    <div class="ui fields inline" >
+                        <div class="ui field">
+                            <input type="text" name="paramNames" placeholder="参数名" v-model="param.name" style="width:14em" />
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="paramValues" placeholder="参数值" v-model="param.value" style="width:16em"/>
+                        </div>
+                        <div class="ui field">
+                            <a href="" title="删除" v-on:click.prevent="removeParam(index)"><i class="ui icon remove"></i> </a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="ui button" type="button" v-on:click.prevent="addParam()">+</button>
+            </td>
+        </tr>
+        <tr>
+            <td>读取超时时间</td>
+            <td>
+                <div class="ui right labeled input" style="width:7em">
+                    <input type="number" name="readTimeout" v-model="fastcgi.readTimeoutSeconds" maxlength="10" placeholder="比如 30"/>
+                    <span class="ui basic label">秒</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>连接池尺寸</td>
+            <td>
+                <input type="text" name="poolSize" v-model="fastcgi.poolSize" value="0" maxlength="4" style="width:7em"/>
+                <p class="comment">0表示不限制，通常可以设置为CPU数量的两倍</p>
+            </td>
+        </tr>
+        <tr>
+            <td>是否启用</td>
+            <td>
+                <div class="ui checkbox">
+                    <input type="checkbox" name="on" value="1" v-model="fastcgi.on"/>
+                    <label></label>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>

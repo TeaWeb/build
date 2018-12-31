@@ -477,6 +477,7 @@ window.Tea.Action = function (action, params) {
     var _timeout = 30;
     var _delay = 0;
     var _progressFn;
+    var _refresh = false;
 
     this.params = function (params) {
         _params = params;
@@ -520,6 +521,11 @@ window.Tea.Action = function (action, params) {
 
     this.progress = function (progressFn) {
         _progressFn = progressFn;
+        return this;
+    };
+
+    this.refresh = function () {
+        _refresh = true;
         return this;
     };
 
@@ -627,6 +633,11 @@ window.Tea.Action = function (action, params) {
                             else {
                                 Tea.go(response.next.action, response.next.params, response.next.hash);
                             }
+                        }
+
+                        // 自动刷新
+                        if (_refresh) {
+                            window.location.reload();
                         }
                     }
                     else {

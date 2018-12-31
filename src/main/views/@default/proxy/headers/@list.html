@@ -1,0 +1,51 @@
+<p class="grey">这里设置的服务器响应的HTTP Header，在响应请求时会带有这些自定义的信息。</p>
+<h3>自定义Header <a :href="'/proxy/headers/add?' + query + '&from=' + from">[添加]</a> </h3>
+<p class="grey" v-if="headers.length == 0 && loaded">暂时还没有自定义Header。</p>
+<table class="ui table selectable" v-if="headers.length > 0">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>值</th>
+            <th>HTTP状态码</th>
+            <th class="three wide">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="header in headers">
+        <td>{{header.name}}
+            <br/>
+            <span class="ui label tiny" v-if="!header.on">未启用</span>
+        </td>
+        <td>
+            <span v-if="header.value.length > 0">{{header.value}}</span>
+            <span v-if="header.value.length == 0" class="disabled">没有设置</span>
+        </td>
+        <td>
+            <span v-if="header.always" class="grey">无限制</span>
+            <span v-for="status in header.status" class="ui label tiny">{{status}}</span>
+        </td>
+        <td>
+            <a :href="'/proxy/headers/update?' + query + '&headerId=' + header.id + '&from=' + from">修改</a> &nbsp;
+            <a href="" @click.prevent="deleteHeader(header)">删除</a>
+        </td>
+    </tr>
+</table>
+
+<div class="ui divider margin"></div>
+
+<h3>屏蔽的Header <a :href="'/proxy/headers/addIgnore?' + query + '&from=' + from">[添加]</a></h3>
+<p class="grey" v-if="ignoreHeaders.length == 0 && loaded">暂时还没有自定义Header。</p>
+<table class="ui table selectable" v-if="ignoreHeaders.length > 0">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th class="three wide">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="header in ignoreHeaders">
+        <td>{{header}}</td>
+        <td>
+            <a :href="'/proxy/headers/updateIgnore?' + query + '&name=' + header + '&from=' + from">修改</a> &nbsp;
+            <a href="" @click.prevent="deleteIgnoreHeader(header)">删除</a>
+        </td>
+    </tr>
+</table>
