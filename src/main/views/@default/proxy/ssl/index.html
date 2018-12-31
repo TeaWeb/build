@@ -15,57 +15,29 @@
     {$template "/proxy/menu"}
 
     <!-- HTTPS 设置 -->
-    <form class="ui form">
-    <table class="ui table selectable definition width35">
+    <h3>HTTPS <a :href="'/proxy/ssl/update?server=' + proxy.filename">修改</a></h3>
+
+    <table class="ui table selectable definition">
         <tr>
             <td class="title">是否开启HTTPS</td>
-            <td colspan="2">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" :checked="proxy.ssl != null && proxy.ssl.on" v-on:click.prevent="switchSSLOn()"/>
-                    <label></label>
-                </div>
+            <td>
+                <span class="ui label tiny green" v-if="proxy.ssl != null && proxy.ssl.on">已开启</span>
+                <span class="ui label tiny" v-if="proxy.ssl == null || !proxy.ssl.on">未开启</span>
             </td>
         </tr>
-        <tr v-if="!sslCertEditing">
+        <tr>
             <td>证书文件</td>
             <td>
                 <span v-if="proxy.ssl != null && proxy.ssl.certificate.length > 0">{{proxy.ssl.certificate}}</span>
                 <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.certificate.length == 0">[还没有上传密钥文件]</a>
             </td>
-            <td class="two op">
-                <a href="" v-on:click.prevent="sslCertEditing = !sslCertEditing" title="修改"><i class="ui icon edit small"></i></a>
-            </td>
         </tr>
-        <tr v-if="sslCertEditing">
-            <td>证书文件</td>
-            <td>
-                <input type="file" name="sslCertFile" v-on:change="changeSSLCertFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"/>
-            </td>
-            <td class="two op">
-                <a href="" v-on:click.prevent="uploadSSLCertFile()" title="上传"><i class="ui icon check circle"></i></a>
-                <a href="" v-on:click.prevent="sslCertEditing = !sslCertEditing" title="取消"><i class="ui icon arrow left circle"></i></a>
-            </td>
-        </tr>
-        <tr v-if="!sslKeyEditing">
+        <tr>
             <td>密钥文件</td>
             <td>
                 <span v-if="proxy.ssl != null && proxy.ssl.certificateKey.length > 0">{{proxy.ssl.certificateKey}}</span>
                 <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
             </td>
-            <td>
-                <a href="" v-on:click.prevent="sslKeyEditing = !sslKeyEditing" title="修改"><i class="ui icon edit small"></i></a>
-            </td>
-        </tr>
-        <tr v-if="sslKeyEditing">
-            <td>密钥文件</td>
-            <td>
-                <input type="file" name="sslKeyFile" v-on:change="changeSSLKeyFile" accept="application/pkcs8"/>
-            </td>
-            <td class="two op">
-                <a href="" v-on:click.prevent="uploadSSLKeyFile()" title="上传"><i class="ui icon check circle"></i></a>
-                <a href="" v-on:click.prevent="sslKeyEditing = !sslKeyEditing" title="取消"><i class="ui icon arrow left circle"></i></a>
-            </td>
         </tr>
     </table>
-    </form>
 </div>

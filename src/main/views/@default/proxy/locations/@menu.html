@@ -1,4 +1,6 @@
 <div class="ui text menu blue small">
+    <a class="item" :href="'/proxy/locations?server=' + proxy.filename">所有</a>
+    <span class="item">|</span>
     <a class="item" :href="'/proxy/locations/detail?server=' + proxy.filename + '&locationId=' + location.id">当前路径：{{location.pattern}}</a>
     <span class="item">&raquo;</span>
     <a :href="'/proxy/locations/detail?server=' + proxy.filename + '&locationId=' + location.id" class="ui item" :class="{active:selectedSubTab == 'detail'}">基本信息</a>

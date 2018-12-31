@@ -22,12 +22,13 @@
 
     <p class="comment" v-if="locations.length == 0">暂时还没有路径规则配置。</p>
 
-    <table class="ui table" v-if="locations.length > 0">
+    <table class="ui table selectable" v-if="locations.length > 0">
         <thead>
             <tr>
                 <th>规则</th>
                 <th>类型</th>
-                <th>操作</th>
+                <th class="two wide">操作</th>
+                <th class="two wide">位置</th>
             </tr>
         </thead>
         <tbody>
@@ -37,11 +38,18 @@
                     <span class="ui label tiny" v-if="!location.on">未启用</span>
                     <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>
                     <span class="ui label tiny" v-if="location.isReverse">反向匹配</span>
+                    <span class="ui label tiny" v-if="location.root.length > 0">root</span>
+                    <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
+                    <span class="ui label tiny" v-if="location.fastcgi.length > 0">fastcgi</span>
+                    <span class="ui label tiny" v-if="location.rewrite.length > 0">rewrite</span>
+                    <span class="ui label tiny" v-if="location.headers.length > 0">headers</span>
                 </td>
                 <td>{{location.patternTypeName}}</td>
                 <td>
                     <a :href="$url('/proxy/locations/detail', { 'server':filename,'locationId':location.id })">详情</a> &nbsp;
                     <a href="" v-on:click.prevent="deleteLocation(location.id)">删除</a> &nbsp;
+                </td>
+                <td>
                     <a href="" v-if="index > 0" title="上移" v-on:click.prevent="moveUp(index)">上移</a>
                     <a href="" v-if="locations.length > 1 && index < locations.length - 1" title="下移" v-on:click.prevent="moveDown(index)">下移</a>
                 </td>
