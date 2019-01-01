@@ -1,5 +1,9 @@
 {$layout}
 
+{$var "header"}
+<script src="/js/autocomplete.vue.js" type="text/javascript"></script>
+{$end}
+
 <div>
     {$template "menu"}
 
@@ -72,7 +76,7 @@
             <tr>
                 <td>文档根目录<em>(root)</em></td>
                 <td>
-                    <input type="text" name="root" v-model="proxy.root" maxlength="100"/>
+                    <auto-complete-path-box name="root" placeholder="类似于 /home/www" :value="proxy.root" maxlength="100"></auto-complete-path-box>
                     <p class="comment">可以访问此根目录下的静态资源</p>
                 </td>
             </tr>

@@ -15,6 +15,13 @@
 * `${1}` - 表示第一个括号匹配的内容
 * `${2}` - 表示第二个括号匹配的内容 
 
+可以使用`(?i)`来设置不区分大小写：
+~~~
+(?i)/index.php
+~~~
+
+更多可用的正则表达式可以参考 [RE2 Syntax](https://github.com/google/re2/wiki/Syntax)。
+
 ### 命名变量
 也可以给变量设置一个名称：
 ~~~
@@ -38,10 +45,6 @@
 * `${requestFilename}` - 请求文件路径
 * `${scheme}` - 请求协议，`http`或`https`
 * `${proto}` - 包含版本的HTTP请求协议，类似于`HTTP/1.0`
-* `${bytesSent}` - 发送的内容长度，包括Header（字节）
-* `${bodyBytesSent}` - 发送的内容长度，不包括Header（字节）
-* `${status}` - 状态码，比如`200`
-* `${statusMessage}` - 状态消息，比如`200 OK`
 * `${timeISO8601}` - ISO 8601格式的时间，比如`2018-07-16T23:52:24.839+08:00`
 * `${timeLocal}` - 本地时间，比如`17/Jul/2018:09:52:24 +0800`
 * `${msec}` - 带有毫秒的时间，比如`1531756823.054`
@@ -59,3 +62,8 @@
 * `${headers}` - 所有Header信息
 * `${header.NAME}` - 单个Header值
 
+## 响应相关变量
+* `${bytesSent}` - 发送的内容长度，包括Header（字节）
+* `${bodyBytesSent}` - 发送的内容长度，不包括Header（字节）
+* `${status}` - 状态码，比如`200`
+* `${statusMessage}` - 状态消息，比如`200 OK`

@@ -401,3 +401,19 @@ body.expanded .main {
 [v-cloak] {
     display: none!important;
 }
+
+/** auto complete **/
+.autocomplete-box .menu {
+    background: #eee!important;
+}
+
+.autocomplete-box .menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.autocomplete-box .menu .item {
+    border-top: none!important;
+}
+
+select {
+}
