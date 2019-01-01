@@ -4,15 +4,20 @@
     <thead>
         <tr>
             <th>匹配规则</th>
+            <th>过滤条件</th>
             <th>转发目标</th>
             <th>转发方式</th>
-            <th class="three wide">操作</th>
+            <th class="two wide">操作</th>
         </tr>
     </thead>
     <tr v-for="rewrite in rewriteList">
         <td><span class="ui ">{{rewrite.pattern}}</span>
             <br/>
             <span class="ui label tiny" v-if="!rewrite.on">未启用</span>
+        </td>
+        <td>
+            <span v-if="rewrite.conds.length == 0" class="disabled">无过滤条件</span>
+            <div class="ui field" v-for="cond in rewrite.conds" style="margin-bottom:0.4em"><span class="ui label small">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
         </td>
         <td>
             <span v-if="rewrite.targetProxyName.length > 0 && rewrite.targetProxyFilename.length == 0" class="ui label tiny red">{{rewrite.targetProxyName}}</span>
