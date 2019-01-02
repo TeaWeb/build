@@ -7,7 +7,7 @@ var widget = new widgets.Widget({
 
 widget.run = function () {
 	var chart = new charts.HTMLChart();
-	chart.options.name = "路径规则";
+	chart.options.name = "路径规则<em>（一些特殊的路径配置）</em>";
 	chart.options.columns = 1;
 
 	var locations = context.server.locations;

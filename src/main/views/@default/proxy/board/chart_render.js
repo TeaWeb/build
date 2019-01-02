@@ -95,7 +95,8 @@ function ChartRender(charts) {
                     areaStyle: {
                         color: line.color,
                         opacity: line.isFilled ? 0.5 : 0
-                    }
+                    },
+                    smooth: line.smooth
                 };
             }),
             grid: {
@@ -164,8 +165,8 @@ function ChartRender(charts) {
                         value: v
                     };
                 }),
-                radius: ['0%', '78%'],
-                center: ['50%', '56%']/**,
+                radius: ['0%', '70%'],
+                center: ['50%', '54%']/**,
                 label: {
                     normal: {
                         show: false,

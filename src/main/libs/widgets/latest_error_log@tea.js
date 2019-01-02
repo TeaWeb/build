@@ -48,7 +48,7 @@ widget.run = function () {
 			}
 			chart.html += "<span class='ui label tiny red'>" + v.status + "</span>";
 			chart.html += "<div class='attach'>AT: " + currentTime.format("Y-m-d H:i:s") + "</div>";
-			if (v.backendAddress.length > 0) {
+			if (v.backendAddress != null && v.backendAddress.length > 0) {
 				chart.html += "<div class='attach'>Backend:" + v.backendAddress + "</div>";
 			}
 			chart.html += "</div>";

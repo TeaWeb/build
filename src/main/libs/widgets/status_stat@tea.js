@@ -11,12 +11,17 @@ widget.run = function () {
 	chart.options.name = "HTTP状态码分布<em>（今日）</em>";
 	chart.options.columns = 1;
 
-	var query = new logs.Query();
-	query.from(times.now());
-	query.attr("serverId", context.server.id);
-	query.gt("status", 0);
-	query.group("status");
-	var result = query.count();
+	var cacheKey = this.code + "_result";
+	var result = caches.get(cacheKey);
+    if (!result) {
+        var query = new logs.Query();
+        query.from(times.now());
+        query.attr("serverId", context.server.id);
+        query.gt("status", 0);
+        query.group("status");
+        result = query.count();
+        caches.set(cacheKey, result, 120);
+    }
 
 	chart.values = [];
 	chart.labels = [];

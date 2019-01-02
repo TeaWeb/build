@@ -57,7 +57,7 @@ Tea.context(function () {
         teaweb.set("searchKeyword", that.searchKeyword);
     });
 
-    var loadSize = 100;
+    var loadSize = 10;
     this.loadLogs = function () {
         // 是否正在播放日志
         if (!this.isPlaying) {

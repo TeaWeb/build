@@ -19,3 +19,16 @@
 table .label.tiny {
     padding: 3px;
 }
+
+table td p {
+    padding: 0;
+    margin: 0.2em 0;
+}
+
+/**table tr:hover a {
+    display:inline;
+}
+
+table tr a {
+    display: none;
+}**/

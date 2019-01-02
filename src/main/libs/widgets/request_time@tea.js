@@ -15,10 +15,10 @@ widget.run = function () {
 	var timeList = [];
 	var now = times.now();
 	var passedTimestamp = times.now().addTime(0, 0, 0, 0, -5, 0).unix();
-	passedTimestamp -= passedTimestamp % 30;
+	passedTimestamp -= passedTimestamp % 10;
 	var passed = times.unix(passedTimestamp);
 	while (true) {
-		var passedTo = passed.addTime(0, 0, 0, 0, 0, 30);
+		var passedTo = passed.addTime(0, 0, 0, 0, 0, 10);
 		timeList.push(passed.format("YmdHis") + "_" + passedTo.format("YmdHis"));
 		passed = passedTo;
 		if (passed.unix() > now.unix()) {

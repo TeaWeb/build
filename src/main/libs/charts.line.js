@@ -4,6 +4,7 @@ charts.Line = function () {
 	this.isFilled = false;
 	this.showItems = false;
 	this.color = colors.BLUE;
+	this.smooth = false;
 };
 
 charts.LineChart = function () {

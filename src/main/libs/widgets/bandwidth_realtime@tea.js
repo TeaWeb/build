@@ -15,11 +15,11 @@ widget.run = function () {
 	var timeList = [];
 	var now = times.now();
 	var passedTimestamp = times.now().addTime(0, 0, 0, 0, -1, 0).unix();
-	passedTimestamp -= passedTimestamp % 4;
+	passedTimestamp -= passedTimestamp % 2;
 	var passed = times.unix(passedTimestamp);
 	while (true) {
 		timeList.push(passed.format("YmdHis"));
-		passed = passed.addTime(0, 0, 0, 0, 0, 4);
+		passed = passed.addTime(0, 0, 0, 0, 0, 2);
 		if (passed.unix() >= now.unix()) {
 			break;
 		}
@@ -38,14 +38,14 @@ widget.run = function () {
 
 	var max = values.$max();
 	if (max < 1) {
-        chart.options.name = "实时带宽（B/s）";
+        chart.options.name = "实时带宽<em>（B/s）</em>";
         values = values.$map(function (k, v) {
             return v  * 1024;
         });
     } else if (max < 10) {
 		chart.max = 10;
 	} else if (max > 1000) {
-		chart.options.name = "实时带宽（MB/s）";
+		chart.options.name = "实时带宽<em>（MB/s）</em>";
 		values = values.$map(function (k, v) {
 			return v / 1024;
 		});
@@ -57,6 +57,7 @@ widget.run = function () {
 	var line1 = new charts.Line();
 	line1.isFilled = true;
 	line1.values = values;
+    line1.smooth = true;
 	chart.addLine(line1);
 
 	chart.render();

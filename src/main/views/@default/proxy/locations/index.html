@@ -26,25 +26,29 @@
         <thead>
             <tr>
                 <th>匹配规则</th>
-                <th>类型</th>
-                <th class="two wide">操作</th>
+                <th class="three wide">操作</th>
                 <th class="two wide">位置</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(location, index) in locations">
                 <td>
-                    {{location.pattern}}<br/>
+                    <span style="line-height:2">{{location.pattern}}</span><br/>
+                    <span class="ui label tiny olive">{{location.patternTypeName}}</span>
                     <span class="ui label tiny" v-if="!location.on">未启用</span>
                     <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>
                     <span class="ui label tiny" v-if="location.isReverse">反向匹配</span>
                     <span class="ui label tiny" v-if="location.root.length > 0">root</span>
                     <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
-                    <span class="ui label tiny" v-if="location.fastcgi.length > 0">fastcgi</span>
-                    <span class="ui label tiny" v-if="location.rewrite.length > 0">rewrite</span>
                     <span class="ui label tiny" v-if="location.headers.length > 0">headers</span>
+
+                    <p v-for="fastcgi in location.fastcgi">
+                        <span class="ui label tiny">fastcgi {{fastcgi.pass}}</span>
+                    </p>
+                    <p v-for="rewrite in location.rewrite">
+                        <span class="ui label tiny">rewrite {{rewrite.pattern}} -&gt; {{rewrite.replace}}</span>
+                    </p>
                 </td>
-                <td>{{location.patternTypeName}}</td>
                 <td>
                     <a :href="$url('/proxy/locations/detail', { 'server':filename,'locationId':location.id })">详情</a> &nbsp;
                     <a href="" v-on:click.prevent="deleteLocation(location.id)">删除</a> &nbsp;
