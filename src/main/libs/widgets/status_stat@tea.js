@@ -11,7 +11,7 @@ widget.run = function () {
 	chart.options.name = "HTTP状态码分布<em>（今日）</em>";
 	chart.options.columns = 1;
 
-	var cacheKey = this.code + "_result";
+	var cacheKey = this.code + "_" + context.server.id + "_result";
 	var result = caches.get(cacheKey);
     if (!result) {
         var query = new logs.Query();

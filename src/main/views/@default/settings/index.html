@@ -9,7 +9,7 @@
 </div>
 
 <div v-if="error.length == 0">
-    <h3>HTTP <a href="/settings/server/http">修改</a> </h3>
+    <h3>HTTP <a href="/settings/server/http" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
 
     <table class="ui table definition selectable">
         <tr>
@@ -29,7 +29,7 @@
 
     <div class="ui block"></div>
 
-    <h3>HTTPS <a href="/settings/server/https">修改</a></h3>
+    <h3>HTTPS <a href="/settings/server/https" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
     <table class="ui table definition selectable">
         <tr>
             <td>状态</td>
@@ -60,7 +60,7 @@
         </tr>
     </table>
 
-    <h3>安全设置 <a href="/settings/server/security">修改</a></h3>
+    <h3>安全设置 <a href="/settings/server/security" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
     <form class="ui form">
         <table class="ui table">
             <tr>

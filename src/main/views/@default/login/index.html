@@ -19,13 +19,13 @@
             <div class="ui field">
                 <div class="ui left icon input">
                     <i class="ui user icon"></i>
-                    <input type="text" name="username" placeholder="请输入用户名" maxlength="30"/>
+                    <input type="text" name="username" :value="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="30"/>
                 </div>
             </div>
             <div class="ui field">
                 <div class="ui left icon input">
                     <i class="ui lock icon"></i>
-                    <input type="password" name="password" placeholder="请输入密码" maxlength="30"/>
+                    <input type="password" name="password" :value="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="30"/>
                 </div>
             </div>
 

@@ -12,18 +12,34 @@ widget.run = function () {
 
 	// ports
 	var ports = [];
-	context.server.listen.$each(function (k, v) {
-		if (v.length > 0) {
-			var index = v.indexOf(":");
-			var port = "80";
-			if (index > -1) {
-				port = v.substring(index + 1);
-			}
-			if (!ports.$contains(port)) {
-				ports.push(port);
-			}
-		}
-	});
+	if (context.server.listen != null) {
+        context.server.listen.$each(function (k, v) {
+            if (v.length > 0) {
+                var index = v.indexOf(":");
+                var port = "80";
+                if (index > -1) {
+                    port = v.substring(index + 1);
+                }
+                if (!ports.$contains(port)) {
+                    ports.push(port);
+                }
+            }
+        });
+    }
+    if (context.server.ssl.listen != null) {
+        context.server.ssl.listen.$each(function (k, v) {
+            if (v.length > 0) {
+                var index = v.indexOf(":");
+                var port = "443";
+                if (index > -1) {
+                    port = v.substring(index + 1);
+                }
+                if (!ports.$contains(port)) {
+                    ports.push(port);
+                }
+            }
+        });
+    }
 	if (ports.length > 0) {
 		chart.options.name = "代理状态<em>（已绑定端口：" + ports.join(", ") + "）</em>";
 	} else {

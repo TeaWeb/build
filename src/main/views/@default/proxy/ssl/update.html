@@ -28,7 +28,7 @@
                 </td>
             </tr>
             <tr>
-                <td>证书文件</td>
+                <td>证书文件<em>(Certificate)</em></td>
                 <td>
                     <span v-if="proxy.ssl != null && proxy.ssl.certificate.length > 0">{{proxy.ssl.certificate}}</span>
 
@@ -36,10 +36,33 @@
                 </td>
             </tr>
             <tr>
-                <td>密钥文件</td>
+                <td>密钥文件<em>(Key)</em></td>
                 <td>
                     <span v-if="proxy.ssl != null && proxy.ssl.certificateKey.length > 0">{{proxy.ssl.certificateKey}}</span>
                     <input type="file" name="keyFile" accept="application/pkcs8"/>
+                </td>
+            </tr>
+            <tr>
+                <td>绑定地址<em>(listen)</em></td>
+                <td colspan="2">
+                    <span class="ui label small" v-for="(listen, arrayIndex) in proxy.ssl.listen">{{listen}}
+                        <input type="hidden" name="listen" :value="listen"/>
+                        <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+                    </span>
+                    <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
+                        <div class="ui field">
+                            <input type="text" name="addingListenName" style="width:18em" maxlength="30" placeholder="绑定的网络地址，比如 0.0.0.0:443" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" @click="confirmAddListen()">确定</button>
+                            &nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
+                        </div>
+                    </div>
+                    <div class="ui field" style="margin-top: 1em">
+                        <button class="ui button" type="button" @click="addListen()">+</button>
+                    </div>
+                    <p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址，多个地址之间使用空格隔开，比如"0.0.0.0:443 192.168.1.100:443"。</p>
+                    <p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
                 </td>
             </tr>
         </table>

@@ -26,17 +26,26 @@
             </td>
         </tr>
         <tr>
-            <td>证书文件</td>
+            <td>证书文件<em>(Certificate)</em></td>
             <td>
                 <span v-if="proxy.ssl != null && proxy.ssl.certificate.length > 0">{{proxy.ssl.certificate}}</span>
                 <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.certificate.length == 0">[还没有上传密钥文件]</a>
             </td>
         </tr>
         <tr>
-            <td>密钥文件</td>
+            <td>密钥文件<em>(Key)</em></td>
             <td>
                 <span v-if="proxy.ssl != null && proxy.ssl.certificateKey.length > 0">{{proxy.ssl.certificateKey}}</span>
                 <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
+            </td>
+        </tr>
+        <tr>
+            <td>绑定地址<em>(listen)</em></td>
+            <td colspan="2">
+                <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.listen == null || proxy.ssl.listen.length == 0">[还没有绑定网络地址]</a>
+                <div v-if="proxy.ssl != null && proxy.ssl.listen != null">
+                    <span class="ui label small" v-for="listen in proxy.ssl.listen">{{listen}}</span>
+                </div>
             </td>
         </tr>
     </table>

@@ -1,6 +1,6 @@
 {$layout}
 
-<h3>登录设置 <a href="/settings/login/update">修改</a> </h3>
+<h3>登录设置 <a href="/settings/login/update" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
 
 <table class="ui table selectable definition">
     <tr>
