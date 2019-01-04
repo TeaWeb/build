@@ -1,4 +1,4 @@
-<h3>重写规则（RewriteRule） <a :href="'/proxy/rewrite/add?' + query + '&from=' + from">[添加]</a> </h3>
+<h3>重写规则（RewriteRule） <a :href="'/proxy/rewrite/add?' + query + '&from=' + from">添加</a> </h3>
 <p class="grey" v-if="isLoaded && rewriteList.length == 0">暂时还没有设置重写规则。</p>
 <table class="ui table selectable" v-if="isLoaded && rewriteList.length > 0">
     <thead>

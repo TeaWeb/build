@@ -48,6 +48,9 @@ go_get "github.com/fsnotify/fsnotify"
 # yaml
 go_get "github.com/go-yaml/yaml"
 
+# websocket
+go_get "github.com/gorilla/websocket"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

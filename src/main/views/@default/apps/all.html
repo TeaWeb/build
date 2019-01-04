@@ -2,7 +2,7 @@
 
 <p class="ui message error" v-for="message in messages" v-html="message"></p>
 
-<p class="ui message warning" v-if="apps.length == 0">暂时还没有检测到服务，<a v-if="countProbes == 0" href="/apps/square">去添加服务探针</a>。</p>
+<p class="ui message warning" v-if="apps.length == 0">暂时还没有检测到服务<span v-if="countProbes == 0">，<a href="/apps/square">去添加服务探针</a></span>。</p>
 
 <!-- 已关注的 -->
 <div v-if="hasFavoredApps">

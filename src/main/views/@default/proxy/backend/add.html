@@ -2,8 +2,10 @@
 
 {$template "/proxy/menu"}
 
-<form class="ui form" data-tea-action="/proxy/backend/add" data-tea-success="addSuccess">
+<form class="ui form" data-tea-action="/proxy/backend/add" data-tea-success="submitSuccess">
     <input type="hidden" name="server" :value="proxy.filename"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <input type="hidden" name="websocket" :value="websocket"/>
     <p class="ui comment" style="padding-top:0">下面表单中标星号（*）的为必填项。</p>
     <table class="ui table definition">
         <tr>
@@ -89,5 +91,5 @@
         </tbody>
     </table>
 
-    <button class="ui button primary" type="submit">保存</button>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from" v-if="from.length > 0">返回</a>
 </form>

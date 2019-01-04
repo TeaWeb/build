@@ -1,0 +1,28 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.main .menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.main .menu.text .location-pattern.item {
+    max-width: 14em;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.main .menu.text {
+}
+
+.main .menu.text span.item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.divider {
+    margin-bottom: 0!important;
+}

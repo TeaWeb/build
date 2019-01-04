@@ -37,6 +37,6 @@ Tea.context(function () {
 
     this.saveSuccess = function () {
         alert("保存成功");
-        window.location = "/proxy/backend?server=" + this.proxy.filename + "#scheduling";
+        window.location = this.from;
     };
 });

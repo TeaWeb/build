@@ -35,4 +35,12 @@ Tea.context(function () {
     this.removeParam = function (index) {
         this.params.$remove(index);
     };
+
+    /**
+     * 更多选项
+     */
+    this.advancedOptionsVisible = false;
+    this.showAdvancedOptions = function () {
+        this.advancedOptionsVisible = !this.advancedOptionsVisible;
+    };
 });

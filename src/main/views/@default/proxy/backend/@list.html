@@ -1,0 +1,99 @@
+{$var "header"}
+<script src="/_/@default/proxy/backend/@list.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/_/@default/proxy/backend/@list.css" type="text/css"/>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<h3 class="normal-h3">普通服务器 <a :href="'/proxy/backend/add?' + query + '&from=' + from">添加服务器</a></h3>
+<p class="comment" v-if="normalBackends.length == 0 && isLoaded">暂时还没有普通服务器。</p>
+<table class="ui table selectable" v-if="normalBackends.length > 0">
+    <thead>
+        <tr>
+            <th>地址</th>
+            <th>权重</th>
+            <th>已失败次数
+                <br/>/最多次数
+            </th>
+            <th>连接数限制</th>
+            <th>ID</th>
+            <th style="width:7em">操作</th>
+        </tr>
+    </thead>
+   <tr v-for="backend in normalBackends">
+       <td>{{backend.address}}<br/>
+           <span class="ui label tiny green" v-if="backend.on">启用</span>
+           <span class="ui label tiny grey" v-if="!backend.on">停用</span>
+
+           <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
+           <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
+
+           <br/>
+           <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
+       <td>{{backend.weight}}</td>
+       <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0" class="grey">不限</span>
+
+           <br/>
+           <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
+       </td>
+       <td>
+           <span v-if="backend.maxConns > 0">{{backend.maxConns}}</span>
+           <span v-if="backend.maxConns == 0" class="grey">不限</span>
+       </td>
+       <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
+       </td>
+       <td>
+           <a :href="'/proxy/backend/update?' + query + '&backend=' + backend.id + '&from=' + from">修改</a> &nbsp; <a href="" @click.prevent="deleteBackend(backend.id)">删除</a>
+       </td>
+   </tr>
+</table>
+
+<div class="ui divider margin"></div>
+
+<h3>备用服务器 <a :href="'/proxy/backend/add?' + query + '&backup=1&from=' + from">添加服务器</a></h3>
+<p class="comment" v-if="backupBackends.length == 0 && isLoaded">暂时还没有备用服务器。</p>
+<table class="ui table selectable" v-if="backupBackends.length > 0">
+    <thead>
+    <tr>
+        <th>地址</th>
+        <th>权重</th>
+        <th>已失败次数<br/>/最多次数</th>
+        <th>连接数限制</th>
+        <th>ID</th>
+        <th style="width:7em">操作</th>
+    </tr>
+    </thead>
+    <tr v-for="backend in backupBackends">
+        <td>{{backend.address}}<br/>
+            <span class="ui label tiny green" v-if="backend.on">启用</span>
+            <span class="ui label tiny grey" v-if="!backend.on">停用</span>
+
+            <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
+            <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
+
+            <br/>
+            <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a>
+        </td>
+        <td>{{backend.weight}}</td>
+        <td>{{backend.currentFails}}次/<span v-if="backend.maxFails > 0">{{backend.maxFails}}次</span><span v-if="backend.maxFails == 0" class="grey">不限</span>
+
+            <br/>
+            <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
+        </td>
+        <td>
+            <span v-if="backend.maxConns > 0">{{backend.maxConns}}</span>
+            <span v-if="backend.maxConns == 0" class="grey">不限</span>
+        </td>
+        <td>{{backend.id}}<br/><span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span>
+        </td>
+        <td>
+            <a :href="'/proxy/backend/update?' + query + '&backend=' + backend.id + '&from=' + from">修改</a> &nbsp; <a href=""  @click.prevent="deleteBackend(backend.id)">删除</a>
+        </td>
+    </tr>
+</table>
+
+<div class="ui divider margin"></div>
+
+<h3>请求分发调度算法</h3>
+<div class="ui segment" v-if="scheduling != null">当前正在使用 <strong>{{scheduling.name}}</strong> &nbsp; <a :href="'/proxy/backend/scheduling?' + query + '&from=' + from">[修改]</a>
+    <p class="grey">{{scheduling.description}}。</p>
+</div>

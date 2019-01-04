@@ -27,7 +27,7 @@
             <tr>
                 <th>匹配规则</th>
                 <th class="three wide">操作</th>
-                <th class="two wide">位置</th>
+                <th class="two wide" v-if="locations.length > 1">位置</th>
             </tr>
         </thead>
         <tbody>
@@ -53,7 +53,7 @@
                     <a :href="$url('/proxy/locations/detail', { 'server':filename,'locationId':location.id })">详情</a> &nbsp;
                     <a href="" v-on:click.prevent="deleteLocation(location.id)">删除</a> &nbsp;
                 </td>
-                <td>
+                <td v-if="locations.length > 1">
                     <a href="" v-if="index > 0" title="上移" v-on:click.prevent="moveUp(index)">上移</a>
                     <a href="" v-if="locations.length > 1 && index < locations.length - 1" title="下移" v-on:click.prevent="moveDown(index)">下移</a>
                 </td>

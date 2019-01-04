@@ -1,4 +1,4 @@
-<h3>Fastcgi设置<a :href="'/proxy/fastcgi/add?' + query + '&from=' + from">[添加]</a></h3>
+<h3>Fastcgi设置<a :href="'/proxy/fastcgi/add?' + query + '&from=' + from">添加</a></h3>
 <p class="ui grey" v-if="fastcgiList.length > 0">如果设置了多个Fastcgi，则每次请求会随机调用其中一个。</p>
 <p class="ui grey" v-if="fastcgiList.length == 0 && loaded">暂时还没有设置Fastcgi。</p>
 

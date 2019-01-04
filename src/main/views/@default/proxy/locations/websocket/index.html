@@ -1,0 +1,55 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    {$template "/proxy/menu"}
+
+    {$template "../menu"}
+
+    <h3>Websocket信息 <a :href="'/proxy/locations/websocket/update?server=' + server.filename + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
+    <p v-if="websocket == null" class="comment" style="padding-top:0">暂时还没有设置Websocket。</p>
+    <table class="ui table definition" v-if="websocket != null">
+        <tr>
+            <td>是否启用</td>
+            <td>
+                <span class="ui label tiny green" v-if="websocket.on">已启用</span>
+                <span class="ui label tiny" v-if="!websocket.on">未启用</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">允许来源域<em>(Origin)</em></td>
+            <td>
+                <span v-if="websocket.allowAllOrigins">允许所有域名</span>
+                <span class="ui label tiny" v-if="!websocket.allowAllOrigins" v-for="origin in websocket.origins">{{origin}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>握手超时时间<em>(Handshake)</em></td>
+            <td>
+                <span v-if="websocket.handshakeTimeout == '0s'">默认</span>
+                <span v-if="websocket.handshakeTimeout != '0s'">{{websocket.handshakeTimeout}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>转发方式</td>
+            <td>{{websocket.forwardMode.name}}
+                <p class="comment">{{websocket.forwardMode.description}}</p>
+            </td>
+        </tr>
+    </table>
+
+    <div class="ui divider"></div>
+    <div v-if="websocket != null">
+        {$template "/proxy/backend/list"}
+    </div>
+</div>

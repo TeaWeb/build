@@ -7,6 +7,6 @@ Tea.context(function () {
 
     this.updateSuccess = function () {
         alert("保存成功");
-        window.location = "/proxy/backend?server=" + this.proxy.filename;
+        window.location = this.from;
     };
 });

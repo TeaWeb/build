@@ -1,6 +1,7 @@
 src/github.com/fsnotify
 src/github.com/go-redis
 src/github.com/go-yaml
+src/github.com/gorilla
 src/github.com/iwind
 src/github.com/oschwald
 src/github.com/pquerna

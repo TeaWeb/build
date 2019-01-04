@@ -9,8 +9,8 @@ Tea.context(function () {
         this.advancedOptionsVisible = !this.advancedOptionsVisible;
     };
 
-    this.addSuccess = function () {
+    this.submitSuccess = function () {
         alert("保存成功");
-        window.location = "/proxy/backend?server=" + this.proxy.filename;
+        window.location = this.from;
     };
 });

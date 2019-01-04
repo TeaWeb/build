@@ -8,6 +8,17 @@ Tea.context(function () {
         window.location = this.from;
     };
 
+    /**
+     * 更多选项
+     */
+    this.advancedOptionsVisible = false;
+    this.showAdvancedOptions = function () {
+        this.advancedOptionsVisible = !this.advancedOptionsVisible;
+    };
+
+    /**
+     * 参数
+     */
     var params = [];
     var nameZhMap = {
         "SCRIPT_FILENAME": "脚本文件",

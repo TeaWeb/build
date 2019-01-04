@@ -21,6 +21,7 @@
   * 自定义Header
   * [Fastcgi](proxy/Fastcgi.md)
   * 重写规则
+  * Websocket
   * 访问日志
   * 缓存
   * [内置变量](proxy/Variables.md)

@@ -6,6 +6,8 @@
 
 <form class="ui form" data-tea-action="/proxy/backend/scheduling" data-tea-success="saveSuccess">
     <input type="hidden" name="server" :value="proxy.filename"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <input type="hidden" name="websocket" :value="websocket"/>
     <table class="ui table definition">
         <tr>
             <td class="title">选择算法</td>
@@ -56,5 +58,5 @@
             </td>
         </tr>
     </table>
-    <button class="ui button primary" type="submit">保存</button>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
 </form>

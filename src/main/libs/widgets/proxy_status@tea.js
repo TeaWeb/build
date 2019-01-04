@@ -13,33 +13,33 @@ widget.run = function () {
 	// ports
 	var ports = [];
 	if (context.server.listen != null) {
-        context.server.listen.$each(function (k, v) {
-            if (v.length > 0) {
-                var index = v.indexOf(":");
-                var port = "80";
-                if (index > -1) {
-                    port = v.substring(index + 1);
-                }
-                if (!ports.$contains(port)) {
-                    ports.push(port);
-                }
-            }
-        });
-    }
-    if (context.server.ssl.listen != null) {
-        context.server.ssl.listen.$each(function (k, v) {
-            if (v.length > 0) {
-                var index = v.indexOf(":");
-                var port = "443";
-                if (index > -1) {
-                    port = v.substring(index + 1);
-                }
-                if (!ports.$contains(port)) {
-                    ports.push(port);
-                }
-            }
-        });
-    }
+		context.server.listen.$each(function (k, v) {
+			if (v.length > 0) {
+				var index = v.indexOf(":");
+				var port = "80";
+				if (index > -1) {
+					port = v.substring(index + 1);
+				}
+				if (!ports.$contains(port)) {
+					ports.push(port);
+				}
+			}
+		});
+	}
+	if (context.server.ssl.listen != null) {
+		context.server.ssl.listen.$each(function (k, v) {
+			if (v.length > 0) {
+				var index = v.indexOf(":");
+				var port = "443";
+				if (index > -1) {
+					port = v.substring(index + 1);
+				}
+				if (!ports.$contains(port)) {
+					ports.push(port);
+				}
+			}
+		});
+	}
 	if (ports.length > 0) {
 		chart.options.name = "代理状态<em>（已绑定端口：" + ports.join(", ") + "）</em>";
 	} else {
@@ -77,6 +77,13 @@ widget.run = function () {
         width: 8px; \
         height: 8px; \
         background: #db2828; \
+        margin: 0 2px; \
+    } \
+    .backends-box .backend .blue { \
+        display: inline-block; \
+        width: 8px; \
+        height: 8px; \
+        background: #2185d0; \
         margin: 0 2px; \
     } \
     .summary-state { \
@@ -142,7 +149,7 @@ widget.run = function () {
 		for (var i = 0; i < backends.length; i++) {
 			var backend = backends[i];
 			chart.html += "<div class='backend'>";
-			chart.html += "<span class='on-status " + (backend.on ? "green" : "grey") + "' title='开启状态'></span><span class='down-status " + ((backend.on && !backend.isDown) ? "green" : "red") + "' title='连接状态'></span><span class='address'>" + backend.address + "</span>";
+			chart.html += "<span class='on-status " + (backend.on ? "blue" : "grey") + "' title='开启状态'></span><span class='down-status " + ((backend.on && !backend.isDown) ? "green" : "red") + "' title='连接状态'></span><span class='address'>" + backend.address + "</span>";
 			chart.html += "</div>";
 		}
 	}

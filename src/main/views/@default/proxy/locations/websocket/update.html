@@ -1,0 +1,98 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    {$template "/proxy/menu"}
+
+    {$template "../menu"}
+
+    <form class="ui form" data-tea-action="/proxy/locations/websocket/update" data-tea-success="submitSuccess">
+        <input type="hidden" name="server" :value="server.filename"/>
+        <input type="hidden" name="locationId" :value="location.id"/>
+        <table class="ui table definition">
+            <tr>
+                <td class="title">允许来源域<em>(Origin)</em></td>
+                <td>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" name="allowAllOrigins" v-model="allowAllOrigins"/>
+                        <label v-if="!allowAllOrigins" class="grey">允许部分域名</label>
+                        <label v-if="allowAllOrigins">允许所有域名</label>
+                    </div>
+
+                    <div style="margin-top:0.5em" v-show="!allowAllOrigins">
+                        <span class="ui label small" v-for="(origin, arrayIndex) in origins">{{origin}}
+                            <input type="hidden" name="origins" :value="origin"/>
+                        <a href="" @click.prevent="removeOrigin(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+                    </span>
+                        <div class="ui fields inline" v-if="originAdding" style="margin-top:0.8em">
+                            <div class="ui field">
+                                <input type="text" name="addingOriginName" style="width:16em" maxlength="100" placeholder="域名，比如example.com" @keyup.enter="confirmAddOrigin()" @keypress.enter.prevent="1" v-model="addingOriginName" />
+                            </div>
+                            <div class="ui field">
+                                <button class="ui button" type="button" @click="confirmAddOrigin()">确定</button>
+                                &nbsp; <a href="" @click.prevent="cancelOriginAdding()">取消</a>
+                            </div>
+                        </div>
+                        <div class="ui field" style="margin-top: 1em">
+                            <button class="ui button" type="button" @click="addOrigin()">+</button>
+                        </div>
+                        <p class="comment">允许客户端可以访问的域名，可以使用星号通配符（*）来表示匹配一组域名，比如www.example.com *.google.com</p>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+                    <a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+                </td>
+            </tr>
+            <tbody v-show="advancedOptionsVisible">
+                <tr>
+                    <td class="title">握手超时时间<em>(Handshake)</em></td>
+                    <td>
+                        <div class="ui fields inline">
+                            <div class="ui field">
+                                <input type="text" name="handshakeTimeout" :value="handshakeTimeout" maxlength="10" style="width:6em"/>
+                            </div>
+                            <div class="ui field">
+                                秒
+                            </div>
+                        </div>
+                        <p class="comment">0表示使用默认的时间设置</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>转发方式</td>
+                    <td>
+                        <select class="ui dropdown" name="forwardMode" style="width:10em" v-model="websocket.forwardMode" @change="changeMode()">
+                            <option v-for="mode in modes" :value="mode.mode">{{mode.name}}</option>
+                        </select>
+                        <p class="comment">{{modeDescription}}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否启用</td>
+                    <td>
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="on" v-model="websocket.on"/>
+                            <label></label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+    </form>
+</div>
