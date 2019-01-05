@@ -68,6 +68,7 @@
                                 <i class="icon" :class="log.browserIcon" v-if="log.browserIcon.length > 0"></i>
                                 <span v-if="log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
                             </span>
+                            <span class="ui label tiny" v-if="log.upgrade.length > 0">{{log.upgrade}}</span>
 
                             {{log.remoteAddr}} [{{log.timeLocal}}] <em>&quot;{{log.requestMethod}} {{log.requestScheme}}://{{log.host}}{{log.requestURI}} <a :href="log.requestScheme + '://' + log.host + log.requestURI" target="_blank" title="新窗口打开" class="disabled"><i class="external icon tiny"></i> </a> {{log.proto}}&quot;</em> - 耗时:{{formatCost(log.requestTime)}} ms
                             <i class="ui icon angle" :class="{ down:!log.isOpen, up:log.isOpen }"></i>

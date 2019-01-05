@@ -49,6 +49,7 @@
     </table>
 
     <div class="ui divider"></div>
+    <p class="ui grey" v-if="websocket != null">以下是处理Websocket请求的后端服务器列表：</p>
     <div v-if="websocket != null">
         {$template "/proxy/backend/list"}
     </div>

@@ -15,28 +15,10 @@ Tea.context(function () {
     this.backupBackends = [];
     this.scheduling = null;
     this.isLoaded = false;
-    this.$get("/proxy/backend/data")
-        .params(this.queryParams)
-        .success(function (resp) {
-            this.normalBackends = resp.data.normalBackends.$map(function (k, v) {
-                if (v.isDown) {
-                    var date = new Date(v.downTime);
-                    v.downTime = that.padZero(date.getMonth() + 1) + "-" + that.padZero(date.getDate()) + " " + that.padZero(date.getHours()) + ":" + that.padZero(date.getMinutes()) + ":" + that.padZero(date.getSeconds());
-                }
-                return v;
-            });
-            this.backupBackends = resp.data.backupBackends.$map(function (k, v) {
-                if (v.isDown) {
-                    var date = new Date(v.downTime);
-                    v.downTime = that.padZero(date.getMonth() + 1) + "-" + that.padZero(date.getDate()) + " " + that.padZero(date.getHours()) + ":" + that.padZero(date.getMinutes()) + ":" + that.padZero(date.getSeconds());
-                }
-                return v;
-            });
-            this.scheduling = resp.data.scheduling;
-        })
-        .done(function () {
-            this.isLoaded = true;
-        });
+
+    this.$delay(function () {
+        this.loadData();
+    });
 
     this.$delay(function () {
         // scroll to bottom
@@ -44,6 +26,37 @@ Tea.context(function () {
             window.scrollTo(0, 10000);
         }
     }, 300);
+
+    this.loadData = function () {
+        this.$get("/proxy/backend/data")
+            .params(this.queryParams)
+            .success(function (resp) {
+                this.normalBackends = resp.data.normalBackends.$map(function (k, v) {
+                    if (v.isDown) {
+                        var date = new Date(v.downTime);
+                        v.downTime = that.padZero(date.getMonth() + 1) + "-" + that.padZero(date.getDate()) + " " + that.padZero(date.getHours()) + ":" + that.padZero(date.getMinutes()) + ":" + that.padZero(date.getSeconds());
+                    }
+                    return v;
+                });
+                this.backupBackends = resp.data.backupBackends.$map(function (k, v) {
+                    if (v.isDown) {
+                        var date = new Date(v.downTime);
+                        v.downTime = that.padZero(date.getMonth() + 1) + "-" + that.padZero(date.getDate()) + " " + that.padZero(date.getHours()) + ":" + that.padZero(date.getMinutes()) + ":" + that.padZero(date.getSeconds());
+                    }
+                    return v;
+                });
+                this.scheduling = resp.data.scheduling;
+            })
+            .done(function () {
+                this.isLoaded = true;
+                this.$delay(function () {
+                    this.loadData();
+                }, 5000);
+            })
+            .fail(function (resp) {
+                console.log(resp.message);
+            });
+    };
 
     this.deleteBackend = function (backendId) {
         if (!window.confirm("确定要删除此服务器吗？")) {

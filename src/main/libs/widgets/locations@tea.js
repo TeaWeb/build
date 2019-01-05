@@ -44,6 +44,9 @@ widget.run = function () {
 			if (location.rewrite.length > 0) {
 				chart.html += "<span class='ui label tiny'>rewrite</span>";
 			}
+			if (location.websocket != null) {
+                chart.html += "<span class='ui label tiny'>websocket</span>";
+            }
 			chart.html += "</p>";
 		}
 		chart.html += "</div>";

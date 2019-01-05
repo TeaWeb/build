@@ -65,6 +65,7 @@ http.Location = function (options) {
 	this.index = [];
 	this.root = "";
 	this.rewrite = [];
+	this.websocket = {};
 
 	if (options != null && typeof (options) == "object") {
 		for (var key in options) {

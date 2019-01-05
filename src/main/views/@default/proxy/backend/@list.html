@@ -14,7 +14,7 @@
             <th>已失败次数
                 <br/>/最多次数
             </th>
-            <th>连接数限制</th>
+            <th>当前连接数<br/>/最大连接数</th>
             <th>ID</th>
             <th style="width:7em">操作</th>
         </tr>
@@ -36,6 +36,7 @@
            <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
        </td>
        <td>
+           {{backend.currentConns}}/
            <span v-if="backend.maxConns > 0">{{backend.maxConns}}</span>
            <span v-if="backend.maxConns == 0" class="grey">不限</span>
        </td>
@@ -57,7 +58,7 @@
         <th>地址</th>
         <th>权重</th>
         <th>已失败次数<br/>/最多次数</th>
-        <th>连接数限制</th>
+        <th>当前连接数<br/>/最大连接数</th>
         <th>ID</th>
         <th style="width:7em">操作</th>
     </tr>
@@ -80,6 +81,7 @@
             <a v-if="backend.currentFails>0" href="" class="small" @click.prevent="clearFails(backend)">[清除]</a>
         </td>
         <td>
+            {{backend.currentConns}}/
             <span v-if="backend.maxConns > 0">{{backend.maxConns}}</span>
             <span v-if="backend.maxConns == 0" class="grey">不限</span>
         </td>

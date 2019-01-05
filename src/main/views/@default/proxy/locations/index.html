@@ -41,6 +41,7 @@
                     <span class="ui label tiny" v-if="location.root.length > 0">root</span>
                     <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
                     <span class="ui label tiny" v-if="location.headers.length > 0">headers</span>
+                    <span class="ui label tiny" v-if="location.websocket">websocket</span>
 
                     <p v-for="fastcgi in location.fastcgi">
                         <span class="ui label tiny">fastcgi {{fastcgi.pass}}</span>
