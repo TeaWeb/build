@@ -17,11 +17,11 @@
   * [绑定网络地址](proxy/Listen.md)
   * [HTTPS](proxy/HTTPS.md)
   * 后端服务
-  * 路径规则
+  * [路径规则](proxy/Location.md)
   * 自定义Header
   * [Fastcgi](proxy/Fastcgi.md)
-  * 重写规则
-  * Websocket
+  * [重写规则](proxy/Rewrite.md)
+  * [Websocket](proxy/Websocket.md)
   * 访问日志
   * 缓存
   * [内置变量](proxy/Variables.md)

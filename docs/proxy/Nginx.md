@@ -3,7 +3,7 @@
 ~~~
 [用户] <--> [nginx] <--> [TeaWeb] <--> Backends
 ~~~
-可以代理详情中的"前端代理"中查看自动生成的`nginx`配置：
+可以代理服务设置中的"前端代理"中查看自动生成的`nginx`配置：
 ![nginx.png](nginx.png)
 
 然后将配置加入到`nginx`的`nginx.conf`中：

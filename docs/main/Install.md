@@ -14,7 +14,26 @@
 5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息，也可以在设置界面中修改。
 
 ## MongoDB
-TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，可以在"设置">"MongoDB"中修改MongoDB的连接参数。如果还没有安装，可以使用TeaWeb帮你安装（"设置">"MongoDB"界面的底部），也可以从 [https://www.mongodb.com/download-center/community](https://www.mongodb.com/download-center/community)下载并安装符合你的系统的MongoDB。
+TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，可以在"设置">"MongoDB"中修改MongoDB的连接参数：
+![mongodb.png](mongodb.png)
+
+如果还没有安装，可以使用TeaWeb帮你安装（"设置">"MongoDB"界面的底部），也可以从 [https://www.mongodb.com/download-center/community](https://www.mongodb.com/download-center/community)下载并安装符合你的系统的MongoDB。
+
+在Linux和MacOS上，解压MongoDB安装包后，建议的启动命令为：
+~~~bash
+cd MongoDB安装目录
+bin/mongod --dbpath=./data/ --fork --logpath=./data/fork.log
+~~~
+
+启动后，试着用 `ps` 命令查看MongoDB是否已启动：
+~~~bash
+ps ax|grep mongo
+~~~
+命令执行结果应该类似于：
+~~~
+[root@localhost ~]# ps ax|grep mongo
+21040 ?        Sl   632:19bin/mongod --dbpath=./data/ --fork --logpath=./data/fork.log
+~~~
 
 ## CentOS7
 在CentOS7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
