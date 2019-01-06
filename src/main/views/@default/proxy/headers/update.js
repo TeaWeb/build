@@ -52,4 +52,13 @@ Tea.context(function () {
     this.deleteStatus = function (index) {
         this.statusList.$remove(index);
     };
+
+    /**
+     * 高级选项
+     */
+    this.advancedOptionsVisible = false;
+
+    this.showAdvancedOptions = function () {
+        this.advancedOptionsVisible = !this.advancedOptionsVisible;
+    };
 });

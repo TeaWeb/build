@@ -16,9 +16,9 @@
   * [域名](proxy/Domain.md)
   * [绑定网络地址](proxy/Listen.md)
   * [HTTPS](proxy/HTTPS.md)
-  * 后端服务
+  * [后端服务器](proxy/Backend.md)
   * [路径规则](proxy/Location.md)
-  * 自定义Header
+  * [自定义Header](proxy/Header.md)
   * [Fastcgi](proxy/Fastcgi.md)
   * [重写规则](proxy/Rewrite.md)
   * [Websocket](proxy/Websocket.md)
@@ -27,10 +27,10 @@
   * [内置变量](proxy/Variables.md)
   * 前端代理
      * [Nginx](proxy/Nginx.md)
-     * Apache
-     * Varnish
-     * Squid
-     * HAProxy
+     <!-- * Apache -->
+     <!-- * Varnish -->
+     <!-- * Squid -->
+     <!-- * HAProxy -->
 * Apps
   * [本地服务](apps/Index.md)
   * [安装ps命令](apps/InstallPs.md)
