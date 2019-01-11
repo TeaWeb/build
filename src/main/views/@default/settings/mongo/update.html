@@ -5,42 +5,49 @@
     <h3>MongoDB连接设置 <a href="https://docs.mongodb.com/manual/reference/connection-string/" target="_blank">MongoDB官方说明文档</a> </h3>
 
     <form class="ui form" data-tea-action=".update">
-    <table class="ui table definition selectable">
-        <tr>
-            <td style="width:11em">主机地址<em>（host）</em></td>
-            <td>
-                <input type="text" name="host" v-model="config.host"/>
-            </td>
-        </tr>
-        <tr>
-            <td>端口<em>（port）</em></td>
-            <td>
-                <input type="text" name="port" v-model="config.port"/>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <a href="" v-on:click.prevent="updateAuth()" v-if="!authUpdating">认证设置<i class="icon down angle"></i> </a>
-                <a href="" v-on:click.prevent="updateAuth()" v-if="authUpdating">取消认证<i class="icon up angle"></i></a>
+        <table class="ui table definition selectable">
+            <tr>
+                <td style="width:11em">主机地址<em>（host）</em></td>
+                <td>
+                    <input type="text" name="host" v-model="config.host"/>
+                    <p class="comment">通常是一个IP，比如 192.168.1.100</p>
+                </td>
+            </tr>
+            <tr>
+                <td>端口<em>（port）</em></td>
+                <td>
+                    <input type="text" name="port" v-model="config.port"/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <a href="" v-on:click.prevent="updateAuth()" v-if="!authUpdating">认证设置<i class="icon down angle"></i> </a>
+                    <a href="" v-on:click.prevent="updateAuth()" v-if="authUpdating">取消认证<i class="icon up angle"></i></a>
 
-            </td>
-        </tr>
-        <tr v-if="authUpdating">
-            <td>用户名<em>（username）</em></td>
-            <td>
-                <input type="text" name="username" v-model="config.username" maxlength="128"/>
-            </td>
-        </tr>
-        <tr v-if="authUpdating">
-            <td>密码<em>（password）</em></td>
-            <td>
-                <input type="text" name="password" v-model="config.password" maxlength="128"/>
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+            <tr v-if="authUpdating">
+                <td>用户名<em>（username）</em></td>
+                <td>
+                    <input type="text" name="username" v-model="config.username" maxlength="128"/>
+                </td>
+            </tr>
+            <tr v-if="authUpdating">
+                <td>密码<em>（password）</em></td>
+                <td>
+                    <input type="text" name="password" v-model="config.password" maxlength="128"/>
+                </td>
+            </tr>
+        </table>
+
+        <div class="ui segment red" v-if="testingError != null && testingError.length > 0">{{testingError}}</div>
+        <div class="ui segment green" v-if="testingSuccess != null && testingSuccess.length > 0">{{testingSuccess}}</div>
 
         <button class="ui button primary" type="submit">保存</button> &nbsp; &nbsp;
-        <button class="ui button" v-on:click="testConnection()">测试连接</button>
+        <button class="ui button" type="button" v-on:click="testConnection()" v-if="!isTesting">测试连接</button>
+        <button class="ui button" type="button" v-if="isTesting">测试中...</button>
     </form>
+
+
 </div>
