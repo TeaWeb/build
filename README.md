@@ -5,6 +5,11 @@ TeaWeb使用Go语言实现，在高可定制化前提下，保证高性能、高
 
 # 架构 
 ~~~
+			 |----------------------|
+			 |  Agent1, Agent2, ... |
+			 |----------------------|
+			     |
+				 |
              |--------------|       |----------------------------| 
 Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
              |--------------|       | Fastcgi, Static Files, ... |
@@ -117,4 +122,4 @@ Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
 * [CodeMirror](https://codemirror.net/) - 一个很好的在线代码编辑器
 * [clipboard](https://github.com/zenorocha/clipboard.js) - Javascript控制剪切板
 * [go-pinyin](https://github.com/mozillazg/go-pinyin) - Go语言实现的汉字转拼音
-* [gorilla-websocket] (https://github.com/gorilla/websocket) - A WebSocket implementation for Go.
+* [gorilla-websocket](https://github.com/gorilla/websocket) - A WebSocket implementation for Go.
