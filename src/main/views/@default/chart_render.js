@@ -337,7 +337,7 @@ function ChartRender(charts) {
 			var span = document.createElement("span");
 			span.innerHTML = v;
 			span.style.cssText = "visibility:hidden";
-			document.body.append(span);
+			document.body.appendChild(span);
 			var w = span.offsetWidth;
 			if (w > width) {
 				width = w;

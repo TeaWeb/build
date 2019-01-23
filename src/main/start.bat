@@ -1,1 +1,2 @@
 .\bin\teaweb.exe
+pause

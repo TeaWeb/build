@@ -90,7 +90,7 @@
                                     <input type="text" name="" value="1" v-model="quickSecond" placeholder="1-59" maxlength="2" style="width:5em" @keypress.enter.prevent="1"/>
                                 </div>
                                 <div class="ui field">
-                                    <strong>秒</strong>运行一次
+                                    <strong>秒</strong>执行一次
                                 </div>
                                 <div class="ui field">
                                     <button class="ui button" type="button" @click.prevent="addQuickTime('second', quickSecond, 1, 59)">确定</button>
@@ -104,7 +104,7 @@
                                     <input type="text" name="" value="1" placeholder="1-59" v-model="quickMinute" maxlength="2" style="width:5em" @keypress.enter.prevent="1"/>
                                 </div>
                                 <div class="ui field">
-                                    <strong>分钟</strong>运行一次
+                                    <strong>分钟</strong>执行一次
                                 </div>
                                 <div class="ui field">
                                     <button class="ui button" type="button" @click.prevent="addQuickTime('minute', quickMinute, 1, 59)">确定</button>
@@ -118,16 +118,16 @@
                                     <input type="text" name="" value="1" v-model="quickHour" maxlength="2" style="width:5em" @keypress.enter.prevent="1" placeholder="1-23"/>
                                 </div>
                                 <div class="ui field">
-                                    <strong>小时</strong>运行一次
+                                    <strong>小时</strong>执行一次
                                 </div>
                                 <div class="ui field">
                                     <button class="ui button" type="button" @click.prevent="addQuickTime('hour', quickHour, 1, 23)">确定</button>
                                 </div>
                             </div>
 
-                            <!-- 每天几点钟定时运行一次 -->
+                            <!-- 每天几点钟定时执行一次 -->
                             <div class="ui field">
-                                每天定时运行一次（时:分:秒）：
+                                每天定时执行一次（时:分:秒）：
                             </div>
                             <div class="ui fields inline segment">
                                 <div class="ui field">
@@ -176,7 +176,7 @@
                                             <div class="ui bottom attached segment" v-show="secondTab == 'every'">
                                                 <div class="ui checkbox">
                                                     <input type="checkbox" name="" v-model="secondEvery" />
-                                                    <label>选中表示每秒钟运行一次</label>
+                                                    <label>选中表示每秒钟执行一次</label>
                                                 </div>
                                             </div>
 
@@ -205,7 +205,7 @@
                                                 <div class="ui field">
                                                     <button class="ui button tiny" type="button" @click="addPoint('second')">+</button>
                                                 </div>
-                                                <p class="comment">设置脚本运行的固定时间点</p>
+                                                <p class="comment">设置脚本执行的固定时间点</p>
                                             </div>
 
                                             <!-- 间隔 -->
@@ -245,7 +245,7 @@
                                                 <div class="ui field">
                                                     <button class="ui button tiny" type="button" @click="addStep('second')">+</button>
                                                 </div>
-                                                <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                             </div>
                                         </div>
                                     </td>
@@ -269,7 +269,7 @@
                                             <div class="ui bottom attached segment" v-show="minuteTab == 'every'">
                                                 <div class="ui checkbox">
                                                     <input type="checkbox" name="" v-model="minuteEvery" />
-                                                    <label>选中表示每分钟运行一次</label>
+                                                    <label>选中表示每分钟执行一次</label>
                                                 </div>
                                             </div>
                                             <div class="ui bottom attached segment" v-show="minuteTab == 'point'">
@@ -296,7 +296,7 @@
                                                 <div class="ui field">
                                                     <button class="ui button tiny" type="button" @click="addPoint('minute')">+</button>
                                                 </div>
-                                                <p class="comment">设置脚本运行的固定时间点</p>
+                                                <p class="comment">设置脚本执行的固定时间点</p>
                                             </div>
                                             <div class="ui bottom attached segment" v-show="minuteTab == 'step'">
                                                 <div class="ui field">
@@ -334,7 +334,7 @@
                                                 <div class="ui field">
                                                     <button class="ui button tiny" type="button" @click="addStep('minute')">+</button>
                                                 </div>
-                                                <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                             </div>
                                         </div>
                                     </td>
@@ -356,7 +356,7 @@
                                             <div class="ui bottom attached segment" v-show="hourTab == 'every'">
                                                 <div class="ui checkbox">
                                                     <input type="checkbox" name="" v-model="hourEvery" />
-                                                    <label>选中表示每小时运行一次</label>
+                                                    <label>选中表示每小时执行一次</label>
                                                 </div>
                                             </div>
                                             <div class="ui bottom attached segment" v-show="hourTab == 'point'">
@@ -383,7 +383,7 @@
                                                 <div class="ui field">
                                                     <button class="ui button tiny" type="button" @click="addPoint('hour')">+</button>
                                                 </div>
-                                                <p class="comment">设置脚本运行的固定时间点</p>
+                                                <p class="comment">设置脚本执行的固定时间点</p>
                                             </div>
                                             <div class="ui bottom attached segment" v-show="hourTab == 'step'">
                                                 <div class="ui field">
@@ -421,7 +421,7 @@
                                                 <div class="ui field">
                                                     <button class="ui button tiny" type="button" @click="addStep('hour')">+</button>
                                                 </div>
-                                                <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                             </div>
                                         </div>
                                     </td>
@@ -470,7 +470,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addPoint('day')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                    <p class="comment">设置脚本执行的固定时间点</p>
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="dayTab == 'step'">
                                                     <div class="ui field">
@@ -508,7 +508,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addStep('day')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                    <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -550,7 +550,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addPoint('month')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                    <p class="comment">设置脚本执行的固定时间点</p>
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="monthTab == 'step'">
                                                     <div class="ui field">
@@ -588,7 +588,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addStep('month')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                    <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -630,7 +630,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addPoint('year')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                    <p class="comment">设置脚本执行的固定时间点</p>
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="yearTab == 'step'">
                                                     <div class="ui field">
@@ -668,7 +668,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addStep('year')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                    <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -710,7 +710,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addPoint('weekDay')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                    <p class="comment">设置脚本执行的固定时间点</p>
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="weekDayTab == 'step'">
                                                     <div class="ui field">
@@ -748,7 +748,7 @@
                                                     <div class="ui field">
                                                         <button class="ui button tiny" type="button" @click="addStep('weekDay')">+</button>
                                                     </div>
-                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                    <p class="comment">设置脚本执行之间的开始时间、结束时间和间隔时间</p>
                                                 </div>
                                             </div>
                                         </td>

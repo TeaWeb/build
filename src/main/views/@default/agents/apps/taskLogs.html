@@ -19,7 +19,7 @@
     </thead>
     <tr>
         <td>
-            <pre v-if="log.eventType == 'stdout'">{{log.data}}</pre>
+            <pre v-if="log.eventType == 'stdout'"><span title="数据长度" class="grey">[{{log.data.length}} bytes] </span>{{log.data}}</pre>
             <pre v-if="log.eventType == 'stderr'" class="red">{{log.data}}</pre>
             <pre v-if="log.eventType == 'start' || log.eventType == 'stop'" class="grey">{{log.eventType}}</pre>
         </td>

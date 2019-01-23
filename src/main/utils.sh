@@ -15,6 +15,7 @@ function build() {
 
     echo "[================ building ${GOOS}/${GOARCH}/v${VERSION}] ================]"
 
+    echo "[goversion]using" `go version`
     echo "[create target directory]"
 
     if [ -d ${TARGET} ]
@@ -39,13 +40,6 @@ function build() {
     # build main & plugin
     go build -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
 
-    if [ -d ${GOPATH}/src/github.com/TeaWeb/jsapps ]
-    then
-        go build -o ${TARGET}/plugins/jsapps.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/jsapps/main/plugin.go
-        cp ${GOPATH}/src/github.com/TeaWeb/jsapps/main/jsapps.js ${TARGET}/configs/jsapps.js
-        cp ${GOPATH}/src/main/plugins/jsapps.js ${TARGET}/plugins/jsapps.js
-    fi
-
     if [ -d ${GOPATH}/src/github.com/TeaWeb/agent ]
     then
         go build -o ${TARGET}/plugins/agent.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-plugin.go
@@ -61,7 +55,6 @@ function build() {
     cp -R ${GOPATH}/src/main/configs/admin.sample.conf ${TARGET}/configs/admin.conf
     cp -R ${GOPATH}/src/main/configs/server.prod.conf ${TARGET}/configs/server.conf
     cp -R ${GOPATH}/src/main/configs/mongo.conf ${TARGET}/configs/
-    cp -R ${GOPATH}/src/main/configs/server.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/configs/server.www.proxy.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/configs/board.default.conf ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/www ${TARGET}/
@@ -74,6 +67,7 @@ function build() {
     if [ ${GOOS} = "windows" ]
     then
         cp ${GOPATH}/src/main/start.bat ${TARGET}
+        cp ${GOPATH}/src/main/README_WINDOWS.txt ${TARGET}
     fi
 
     # remove plus files
@@ -92,4 +86,56 @@ function build() {
     rm -rf ${TARGET}
 
     echo "[done]"
+
+    buildAgent
+}
+
+function buildAgent() {
+	VERSION_DATA=`cat ${GOPATH}/src/github.com/TeaWeb/code/teaconst/const.go`
+	VERSION_DATA=${VERSION_DATA#*"Version = \""}
+	VERSION=${VERSION_DATA%%[!0-9.]*}
+	TARGET=${GOPATH}/dist/teaweb-agent-v${VERSION}
+    EXT=""
+	if [ ${GOOS} = "windows" ]
+	then
+    	EXT=".exe"
+	fi
+
+	echo "[================ building agent ${GOOS}/${GOARCH}/v${VERSION}] ================]"
+
+	if [ -d ${TARGET} ]
+    then
+        rm -rf ${TARGET}
+    fi
+
+    mkdir ${TARGET}
+    mkdir ${TARGET}/bin
+    mkdir ${TARGET}/configs
+    mkdir ${TARGET}/configs/agents/
+    mkdir ${TARGET}/logs
+    mkdir ${TARGET}/plugins
+
+    cp ${GOPATH}/src/main/configs/agent.sample.conf ${TARGET}/configs/agent.conf
+
+    if [ ${GOOS} = "windows" ]
+    then
+		cp ${GOPATH}/src/main/start-agent.bat ${TARGET}/start.bat
+		cp ${GOPATH}/src/main/README_AGENT_WINDOWS.txt ${TARGET}/README_WINDOWS.txt
+    fi
+
+	go build -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
+
+	echo "[zip files]"
+    cd ${TARGET}/../
+    if [ -f teaweb-agent-${GOOS}-${GOARCH}-v${VERSION}.zip ]
+    then
+        rm -f teaweb-agent-${GOOS}-${GOARCH}-v${VERSION}.zip
+    fi
+    zip -r -X -q teaweb-agent-${GOOS}-${GOARCH}-v${VERSION}.zip  teaweb-agent-v${VERSION}/
+    cd -
+
+    echo "[clean files]"
+    rm -rf ${TARGET}
+
+	echo "[done]"
 }

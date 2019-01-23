@@ -33,7 +33,7 @@ Tea.context(function () {
     };
 
     /**
-     * 运行任务
+     * 执行任务
      */
     this.runTask = function () {
         if (!window.confirm("确定要手动执行一次此任务吗？")) {
