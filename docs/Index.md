@@ -31,6 +31,13 @@
      <!-- * Varnish -->
      <!-- * Squid -->
      <!-- * HAProxy -->
+* Agent
+   * [Agent概念](agents/Index.md)
+   * [安装Agent](agents/Install.md)
+   <!--* 应用（App）-->
+   <!--* 任务-->
+   <!--* 监控-->
+   <!--   * 监控项-->
 * Apps
   * [本地服务](apps/Index.md)
   * [安装ps命令](apps/InstallPs.md)
