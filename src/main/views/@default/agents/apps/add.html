@@ -1,0 +1,38 @@
+{$layout}
+
+<div class="ui text basic menu blue">
+    <a :href="'/agents/apps?agentId=' + agentId" class="item">Apps</a>
+    <a :href="'/agents/apps/add?agentId=' + agentId"  class="item active">添加App</a>
+</div>
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="/agents/apps/add" data-tea-success="submitSuccess">
+    <input type="hidden" name="agentId" :value="agentId"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">App名称</td>
+            <td>
+                <input type="text" name="name" maxlength="100"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
+                <a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+            <tr>
+                <td>是否开启</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="on" value="1" checked="checked"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button>
+</form>

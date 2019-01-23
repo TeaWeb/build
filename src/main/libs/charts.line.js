@@ -19,6 +19,10 @@ charts.LineChart = function () {
 	this.addLine = function (line) {
 		this.lines.push(line);
 	};
+
+	this.addLines = function (lines) {
+		this.lines.$pushAll(lines);
+	};
 };
 
 charts.LineChart.prototype = new charts.Chart();

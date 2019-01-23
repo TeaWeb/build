@@ -11,8 +11,7 @@
     {$TEA.SEMANTIC}
     {$TEA.VUE}
     {$echo "header"}
-
-    <script type="text/javascript" src="/js/chart.vue.js"></script>
+    <script type="text/javascript" src="/_/@default/layout.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/chart.css" media="all"/>
 </head>
 <body>
@@ -55,17 +54,16 @@
     <div class="sub-menu">
         <div class="ui secondary menu vertical borderless blue pointing" v-if="teaSubMenus.length > 0" v-cloak="">
             <span class="item header" v-if="teaSubHeader.length > 0">{{teaSubHeader}}</span>
-            <a :href="subMenu.url" class="item" :class="{active:subMenu.active}" v-for="subMenu in teaSubMenus">{{subMenu.name}}</a>
+            <a :href="subMenu.url" class="item" :class="{active:subMenu.active}" v-for="subMenu in teaSubMenus">{{subMenu.name}}<span v-if="subMenu.subName != null && subMenu.subName.length > 0">({{subMenu.subName}})</span></a>
         </div>
     </div>
 
     <!-- 右侧主操作栏 -->
-    <div class="main" v-bind:class="{'without-menu': teaSubMenus.length == 0}" v-cloak="">
+    <div class="main" :class="{'without-menu': teaSubMenus.length == 0}" v-cloak="">
         <!-- 操作菜单 -->
         <div class="ui top menu tabular tab-menu" v-if="teaTabbar.length > 0">
-            <a class="item" v-for="item in teaTabbar" v-bind:class="{active:item.active}" v-bind:href="item.url">
-                <var>{{item.name}} &nbsp;<i class="icon small" :class="item.icon" v-if="item.icon != null"></i> </var>
-                <span v-if="item.subName.length > 0">({{item.subName}})</span>
+            <a class="item" v-for="item in teaTabbar" :class="{'active':item.active}"  :href="item.url">
+                <var>{{item.name}}<span v-if="item.subName.length > 0">({{item.subName}})</span> &nbsp;<i class="icon small" :class="item.icon" v-if="item.icon != null"></i> </var>
             </a>
         </div>
 
@@ -73,7 +71,7 @@
         {$TEA.VIEW}
 
         <!-- 快速到顶部 -->
-        <a href="" class="go-top-btn hidden" title="点击回到顶部" v-on:click.prevent="goTop()" ><i class="icon up arrow circle"></i></a>
+        <a href="" class="go-top-btn hidden" title="点击回到顶部" @click.prevent="goTop()" ><i class="icon up arrow circle"></i></a>
     </div>
 
     <!-- 底部 -->

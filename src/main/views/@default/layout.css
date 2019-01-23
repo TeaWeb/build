@@ -38,7 +38,7 @@ p.grey {
     margin-top: 0.8em;
 }
 
-span.red {
+span.red, pre.red {
     color: #db2828;
 }
 
@@ -72,15 +72,11 @@ p.comment {
 
 /** 操作按钮容器 **/
 .op.two {
-    width: 6em;
+    width: 7em;
 }
 
 .op.four {
     width: 10em;
-}
-
-.op a {
-    padding:0 0.2em;
 }
 
 /** 主菜单 **/
@@ -121,6 +117,19 @@ p.comment {
 }
 
 /** body **/
+@keyframes blink {
+    from {
+        opacity: 0.1;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+body .ui.menu .item .blink {
+    animation: blink 1s infinite;
+}
+
 body.expanded .main-menu {
     display: none;
 }
@@ -172,6 +181,10 @@ body.expanded .main {
 
 .sub-menu .menu .item.active {
     font-weight: normal!important;
+}
+
+.sub-menu .menu .item span {
+    font-size: 0.8em;
 }
 
 /** 右侧主操作区 **/

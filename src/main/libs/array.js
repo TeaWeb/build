@@ -164,3 +164,61 @@ Array.prototype.$include = function (v) {
 	}
 	return that.$contains(v);
 };
+
+
+/**
+ * 取得某一个值在数组中第一次出现的位置
+ */
+Array.prototype.$indexOf = function (value, strict) {
+	var that = this;
+	if (that == null) {
+		return [];
+	}
+	if (arguments.length == 0) {
+		return -1;
+	}
+	if (typeof (strict) == "undefined") {
+		strict = false;
+	}
+	for (var i = 0; i < that.length; i++) {
+		if ((strict && value === that[i]) || (!strict && value == that[i])) {
+			return i;
+		}
+	}
+	return -1;
+};
+
+/**
+ * 取得某一个值在数组中最后一次出现的位置
+ */
+Array.prototype.$lastIndexOf = function (value, strict) {
+	var that = this;
+	if (that == null) {
+		return [];
+	}
+	if (arguments.length == 0) {
+		return -1;
+	}
+	if (typeof (strict) == "undefined") {
+		strict = false;
+	}
+	var index = -1;
+	for (var i = 0; i < that.length; i++) {
+		if ((strict && value === that[i]) || (!strict && value == that[i])) {
+			index = i;
+		}
+	}
+	return index;
+};
+
+/**
+ * 一次性加入多个元素
+ */
+Array.prototype.$pushAll = function (array2) {
+	var that = this;
+	if (that == null) {
+		return 0;
+	}
+	return Array.prototype.push.apply(that, array2);
+};
+

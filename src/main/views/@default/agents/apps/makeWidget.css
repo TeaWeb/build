@@ -1,0 +1,58 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+.table td.border span {
+    font-weight: normal;
+    margin-left: 0.4em;
+    font-size: 0.9em;
+    color: grey;
+}
+
+.table td.normal {
+    font-weight: normal!important;
+}
+
+.field.fixedWidth {
+    width: 7em;
+}
+
+.without-definition thead tr:first-child>th:first-child {
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    color: rgba(0,0,0,.87)!important;
+    font-weight: bold!important;
+    background: #f9fafb!important;
+}
+
+.label-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+

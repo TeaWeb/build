@@ -1,0 +1,27 @@
+{$layout}
+
+{$template "menu"}
+
+<div class="ui menu small text blue">
+    <a :href="'/agents/apps/taskDetail?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar" class="ui item">{{task.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/taskLogs?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar"  class="ui item active">日志</a>
+</div>
+<div class="ui divider"></div>
+
+<p class="comment" v-if="isLoaded && logs.length == 0">暂时还没有日志。</p>
+
+<table class="ui table selectable logs-table small" v-for="log in logs">
+    <thead>
+        <tr>
+            <th>{{log.datetime}} | Pid: {{log.processPid}}</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>
+            <pre v-if="log.eventType == 'stdout'">{{log.data}}</pre>
+            <pre v-if="log.eventType == 'stderr'" class="red">{{log.data}}</pre>
+            <pre v-if="log.eventType == 'start' || log.eventType == 'stop'" class="grey">{{log.eventType}}</pre>
+        </td>
+    </tr>
+</table>

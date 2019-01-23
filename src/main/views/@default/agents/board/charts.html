@@ -1,0 +1,25 @@
+{$layout}
+
+{$template "menu"}
+
+<p class="comment" v-if="charts.length == 0">暂时还没有可以使用的图表。</p>
+
+<div class="chart-box">
+    <span v-for="chart in charts" v-if="chart.isUsing" class="ui label small">{{chart.name}} &nbsp;<a href="" @click.prevent="removeChart(chart)" title="从看板移除"><i class="icon remove small" v-if="chart.isUsing"></i></a></span>
+</div>
+
+<table class="ui table selectable" v-if="charts.length > 0">
+    <thead>
+        <tr>
+            <th>图表</th>
+            <th class="two op">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="chart in charts">
+        <td>{{chart.name}}<span class="small">[{{chart.typeName}}]</span> <span class="ui label tiny">{{chart.app.name}} &raquo; {{chart.item.name}}</span></td>
+        <td>
+            <a href="" v-if="!chart.isUsing" @click.prevent="addChart(chart)">添加到看板</a>
+            <span class="grey" v-if="chart.isUsing">已添加</span>
+        </td>
+    </tr>
+</table>

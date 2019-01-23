@@ -1,0 +1,29 @@
+{$layout}
+
+{$template "menu"}
+
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">{{item.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item active">数值记录</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表<span>({{item.charts.length}})</span></a>
+</div>
+<div class="ui divider"></div>
+
+<p class="ui message warning" v-if="mongoFailed">需要<a href="/settings/mongo">设置MongoDB</a>才能记录执行日志。</p>
+
+<p class="comment" v-if="isLoaded && values.length == 0">暂时还没有数据。</p>
+
+<table class="ui table selectable values-table small" v-for="value in values">
+    <thead>
+        <tr>
+            <th :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}"><span v-if="value.noticeLevel != null">[{{value.noticeLevel.name}}] - </span>{{value.datetime}}</th>
+        </tr>
+    </thead>
+    <tr>
+        <td :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}">
+            <pre>{{value.value}}</pre>
+        </td>
+    </tr>
+</table>

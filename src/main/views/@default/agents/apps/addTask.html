@@ -1,0 +1,809 @@
+{$layout}
+
+{$template "/code_editor"}
+{$template "menu"}
+
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/' + tabbar + '?agentId=' + agentId + '&appId=' + app.id" class="item">任务列表</a>
+    <a :href="currentLocation" class="item active">添加任务</a>
+</div>
+<div class="ui divider margin"></div>
+
+<form class="ui form" data-tea-action="/agents/apps/addTask" data-tea-success="submitSuccess" data-tea-before="submitBefore">
+    <input type="hidden" name="agentId" :value="agentId"/>
+    <input type="hidden" name="appId" :value="app.id"/>
+    <input type="hidden" name="schedulesJSON" v-model="schedulesJSON"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">任务名</td>
+            <td>
+                <input type="text" name="name" maxlength="100"/>
+                <p class="comment">给任务起一个好识别的名称</p>
+            </td>
+        </tr>
+        <tr>
+            <td>脚本</td>
+            <td>
+                <textarea name="script" id="editor-box" rows="3"></textarea>
+                <p class="comment">Shell脚本内容</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项（工作目录、定时等） <i class="icon angle down"></i> </a>
+                <a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+            <tr>
+                <td>当前工作目录<em>（CWD）</em></td>
+                <td>
+                    <input type="text" name="cwd" maxlength="200"/>
+                </td>
+            </tr>
+            <tr>
+                <td>环境变量<em>（ENV）</em></td>
+                <td>
+                    <div class="ui field">
+                        <span class="ui label small" v-for="(var1, index) in env">
+                            <input type="hidden" name="envNames" :value="var1.name"/>
+                            <input type="hidden" name="envValues" :value="var1.value"/>
+                            <em>{{var1.name}}</em>: {{var1.value}}
+                            <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
+                        </span>
+                    </div>
+                    <div v-if="envAdding" class="ui fields inline">
+                        <div class="ui field">
+                            <input type="text" name="envAddingName" v-model="envAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="envAddingValue" v-model="envAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" @click="confirmAddEnv()">添加</button>
+                        </div>
+                        <div class="ui field">
+                            <a href="" @click.prevent="cancelEnv()"><i class="icon remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="ui field">
+                        <button class="ui button small" type="button" @click="addEnv()">+</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>定时任务</td>
+                <td>
+                    <div class="ui field">
+                        <span v-for="(schedule, index) in schedules" class="ui label small">
+                            {{schedule.summary}} <a href="" @click.prevent="removeSchedule(index)"><i class="icon remove"></i></a>
+                        </span>
+                    </div>
+                    <div style="margin-bottom:1em" v-if="scheduleAdding" class="ui">
+                        <div class="ui tabular menu attached">
+                            <a class="item" :class="{active:scheduleTab == 'quick'}" @click.prevent="selectScheduleTab('quick')">快速设置</a>
+                            <a class="item" :class="{active:scheduleTab == 'advanced'}" @click.prevent="selectScheduleTab('advanced')">复杂设置</a>
+                        </div>
+
+                        <!-- 快速设置 -->
+                        <div class="ui bottom attached segment" v-if="scheduleTab == 'quick'">
+                            <div class="ui fields inline segment">
+                                <div class="ui field">
+                                    每
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" name="" value="1" v-model="quickSecond" placeholder="1-59" maxlength="2" style="width:5em" @keypress.enter.prevent="1"/>
+                                </div>
+                                <div class="ui field">
+                                    <strong>秒</strong>运行一次
+                                </div>
+                                <div class="ui field">
+                                    <button class="ui button" type="button" @click.prevent="addQuickTime('second', quickSecond, 1, 59)">确定</button>
+                                </div>
+                            </div>
+                            <div class="ui fields inline segment">
+                                <div class="ui field">
+                                    每
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" name="" value="1" placeholder="1-59" v-model="quickMinute" maxlength="2" style="width:5em" @keypress.enter.prevent="1"/>
+                                </div>
+                                <div class="ui field">
+                                    <strong>分钟</strong>运行一次
+                                </div>
+                                <div class="ui field">
+                                    <button class="ui button" type="button" @click.prevent="addQuickTime('minute', quickMinute, 1, 59)">确定</button>
+                                </div>
+                            </div>
+                            <div class="ui fields inline segment">
+                                <div class="ui field">
+                                    每
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" name="" value="1" v-model="quickHour" maxlength="2" style="width:5em" @keypress.enter.prevent="1" placeholder="1-23"/>
+                                </div>
+                                <div class="ui field">
+                                    <strong>小时</strong>运行一次
+                                </div>
+                                <div class="ui field">
+                                    <button class="ui button" type="button" @click.prevent="addQuickTime('hour', quickHour, 1, 23)">确定</button>
+                                </div>
+                            </div>
+
+                            <!-- 每天几点钟定时运行一次 -->
+                            <div class="ui field">
+                                每天定时运行一次（时:分:秒）：
+                            </div>
+                            <div class="ui fields inline segment">
+                                <div class="ui field">
+                                    <input type="text" name="" value="1" v-model="quickDayHour" maxlength="2" style="width:5em" @keypress.enter.prevent="1" placeholder="0-23"/>
+                                </div>
+                                <div class="ui field">
+                                    小时
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" name="" value="1" v-model="quickDayMinute" maxlength="2" style="width:5em" @keypress.enter.prevent="1" placeholder="0-59"/>
+                                </div>
+                                <div class="ui field">
+                                    分钟
+                                </div>
+                                <div class="ui field">
+                                    <input type="text" name="" value="1" v-model="quickDaySecond" maxlength="2" style="width:5em" @keypress.enter.prevent="1" placeholder="0-59"/>
+                                </div>
+                                <div class="ui field">
+                                    秒钟
+                                </div>
+                                <div class="ui field">
+                                    <button class="ui button" type="button" @click.prevent="addQuickDayTime()">确定</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 高级设置 -->
+                        <div class="ui bottom attached segment" v-if="scheduleTab == 'advanced'">
+                            <div class="ui field">
+                                <table class="ui table">
+                                    <!-- 秒 -->
+                                    <tr>
+                                        <td style="width:4em">秒</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="secondLimit" value="1" v-model="secondLimit"/>
+                                                <label v-if="!secondLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="secondLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="secondLimit">
+                                                <div class="ui menu tabular tiny attached" >
+                                                    <a href="" class="item" :class="{active:secondTab == 'every'}" @click.prevent="secondTab = 'every'">每秒钟</a>
+                                                    <a href="" class="item" :class="{active:secondTab == 'point'}" @click.prevent="secondTab = 'point'">定点({{secondPoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:secondTab == 'step'}" @click.prevent="secondTab = 'step'">间隔({{secondSteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="secondTab == 'every'">
+                                                    <div class="ui checkbox">
+                                                        <input type="checkbox" name="" v-model="secondEvery" />
+                                                        <label>选中表示每秒钟运行一次</label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 定点 -->
+                                                <div class="ui bottom attached segment" v-show="secondTab == 'point'">
+                                                    <div class="ui field">
+                                                <span v-for="(point, index) in secondPoints" class="ui label small">
+                                                    <input type="hidden" :name="'second' + 'Points'" :value="point"/>
+                                                {{point}}秒
+                                                    <a href="" @click.prevent="removePoint('second', index)"><i class="icon remove"></i></a>
+                                                </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="secondPointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'second' + 'PointAddingName'" v-model="secondPointAddingName" maxlength="2" placeholder="0-59" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('second', 0, 59)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('second')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('second')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+
+                                                <!-- 间隔 -->
+                                                <div class="ui bottom attached segment" v-show="secondTab == 'step'">
+                                                    <div class="ui field">
+                                                <span v-for="(step, index) in secondSteps" class="ui label tiny">
+                                                    <input type="hidden" :name="'second' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                {{step.from}}秒-{{step.to}}秒/每{{step.step}}秒
+                                                    <a href="" @click.prevent="removeStep('second', index)"><i class="ui icon remove"></i></a>
+                                                </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="secondStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="secondStepAddingFrom" v-model="secondStepAddingStep['from']"  maxlength="2" placeholder="0-59" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="secondStepAddingTo" v-model="secondStepAddingStep['to']" maxlength="2" placeholder="0-59" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="secondStepAddingStep" v-model="secondStepAddingStep['step']" maxlength="2" placeholder="1-59" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('second', 0, 59, 59)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('second')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('second')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- 分钟 -->
+                                    <tr>
+                                        <td>分钟</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="minuteLimit" value="1" v-model="minuteLimit"/>
+                                                <label v-if="!minuteLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="minuteLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="minuteLimit">
+                                                <div class="ui menu tabular tiny attached">
+                                                    <a href="" class="item" :class="{active:minuteTab == 'every'}" @click.prevent="minuteTab = 'every'">每分钟</a>
+                                                    <a href="" class="item" :class="{active:minuteTab == 'point'}" @click.prevent="minuteTab = 'point'">定点({{minutePoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:minuteTab == 'step'}" @click.prevent="minuteTab = 'step'">间隔({{minuteSteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="minuteTab == 'every'">
+                                                    <div class="ui checkbox">
+                                                        <input type="checkbox" name="" v-model="minuteEvery" />
+                                                        <label>选中表示每分钟运行一次</label>
+                                                    </div>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="minuteTab == 'point'">
+                                                    <div class="ui field">
+                                                <span v-for="(point, index) in minutePoints" class="ui label small">
+                                                    <input type="hidden" :name="'minute' + 'Points'" :value="point"/>
+                                                {{point}}分
+                                                    <a href="" @click.prevent="removePoint('minute', index)"><i class="icon remove"></i></a>
+                                                </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="minutePointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'minute' + 'PointAddingName'" v-model="minutePointAddingName" maxlength="2" placeholder="0-59" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('minute', 0, 59)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('minute')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('minute')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="minuteTab == 'step'">
+                                                    <div class="ui field">
+                                                <span v-for="(step, index) in minuteSteps" class="ui label tiny">
+                                                    <input type="hidden" :name="'minute' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                {{step.from}}分钟-{{step.to}}分钟/每{{step.step}}分钟
+                                                    <a href="" @click.prevent="removeStep('minute', index)"><i class="ui icon remove"></i></a>
+                                                </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="minuteStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="minuteStepAddingFrom" v-model="minuteStepAddingStep['from']"  maxlength="2" placeholder="0-59" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="minuteStepAddingTo" v-model="minuteStepAddingStep['to']" maxlength="2" placeholder="0-59" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="minuteStepAddingStep" v-model="minuteStepAddingStep['step']" maxlength="2" placeholder="1-59" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('minute', 0, 59, 59)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('minute')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('minute')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>小时</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="hourLimit" value="1" v-model="hourLimit"/>
+                                                <label v-if="!hourLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="hourLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="hourLimit">
+                                                <div class="ui menu tabular tiny attached">
+                                                    <a href="" class="item" :class="{active:hourTab == 'every'}" @click.prevent="hourTab = 'every'">每小时</a>
+                                                    <a href="" class="item" :class="{active:hourTab == 'point'}" @click.prevent="hourTab = 'point'">定点({{hourPoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:hourTab == 'step'}" @click.prevent="hourTab = 'step'">间隔({{hourSteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="hourTab == 'every'">
+                                                    <div class="ui checkbox">
+                                                        <input type="checkbox" name="" v-model="hourEvery" />
+                                                        <label>选中表示每小时运行一次</label>
+                                                    </div>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="hourTab == 'point'">
+                                                    <div class="ui field">
+                                                <span v-for="(point, index) in hourPoints" class="ui label small">
+                                                    <input type="hidden" :name="'hour' + 'Points'" :value="point"/>
+                                                {{point}}小时
+                                                    <a href="" @click.prevent="removePoint('hour', index)"><i class="icon remove"></i></a>
+                                                </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="hourPointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'hour' + 'PointAddingName'" v-model="hourPointAddingName" maxlength="2" placeholder="0-23" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('hour', 0, 23)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('hour')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('hour')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="hourTab == 'step'">
+                                                    <div class="ui field">
+                                                <span v-for="(step, index) in hourSteps" class="ui label tiny">
+                                                    <input type="hidden" :name="'hour' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                {{step.from}}小时-{{step.to}}小时/每{{step.step}}小时
+                                                    <a href="" @click.prevent="removeStep('hour', index)"><i class="ui icon remove"></i></a>
+                                                </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="hourStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="hourStepAddingFrom" v-model="hourStepAddingStep['from']"  maxlength="2" placeholder="0-23" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="hourStepAddingTo" v-model="hourStepAddingStep['to']" maxlength="2" placeholder="0-23" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="hourStepAddingStep" v-model="hourStepAddingStep['step']" maxlength="2" placeholder="1-23" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('hour', 0, 23, 23)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('hour')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('hour')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <a href="" style="font-weight: normal" v-if="!dayOptionsVisible" @click.prevent="showDayOptions()">日期设置<i class="icon angle down"></i></a>
+                                            <a href="" style="font-weight: normal" v-if="dayOptionsVisible" @click.prevent="showDayOptions()">日期设置<i class="icon angle up"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tbody v-show="dayOptionsVisible">
+                                    <tr>
+                                        <td>天</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="dayLimit" value="1" v-model="dayLimit"/>
+                                                <label v-if="!dayLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="dayLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="dayLimit">
+                                                <div class="ui menu tabular tiny attached">
+                                                    <a href="" class="item" :class="{active:dayTab == 'point'}" @click.prevent="dayTab = 'point'">定点({{dayPoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:dayTab == 'step'}" @click.prevent="dayTab = 'step'">间隔({{daySteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="dayTab == 'point'">
+                                                    <div class="ui field">
+                                                    <span v-for="(point, index) in dayPoints" class="ui label small">
+                                                        <input type="hidden" :name="'day' + 'Points'" :value="point"/>
+                                                    {{point}}日
+                                                        <a href="" @click.prevent="removePoint('day', index)"><i class="icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="dayPointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'day' + 'PointAddingName'" v-model="dayPointAddingName" maxlength="2" placeholder="1-31" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('day', 1, 31)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('day')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('day')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="dayTab == 'step'">
+                                                    <div class="ui field">
+                                                    <span v-for="(step, index) in daySteps" class="ui label tiny">
+                                                        <input type="hidden" :name="'day' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                    {{step.from}}日-{{step.to}}日/每{{step.step}}天
+                                                        <a href="" @click.prevent="removeStep('day', index)"><i class="ui icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="dayStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="dayStepAddingFrom" v-model="dayStepAddingStep['from']"  maxlength="2" placeholder="1-31" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="dayStepAddingTo" v-model="dayStepAddingStep['to']" maxlength="2" placeholder="1-31" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="dayStepAddingStep" v-model="dayStepAddingStep['step']" maxlength="2" placeholder="1-31" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('day', 1, 31, 31)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('day')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('day')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>月</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="monthLimit" value="1" v-model="monthLimit"/>
+                                                <label v-if="!monthLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="monthLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="monthLimit">
+                                                <div class="ui menu tabular tiny attached">
+                                                    <a href="" class="item" :class="{active:monthTab == 'point'}" @click.prevent="monthTab = 'point'">定点({{monthPoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:monthTab == 'step'}" @click.prevent="monthTab = 'step'">间隔({{monthSteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="monthTab == 'point'">
+                                                    <div class="ui field">
+                                                    <span v-for="(point, index) in monthPoints" class="ui label small">
+                                                        <input type="hidden" :name="'month' + 'Points'" :value="point"/>
+                                                    {{point}}月
+                                                        <a href="" @click.prevent="removePoint('month', index)"><i class="icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="monthPointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'month' + 'PointAddingName'" v-model="monthPointAddingName" maxlength="2" placeholder="1-12" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('month', 1, 12)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('month')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('month')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="monthTab == 'step'">
+                                                    <div class="ui field">
+                                                    <span v-for="(step, index) in monthSteps" class="ui label tiny">
+                                                        <input type="hidden" :name="'month' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                    {{step.from}}月-{{step.to}}月/每{{step.step}}月
+                                                        <a href="" @click.prevent="removeStep('month', index)"><i class="ui icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="monthStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="monthStepAddingFrom" v-model="monthStepAddingStep['from']"  maxlength="2" placeholder="1-12" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="monthStepAddingTo" v-model="monthStepAddingStep['to']" maxlength="2" placeholder="1-12" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="monthStepAddingStep" v-model="monthStepAddingStep['step']" maxlength="2" placeholder="1-12" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('month', 1, 12, 12)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('month')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('month')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>年</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="yearLimit" value="1" v-model="yearLimit"/>
+                                                <label v-if="!yearLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="yearLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="yearLimit">
+                                                <div class="ui menu tabular tiny attached">
+                                                    <a href="" class="item" :class="{active:yearTab == 'point'}" @click.prevent="yearTab = 'point'">定点({{yearPoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:yearTab == 'step'}" @click.prevent="yearTab = 'step'">间隔({{yearSteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="yearTab == 'point'">
+                                                    <div class="ui field">
+                                                    <span v-for="(point, index) in yearPoints" class="ui label small">
+                                                        <input type="hidden" :name="'year' + 'Points'" :value="point"/>
+                                                    {{point}}年
+                                                        <a href="" @click.prevent="removePoint('year', index)"><i class="icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="yearPointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'year' + 'PointAddingName'" v-model="yearPointAddingName" maxlength="4" placeholder="20xx" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('year', minYear, minYear+100)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('year')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('year')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="yearTab == 'step'">
+                                                    <div class="ui field">
+                                                    <span v-for="(step, index) in yearSteps" class="ui label tiny">
+                                                        <input type="hidden" :name="'year' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                    {{step.from}}年-{{step.to}}年/每{{step.step}}年
+                                                        <a href="" @click.prevent="removeStep('year', index)"><i class="ui icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="yearStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="yearStepAddingFrom" v-model="yearStepAddingStep['from']"  maxlength="4" placeholder="20xx" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="yearStepAddingTo" v-model="yearStepAddingStep['to']" maxlength="4" placeholder="20xx" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="yearStepAddingStep" v-model="yearStepAddingStep['step']" maxlength="3" placeholder="1-100" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('year', minYear, minYear+100, 100)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('year')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('year')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>周N</td>
+                                        <td>
+                                            <div class="ui toggle checkbox">
+                                                <input type="checkbox" name="weekDayLimit" value="1" v-model="weekDayLimit"/>
+                                                <label v-if="!weekDayLimit" style="color:#ccc">不限制</label>
+                                                <label v-if="weekDayLimit">设置限制</label>
+                                            </div>
+                                            <div v-if="weekDayLimit">
+                                                <div class="ui menu tabular tiny attached">
+                                                    <a href="" class="item" :class="{active:weekDayTab == 'point'}" @click.prevent="weekDayTab = 'point'">定点({{weekDayPoints.length}})</a>
+                                                    <a href="" class="item" :class="{active:weekDayTab == 'step'}" @click.prevent="weekDayTab = 'step'">间隔({{weekDaySteps.length}})</a>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="weekDayTab == 'point'">
+                                                    <div class="ui field">
+                                                    <span v-for="(point, index) in weekDayPoints" class="ui label small">
+                                                        <input type="hidden" :name="'weekDay' + 'Points'" :value="point"/>
+                                                    周{{point}}
+                                                        <a href="" @click.prevent="removePoint('weekDay', index)"><i class="icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="weekDayPointAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" :name="'weekDay' + 'PointAddingName'" v-model="weekDayPointAddingName" maxlength="1" placeholder="1-7" style="width:6em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click.prevent="confirmAddPoint('weekDay', 1, 7)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelPoint('weekDay')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addPoint('weekDay')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行的固定时间点</p>
+                                                </div>
+                                                <div class="ui bottom attached segment" v-show="weekDayTab == 'step'">
+                                                    <div class="ui field">
+                                                    <span v-for="(step, index) in weekDaySteps" class="ui label tiny">
+                                                        <input type="hidden" :name="'weekDay' + 'Steps'" :value="step.from + '_' + step.to + '_' + step.step"/>
+                                                    周{{step.from}}-周{{step.to}}/每{{step.step}}天
+                                                        <a href="" @click.prevent="removeStep('weekDay', index)"><i class="ui icon remove"></i></a>
+                                                    </span>
+                                                    </div>
+                                                    <div class="ui tiny form" v-if="weekDayStepAdding">
+                                                        <div class="ui fields inline">
+                                                            <div class="ui field">
+                                                                <input type="text" name="weekDayStepAddingFrom" v-model="weekDayStepAddingStep['from']"  maxlength="1" placeholder="1-7" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                到
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="weekDayStepAddingTo" v-model="weekDayStepAddingStep['to']" maxlength="1" placeholder="1-7" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                间隔：
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <input type="text" name="StepAddingStep" v-model="weekDayStepAddingStep['step']" maxlength="4" placeholder="1-7" style="width:5em" @keypress.enter.prevent="1"/>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <button class="ui button tiny" type="button" @click="confirmAddStep('weekDay', 1, 7, 7)">添加</button>
+                                                            </div>
+                                                            <div class="ui field">
+                                                                <a href="" @click.prevent="cancelStep('weekDay')"><i class="icon remove"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui field">
+                                                        <button class="ui button tiny" type="button" @click="addStep('weekDay')">+</button>
+                                                    </div>
+                                                    <p class="comment">设置脚本运行之间的开始时间、结束时间和间隔时间</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="ui field">
+                                <button class="ui button small" type="button" @click.prevent="confirmAddSchedule()">确定</button> &nbsp; <a href="" @click.prevent="addSchedule()"><i class="icon remove"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui field">
+                        <button class="ui button small" type="button" @click="addSchedule()">+</button>
+                    </div>
+                    <p class="comment">定时执行的任务，以上小时设置都是24小时制，取值范围为0-23。</p>
+                </td>
+            </tr>
+            <tr>
+                <td>启动任务</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="isBooting" v-model="isBooting"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">表示这个任务是随TeaWeb启动的任务</p>
+                </td>
+            </tr>
+            <tr>
+                <td>手动任务</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="isManual" v-model="isManual"/>
+                        <label></label>
+                    </div>
+                    <p class="comment">表示这个任务是需要手动执行的任务</p>
+                </td>
+            </tr>
+            <tr>
+                <td>是否开启</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="on" checked="checked"/>
+                        <label></label>
+                    </div>
+                    <p class="comment"></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>

@@ -11,7 +11,8 @@ logs.Query = function () {
 		"for": null,
 		"offset": -1,
 		"size": -1,
-		"sorts": []
+		"sorts": [],
+		"cache": 0
 	};
 
 	this.from = function (time) {
@@ -98,6 +99,11 @@ logs.Query = function () {
 		return this;
 	};
 
+	this.cache = function (seconds) {
+		query.cache = seconds;
+		return this;
+	};
+
 	this.asc = function (field) {
 		if (field == null) {
 			field = "";
@@ -125,7 +131,26 @@ logs.Query = function () {
 	};
 
 	this.execute = function () {
-		return callExecuteQuery(query);
+		var cacheKey = null;
+		if (query.cache > 0) {
+			var cacheQuery = query;
+			delete(cacheQuery["timeFrom"]);
+			delete(cacheQuery["timeTo"]);
+			cacheKey = JSON.stringify({
+				"query": cacheQuery,
+				"serverId": (context.server == null) ? "" : context.server.id
+			});
+			var result = caches.get(cacheKey);
+			if (result != null) {
+				return result;
+			}
+		}
+
+		var result = callExecuteQuery(query);
+		if (query.cache > 0 && result != null) {
+			caches.set(cacheKey, result, query.cache);
+		}
+		return result;
 	};
 
 	this.count = function () {
@@ -153,8 +178,15 @@ logs.Query = function () {
 			.execute();
 	};
 
-	this.findAll = function (field) {
+	this.findAll = function () {
 		return this.action("findAll")
 			.execute();
+	};
+
+	this.latest = function (size) {
+		return this.action("findAll")
+			.desc()
+			.limit(size)
+			.findAll();
 	};
 };

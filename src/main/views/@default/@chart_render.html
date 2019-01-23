@@ -1,0 +1,25 @@
+{$var "header"}
+<script src="/js/echarts.min.js" type="text/javascript"></script>
+<script src="/js/clock.js" type="text/javascript"></script>
+<script src="/_/@default/chart_render.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/_/@default/chart_render.css" type="text/css"/>
+{$end}
+
+<div class="ui grid two columns chart-list">
+    <div v-for="chart in charts" :class="{'one column row':chart.options.columns > 1, 'column':chart.options.columns <= 1}">
+        <div :class="{'column':chart.options.columns > 1}">
+            <table class="ui table small">
+                <thead>
+                <tr>
+                    <th v-html="chart.options.name"></th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>
+                        <div class="chart-box" :id="'chart-box-' + chart.id"><!-- Chart --></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,19 +1,17 @@
-.chart-groups {
+.table th .ops {
+    position: absolute;
+    right: 2em;
 }
 
-.chart-groups .chart-group {
-    width: 30%;
-    float: left;
-    margin-right: 0.5em;
-    margin-left: 0.5em;
-    margin-top: 0;
+.table th a {
+    font-weight: normal!important;
+    color: #ddd;
 }
 
-.chart-groups .chart-group .header {
-    font-weight: bold;
-    padding-bottom: 1em;
+.table th a:hover {
+    color: grey;
 }
 
-.chart-groups .chart-group .table-box {
-    margin-bottom: 1em;
+#qps-chart-box {
+    height: 16em;
 }

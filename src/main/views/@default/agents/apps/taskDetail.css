@@ -1,0 +1,41 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+.table span.label {
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    line-height: 1.4;
+}
+
+.table span.label em {
+    font-style: italic!important;
+}
+
+table .tabular {
+    margin-top: 1em!important;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}

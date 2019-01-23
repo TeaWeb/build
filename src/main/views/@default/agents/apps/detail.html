@@ -1,0 +1,22 @@
+{$layout}
+
+{$template "menu"}
+
+<!-- 详情 -->
+<h3>详情<a :href="'/agents/apps/update?agentId=' + agentId + '&appId=' + app.id + '&from=' + from" v-if="!app.isSystem">修改</a></h3>
+
+<table class="ui table definition selectable">
+    <tr>
+        <td>是否开启</td>
+        <td>
+            <span class="ui label small green" v-if="app.on">已开启</span>
+            <span class="ui label small" v-if="!app.on">未开启</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="title">App名称</td>
+        <td>
+            {{app.name}}
+        </td>
+    </tr>
+</table>

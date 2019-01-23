@@ -46,6 +46,11 @@ function build() {
         cp ${GOPATH}/src/main/plugins/jsapps.js ${TARGET}/plugins/jsapps.js
     fi
 
+    if [ -d ${GOPATH}/src/github.com/TeaWeb/agent ]
+    then
+        go build -o ${TARGET}/plugins/agent.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-plugin.go
+    fi
+
     # restore plus
     if [ -f ${GOPATH}/drafts/src/plus.go ]
     then
@@ -76,7 +81,7 @@ function build() {
 
     echo "[zip files]"
     cd ${TARGET}/../
-     if [ -f teaweb-${GOOS}-${GOARCH}-v${VERSION}.zip ]
+    if [ -f teaweb-${GOOS}-${GOARCH}-v${VERSION}.zip ]
     then
         rm -f teaweb-${GOOS}-${GOARCH}-v${VERSION}.zip
     fi

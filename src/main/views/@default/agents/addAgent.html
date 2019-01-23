@@ -1,0 +1,76 @@
+{$layout}
+
+<div>
+    <p class="comment">添加主机后，请在主机上<a href="http://plus.meloy.cn/doc/agents/Install.md" target="_blank">安装Agent</a>。</p>
+    <form class="ui form" data-tea-action="/agents/addAgent" data-tea-success="submitSuccess">
+        <table class="ui table definition">
+            <tr>
+                <td class="title">主机名</td>
+                <td>
+                    <input type="text" name="name" maxlength="100"/>
+                    <p class="comment">写一个很好记的名称，比如Web001</p>
+                </td>
+            </tr>
+            <tr>
+                <td>主机地址</td>
+                <td>
+                    <input type="text" name="host" maxlength="100"/>
+                    <p class="comment">比如192.168.1.100</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
+                    <a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+                </td>
+            </tr>
+            <tbody v-show="advancedOptionsVisible">
+                <tr>
+                    <td>密钥</td>
+                    <td>保存后自动生成<p class="comment">用来Agent主机和Master主服务器之间通讯</p></td>
+                </tr>
+                <tr>
+                    <td>允许访问的IP</td>
+                    <td>
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" name="allowAllIP" v-model="allowAllIP"/>
+                            <label v-if="!allowAllIP" class="grey">允许部分IP</label>
+                            <label v-if="allowAllIP">允许所有IP</label>
+                        </div>
+
+                        <div style="margin-top:0.5em" v-show="!allowAllIP">
+                        <span class="ui label small" v-for="(ip, arrayIndex) in ips">{{ip}}
+                            <input type="hidden" name="ips" :value="ip"/>
+                        <a href="" @click.prevent="removeIP(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+                    </span>
+                            <div class="ui fields inline" v-if="ipAdding" style="margin-top:0.8em">
+                                <div class="ui field">
+                                    <input type="text" name="addingIPName" style="width:16em" maxlength="100" placeholder="域名，比如192.168.1.100" @keyup.enter="confirmAddIP()" @keypress.enter.prevent="1" v-model="addingIPName" />
+                                </div>
+                                <div class="ui field">
+                                    <button class="ui button" type="button" @click="confirmAddIP()">确定</button>
+                                    &nbsp; <a href="" @click.prevent="cancelIPAdding()">取消</a>
+                                </div>
+                            </div>
+                            <div class="ui field" style="margin-top: 1em">
+                                <button class="ui button" type="button" @click="addIP()">+</button>
+                            </div>
+                            <p class="comment">允许访问该主机API的Agent地址，通常和主机地址一致</p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否开启</td>
+                    <td>
+                        <div class="ui checkbox">
+                            <input type="checkbox" name="on" value="1" checked="checked"/>
+                            <label></label>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="ui button primary" type="submit">保存</button>
+    </form>
+</div>

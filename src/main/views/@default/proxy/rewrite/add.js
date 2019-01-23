@@ -18,7 +18,10 @@ Tea.context(function () {
         this.advancedOptionsVisible = !this.advancedOptionsVisible;
     };
 
-    this.conds = [];
+	/**
+	 * 重写条件
+	 */
+	this.conds = [];
     this.addCond = function () {
         this.conds.push({
             "param": "",

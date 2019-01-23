@@ -1,0 +1,86 @@
+{$layout}
+
+{$template "/code_editor"}
+{$template "menu"}
+
+<div class="ui menu small text blue">
+    <a :href="'/agents/apps/taskDetail?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar" class="ui item active">{{task.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/taskLogs?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar"  class="ui item">日志</a>
+</div>
+<div class="ui divider"></div>
+
+<h3 style="margin-top:1em!important;">任务详情<a :href="'/agents/apps/updateTask?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar + '&from=' + from">修改</a></h3>
+
+<table class="ui table definition selectable">
+    <tr>
+        <td>是否启用</td>
+        <td>
+            <span class="ui label small green" v-if="task.on">已启用</span>
+            <span class="ui label small" v-if="!task.on">未启用</span>
+        </td>
+    </tr>
+    <tr>
+        <td class="title">任务名</td>
+        <td>
+            {{task.name}}
+        </td>
+    </tr>
+    <tr>
+        <td>ID</td>
+        <td>{{task.id}}</td>
+    </tr>
+    <tr>
+        <td>脚本</td>
+        <td>
+            <div id="code-editor"></div>
+            <p class="comment" style="margin-top:0.4em">
+                <a href="" @click.prevent="runTask()" v-if="task.on">手动执行</a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>当前工作目录<em>（CWD）</em></td>
+        <td>
+            <span v-if="task.cwd.length > 0">{{task.cwd}}</span>
+            <span class="disabled" v-if="task.cwd.length == 0">没有设置</span>
+        </td>
+    </tr>
+    <tr>
+        <td>环境变量<em>（ENV）</em></td>
+        <td>
+            <span v-if="task.env == null || task.env.length == 0" class="disabled">没有设置</span>
+            <div v-if="task.env != null && task.env.length > 0">
+                <span class="ui label small" v-for="(var1, index) in task.env">
+                    <em>{{var1.name}}</em>: {{var1.value}}
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>定时任务</td>
+        <td>
+            <span v-if="task.schedules.length == 0" class="disabled">没有设置</span>
+            <div v-if="task.schedules.length > 0">
+                <span class="ui label tiny" v-for="schedule in task.schedules">{{schedule.summary}}</span>
+            </div>
+            <p class="comment" v-if="task.nextTime.length > 0">下次执行时间：{{task.nextTime}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>启动任务</td>
+        <td>
+            <span v-if="task.isBooting" class="green">Y</span>
+            <span v-if="!task.isBooting" class="disabled">N</span>
+            <p class="comment" v-if="task.isBooting">表示这个任务是随TeaWeb启动的任务</p>
+        </td>
+    </tr>
+    <tr>
+        <td>手动任务</td>
+        <td>
+            <span v-if="task.isManual" class="green">Y</span>
+            <span v-if="!task.isManual" class="disabled">N</span>
+            <p class="comment" v-if="task.isManual">表示这个任务是需要手动执行的任务</p>
+        </td>
+    </tr>
+</table>

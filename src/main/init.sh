@@ -27,9 +27,6 @@ go_get "github.com/oschwald/geoip2-golang"
 # go_get "github.com/mongodb/mongo-go-driver"
 # echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in mongodb"
 
-# system cpu, memory, disk ...
-go_get "github.com/shirou/gopsutil"
-
 # javascript
 go_get "github.com/robertkrimen/otto"
 
@@ -50,6 +47,9 @@ go_get "github.com/go-yaml/yaml"
 
 # websocket
 go_get "github.com/gorilla/websocket"
+
+# leveldb
+go_get "github.com/syndtr/goleveldb/leveldb"
 
 # TeaWeb
 go_get "github.com/TeaWeb/code"

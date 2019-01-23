@@ -5,6 +5,9 @@ widgets.Widget = function (options) {
 	this.code = "";
 	this.author = "";
 	this.version = "";
+	this.description = "";
+	this.params = {};
+	this.options = {};
 	this.requirements = [];
 
 	for (var key in options) {

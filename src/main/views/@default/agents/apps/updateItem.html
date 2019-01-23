@@ -1,0 +1,205 @@
+{$layout}
+
+{$template "menu"}
+
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item active">{{item.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item">数值记录</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表</a>
+</div>
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+    <input type="hidden" name="agentId" :value="agentId"/>
+    <input type="hidden" name="appId" :value="app.id"/>
+    <input type="hidden" name="itemId" :value="item.id"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">监控项名称 *</td>
+            <td>
+                <input type="text" name="name" v-model="item.name" maxlength="100"/>
+                <p class="comment">比如连接数监控</p>
+            </td>
+        </tr>
+        <tr>
+            <td>数据源 *</td>
+            <td>
+                <select class="ui dropdown" name="sourceCode" v-model="sourceCode" @change="changeSource()" style="width:10em">
+                    <option v-for="source in sources" :value="source.code">{{source.name}}</option>
+                </select>
+                <p class="comment">{{sourceDescription}}</p>
+            </td>
+        </tr>
+
+        <!-- 脚本 -->
+        <tbody v-show="sourceCode == 'script'">
+            <tr>
+                <td>脚本路径 *</td>
+                <td>
+                    <input type="text" name="scriptPath" v-model="item.sourceOptions.path" maxlength="100"/>
+                </td>
+            </tr>
+            <tr>
+                <td>当前工作目录<em>（CWD）</em></td>
+                <td>
+                    <input type="text" name="scriptCwd" v-model="item.sourceOptions.cwd" maxlength="100"/>
+                </td>
+            </tr>
+            <tr>
+                <td>环境变量<em>（ENV）</em></td>
+                <td>
+                    <div class="ui field">
+                        <span class="ui label small" v-for="(var1, index) in env">
+                            <input type="hidden" name="scriptEnvNames" :value="var1.name"/>
+                            <input type="hidden" name="scriptEnvValues" :value="var1.value"/>
+                            <em>{{var1.name}}</em>: {{var1.value}}
+                            <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
+                        </span>
+                    </div>
+                    <div v-if="envAdding" class="ui fields inline">
+                        <div class="ui field">
+                            <input type="text" name="envAddingName" v-model="envAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+                        </div>
+                        <div class="ui field">
+                            <input type="text" name="envAddingValue" v-model="envAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+                        </div>
+                        <div class="ui field">
+                            <button class="ui button" type="button" @click="confirmAddEnv()">添加</button>
+                        </div>
+                        <div class="ui field">
+                            <a href="" @click.prevent="cancelEnv()"><i class="icon remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="ui field">
+                        <button class="ui button small" type="button" @click="addEnv()">+</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- WebHook -->
+        <tbody v-show="sourceCode == 'webhook'">
+            <tr>
+                <td>URL *</td>
+                <td>
+                    <input type="text" name="webhookURL" maxlength="100" v-model="item.sourceOptions.url" placeholder="http://..."/>
+                </td>
+            </tr>
+            <tr>
+                <td>请求方法 *</td>
+                <td>
+                    <select name="webhookMethod" class="ui dropdown" v-model="item.sourceOptions.method" style="width:10em">
+                        <option v-for="method in methods" :value="method">{{method}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>请求超时<em>（Timeout）</em></td>
+                <td>
+                    <div class="ui input right labeled">
+                        <input type="text" name="webhookTimeout" v-model="item.sourceOptions.timeout" style="width: 5em" maxlength="10" value="10"/>
+                        <label class="ui label">秒</label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- 文件 -->
+        <tbody v-show="sourceCode == 'file'">
+            <tr>
+                <td>数据文件路径 *</td>
+                <td>
+                    <input type="text" name="filePath" v-model="item.sourceOptions.path" maxlength="100"/>
+                </td>
+            </tr>
+        </tbody>
+        <tr>
+            <td colspan="2">
+                <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+                <a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+            <tr>
+                <td>数据格式</td>
+                <td>
+                    <select class="ui dropdown" name="dataFormat" v-model="item.sourceOptions.dataFormat" style="width:10em">
+                        <option v-for="dataFormat in dataFormats" :value="dataFormat.code">{{dataFormat.name}}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>刷新间隔</td>
+                <td>
+                    <div class="ui input right labeled">
+                        <input type="text" name="interval" v-model="item.interval" style="width: 5em" maxlength="10" value="30"/>
+                        <label class="ui label">秒</label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>阈值设置</td>
+                <td>
+                    <table class="ui table without-definition" v-if="conds.length > 0">
+                        <thead>
+                            <tr>
+                                <th>参数</th>
+                                <th>运算符</th>
+                                <th>对比值</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="(cond, index) in conds" :key="index">
+                            <tr>
+                                <td>
+                                    <input type="text" name="condParams" v-model="cond.param"/>
+                                </td>
+                                <td>
+                                    <select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">
+                                        <option v-for="op in operators" :value="op.op">{{op.name}}</option>
+                                    </select>
+                                    <p class="comment">{{cond.description}}</p>
+                                </td>
+                                <td class="value-td">
+                                    <input type="text" name="condValues" v-model="cond.value"/>
+                                </td>
+                                <td>
+                                    <a href="" @click.prevent="removeCond(index)" title="删除"><i class="icon remove"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select class="ui dropdown" style="width:10em" name="condNoticeLevels" v-model="cond.noticeLevel">
+                                        <option v-for="level in noticeLevels" :value="level.code">{{level.name}}</option>
+                                    </select>
+                                </td>
+                                <td colspan="2">
+                                    <input type="text" name="condNoticeMessages" v-model="cond.noticeMessage" placeholder="通知消息，可以为空"/>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="padding-top:0.1em"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="ui button" @click="addCond()">+</button>
+                    <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td>是否启用</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="on" value="1" v-model="item.on"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>

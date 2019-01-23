@@ -1,0 +1,27 @@
+{$layout}
+
+{$template "/code_editor"}
+
+{$template "menu"}
+
+<div class="ui menu text blue small">
+    <a :href="'/agents/apps/widget?agentId=' + agentId + '&appId=' + app.id" class="item">Widget</a>
+    <a :href="'/agents/apps/makeWidget?agentId=' + agentId + '&appId=' + app.id" class="item">制作Widget</a>
+</div>
+
+<div class="ui divider"></div>
+
+<h3>已添加Widget <a href="">添加</a> </h3>
+
+<table class="ui table selectable">
+    <thead>
+        <tr>
+            <th>Widget名称</th>
+            <th>代号</th>
+            <th>作者</th>
+            <th>版本</th>
+            <th>数据源</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+</table>

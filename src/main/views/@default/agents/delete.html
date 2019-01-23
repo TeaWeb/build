@@ -1,0 +1,6 @@
+{$layout}
+
+<div class="button-box">
+    <button class="ui button red" type="button" @click="deleteAgent()" v-if="!teaDemoEnabled">警告！点此按钮将会直接删除此主机</button>
+    <p v-if="teaDemoEnabled">演示版无法删除</p>
+</div>

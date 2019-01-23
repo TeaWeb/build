@@ -1,0 +1,125 @@
+{$layout}
+
+{$template "menu"}
+
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item active">{{item.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item">数值记录</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表<span>({{item.charts.length}})</span></a>
+</div>
+<div class="ui divider"></div>
+
+<h3>监控项 <a :href="'/agents/apps/updateItem?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" v-if="!app.isSystem">修改</a></h3>
+
+<table class="ui table definition">
+    <tr>
+        <td class="title">监控项名称</td>
+        <td>
+            {{item.name}}
+        </td>
+    </tr>
+    <tr>
+        <td>是否启用</td>
+        <td>
+            <span class="ui label small green" v-if="item.on">启用中</span>
+            <span class="ui label small" v-if="!item.on">未启用</span>
+        </td>
+    </tr>
+    <tr v-if="source != null">
+        <td>数据源</td>
+        <td>
+            {{source.summary.name}}
+            <p class="comment">{{source.summary.description}}</p>
+        </td>
+    </tr>
+
+    <!-- 脚本 -->
+    <tbody v-if="source != null && source.summary.code == 'script'">
+        <tr>
+            <td>脚本路径</td>
+            <td>
+                {{source.options.path}}
+            </td>
+        </tr>
+        <tr>
+            <td>当前工作目录<em>（CWD）</em></td>
+            <td>
+                <span v-if="source.options.cwd.length > 0">{{source.options.cwd}}</span>
+                <span v-if="source.options.cwd.length == 0" class="disabled">没有设置</span>
+            </td>
+        </tr>
+        <tr>
+            <td>环境变量<em>（ENV）</em></td>
+            <td>
+                <span v-if="source.options.env != null && source.options.env.length > 0" class="ui label small" v-for="(var1, index) in source.options.env">
+                    <em>{{var1.name}}</em>: {{var1.value}}
+                    <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
+                </span>
+                <span v-if="source.options.env == null || source.options.env.length == 0" class="disabled">没有设置</span>
+            </td>
+        </tr>
+    </tbody>
+
+    <!-- WebHook -->
+    <tbody v-if="source != null && source.summary.code == 'webhook'">
+        <tr>
+            <td>URL</td>
+            <td>
+                {{source.options.url}}
+            </td>
+        </tr>
+        <tr>
+            <td>请求方法</td>
+            <td>
+                {{source.options.method}}
+            </td>
+        </tr>
+        <tr>
+            <td>请求超时<em>（Timeout）</em></td>
+            <td>
+                {{source.options.timeout}}
+            </td>
+        </tr>
+    </tbody>
+
+    <!-- 文件 -->
+    <tbody v-if="source != null && source.summary.code == 'file'">
+        <tr>
+            <td>数据文件路径</td>
+            <td>
+                {{source.options.path}}
+            </td>
+        </tr>
+    </tbody>
+
+    <!-- 通用数据源设置 -->
+    <tr>
+        <td>数据格式</td>
+        <td>
+            <span v-if="source != null && source.dataFormat != null">{{source.dataFormat.name}}</span>
+            <span v-if="source == null || source.dataFormat == null" class="disabled">没有设置</span>
+        </td>
+    </tr>
+    <tr>
+        <td>刷新间隔</td>
+        <td>
+            {{item.interval}}
+        </td>
+    </tr>
+    <tbody>
+        <tr>
+            <td>阈值设置</td>
+            <td>
+                <span v-if="item.thresholds == null || item.thresholds.length == 0" class="disabled">还没有设置</span>
+                <div v-if="item.thresholds != null && item.thresholds.length > 0" v-for="threshold in item.thresholds" style="margin-top:0.2em;margin-bottom:0.4em">
+                    <span class="ui label small">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
+                        <em v-if="threshold.noticeMessage.length > 0">[{{threshold.levelName}}:{{threshold.noticeMessage}}]</em>
+                        <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

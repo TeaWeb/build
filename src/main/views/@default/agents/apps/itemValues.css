@@ -1,0 +1,35 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+table th, table th a {
+    font-weight: normal!important;
+}
+
+.values-table {
+    line-height: 1.8;
+}
+
+.values-table pre {
+    margin: 0!important;
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+.values-table pre.grey {
+    color: grey;
+    font-style: italic;
+}

@@ -1,7 +1,7 @@
 var http = {};
 
 http.Server = function (options) {
-	this.on = true;
+	this.isOn = true;
 	this.id = "";
 	this.filename = "";
 	this.name = [];
@@ -38,7 +38,7 @@ http.Server = function (options) {
 };
 
 http.Backend = function (options) {
-	this.on = true;
+	this.isOn = true;
 	this.id = "";
 	this.address = "";
 	this.weight = 0;
@@ -57,7 +57,7 @@ http.Backend = function (options) {
 };
 
 http.Location = function (options) {
-	this.on = true;
+	this.isOn = true;
 	this.pattern = "";
 	this.cachePolicy = "";
 	this.fastcgi = [];
@@ -92,7 +92,7 @@ http.Location = function (options) {
 
 http.Fastcgi = function (options) {
 	this.id = "";
-	this.on = true;
+	this.isOn = true;
 	this.pass = "";
 
 	for (var key in options) {
@@ -105,7 +105,7 @@ http.Fastcgi = function (options) {
 
 http.Rewrite = function (options) {
 	this.id = "";
-	this.on = true;
+	this.isOn = true;
 	this.pattern = "";
 	this.replace = "";
 

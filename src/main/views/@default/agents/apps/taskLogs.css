@@ -1,0 +1,29 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+.logs-table {
+    line-height: 1.8;
+}
+
+.logs-table pre {
+    margin: 0!important;
+}
+
+.logs-table pre.grey {
+    color: grey;
+    font-style: italic;
+}

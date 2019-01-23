@@ -1,0 +1,44 @@
+{$layout}
+
+{$template "menu"}
+
+<h3>监控项 <a :href="'/agents/apps/addItem?agentId=' + agentId + '&appId=' + app.id + '&from=' + from"  v-if="!app.isSystem">添加</a></h3>
+
+<p class="comment" v-if="app.items == null || app.items.length == 0">暂时还没有监控项。</p>
+
+<table class="ui table selectable" v-if="app.items != null && app.items.length > 0">
+    <thead>
+        <tr>
+            <th>监控项</th>
+            <th>刷新间隔</th>
+            <th>阈值</th>
+            <th style="width:11em">当前数值</th>
+            <th class="two op">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="item in items">
+        <td>{{item.name}}
+            <br/>
+            <span class="ui label tiny" v-if="!item.on">未启用</span>
+        </td>
+        <td>{{item.interval}}</td>
+        <td>
+            <span v-if="item.thresholds == null || item.thresholds.length == 0" class="disabled">还没有设置</span>
+            <div v-if="item.thresholds != null && item.thresholds.length > 0" v-for="threshold in item.thresholds" style="margin-top:0.2em;margin-bottom:0.4em">
+                <span class="ui label small">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
+                    <em v-if="threshold.noticeMessage.length > 0">[{{threshold.levelName}}:...]</em>
+                    <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em>
+                </span>
+            </div>
+        </td>
+        <td>
+            <a :href="'/agents/apps/itemValues?agentId=' +  agentId + '&appId=' + app.id + '&itemId=' + item.id" v-if="item.latestTime.length > 0" style="display: block;padding:4px;" :style="{'background-color': (item.latestLevel == null) ? '' : item.latestLevel.bgcolor, 'color': (item.latestLevel == null) ? '' : item.latestLevel.color}"><span v-if="item.latestLevel != null">{{item.latestLevel.name}}: </span><pre>{{item.latestValue}}</pre></a>
+            <em v-if="item.latestTime.length > 0">{{item.latestTime}}</em>
+            <span v-if="item.latestTime.length == 0">-</span>
+        </td>
+        <td>
+            <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id">详情</a> &nbsp;
+            <a href="" @click.prevent="deleteItem(item.id)" v-if="!app.isSystem">删除</a>
+        </td>
+    </tr>
+</table>

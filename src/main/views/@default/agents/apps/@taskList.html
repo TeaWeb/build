@@ -1,0 +1,37 @@
+{$var "header"}
+<link rel="stylesheet" href="/_/@default/agents/apps/@taskList.css"/>
+<script src="/_/@default/agents/apps/@taskList.js" type="text/javascript"></script>
+{$end}
+
+<p class="ui message warning" v-if="mongoFailed">需要<a href="/settings/mongo">设置MongoDB</a>才能记录执行日志。</p>
+
+<p class="comment" v-if="tasks.length == 0">暂时还没有手动任务。</p>
+<table class="ui table selectable" v-if="tasks.length > 0">
+    <thead>
+    <tr>
+        <th class="three wide">任务名</th>
+        <th style="width:8em">最后执行</th>
+        <th>脚本</th>
+        <th style="width:7em">操作</th>
+    </tr>
+    </thead>
+    <tr v-for="task in tasks">
+        <td>{{task.name}}
+            <br/>
+            <span class="ui label tiny" v-if="!task.on">未启用</span>
+            <span v-if="task.isBooting" class="ui label tiny">启动</span>
+            <span v-if="task.isManual" class="ui label tiny">手动</span>
+            <span v-for="schedule in task.schedules" class="ui label tiny" style="margin-top:0.4em;margin-bottom:0.4em">{{schedule}}</span>
+        </td>
+        <td>
+            <a :href="'/agents/apps/taskLogs?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&from=' + from + '&tabbar=' + selectedTabbar" v-if="task.runTime.length > 0">{{task.runTime}}</a>
+            <span v-if="task.runTime.length == 0" class="disabled">尚未执行</span>
+        </td>
+        <td>
+            <div class="task-script-box"></div>
+        </td>
+        <td>
+            <a :href="'/agents/apps/taskDetail?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&from=' + from + '&tabbar=' + selectedTabbar">详情</a> &nbsp; <a href="" @click.prevent="deleteTask(task.id)">删除</a>
+        </td>
+    </tr>
+</table>

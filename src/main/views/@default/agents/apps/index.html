@@ -1,0 +1,80 @@
+{$layout}
+
+<div class="ui text basic menu blue">
+    <a :href="'/agents/apps?agentId=' + agentId" class="item active">Apps</a>
+    <a :href="'/agents/apps/add?agentId=' + agentId"  class="item">添加App</a>
+</div>
+<div class="ui divider"></div>
+
+
+<h3>自定义App</h3>
+
+<p class="comment" v-if="apps.length == 0">暂时还没有自定义的App。</p>
+<table class="ui table selectable" v-if="apps.length > 0">
+    <thead>
+        <tr>
+            <th>应用名称</th>
+            <th>监控项</th>
+            <th>定时任务</th>
+            <th>启动任务</th>
+            <th>手动任务</th>
+            <th class="two op">操作</th>
+        </tr>
+    </thead>
+    <tr v-for="app in apps">
+        <td>{{app.name}}<br/>
+            <span v-if="!app.on" class="ui label tiny">未启用</span>
+        </td>
+        <td>
+            <a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id">{{app.items.length}}</a>
+        </td>
+        <td>
+            <a :href="'/agents/apps/schedule?agentId=' + agentId + '&appId=' + app.id">{{app.schedulingTasks.length}}</a>
+        </td>
+        <td>
+            <a :href="'/agents/apps/boot?agentId=' + agentId + '&appId=' + app.id">{{app.bootingTasks.length}}</a>
+        </td>
+        <td>
+            <a :href="'/agents/apps/manual?agentId=' + agentId + '&appId=' + app.id">{{app.manualTasks.length}}</a>
+        </td>
+        <td>
+            <a :href="'/agents/apps/detail?agentId=' + agentId + '&appId=' + app.id">详情</a> &nbsp; <a href="" @click.prevent="deleteApp(app.id)">删除</a>
+        </td>
+    </tr>
+</table>
+
+<h3 class="margin">系统提供的App</h3>
+<p class="comment" v-if="systemApps.length == 0">暂时还没有系统提供的App。</p>
+
+<table class="ui table selectable" v-if="systemApps.length > 0">
+    <thead>
+    <tr>
+        <th>应用名称</th>
+        <th>监控项</th>
+        <th>定时任务</th>
+        <th>启动任务</th>
+        <th>手动任务</th>
+        <th class="two op">操作</th>
+    </tr>
+    </thead>
+    <tr v-for="app in systemApps">
+        <td>{{app.name}}<br/>
+            <span v-if="!app.on" class="ui label tiny">未启用</span>
+        </td>
+        <td>
+            <a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id">{{app.items.length}}</a>
+        </td>
+        <td>
+            {{app.schedulingTasks.length}}
+        </td>
+        <td>
+            {{app.bootingTasks.length}}
+        </td>
+        <td>
+           {{app.manualTasks.length}}
+        </td>
+        <td>
+            <a :href="'/agents/apps/detail?agentId=' + agentId + '&appId=' + app.id">详情</a>
+        </td>
+    </tr>
+</table>

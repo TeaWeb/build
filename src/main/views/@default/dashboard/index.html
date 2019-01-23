@@ -1,32 +1,41 @@
 {$layout}
 
-{$var "header"}
-<script type="text/javascript" src="/js/echarts.min.js"></script>
-{$end}
+<p class="comment" v-if="mongoFailed">需要设置MongoDB才能展示本页面，<a href="/settings/mongo">去设置</a>。</p>
+<p class="comment" v-if="isLoaded && charts.length == 0">请等待数据初始化完成...</p>
 
-<div class="chart-groups" v-cloak>
-   <div class="ui chart-group" v-for="group in widgetGroups">
-       <div class="header">{{group.name}}</div>
-
-        <div class="table-box" v-for="widget in group.widgets" v-if="group.widgets.length > 0 && widget.charts.length > 0">
-            <table class="ui table">
+<!-- 实时 -->
+<table style="width:100%" v-show="!mongoFailed">
+    <tr>
+        <td style="width:20em">
+            <table class="ui table small">
                 <thead>
                     <tr>
-                        <th>{{widget.name}} <a :href="widget.moreUrl" v-if="widget.moreUrl.length > 0" title="更多信息"><i class="ui icon external small"></i></a></th>
+                        <th>实时请求数</th>
                     </tr>
                 </thead>
-                <tr v-for="chart in widget.charts">
-                    <td v-if="chart.type == 'progressBar'" v-html="CHART.progressBar(chart)"></td>
-                    <td v-if="chart.type == 'pie'" v-html="CHART.pie(chart)"></td>
-                    <td v-if="chart.type == 'line'" v-html="CHART.line(chart)"></td>
-                    <td v-if="chart.type == 'gauge'" v-html="CHART.gauge(chart)"></td>
-                    <td v-if="chart.type == 'table'" v-html="CHART.table(chart)"></td>
+                <tr>
+                    <td>
+                        <div id="qps-chart-box"></div>
+                    </td>
                 </tr>
             </table>
-        </div>
-        <div v-if="group.widgets.length == 0"><a class="disabled">暂时还没有{{group.name}}</a></div>
-   </div>
 
-
-    <div class="clear"></div>
-</div>
+            <table class="ui table small">
+                <thead>
+                    <tr>
+                        <th>实时请求日志</th>
+                    </tr>
+                </thead>
+                <tr v-for="log in logs">
+                    <td>
+                        <span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> "{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" - <span class="grey">耗时:{{log.requestTime}}ms</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            {$template "/chart_render"}
+        </td>
+    </tr>
+</table>

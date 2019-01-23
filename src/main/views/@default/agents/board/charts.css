@@ -1,0 +1,27 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.table span.small {
+    color: grey;
+    padding-left: 0.4em;
+    font-size: 0.8em;
+}
+
+.chart-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.table .label.tiny {
+    padding: 2px;
+}

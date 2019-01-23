@@ -1,0 +1,256 @@
+{$layout}
+{$template "/code_editor"}
+{$template "menu"}
+
+<div class="ui menu text blue small">
+    <a :href="'/agents/apps/widget?agentId=' + agentId + '&appId=' + app.id" class="item">Widget</a>
+    <a :href="'/agents/apps/makeWidget?agentId=' + agentId + '&appId=' + app.id" class="item active">制作Widget</a>
+</div>
+
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="/agents/apps/makeWidget" data-tea-success="submitSuccess" id="widget-form">
+    <input type="hidden" name="agentId" :value="agentId"/>
+    <input type="hidden" name="appId" :value="app.id"/>
+    <input type="hidden" name="chartCode" :value="chartCode"/>
+    <table class="ui table definition">
+        <tr>
+            <td colspan="2">基础设置</td>
+        </tr>
+        <tr>
+            <td class="title">名称</td>
+            <td>
+                <input type="text" name="name" v-model="widgetName" maxlength="100"/>
+                <p class="comment">给Widget取一个易懂的名称，比如MySQL监控</p>
+            </td>
+        </tr>
+        <tr>
+            <td>代号</td>
+            <td>
+                <input type="text" name="code" v-model="widgetCode" maxlength="100"/>
+                <p class="comment">给Widget设置一个代号，通常为<span class="ui label tiny">英文名@你或团队的英文代号</span>，比如<span class="ui label tiny">mysql@com.example</span>，保存后的Widget将会存放在<span class="ui label tiny">libs/agent/widget-{{widgetCode}}.js</span> 。</p>
+            </td>
+        </tr>
+        <tr>
+            <td>作者</td>
+            <td>
+                <input type="text" name="author" v-model="widgetAuthor" maxlength="100"/>
+                <p class="comment">你的名字或者团队名</p>
+            </td>
+        </tr>
+        <tr>
+            <td>版本</td>
+            <td>
+                <div class="ui fields inline">
+                    <div class="ui field">v</div>
+                    <input type="text" name="version" v-model="widgetVersion" maxlength="100"/>
+                </div>
+                <p class="comment">版本号，比如1.0.0</p>
+            </td>
+        </tr>
+        <tr>
+            <td>描述</td>
+            <td>
+                <textarea name="description" v-model="widgetDescription" rows="3"></textarea>
+                <p class="comment">说明这个Widget的作用</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="border">参数<span>(可以在获取数据的数据源中使用的参数)</span></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="normal">
+                <table class="ui table without-definition">
+                    <thead>
+                    <tr>
+                        <th>参数名</th>
+                        <th>参数代号</th>
+                        <th>默认值</th>
+                        <th>参数说明</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tr v-for="(param, index) in params">
+                        <td><input type="hidden" name="paramNames" :value="param.name"/>{{param.name}}</td>
+                        <td><input type="hidden" name="paramCodes" :value="param.code"/>{{param.code}}</td>
+                        <td><input type="hidden" name="paramDefaults" :value="param.default"/>{{param.default}}</td>
+                        <td><input type="hidden" name="paramDescriptions" :value="param.description"/>{{param.description}}</td>
+                        <td>
+                            <a href="" @click.prevent="removeParam(index)"><i class="icon remove"></i></a>
+                        </td>
+                    </tr>
+                </table>
+                <div style="margin-bottom: 0.6em" v-if="paramAdding" class="ui segment">
+                    <div class="ui fields inline">
+                        <div class="ui field fixedWidth">参数名：</div>
+                        <div class="ui field">
+                            <input type="text" name="addingParamName" v-model="addingParamName" style="width:25em"/>
+                        </div>
+                    </div>
+                    <div class="ui fields inline">
+                        <div class="ui field fixedWidth">参数代号：</div>
+                        <div class="ui field">
+                            <input type="text" v-model="addingParamCode" style="width: 25em;"/>
+                        </div>
+                    </div>
+                    <div class="ui fields inline">
+                        <div class="ui field fixedWidth">默认值：</div>
+                        <div class="ui field">
+                            <textarea v-model="addingParamDefault" rows="1" style="width:25em"></textarea>
+                        </div>
+                    </div>
+                    <div class="ui fields inline">
+                        <div class="ui field fixedWidth">参数说明：</div>
+                        <div class="ui field">
+                            <input type="text" v-model="addingParamDescription" style="width:25em"/>
+                        </div>
+                    </div>
+                    <div class="ui field">
+                        <button type="button" class="ui button small" @click="confirmAddParam()">确定添加</button> &nbsp; <a href="" @click.prevent="addParam()"><i class="icon remove"></i></a>
+                    </div>
+                </div>
+                <button class="ui button small" type="button" @click="addParam()">+</button>
+                <p class="comment">可以在绘制代码中使用<span class="ui label small">this.options.参数代号</span>来调用参数值。</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="border">图表绘制代码<span>（使用Javascript语言，将会出现在看板中）</span></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="ui field">
+                    <textarea id="code-editor"></textarea>
+                </div>
+                <p class="comment">更多帮助请<a href="http://plus.meloy.cn/doc/agents/Widget.md" target="_blank">点击这里查看</a>，<span class="ui label small">console.log()</span>输出请打开浏览器开发工具（Inspect）查看 。</p>
+            </td>
+        </tr>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a href="" @click.prevent="test()">测试</a>
+</form>
+
+
+<!-- 测试 -->
+<div style="margin-top: 2em" v-show="isTesting">
+<form class="ui form" data-tea-action="/agents/apps/testWidget" data-tea-success="testSuccess">
+    <input type="hidden" name="agentId" :value="agentId" />
+    <input type="hidden" name="appId" :value="app.id"/>
+    <input type="hidden" name="name" :value="widgetName"/>
+    <input type="hidden" name="author" :value="widgetAuthor"/>
+    <input type="hidden" name="version" :value="widgetVersion"/>
+    <input type="hidden" name="description" :value="widgetDescription"/>
+    <input type="hidden" name="chartCode" :value="chartCode"/>
+
+    <table class="ui table definition" v-if="params.length > 0">
+        <tr>
+            <td colspan="2" v-if="params.length > 0">参数值</td>
+        </tr>
+        <tr v-if="params.length > 0">
+            <td class="title"></td>
+            <td class="normal">
+                <table class="ui table without-definition">
+                    <thead>
+                        <tr>
+                            <th>参数名</th>
+                            <th>参数值</th>
+                        </tr>
+                    </thead>
+                    <tr v-for="param in params">
+                        <td class="title border">{{param.name}}<span>（{{param.code}}）</span></td>
+                        <td>
+                            <input type="hidden" name="paramNames" :value="param.code"/>
+                            <input type="text" name="paramValues" v-model="param.value"/>
+                            <p class="comment" v-if="param.description.length > 0">{{param.description}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <table class="ui table">
+        <thead>
+            <tr>
+                <th>测试数据</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>
+                <div class="ui field label-box">
+                    <span v-for="(value, index) in testingValues" class="ui label">
+                        <input type="hidden" name="valueYears" :value="value.year"/>
+                        <input type="hidden" name="valueMonths" :value="value.month"/>
+                        <input type="hidden" name="valueDays" :value="value.day"/>
+                        <input type="hidden" name="valueHours" :value="value.hour"/>
+                        <input type="hidden" name="valueMinutes" :value="value.minute"/>
+                        <input type="hidden" name="valueSeconds" :value="value.second"/>
+                        <input type="hidden" name="values" :value="value.valueString"/>
+                        [{{value.year}}-{{value.month}}-{{value.day}} {{value.hour}}:{{value.minute}}:{{value.second}}]{{value.valueString}}<a href="" @click.prevent="removeTestingValue(index)"><i class="icon remove"></i></a>
+                    </span>
+                </div>
+                <div class="ui field" v-if="testingValueAdding">
+                    <div class="ui field">
+                        <textarea rows="2" name="testingNewValue" placeholder="数值" v-model="testingValue"></textarea>
+                    </div>
+                    <div class="ui fields inline">
+                        <div class="ui field">
+                            <div class="ui input right labeled">
+                                <input type="text" style="width:5em" v-model="testingYear" placeholder="20xx" maxlength="4"/>
+                                <span class="ui label">年</span>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui input right labeled">
+                                <input type="text" style="width:4.5em" v-model="testingMonth" placeholder="1-12" maxlength="2"/>
+                                <span class="ui label">月</span>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui input right labeled">
+                                <input type="text" style="width:4.5em" v-model="testingDay" placeholder="1-31" maxlength="2"/>
+                                <span class="ui label">日</span>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui input right labeled">
+                                <input type="text" style="width:4.5em" v-model="testingHour" placeholder="0-23" maxlength="2"/>
+                                <span class="ui label">时</span>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui input right labeled">
+                                <input type="text" style="width:4.5em" v-model="testingMinute" placeholder="0-59" maxlength="2"/>
+                                <span class="ui label">分</span>
+                            </div>
+                        </div>
+                        <div class="ui field">
+                            <div class="ui input right labeled">
+                                <input type="text" style="width:4.5em" v-model="testingSecond" placeholder="0-59" maxlength="2"/>
+                                <span class="ui label">秒</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui field">
+                        <button class="ui button small" type="button" @click="confirmAddTestingValue()">确认添加</button> &nbsp; <a href="" @click.prevent="addTestingValue()"><i class="icon remove"></i></a>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+                <div class="ui field">
+                    <button class="ui button small" type="button" @click="addTestingValue()">+</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- chart -->
+    <div class="ui field" style="margin-bottom:2em">
+        {$template "/chart_render"}
+    </div>
+
+    <div class="ui field">
+        <button class="ui button" type="submit">提交测试</button>
+    </div>
+</form>
+</div>

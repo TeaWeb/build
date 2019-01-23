@@ -1,0 +1,158 @@
+{$layout}
+{$template "/code_editor"}
+{$template "menu"}
+
+
+<div class="ui text menu small blue">
+    <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">{{item.name}} &raquo; 详情</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">数值记录</a>
+    <span class="item">|</span>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item active">图表<span>({{item.charts.length}})</span></a>
+</div>
+<div class="ui divider margin"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+    <input type="hidden" name="agentId" :value="agentId"/>
+    <input type="hidden" name="appId" :value="app.id"/>
+    <input type="hidden" name="itemId" :value="item.id"/>
+    <table class="ui table definition">
+        <tr class="title">
+            <td class="title">名称</td>
+            <td>
+                <input type="text" name="name" maxlength="100"/>
+                <p class="comment">起一个容易识别的名称，比如CPU使用量</p>
+            </td>
+        </tr>
+        <tr>
+            <td>图标类型</td>
+            <td>
+                <select class="ui dropdown" name="chartType" style="width:10em" v-model="chartType" @change="changeChartType()">
+                    <option v-for="chartType in chartTypes" :value="chartType.code">{{chartType.name}}</option>
+                </select>
+                <p class="comment">{{chartDescription}}</p>
+            </td>
+        </tr>
+
+        <!-- HTML chart -->
+        <tbody v-if="chartType == 'html'">
+            <tr>
+                <td>HTML</td>
+                <td>
+                    <textarea name="htmlCode" id="html-code-editor" rows="1"></textarea>
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- URL chart -->
+        <tbody v-if="chartType == 'url'">
+            <tr>
+                <td>URL</td>
+                <td>
+                    <input type="text" name="urlURL" maxlength="200" placeholder="http://"/>
+                    <p class="comment">填入一个有效的URL，前缀通常是<span class="ui label tiny">http://</span>或者<span class="ui label tiny">https://</span> </p>
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- 饼图 -->
+        <tbody v-if="chartType == 'pie'">
+            <tr>
+                <td>数据项</td>
+                <td>
+                    <input type="text" name="pieParam" value="${0}"/>
+                    <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td>数据采样数量</td>
+                <td>
+                    <select class="ui dropdown" style="width:10em" name="pieLimit" v-model="pieLimit">
+                        <option value="100">100</option>
+                        <option value="500">1000</option>
+                        <option value="1000">1000</option>
+                        <option value="2000">2000</option>
+                    </select>
+                    <p class="comment">从最近的{{pieLimit}}条数据中获取数据项数据</p>
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- 线图 -->
+        <tbody v-if="chartType == 'line'">
+            <tr v-for="(lineParam, index) in lineParams" :key="index">
+                <td>数据项{{index+1}}</td>
+                <td>
+                    <input type="text" name="lineParams" v-model="lineParam.varName" v-if="index == 0"/>
+                    <div class="ui fields inline" v-if="index > 0">
+                        <div class="ui field">
+                            <input type="text" name="lineParams" v-model="lineParam.varName"/>
+                        </div>
+                        <div class="ui field">
+                            <a href="" title="删除" @click.prevent="removeLine(index)"><i class="icon remove"></i></a>
+                        </div>
+                    </div>
+                    <p class="comment" v-if="index == 0">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span></p>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button class="ui button small" type="button" @click="addLine()">+添加新数据项</button>
+                    <p class="comment">每个数据项代表一条线</p>
+                </td>
+            </tr>
+            <tr>
+                <td>数据采样数量</td>
+                <td>
+                    <select class="ui dropdown" style="width:10em" name="lineLimit" v-model="lineLimit">
+                        <option value="10">10</option>
+                        <option value="60">60</option>
+                        <option value="120">120</option>
+                        <option value="240">240</option>
+                    </select>
+                    <p class="comment">从最近的{{pieLimit}}条数据中获取数据项数据</p>
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- Javascript -->
+        <tbody v-if="chartType == 'javascript'">
+            <tr>
+                <td>HTML</td>
+                <td>
+                    <textarea name="javascriptCode" id="javascript-code-editor" rows="1"></textarea>
+                </td>
+            </tr>
+        </tbody>
+
+        <tr>
+            <td colspan="2">
+                <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+                <a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+            <tr>
+                <td>宽度</td>
+                <td>
+                    <select class="ui dropdown" name="columns" style="width:10em">
+                        <option value="1">1列</option>
+                        <option value="2">2列</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>是否启用</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="on" value="1" checked="checked"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>
