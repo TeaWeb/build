@@ -96,6 +96,7 @@ values.Query = function () {
 		if (query.cache > 0) {
 			cacheKey = JSON.stringify({
 				"query": query,
+				"agentId": (context.agent == null) ? "" : context.agent.id,
 				"itemId": (context.item == null) ? "" : context.item.id,
 				"appId": (context.app == null) ? "" : context.app.id
 			});
