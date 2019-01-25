@@ -61,6 +61,30 @@ Tea.context(function () {
 		});
 	}
 
+	this.scriptLang = "shell";
+	this.scriptLangs = [
+		{
+			"name": "Shell",
+			"code": "shell"
+		},
+		{
+			"name": "批处理（bat）",
+			"code": "bat"
+		},
+		{
+			"name": "PHP",
+			"code": "php"
+		},
+		{
+			"name": "Python",
+			"code": "python"
+		},
+		{
+			"name": "Ruby",
+			"code": "ruby"
+		},
+	];
+
 	this.selectScriptTab = function (tab) {
 		this.scriptTab = tab;
 
@@ -73,6 +97,73 @@ Tea.context(function () {
 				this.loadEditor();
 			});
 		}
+	};
+
+	this.selectScriptLang = function (lang) {
+		this.scriptLang = lang;
+		switch (lang) {
+			case "shell":
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+					scriptEditor.setValue(this.item.sourceOptions.script);
+				} else {
+					scriptEditor.setValue("#!/usr/bin/env bash\n\n# your commands here\n");
+				}
+				var info = CodeMirror.findModeByMIME("text/x-sh");
+				if (info != null) {
+					scriptEditor.setOption("mode", info.mode);
+					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+					CodeMirror.autoLoadMode(scriptEditor, info.mode);
+				}
+				break;
+			case "bat":
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+					scriptEditor.setValue(this.item.sourceOptions.script);
+				} else {
+					scriptEditor.setValue("");
+				}
+				break;
+			case "php":
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+					scriptEditor.setValue(this.item.sourceOptions.script);
+				} else {
+					scriptEditor.setValue("#!/usr/bin/env php\n\n<?php\n// your PHP codes here");
+				}
+				var info = CodeMirror.findModeByMIME("text/x-php");
+				if (info != null) {
+					scriptEditor.setOption("mode", info.mode);
+					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+					CodeMirror.autoLoadMode(scriptEditor, info.mode);
+				}
+				break;
+			case "python":
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+					scriptEditor.setValue(this.item.sourceOptions.script);
+				} else {
+					scriptEditor.setValue("#!/usr/bin/env python\n\n''' your Python codes here '''");
+				}
+				var info = CodeMirror.findModeByMIME("text/x-python");
+				if (info != null) {
+					scriptEditor.setOption("mode", info.mode);
+					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+					CodeMirror.autoLoadMode(scriptEditor, info.mode);
+				}
+				break;
+			case "ruby":
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+					scriptEditor.setValue(this.item.sourceOptions.script);
+				} else {
+					scriptEditor.setValue("#!/usr/bin/env ruby\n\n# your Ruby codes here");
+				}
+				var info = CodeMirror.findModeByMIME("text/x-ruby");
+				if (info != null) {
+					scriptEditor.setOption("mode", info.mode);
+					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+					CodeMirror.autoLoadMode(scriptEditor, info.mode);
+				}
+		}
+
+		scriptEditor.save();
+		scriptEditor.focus();
 	};
 
 	this.loadEditor = function () {

@@ -35,9 +35,14 @@
 					</div>
 					<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
                     	<input type="text" name="scriptPath" maxlength="100"/>
+						<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em></p>
 					</div>
-					<div class="ui bottom segment attached" v-show="scriptTab == 'code'">
+					<div class="ui bottom segment attached" v-show="scriptTab == 'code'" style="padding-top:0">
+						<div class="ui menu text small">
+							<a class="item" v-for="lang in scriptLangs" :class="{active:lang.code == scriptLang}" @click.prevent="selectScriptLang(lang.code)">{{lang.name}}</a>
+						</div>
 						<textarea name="scriptCode" id="script-code-editor" rows="1"></textarea>
+						<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em></p>
 					</div>
                 </td>
             </tr>
