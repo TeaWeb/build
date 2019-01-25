@@ -1,4 +1,5 @@
 Tea.context(function () {
+	var scriptEditor = null;
 	var that = this;
 
 	this.from = encodeURIComponent(window.location.toString());
@@ -10,4 +11,37 @@ Tea.context(function () {
 			}).name;
 		});
 	}
+
+	if (this.item.sourceCode == "script" && this.item.sourceOptions.scriptType == "code") {
+		this.$delay(function () {
+			this.loadEditor();
+		});
+	}
+
+	this.loadEditor = function () {
+		if (scriptEditor == null) {
+			scriptEditor = CodeMirror(document.getElementById("script-code-editor"), {
+				theme: "idea",
+				lineNumbers: false,
+				value: "",
+				readOnly: true,
+				showCursorWhenSelecting: true,
+				height: "auto",
+				//scrollbarStyle: null,
+				viewportMargin: Infinity,
+				lineWrapping: true,
+				highlightFormatting: false,
+				indentUnit: 4,
+				indentWithTabs: true
+			});
+		}
+		scriptEditor.setValue(this.item.sourceOptions.script);
+
+		var info = CodeMirror.findModeByMIME("text/x-sh");
+		if (info != null) {
+			scriptEditor.setOption("mode", info.mode);
+			CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+			CodeMirror.autoLoadMode(scriptEditor, info.mode);
+		}
+	};
 });

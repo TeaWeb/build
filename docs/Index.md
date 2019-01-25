@@ -34,10 +34,12 @@
 * Agent
    * [Agent概念](agents/Index.md)
    * [安装Agent](agents/Install.md)
-   <!--* 应用（App）-->
+   * [应用（App）](agents/App.md)
    <!--* 任务-->
-   <!--* 监控-->
-   <!--   * 监控项-->
+   * [监控](agents/Monitor.md)
+     * [监控项](agents/Item.md)
+     * [监控实例-监控进程](agents/MonitorProcess.md)
+     * [监控实例-监控Nginx](agents/MonitorNginx.md)
 * Apps
   * [本地服务](apps/Index.md)
   * [安装ps命令](apps/InstallPs.md)

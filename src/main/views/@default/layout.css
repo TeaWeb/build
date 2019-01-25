@@ -63,6 +63,10 @@ p.comment {
     padding-top: 0.4em;
 }
 
+p.comment em {
+    font-style: italic!important;
+}
+
 .truncate {
     white-space: nowrap;
     -ms-text-overflow: ellipsis;

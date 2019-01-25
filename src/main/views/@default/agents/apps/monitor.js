@@ -16,6 +16,7 @@ Tea.context(function () {
 			.success(function (resp) {
 				this.items = resp.data.items;
 				this.items.$each(function (k, item) {
+					// 阈值
 					if (item.thresholds != null) {
 						item.thresholds.$each(function (k, v) {
 							v.levelName = that.noticeLevels.$find(function (k, v1) {

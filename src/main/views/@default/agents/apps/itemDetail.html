@@ -1,5 +1,5 @@
 {$layout}
-
+{$template "/code_editor"}
 {$template "menu"}
 
 <div class="ui text menu small blue">
@@ -14,19 +14,25 @@
 <h3>监控项 <a :href="'/agents/apps/updateItem?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" v-if="!app.isSystem">修改</a></h3>
 
 <table class="ui table definition">
+	<tr>
+		<td>是否启用</td>
+		<td>
+			<span class="ui label small green" v-if="item.on">启用中</span>
+			<span class="ui label small" v-if="!item.on">未启用</span>
+		</td>
+	</tr>
     <tr>
         <td class="title">监控项名称</td>
         <td>
             {{item.name}}
         </td>
     </tr>
-    <tr>
-        <td>是否启用</td>
-        <td>
-            <span class="ui label small green" v-if="item.on">启用中</span>
-            <span class="ui label small" v-if="!item.on">未启用</span>
-        </td>
-    </tr>
+	<tr>
+		<td>ID</td>
+		<td>{{item.id}}
+			<p class="comment" v-if="!app.isSystem">可以在Agent主机上通过运行 <em>bin/teaweb-agent run {{item.id}}</em> 来测试这个监控项的数据源</p>
+		</td>
+	</tr>
     <tr v-if="source != null">
         <td>数据源</td>
         <td>
@@ -37,12 +43,18 @@
 
     <!-- 脚本 -->
     <tbody v-if="source != null && source.summary.code == 'script'">
-        <tr>
+        <tr v-if="source.options.scriptType == 'path' || source.options.scriptType == null || source.options.scriptType.length == 0">
             <td>脚本路径</td>
             <td>
                 {{source.options.path}}
             </td>
         </tr>
+		<tr v-if="source.options.scriptType == 'code'">
+			<td>脚本代码</td>
+			<td>
+				<div id="script-code-editor"></div>
+			</td>
+		</tr>
         <tr>
             <td>当前工作目录<em>（CWD）</em></td>
             <td>

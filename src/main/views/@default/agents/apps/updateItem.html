@@ -1,5 +1,5 @@
 {$layout}
-
+{$template "/code_editor"}
 {$template "menu"}
 
 <div class="ui text menu small blue">
@@ -36,9 +36,19 @@
         <!-- 脚本 -->
         <tbody v-show="sourceCode == 'script'">
             <tr>
-                <td>脚本路径 *</td>
+                <td>脚本 *</td>
                 <td>
-                    <input type="text" name="scriptPath" v-model="item.sourceOptions.path" maxlength="100"/>
+					<input type="hidden" name="scriptType" v-model="item.sourceOptions.scriptType"/>
+					<div class="ui tabular menu attached small">
+						<a class="item" :class="{active:scriptTab == 'path'}" @click.prevent="selectScriptTab('path')">脚本文件</a>
+						<a class="item" :class="{active:scriptTab == 'code'}" @click.prevent="selectScriptTab('code')">脚本代码</a>
+					</div>
+					<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
+						<input type="text" name="scriptPath" maxlength="100" v-model="item.sourceOptions.path"/>
+					</div>
+					<div class="ui bottom segment attached" v-show="scriptTab == 'code'">
+						<textarea name="scriptCode" id="script-code-editor" rows="1"></textarea>
+					</div>
                 </td>
             </tr>
             <tr>
