@@ -29,6 +29,7 @@
                 <td>脚本 *</td>
                 <td>
 					<input type="hidden" name="scriptType" :value="scriptTab"/>
+					<input type="hidden" name="scriptLang" :value="scriptLang"/>
 					<div class="ui tabular menu attached small">
 						<a class="item" :class="{active:scriptTab == 'path'}" @click.prevent="selectScriptTab('path')">脚本文件</a>
 						<a class="item" :class="{active:scriptTab == 'code'}" @click.prevent="selectScriptTab('code')">脚本代码</a>

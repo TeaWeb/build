@@ -59,7 +59,7 @@ Tea.context(function () {
 			"code": "shell"
 		},
 		{
-			"name": "批处理（bat）",
+			"name": "批处理(bat)",
 			"code": "bat"
 		},
 		{

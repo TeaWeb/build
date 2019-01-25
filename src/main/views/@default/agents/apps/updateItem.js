@@ -62,13 +62,16 @@ Tea.context(function () {
 	}
 
 	this.scriptLang = "shell";
+	if (this.item.sourceOptions.scriptLang != null && this.item.sourceOptions.scriptLang.length > 0) {
+		this.scriptLang = this.item.sourceOptions.scriptLang;
+	}
 	this.scriptLangs = [
 		{
 			"name": "Shell",
 			"code": "shell"
 		},
 		{
-			"name": "批处理（bat）",
+			"name": "批处理(bat)",
 			"code": "bat"
 		},
 		{
@@ -103,7 +106,7 @@ Tea.context(function () {
 		this.scriptLang = lang;
 		switch (lang) {
 			case "shell":
-				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && (this.item.sourceOptions.scriptLang == "sh" || this.item.sourceOptions.scriptLang == null)) {
 					scriptEditor.setValue(this.item.sourceOptions.script);
 				} else {
 					scriptEditor.setValue("#!/usr/bin/env bash\n\n# your commands here\n");
@@ -116,14 +119,14 @@ Tea.context(function () {
 				}
 				break;
 			case "bat":
-				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && this.item.sourceOptions.scriptLang == "bat") {
 					scriptEditor.setValue(this.item.sourceOptions.script);
 				} else {
 					scriptEditor.setValue("");
 				}
 				break;
 			case "php":
-				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && this.item.sourceOptions.scriptLang == "php") {
 					scriptEditor.setValue(this.item.sourceOptions.script);
 				} else {
 					scriptEditor.setValue("#!/usr/bin/env php\n\n<?php\n// your PHP codes here");
@@ -136,7 +139,7 @@ Tea.context(function () {
 				}
 				break;
 			case "python":
-				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && this.item.sourceOptions.scriptLang == "python") {
 					scriptEditor.setValue(this.item.sourceOptions.script);
 				} else {
 					scriptEditor.setValue("#!/usr/bin/env python\n\n''' your Python codes here '''");
@@ -149,7 +152,7 @@ Tea.context(function () {
 				}
 				break;
 			case "ruby":
-				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0) {
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && this.item.sourceOptions.scriptLang == "ruby") {
 					scriptEditor.setValue(this.item.sourceOptions.script);
 				} else {
 					scriptEditor.setValue("#!/usr/bin/env ruby\n\n# your Ruby codes here");
@@ -191,7 +194,11 @@ Tea.context(function () {
 		scriptEditor.save();
 		scriptEditor.focus();
 
-		var info = CodeMirror.findModeByMIME("text/x-sh");
+		var lang = "sh";
+		if (this.item.sourceOptions.scriptLang != null && this.item.sourceOptions.scriptLang.length > 0) {
+			lang = this.item.sourceOptions.scriptLang;
+		}
+		var info = CodeMirror.findModeByMIME("text/x-" + lang);
 		if (info != null) {
 			scriptEditor.setOption("mode", info.mode);
 			CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";

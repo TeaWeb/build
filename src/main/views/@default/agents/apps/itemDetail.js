@@ -37,7 +37,11 @@ Tea.context(function () {
 		}
 		scriptEditor.setValue(this.item.sourceOptions.script);
 
-		var info = CodeMirror.findModeByMIME("text/x-sh");
+		var lang = "sh";
+		if (this.item.sourceOptions.scriptLang != null && this.item.sourceOptions.scriptLang.length > 0) {
+			lang = this.item.sourceOptions.scriptLang;
+		}
+		var info = CodeMirror.findModeByMIME("text/x-" + lang);
 		if (info != null) {
 			scriptEditor.setOption("mode", info.mode);
 			CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
