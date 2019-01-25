@@ -67,7 +67,13 @@ function build() {
     if [ ${GOOS} = "windows" ]
     then
         cp ${GOPATH}/src/main/start.bat ${TARGET}
-        cp ${GOPATH}/src/main/README_WINDOWS.txt ${TARGET}
+        cp ${GOPATH}/src/main/README_WINDOWS.txt ${TARGET}/README.txt
+    fi
+
+    if [ ${GOOS} != "windows" ]
+    then
+		cp ${GOPATH}/src/main/README_LINUX.md ${TARGET}/README.md
+		cp -R ${GOPATH}/src/main/upgrade.sh ${TARGET}
     fi
 
     # remove plus files
