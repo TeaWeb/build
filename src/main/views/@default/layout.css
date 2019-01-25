@@ -85,6 +85,20 @@ p.comment {
     border-radius: 0!important;
 }
 
+@media screen and (max-width: 512px) {
+    .main-menu .ui.menu {
+        width: 3.6em!important;
+    }
+
+    .main-menu .ui.menu .item {
+        height: 2.4em;
+    }
+
+    .main-menu .ui.menu .item span {
+        display: none;
+    }
+}
+
 .main-menu .ui.labeled.icon.menu .item {
     font-size: 0.9em;
 }
@@ -160,45 +174,30 @@ body.expanded .main {
     margin-right: 0.5em!important;
 }
 
-/** 服务器菜单 **/
-.sub-menu {
-    position: absolute;
-    left: 8em!important;
-    width: 11.5em!important;
-    top: 0;
-    bottom: 2.8em;
-    overflow-y: auto;
-}
-
-.sub-menu::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-}
-
-.sub-menu .menu {
-    max-width: 11.1em!important;
-}
-
-.sub-menu .menu .item.active {
-    font-weight: normal!important;
-}
-
-.sub-menu .menu .item span {
-    font-size: 0.8em;
-}
-
 /** 右侧主操作区 **/
 .main {
     position: absolute;
     left: 20em;
-    top: 4em;
+    top: 3em;
     padding-bottom: 5em;
     padding-right: 1em;
     right: 1em;
 }
 
+@media screen and (max-width: 512px) {
+    .main {
+        left: 4em;
+    }
+}
+
 .main.without-menu {
     left: 9em;
+}
+
+@media screen and (max-width: 512px) {
+    .main.without-menu {
+        left: 4em;
+    }
 }
 
 .main table td.title {
@@ -307,12 +306,47 @@ body.expanded .main {
 /** 子菜单 **/
 .sub-menu {
     position: fixed;
-    left: 7em;
+    left: 8em;
+    width: 11.5em;
     top: 4em;
+    bottom: 2.8em;
+    overflow-y: auto;
+}
+
+.sub-menu::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
 }
 
 .sub-menu .menu {
-    width: 12em!important;
+    max-width: 11.1em!important;
+}
+
+@media screen and (max-width: 512px) {
+    .sub-menu {
+        position: relative;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    .sub-menu .menu {
+        width: 100%!important;
+        max-width: 30em!important;
+    }
+
+    .sub-menu .menu .item {
+        width: 100%!important;
+        max-width: 30em!important;
+    }
+}
+
+.sub-menu .menu .item.active {
+    font-weight: normal!important;
+}
+
+.sub-menu .menu .item span {
+    font-size: 0.8em;
 }
 
 .sub-menu .menu a {
@@ -330,6 +364,16 @@ body.expanded .main {
 
 .sub-menu .fourth-menu .icon, .sub-menu .third-menu .icon {
     float: left!important;
+}
+
+/** 右侧文本子菜单 **/
+.text.menu {
+    overflow-x: auto;
+}
+
+.text.menu::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
 }
 
 /** 小助手相关样式 **/
@@ -429,4 +473,11 @@ body.expanded .main {
 }
 
 select {
+}
+
+/** column **/
+@media screen and (max-width: 512px) {
+    .column:not(.one) {
+        width: 100% !important;
+    }
 }

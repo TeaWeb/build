@@ -24,3 +24,9 @@
     font-style: normal;
     color: grey;
 }
+
+@media screen and (max-width: 512px) {
+    .log-box {
+        left: 4em;
+    }
+}

@@ -15,3 +15,25 @@
 #qps-chart-box {
     height: 16em;
 }
+
+.left-box {
+    width: 20em;
+    margin-top: 1em;
+    float: left;
+}
+
+.right-box {
+    margin-top: 1em;
+}
+
+@media screen and (max-width: 512px) {
+    .left-box {
+        float: none;
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    .right-box .column:not(.one) {
+        width: 100%!important;
+    }
+}

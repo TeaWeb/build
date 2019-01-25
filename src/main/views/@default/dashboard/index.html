@@ -4,38 +4,36 @@
 <p class="comment" v-if="isLoaded && charts.length == 0">请等待数据初始化完成...</p>
 
 <!-- 实时 -->
-<table style="width:100%" v-show="!mongoFailed">
-    <tr>
-        <td style="width:20em">
-            <table class="ui table small">
-                <thead>
-                    <tr>
-                        <th>实时请求数</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <td>
-                        <div id="qps-chart-box"></div>
-                    </td>
-                </tr>
-            </table>
+<div style="width:100%" v-show="!mongoFailed">
+	<div class="left-box">
+		<table class="ui table small">
+			<thead>
+				<tr>
+					<th>实时请求数</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>
+					<div id="qps-chart-box"></div>
+				</td>
+			</tr>
+		</table>
 
-            <table class="ui table small">
-                <thead>
-                    <tr>
-                        <th>实时请求日志</th>
-                    </tr>
-                </thead>
-                <tr v-for="log in logs">
-                    <td>
-                        <span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> "{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" - <span class="grey">耗时:{{log.requestTime}}ms</span>
-                    </td>
-                </tr>
-            </table>
-        </td>
-        <td>&nbsp;</td>
-        <td>
-            {$template "/chart_render"}
-        </td>
-    </tr>
-</table>
+		<table class="ui table small">
+			<thead>
+				<tr>
+					<th>实时请求日志</th>
+				</tr>
+			</thead>
+			<tr v-for="log in logs">
+				<td>
+					<span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> "{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" - <span class="grey">耗时:{{log.requestTime}}ms</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="right-box">
+		{$template "/chart_render"}
+	</div>
+</div>

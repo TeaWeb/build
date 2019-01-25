@@ -70,3 +70,9 @@
 .main-box .filter-menu .item {
     z-index: 1;
 }
+
+@media screen and (max-width: 512px) {
+    .main-box .filter-menu .title {
+        display: none;
+    }
+}

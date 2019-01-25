@@ -24,3 +24,9 @@
 .table th a:hover {
     color: grey;
 }
+
+@media screen and (max-width: 512px) {
+    .column:not(.one) {
+        width: 100%!important;
+    }
+}

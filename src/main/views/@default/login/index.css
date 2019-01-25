@@ -47,3 +47,10 @@ footer {
     right: 0;
     text-align: center;
 }
+
+@media screen and (max-width: 512px) {
+   form {
+       width: 80%;
+       margin-left: -40%;
+   }
+}

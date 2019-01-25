@@ -38,28 +38,30 @@
             <a class="item"></a>
             <a v-bind:href="Tea.url('dashboard')" class="item" v-bind:class="{active:teaMenu == 'dashboard'}">
                 <i class="ui dashboard icon"></i>
-                仪表板
+                <span>仪表板</span>
             </a>
 
             <!-- 模块 -->
             <a v-for="module in teaModules" class="item" v-bind:href="Tea.url(module.code)" v-bind:class="{active:teaMenu == module.code}">
                 <i class="window restore outline icon" v-if="module.icon == null"></i>
                 <i class="ui icon" v-if="module.icon != null" :class="module.icon"></i>
-                {{module.menuName}}
+                <span>{{module.menuName}}</span>
             </a>
         </div>
     </div>
 
-    <!-- 左侧子菜单 -->
-    <div class="sub-menu">
-        <div class="ui secondary menu vertical borderless blue pointing" v-if="teaSubMenus.length > 0" v-cloak="">
-            <span class="item header" v-if="teaSubHeader.length > 0">{{teaSubHeader}}</span>
-            <a :href="subMenu.url" class="item" :class="{active:subMenu.active}" v-for="subMenu in teaSubMenus">{{subMenu.name}}<span v-if="subMenu.subName != null && subMenu.subName.length > 0">({{subMenu.subName}})</span></a>
-        </div>
-    </div>
+
 
     <!-- 右侧主操作栏 -->
     <div class="main" :class="{'without-menu': teaSubMenus.length == 0}" v-cloak="">
+		<!-- 左侧子菜单 -->
+		<div class="sub-menu">
+			<div class="ui secondary menu vertical borderless blue pointing" v-if="teaSubMenus.length > 0" v-cloak="">
+				<span class="item header" v-if="teaSubHeader.length > 0">{{teaSubHeader}}</span>
+				<a :href="subMenu.url" class="item" :class="{active:subMenu.active}" v-for="subMenu in teaSubMenus">{{subMenu.name}}<span v-if="subMenu.subName != null && subMenu.subName.length > 0">({{subMenu.subName}})</span></a>
+			</div>
+		</div>
+
         <!-- 操作菜单 -->
         <div class="ui top menu tabular tab-menu" v-if="teaTabbar.length > 0">
             <a class="item" v-for="item in teaTabbar" :class="{'active':item.active}"  :href="item.url">

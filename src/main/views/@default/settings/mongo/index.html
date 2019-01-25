@@ -30,7 +30,7 @@
     <p class="ui error message" v-if="error.length > 0">连接失败，需要修复： {{error}}：<a href="/settings/mongo/update">[修改连接设置]</a> &nbsp; <a href="/settings/mongo">[刷新当前页面]</a></p>
 
     <p class="ui message" v-if="isInstalled && error.length > 0 && !isStarting">我们检测到你已安装MongoDB，<a href="" v-on:click.prevent="startMongo()">[点此尝试启动]</a></p>
-    <p class="ui message" v-if="isInstalled && error.length > 0 && isStarting">我们检测到你已安装MongoDB，等待启动完成 ...</p>
+    <p class="ui message" v-if="isInstalled && error.length > 0 && isStarting">我们检测到你已安装MongoDB，请耐心等待启动完成 ...</p>
 
     <h4 v-if="!isInstalled && error.length > 0">我还没有安装MongoDB</h4>
     <p  v-if="!isInstalled && error.length > 0" class="ui message">如果你还没有安装MongoDB，可以 <a href="https://www.mongodb.com/download-center?jmp=nav#community" target="_blank">[去官网下载MongoDB]</a> &nbsp; 或者 &nbsp; <a href="/settings/mongo/install">[让TeaWeb自动下载并安装MongoDB]</a> </p>
