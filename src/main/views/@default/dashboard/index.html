@@ -5,7 +5,7 @@
 
 <!-- 实时 -->
 <div style="width:100%" v-show="!mongoFailed">
-	<div class="left-box">
+	<div class="left-box" :style="{'visibility':(!isLoaded || mongoFailed || !logsVisible) ? 'hidden' : 'visible'}">
 		<table class="ui table small">
 			<thead>
 				<tr>
@@ -25,6 +25,11 @@
 					<th>实时请求日志</th>
 				</tr>
 			</thead>
+			<tr v-if="logs.length == 0">
+				<td>
+					<span class="disabled">暂时还没有日志。</span>
+				</td>
+			</tr>
 			<tr v-for="log in logs">
 				<td>
 					<span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> "{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" - <span class="grey">耗时:{{log.requestTime}}ms</span>

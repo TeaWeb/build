@@ -37,6 +37,15 @@ Tea.context(function () {
         this.proxy.name.$remove(index);
     };
 
+	/**
+	 * 更多选项
+	 */
+	this.advancedOptionsVisible = false;
+
+	this.showAdvancedOptions = function () {
+		this.advancedOptionsVisible = !this.advancedOptionsVisible;
+	};
+
     /**
      * 监听地址
      */

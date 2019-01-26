@@ -1,5 +1,6 @@
 Tea.context(function () {
 	this.isLoaded = false;
+	this.logsVisible = false;
 	this.charts = [];
 	this.logs = [];
 	this.agentId = "local";
@@ -39,6 +40,8 @@ Tea.context(function () {
 				});
 
 				this.renderQPS(resp.data.qps);
+
+				this.logsVisible = true;
 			})
 			.done(function () {
 				this.$delay(function () {

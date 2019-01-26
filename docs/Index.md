@@ -51,4 +51,5 @@
   * 插件
      * [写一个插件](plugins/Write.md)
      * [安装插件](plugins/Install.md)
-* [TeaWeb+](plus/Index.md)  
+* [TeaWeb+](plus/Index.md)
+* [捐助作者](donate/Index.md)

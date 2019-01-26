@@ -81,42 +81,51 @@
                 </td>
             </tr>
 
-            <!-- 字符编码 -->
-            <tr>
-                <td>字符编码<em>(charset)</em></td>
-                <td>
-                    <select name="charset" class="ui dropdown" v-model="proxy.charset">
-                        <optgroup label="常用"></optgroup>
-                        <option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
-                        <optgroup label="所有"></optgroup>
-                        <option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} （{{charset.name}}）</option>
-                    </select>
-                </td>
-            </tr>
+			<tr>
+				<td colspan="2">
+					<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项（字符编码、首页文件等） <i class="icon angle down"></i> </a>
+					<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+				</td>
+			</tr>
 
-            <!-- 首页文件 -->
-            <tr>
-                <td>首页文件<em>(index)</em></td>
-                <td>
-                    <span class="ui label small" v-for="(index, arrayIndex) in proxy.index">{{index}}
-                        <input type="hidden" name="index" :value="index"/>
-                        <a href="" @click.prevent="removeIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
-                    </span>
+			<tbody v-show="advancedOptionsVisible">
+				<!-- 字符编码 -->
+				<tr>
+					<td>字符编码<em>(charset)</em></td>
+					<td>
+						<select name="charset" class="ui dropdown" v-model="proxy.charset">
+							<optgroup label="常用"></optgroup>
+							<option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
+							<optgroup label="所有"></optgroup>
+							<option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} （{{charset.name}}）</option>
+						</select>
+					</td>
+				</tr>
 
-                    <div class="ui fields inline" v-if="indexAdding" style="margin-top:0.8em">
-                        <div class="ui field">
-                            <input type="text" name="addingIndexName" style="width:16em" maxlength="10" placeholder="首页文件名，比如 index.php" @keyup.enter="confirmAddIndex()" @keypress.enter.prevent="1" v-model="addingIndexName" />
-                        </div>
-                        <div class="ui field">
-                            <button class="ui button" type="button" @click="confirmAddIndex()">确定</button>
-                            &nbsp; <a href="" @click.prevent="cancelIndexAdding()">取消</a>
-                        </div>
-                    </div>
-                    <div class="ui field" style="margin-top: 1em">
-                        <button class="ui button" type="button" @click="addIndex()">+</button>
-                    </div>
-                </td>
-            </tr>
+				<!-- 首页文件 -->
+				<tr>
+					<td>首页文件<em>(index)</em></td>
+					<td>
+						<span class="ui label small" v-for="(index, arrayIndex) in proxy.index">{{index}}
+							<input type="hidden" name="index" :value="index"/>
+							<a href="" @click.prevent="removeIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+						</span>
+
+						<div class="ui fields inline" v-if="indexAdding" style="margin-top:0.8em">
+							<div class="ui field">
+								<input type="text" name="addingIndexName" style="width:16em" maxlength="10" placeholder="首页文件名，比如 index.php" @keyup.enter="confirmAddIndex()" @keypress.enter.prevent="1" v-model="addingIndexName" />
+							</div>
+							<div class="ui field">
+								<button class="ui button" type="button" @click="confirmAddIndex()">确定</button>
+								&nbsp; <a href="" @click.prevent="cancelIndexAdding()">取消</a>
+							</div>
+						</div>
+						<div class="ui field" style="margin-top: 1em">
+							<button class="ui button" type="button" @click="addIndex()">+</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
         </table>
 
         <button class="ui button primary" type="submit">保存</button>
