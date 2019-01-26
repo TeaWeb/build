@@ -57,13 +57,13 @@
 					</div>
                 </td>
             </tr>
-            <tr>
+            <tr v-show="advancedOptionsVisible">
                 <td>当前工作目录<em>（CWD）</em></td>
                 <td>
                     <input type="text" name="scriptCwd" v-model="item.sourceOptions.cwd" maxlength="100"/>
                 </td>
             </tr>
-            <tr>
+            <tr v-show="advancedOptionsVisible">
                 <td>环境变量<em>（ENV）</em></td>
                 <td>
                     <div class="ui field">
@@ -111,7 +111,7 @@
                     </select>
                 </td>
             </tr>
-            <tr>
+            <tr v-show="advancedOptionsVisible">
                 <td>请求超时<em>（Timeout）</em></td>
                 <td>
                     <div class="ui input right labeled">
@@ -202,7 +202,7 @@
                         </tbody>
                     </table>
                     <button type="button" class="ui button" @click="addCond()">+</button>
-                    <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span></p>
+                    <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
                 </td>
             </tr>
             <tr>

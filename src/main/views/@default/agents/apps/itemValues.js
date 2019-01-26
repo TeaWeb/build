@@ -40,4 +40,14 @@ Tea.context(function () {
 				}, 3000);
 			});
 	};
+
+	this.clearValues = function () {
+		this.$post("/agents/apps/clearItemValues")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id
+			})
+			.refresh();
+	};
 });

@@ -51,5 +51,6 @@
   * 插件
      * [写一个插件](plugins/Write.md)
      * [安装插件](plugins/Install.md)
+  * 外部监控API   
 * [TeaWeb+](plus/Index.md)
 * [捐助作者](donate/Index.md)
