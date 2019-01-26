@@ -23,3 +23,9 @@
 ~~~bash
 ./bin/teaweb restart
 ~~~
+
+## 重置服务状态
+v0.0.8以后支持
+~~~bash
+./bin/teaweb reset
+~~~

@@ -1,0 +1,26 @@
+{$layout}
+
+<p class="comment" v-if="logs.length == 0">暂时还没有操作日志。</p>
+<table class="ui table small" v-for="log in logs">
+	<thead>
+		<tr>
+			<th>{{log.username}} @ {{log.datetime}}</th>
+		</tr>
+	</thead>
+	<tr>
+		<td> {{log.description}}
+			<p class="comment">
+				{{log.actionName}} <span v-if="log.action=='LOGIN'">| IP:{{log.options.ip}}</span>
+			</p>
+		</td>
+	</tr>
+</table>
+
+
+<div class="ui page menu text blue" v-if="countPages > 1">
+	<a :href="'/log/audit?page=' + (page - 1)" class="item active" v-if="page > 1">上页</a>
+	<span v-if="page == 1" class="item">上页</span>
+	<span class="item">|</span>
+	<a :href="'/log/audit?page=' + (page + 1)" class="item active" v-if="page < countPages">下页</a>
+	<span class="item" v-if="countPages == page">下页</span>
+</div>
