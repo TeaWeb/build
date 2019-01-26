@@ -86,6 +86,10 @@ Tea.context(function () {
 			"name": "Ruby",
 			"code": "ruby"
 		},
+		{
+			"name": "NodeJS",
+			"code": "nodejs"
+		}
 	];
 
 	this.selectScriptTab = function (tab) {
@@ -163,6 +167,20 @@ Tea.context(function () {
 					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
 					CodeMirror.autoLoadMode(scriptEditor, info.mode);
 				}
+				break;
+			case "nodejs":
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && this.item.sourceOptions.scriptLang == "nodejs") {
+					scriptEditor.setValue(this.item.sourceOptions.script);
+				} else {
+					scriptEditor.setValue("#!/usr/bin/env node\n\n// your javascript codes here");
+				}
+				var info = CodeMirror.findModeByMIME("text/javascript");
+				if (info != null) {
+					scriptEditor.setOption("mode", info.mode);
+					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+					CodeMirror.autoLoadMode(scriptEditor, info.mode);
+				}
+				break;
 		}
 
 		scriptEditor.save();
@@ -198,7 +216,11 @@ Tea.context(function () {
 		if (this.item.sourceOptions.scriptLang != null && this.item.sourceOptions.scriptLang.length > 0) {
 			lang = this.item.sourceOptions.scriptLang;
 		}
-		var info = CodeMirror.findModeByMIME("text/x-" + lang);
+		var mimeType = "text/x-" + lang;
+		if (lang == "nodejs") {
+			mimeType = "text/javascript";
+		}
+		var info = CodeMirror.findModeByMIME(mimeType);
 		if (info != null) {
 			scriptEditor.setOption("mode", info.mode);
 			CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";

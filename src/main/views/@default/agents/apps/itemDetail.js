@@ -41,7 +41,11 @@ Tea.context(function () {
 		if (this.item.sourceOptions.scriptLang != null && this.item.sourceOptions.scriptLang.length > 0) {
 			lang = this.item.sourceOptions.scriptLang;
 		}
-		var info = CodeMirror.findModeByMIME("text/x-" + lang);
+		var mimeType = "text/x-" + lang;
+		if (lang == "nodejs") {
+			mimeType = "text/javascript";
+		}
+		var info = CodeMirror.findModeByMIME(mimeType);
 		if (info != null) {
 			scriptEditor.setOption("mode", info.mode);
 			CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";

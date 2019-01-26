@@ -74,6 +74,10 @@ Tea.context(function () {
 			"name": "Ruby",
 			"code": "ruby"
 		},
+		{
+			"name": "NodeJS",
+			"code": "nodejs"
+		}
 	];
 
 	this.selectScriptTab = function (tab) {
@@ -131,6 +135,16 @@ Tea.context(function () {
 					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
 					CodeMirror.autoLoadMode(scriptEditor, info.mode);
 				}
+				break;
+			case "nodejs":
+				scriptEditor.setValue("#!/usr/bin/env node\n\n// your javascript codes here");
+				var info = CodeMirror.findModeByMIME("text/javascript");
+				if (info != null) {
+					scriptEditor.setOption("mode", info.mode);
+					CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+					CodeMirror.autoLoadMode(scriptEditor, info.mode);
+				}
+				break;
 		}
 
 		scriptEditor.save();
