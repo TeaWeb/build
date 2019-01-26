@@ -26,4 +26,7 @@
             <pre>{{value.value}}</pre>
         </td>
     </tr>
+	<tr v-if="value.error.length > 0">
+		<td class="error">错误：{{value.error}}</td>
+	</tr>
 </table>
