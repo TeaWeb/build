@@ -164,7 +164,7 @@ values.Query = function () {
  * 获取参数值
  */
 values.valueOf = function (value, param) {
-	return param.replace(/(\${\w+})/, function (match) {
+	var v = param.replace(/(\${\w+})/, function (match) {
 		var varName = match.substring(2, match.length - 1);
 		if (value instanceof Array) {
 			var index = parseInt(varName, 10);
@@ -184,4 +184,16 @@ values.valueOf = function (value, param) {
 		}
 		return ""
 	});
+
+	// 是否含有+-*/%运算符
+	if (v.indexOf(v, "+") > -1 || v.indexOf(v, "-") > -1 || v.indexOf(v, "*") > -1 || v.indexOf(v, "/") > -1 || v.indexOf(v, "%") > -1) {
+		try {
+			var result = v;
+			eval("result = " + v);
+			return result;
+		} catch (e) {
+			console.log(v, e);
+		}
+	}
+	return v;
 };
