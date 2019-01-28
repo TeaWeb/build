@@ -21,6 +21,7 @@
     <div class="ui menu inverted top-nav blue small borderless" v-cloak="">
         <a href="/" class="item"><i class="icon leaf"></i>{{teaName}} &nbsp; <sup>v{{teaVersion}} - 可视化智能Web服务</sup></a>
         <div class="right menu">
+			<a href="/notices" class="item" :class="{active:teaMenu == 'notices'}"><i class="icon bell" :class="{'blink':countNoticesBadge > 0}"></i>通知<span v-if="countNoticesBadge > 0">({{countNoticesBadge}})</span></a>
             <a href="/settings/profile" class="item"  :class="{active: teaMenu == 'settings.profile'}">
                 <i class="icon user" v-if="teaUserAvatar.length == 0"></i>
                 <img class="avatar" :src="teaUserAvatar" v-if="teaUserAvatar.length > 0"/>
@@ -79,16 +80,16 @@
     <!-- 底部 -->
     <div id="footer" class="ui menu inverted light-blue borderless small">
         <a  href="/settings/update" class="item" title="点击进入检查版本更新页面">{{teaName}} v{{teaVersion}}</a>
-        <!--<a href="http://meloy.cn" target="_blank" class="item">官网</a>-->
+        <!--<a href="http://teaos.cn" target="_blank" class="item">官网</a>-->
         <a href="https://github.com/TeaWeb/build" target="_blank" class="item">GitHub</a>
-        <a href="http://plus.meloy.cn/doc" target="_blank" class="item">文档</a>
+        <a href="http://plus.teaos.cn/doc" target="_blank" class="item">文档</a>
         <a href="https://github.com/TeaWeb/build/issues" target="_blank" class="item">提Bug</a>
         <a class="item"><span>QQ讨论群：199435611</span>
                 <form class="ui form">
                     <input type="text" value="199435611" onfocus="this.select()"/>
                 </form>
         </a>
-        <a href="http://plus.meloy.cn" target="_blank" class="item right" title="TeaWeb Plus">TeaWeb+ - API网关和团队管理</a>
+        <a href="http://plus.teaos.cn" target="_blank" class="item right" title="TeaWeb Plus">TeaWeb+ - API网关和团队管理</a>
     </div>
 </div>
 

@@ -75,6 +75,10 @@ p.comment em {
 }
 
 /** 操作按钮容器 **/
+.op.one {
+    width: 4em;
+}
+
 .op.two {
     width: 7em;
 }

@@ -44,6 +44,8 @@ Tea.context(function () {
 		var mimeType = "text/x-" + lang;
 		if (lang == "nodejs") {
 			mimeType = "text/javascript";
+		} else if (lang == "shell") {
+			mimeType = "text/x-sh";
 		}
 		var info = CodeMirror.findModeByMIME(mimeType);
 		if (info != null) {

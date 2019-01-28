@@ -1,5 +1,5 @@
 # 安装
-1. 可以从 [http://plus.meloy.cn/download](http://plus.meloy.cn/download) 下载对应的Release版本，目前支持MacOS(darwin)、Linux、Windows三种版本；
+1. 可以从 [http://plus.teaos.cn/download](http://plus.teaos.cn/download) 下载对应的Release版本，目前支持MacOS(darwin)、Linux、Windows三种版本；
 2. 使用unzip解压到某个目录，比如 teaweb-v0.0.1/；
 3. 然后执行：
     ~~~bash

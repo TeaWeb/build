@@ -36,21 +36,22 @@
    * [安装Agent](agents/Install.md)
    * [应用（App）](agents/App.md)
    <!--* 任务-->
-   * [监控](agents/Monitor.md)
-     * [监控项](agents/Item.md)
-     * [监控实例-监控进程](agents/MonitorProcess.md)
-     * [监控实例-监控Nginx](agents/MonitorNginx.md)
+   * [监控项](agents/Item.md)
+   * 监控实例-监控进程
+   * 监控实例-监控Nginx
 * Apps
   * [本地服务](apps/Index.md)
   * [安装ps命令](apps/InstallPs.md)
   * [安装pgrep命令](apps/InstallPgrep.md)
   * [安装lsof命令](apps/InstallLsof.md)
   * [自定义探针](apps/Probe.md)
+* 高级
+  * 外部监控API
+  * 集群
 * 开发者
   * [从源码启动或编译](main/Build.md)
   * 插件
      * [写一个插件](plugins/Write.md)
      * [安装插件](plugins/Install.md)
-  * 外部监控API   
 * [TeaWeb+](plus/Index.md)
 * [捐助作者](donate/Index.md)

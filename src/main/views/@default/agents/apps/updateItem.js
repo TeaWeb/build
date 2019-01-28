@@ -110,7 +110,7 @@ Tea.context(function () {
 		this.scriptLang = lang;
 		switch (lang) {
 			case "shell":
-				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && (this.item.sourceOptions.scriptLang == "sh" || this.item.sourceOptions.scriptLang == null)) {
+				if (this.item.sourceOptions.script != null && this.item.sourceOptions.script.length > 0 && (this.item.sourceOptions.scriptLang == "shell" || this.item.sourceOptions.scriptLang == null)) {
 					scriptEditor.setValue(this.item.sourceOptions.script);
 				} else {
 					scriptEditor.setValue("#!/usr/bin/env bash\n\n# your commands here\n");
@@ -219,6 +219,8 @@ Tea.context(function () {
 		var mimeType = "text/x-" + lang;
 		if (lang == "nodejs") {
 			mimeType = "text/javascript";
+		} else if (lang == "shell") {
+			mimeType = "text/x-sh";
 		}
 		var info = CodeMirror.findModeByMIME(mimeType);
 		if (info != null) {
