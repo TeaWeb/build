@@ -68,8 +68,8 @@
 		</tr>
 	</tbody>
 	<tbody v-if="media.type == 'webhook'">
-	<tr>
-		<td>URL</td>
+		<tr>
+			<td>URL</td>
 			<td>
 				{{media.options.url}}
 			</td>
@@ -82,29 +82,40 @@
 		</tr>
 	</tbody>
 	<tbody v-if="media.type == 'script'">
-	<tr>
-		<td>脚本</td>
-		<td>
-			<span v-if="media.options.scriptType == 'path'">{{media.options.path}}</span>
-			<div id="script-code-editor" v-show="media.options.scriptType == 'code'"></div>
-		</td>
+		<tr>
+			<td>脚本</td>
+			<td>
+				<span v-if="media.options.scriptType == 'path'">{{media.options.path}}</span>
+				<div id="script-code-editor" v-show="media.options.scriptType == 'code'"></div>
+			</td>
+		</tr>
+		<tr>
+			<td>当前工作目录<em>（CWD）</em></td>
+			<td>
+				<span v-if="media.options.cwd.length > 0">{{media.options.cwd}}</span>
+				<span v-if="media.options.cwd.length == 0" class="disabled">没有设置</span>
+			</td>
+		</tr>
+		<tr>
+			<td>环境变量<em>（ENV）</em></td>
+			<td>
+				<span v-if="media.options.env == null || media.options.env.length == 0" class="disabled">没有设置</span>
+				<div v-if="media.options.env != null && media.options.env.length > 0">
+					<span class="ui label small" v-for="(var1, index) in media.options.env">
+						<em>{{var1.name}}</em>: {{var1.value}}
+					</span>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	<tr v-if="media.timeFrom.length > 0">
+		<td>发送时间段</td>
+		<td>{{media.timeFrom}} 到 {{media.timeTo}}</td>
 	</tr>
-	<tr>
-		<td>当前工作目录<em>（CWD）</em></td>
+	<tr v-if="media.rateMinutes > 0 || media.rateCount > 0">
+		<td>发送频率</td>
 		<td>
-			<span v-if="media.options.cwd.length > 0">{{media.options.cwd}}</span>
-			<span v-if="media.options.cwd.length == 0" class="disabled">没有设置</span>
-		</td>
-	</tr>
-	<tr>
-		<td>环境变量<em>（ENV）</em></td>
-		<td>
-			<span v-if="media.options.env == null || media.options.env.length == 0" class="disabled">没有设置</span>
-			<div v-if="media.options.env != null && media.options.env.length > 0">
-				<span class="ui label small" v-for="(var1, index) in media.options.env">
-					<em>{{var1.name}}</em>: {{var1.value}}
-				</span>
-			</div>
+			每 {{media.rateMinutes}} 分钟可以发送 {{media.rateCount}} 个通知
 		</td>
 	</tr>
 </table>

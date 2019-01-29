@@ -270,6 +270,28 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 时间设置
+	 */
+	this.timeFromHour = 0;
+	this.timeFromMinute = 0;
+	this.timeFromSecond = 0;
+	this.timeToHour = 23;
+	this.timeToMinute = 59;
+	this.timeToSecond = 59;
+	if (this.media.timeFrom.length > 0) {
+		var pieces = this.media.timeFrom.split(":");
+		this.timeFromHour = parseInt(pieces[0], 10);
+		this.timeFromMinute = parseInt(pieces[1], 10);
+		this.timeFromSecond = parseInt(pieces[2], 10);
+	}
+	if (this.media.timeTo.length > 0) {
+		var pieces = this.media.timeTo.split(":");
+		this.timeToHour = parseInt(pieces[0], 10);
+		this.timeToMinute = parseInt(pieces[1], 10);
+		this.timeToSecond = parseInt(pieces[2], 10);
+	}
+
+	/**
 	 * 更多选项
 	 */
 	this.advancedOptionsVisible = false;

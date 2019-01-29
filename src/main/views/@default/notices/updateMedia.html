@@ -155,6 +155,59 @@
 		</tr>
 		<tbody v-show="advancedOptionsVisible">
 			<tr>
+				<td>发送时间段</td>
+				<td>
+					<div class="ui field">
+						<strong>开始时间</strong>
+					</div>
+					<div class="ui fields inline segment">
+						<div class="ui field">
+							小时：<input type="text" name="timeFromHour" v-model="timeFromHour" placeholder="0-23" size="4" maxlength="2" value="0"/>
+						</div>
+						<div class="ui field">
+							分钟：<input type="text" name="timeFromMinute" v-model="timeFromMinute" placeholder="0-59" size="4" maxlength="2" value="0"/>
+						</div>
+						<div class="ui field">
+							秒：<input type="text" name="timeFromSecond" v-model="timeFromSecond" placeholder="0-59" size="4" maxlength="2" value="0"/>
+						</div>
+					</div>
+					<div class="ui field">
+						<strong>结束时间</strong>
+					</div>
+					<div class="ui fields inline segment">
+						<div class="ui field">
+							小时：<input type="text" name="timeToHour" v-model="timeToHour" placeholder="0-23" size="4" maxlength="2" value="23"/>
+						</div>
+						<div class="ui field">
+							分钟：<input type="text" name="timeToMinute" v-model="timeToMinute" placeholder="0-59" size="4" maxlength="2" value="59"/>
+						</div>
+						<div class="ui field">
+							秒：<input type="text" name="timeToSecond" v-model="timeToSecond" placeholder="0-59" size="4" maxlength="2" value="59"/>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>发送频率</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							每
+						</div>
+						<div class="ui field">
+							<input type="text" name="rateMinutes" v-model="media.rateMinutes" size="4" maxlength="2" value="1"/>
+						</div>
+						<div class="ui field">分钟可以发送</div>
+						<div class="ui field">
+							<input type="text" name="rateCount" v-model="media.rateCount" size="4" maxlength="2" value="1"/>
+						</div>
+						<div class="ui field">
+							个通知
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
 				<td>是否启用</td>
 				<td>
 					<div class="ui checkbox">

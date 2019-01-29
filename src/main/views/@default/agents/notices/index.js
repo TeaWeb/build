@@ -1,5 +1,10 @@
 Tea.context(function () {
-	this.setRead = function (scope, noticeIds) {
+	this.setRead = function (scope, noticeIds, msg) {
+		if (msg != null) {
+			if (!window.confirm(msg)) {
+				return;
+			}
+		}
 		this.$post("/agents/notices/setRead")
 			.params({
 				"scope": scope,
