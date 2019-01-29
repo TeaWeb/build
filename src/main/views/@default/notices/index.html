@@ -1,0 +1,58 @@
+{$layout}
+
+<div class="ui menu text blue">
+    <a href="/notices?read=0" class="item" :class="{active:!isRead}">未读通知<span> &nbsp;({{countUnread}})</span></a>
+    <a href="/notices?read=1" class="item" :class="{active:isRead}">已读通知</a>
+	<a href="/notices/setting" class="item">级别</a>
+	<a href="/notices/medias" class="item">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue small" v-if="!isRead && count > 0">
+	<a href="/notices?read=0" class="item" :class="{active:!isRead}">未读通知</a>
+	<a href="" class="item" v-if="!isRead && count > 0" @click.prevent="setRead('page', null, '确定要把本页设为已读吗？')">本页标为已读</a>
+	<a href="" class="item" v-if="!isRead && count > 0" @click.prevent="setRead('all', null, '确定把全部通知设为已读吗？')">全部标为已读</a>
+</div>
+
+<div class="ui divider" v-if="!isRead && count > 0" ></div>
+
+<p v-if="!isRead && count == 0" class="comment">
+	<span v-if="countNoticesBadge == 0">暂时还没有未读通知。</span>
+	<a href="" v-if="countNoticesBadge > 0" @click.prevent="reloadPage()">有新的通知，请点此刷新...</a>
+</p>
+<p v-if="isRead && count == 0" class="comment">暂时还没有已读通知。</p>
+
+<table class="ui table selectable small" v-for="notice in notices">
+    <thead>
+        <tr>
+            <th v-if="notice.isAgent" :style="{'background':(notice.level == null) ? '' : notice.level.bgcolor, 'color':(notice.level == null) ? '' : notice.level.color}">
+                <span v-if="notice.level != null">[{{notice.level.name}}] - </span>{{notice.datetime}} <span v-if="notice.links.length > 0">&nbsp;|&nbsp; <var v-for="(link,index) in notice.links"><a :href="link.url">{{link.name}}</a><em v-if="index < notice.links.length - 1">&nbsp; &raquo; &nbsp;</em></var></span>
+
+                <span class="ops">
+                    <a href="" title="标为已读" v-if="!notice.isRead" @click.prevent="setRead('page', [notice.id])"><i class="icon minus"></i></a>
+                </span>
+            </th>
+            <th v-if="!notice.isAgent">
+                {{notice.datetime}}
+
+                <span class="ops">
+                    <a href="" title="标为已读" v-if="!notice.isRead" @click.prevent="setRead('page', [notice.id])"><i class="icon check"></i></a>
+                </span>
+            </th>
+        </tr>
+    </thead>
+    <tr>
+        <td :style="{'background':(notice.level == null) ? '' : notice.level.bgcolor, 'color':(notice.level == null) ? '' : notice.level.color}">
+            <span v-if="notice.message.length > 0">{{notice.message}}</span>
+        </td>
+    </tr>
+</table>
+
+<div class="ui page menu text blue" v-if="countPages > 1">
+    <a :href="'/notices?read=' + (isRead ? 1 : 0) + '&page=' + (page - 1)" class="item active" v-if="page > 1">上页</a>
+    <span v-if="page == 1" class="item">上页</span>
+    <span class="item">|</span>
+    <a :href="'/notices?read=' + (isRead ? 1 : 0) + '&page=' + (page + 1)" class="item active" v-if="page < countPages">下页</a>
+    <span class="item" v-if="countPages == page">下页</span>
+</div>

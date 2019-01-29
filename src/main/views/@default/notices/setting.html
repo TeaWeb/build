@@ -1,0 +1,34 @@
+{$layout}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item active">级别</a>
+	<a href="/notices/medias" class="item">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<table class="ui table selectable">
+	<thead>
+		<tr>
+			<th class="two op">通知级别</th>
+			<th style="min-width:20em">说明</th>
+			<th>接收人</th>
+			<th class="one op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="level in levels">
+		<td :style="{color:level.color, background:level.bgcolor}">{{level.name}}</td>
+		<td>{{level.description}}</td>
+		<td>
+			<div v-if="level.receivers.length > 0">
+				<span class="ui label small" v-for="receiver in level.receivers">[{{receiver.media}}]{{receiver.name}}</span>
+			</div>
+			<span class="disabled" v-if="level.receivers.length == 0">暂时还没有接收人</span>
+		</td>
+		<td>
+			<a :href="'/notices/level?level=' + level.code">详情</a>
+		</td>
+	</tr>
+</table>

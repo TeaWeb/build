@@ -1,5 +1,5 @@
 # Documents
-http://plus.meloy.cn/doc
+http://plus.teaos.cn/doc
 
 # Commands
 ~~~bash

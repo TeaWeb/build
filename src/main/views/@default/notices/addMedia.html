@@ -1,0 +1,169 @@
+{$layout}
+{$template "/code_editor"}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item">级别</a>
+	<a href="/notices/medias" class="item active">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue small">
+	<a href="/notices/medias" class="item">所有媒介</a>
+	<a href="/notices/addMedia" class="item active">添加媒介</a>
+</div>
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="$" style="margin-top:1em" data-tea-success="submitSuccess">
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">媒介名称</td>
+			<td>
+				<input type="text" name="name"/>
+			</td>
+		</tr>
+		<tr>
+			<td>类型</td>
+			<td>
+				<select class="ui dropdown" name="type" style="width:10em" v-model="mediaType" @change="changeMediaType()">
+					<option v-for="type in mediaTypes" :value="type.code">{{type.name}}</option>
+				</select>
+				<p class="comment">{{typeDescription}}</p>
+			</td>
+		</tr>
+		<tbody v-show="mediaType == 'email'">
+			<tr>
+				<td>SMTP *</td>
+				<td>
+					<input type="text" name="emailSmtp" maxlength="100" placeholder="类似于 smtp.xxx.com:465"/>
+					<p class="comment">只支持SSL（或TLS）连接，端口通常为：465或587。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>账号 *</td>
+				<td>
+					<input type="text" name="emailUsername" maxlength="100" placeholder="类似于 xxx@xxx.com"/>
+					<p class="comment">邮箱账号，比如 123456@qq.com。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>密码 *</td>
+				<td>
+					<input type="text" name="emailPassword" maxlength="100"/>
+					<p class="comment">账号对应的密码或者授权码（比如QQ邮箱就需要授权码）。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>发送者Email</td>
+				<td>
+					<input type="text" name="emailFrom" maxlength="100" placeholder="类似于 xxx@xxx.com"/>
+					<p class="comment">默认和账号一致</p>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'webhook'">
+		<tr>
+				<td>URL *</td>
+				<td>
+					<input type="text" name="webhookURL" maxlength="100" placeholder="http://..."/>
+					<p class="comment">可以在URL中使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>来代表接收人标识、标题和内容。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>请求方法 *</td>
+				<td>
+					<select name="webhookMethod" v-model="webhookMethod" class="ui dropdown" style="width:10em">
+						<option v-for="method in methods" :value="method">{{method}}</option>
+					</select>
+					<p class="comment" v-if="webhookMethod == 'POST'">将以POST方式发送<span class="ui label tiny">NoticeUser</span>、<span class="ui label tiny">NoticeSubject</span>和<span class="ui label tiny">NoticeBody</span>参数，分别代表接收人标识、标题和内容</p>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'script'">
+		<tr>
+			<td>脚本 *</td>
+			<td>
+				<input type="hidden" name="scriptType" :value="scriptTab"/>
+				<input type="hidden" name="scriptLang" :value="scriptLang"/>
+				<div class="ui tabular menu attached small">
+					<a class="item" :class="{active:scriptTab == 'path'}" @click.prevent="selectScriptTab('path')">脚本文件</a>
+					<a class="item" :class="{active:scriptTab == 'code'}" @click.prevent="selectScriptTab('code')">脚本代码</a>
+				</div>
+				<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
+					<input type="text" name="scriptPath" maxlength="100"/>
+					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
+						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>分别代表通知的接收人标识、标题和内容。
+					</p>
+				</div>
+				<div class="ui bottom segment attached" v-show="scriptTab == 'code'" style="padding-top:0">
+					<div class="ui menu text small">
+						<a class="item" v-for="lang in scriptLangs" :class="{active:lang.code == scriptLang}" @click.prevent="selectScriptLang(lang.code)">{{lang.name}}</a>
+					</div>
+					<textarea name="scriptCode" id="script-code-editor" rows="1"></textarea>
+					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
+						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>分别代表通知的接收人标识、标题和内容。
+					</p>
+				</div>
+			</td>
+		</tr>
+		<tr v-show="advancedOptionsVisible">
+			<td>当前工作目录<em>（CWD）</em></td>
+			<td>
+				<input type="text" name="scriptCwd" maxlength="100"/>
+			</td>
+		</tr>
+		<tr v-show="advancedOptionsVisible">
+			<td>环境变量<em>（ENV）</em></td>
+			<td>
+				<div class="ui field">
+                        <span class="ui label small" v-for="(var1, index) in env">
+                            <input type="hidden" name="scriptEnvNames" :value="var1.name"/>
+                            <input type="hidden" name="scriptEnvValues" :value="var1.value"/>
+                            <em>{{var1.name}}</em>: {{var1.value}}
+                            <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
+                        </span>
+				</div>
+				<div v-if="envAdding" class="ui fields inline">
+					<div class="ui field">
+						<input type="text" name="envAddingName" v-model="envAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+					</div>
+					<div class="ui field">
+						<input type="text" name="envAddingValue" v-model="envAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
+					</div>
+					<div class="ui field">
+						<button class="ui button" type="button" @click="confirmAddEnv()">添加</button>
+					</div>
+					<div class="ui field">
+						<a href="" @click.prevent="cancelEnv()"><i class="icon remove"></i></a>
+					</div>
+				</div>
+				<div class="ui field">
+					<button class="ui button small" type="button" @click="addEnv()">+</button>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" checked="checked"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+</form>
+

@@ -1,0 +1,73 @@
+{$layout}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item active">级别</a>
+	<a href="/notices/medias" class="item">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue small">
+	<a :href="'/notices/level?level=' + level.code" class="item active">级别：{{level.name}}</a>
+</div>
+<div class="ui divider"></div>
+
+<p class="comment" v-if="medias.length == 0">
+	<a href="/notices/addMedia">还没有可选的媒介，请先添加媒介 &raquo;</a>
+</p>
+
+<h3>修改接收人</h3>
+
+<form class="ui form" style="margin-top:1em" data-tea-action="$" data-tea-success="submitSuccess" v-if="medias.length > 0">
+	<input type="hidden" name="receiverId" :value="receiver.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">级别</td>
+			<td :style="{color:level.color, background:level.bgcolor}">{{level.name}}</td>
+		</tr>
+		<tr>
+			<td>接收人名称</td>
+			<td>
+				<input type="text" name="name" maxlength="100" v-model="receiver.name"/>
+			</td>
+		</tr>
+		<tr>
+			<td>媒介</td>
+			<td>
+				<select class="ui dropdown" name="mediaId" style="width:10em" v-model="mediaId" @change="changeMedia()">
+					<option v-for="media in medias" :value="media.id">{{media.name}}({{media.typeName}})</option>
+				</select>
+				<p class="comment">{{mediaDescription}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td>接收人标识</td>
+			<td>
+				<input type="text" name="user" maxlength="100" v-model="receiver.user"/>
+				<p class="comment">{{userDescription}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="receiver.on"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+</form>
+

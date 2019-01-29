@@ -1,0 +1,54 @@
+{$layout}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item">级别</a>
+	<a href="/notices/medias" class="item active">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue small">
+	<a :href="'/notices/mediaDetail?mediaId=' + media.id" class="item">媒介详情</a>
+	<a :href="'/notices/testMedia?mediaId=' + media.id" class="item active">测试当前媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-timeout="10" data-tea-before="submitBefore" data-tea-success="submitSuccess" data-tea-error="submitError" data-tea-fail="submitFail" style="margin-top:1em">
+	<input type="hidden" name="mediaId" :value="media.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">媒介名称</td>
+			<td>{{media.name}}</td>
+		</tr>
+		<tr>
+			<td>通知标题</td>
+			<td>
+				<input type="text" name="subject" value="这是通知标题" maxlength="100"/>
+			</td>
+		</tr>
+		<tr>
+			<td>通知内容</td>
+			<td>
+				<textarea name="body" rows="2" maxlength="100">这是通知内容</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>接收人标识</td>
+			<td>
+				<input type="text" name="user" maxlength="100"/>
+				<p class="comment">{{mediaType.user}}</p>
+			</td>
+		</tr>
+	</table>
+	<div class="ui segment" :class="{green:error.length == 0, red:error.length > 0}" v-if="isFinished">
+		<div v-if="response.length > 0">返回结果：{{response}}</div>
+		<div v-if="error.length > 0">错误信息：{{error}}</div>
+		<span class="disabled" v-if="response.length == 0 && error.length == 0">成功执行，没有返回结果</span>
+	</div>
+
+	<button class="ui button primary" type="submit" v-if="!isRunning">提交测试</button>
+	<span v-if="isRunning">提交测试中，请耐心等待...</span>
+</form>

@@ -1,0 +1,111 @@
+{$layout}
+{$template "/code_editor"}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item">级别</a>
+	<a href="/notices/medias" class="item active">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue small">
+	<a :href="'/notices/mediaDetail?mediaId=' + media.id" class="item active">媒介详情</a>
+	<a :href="'/notices/testMedia?mediaId=' + media.id" class="item">测试当前媒介</a>
+</div>
+
+<div class="ui divider"></div>
+
+<h3>媒介详情 <a :href="'/notices/updateMedia?mediaId=' + media.id + '&from=' + from">修改</a></h3>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td>是否启用</td>
+		<td>
+			<span class="ui label small green" v-if="media.on">启用中</span>
+			<span class="ui label small" v-if="!media.on">未启用</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="title">媒介名称</td>
+		<td>
+			{{media.name}}
+		</td>
+	</tr>
+	<tr>
+		<td>类型</td>
+		<td>
+			{{mediaType.name}}
+			<p class="comment">{{mediaType.description}}</p>
+		</td>
+	</tr>
+	<tbody v-if="media.type == 'email'">
+		<tr>
+			<td>SMTP</td>
+			<td>
+				{{media.options.smtp}}
+			</td>
+		</tr>
+		<tr>
+			<td>账号</td>
+			<td>
+				{{media.options.username}}
+			</td>
+		</tr>
+		<tr>
+			<td>密码 *</td>
+			<td>
+				{{media.options.password}}
+			</td>
+		</tr>
+		<tr>
+			<td>发送者Email</td>
+			<td>
+				<span v-if="media.options.from.length > 0">{{media.options.from}}</span>
+				<span v-if="media.options.from.length == 0" class="disabled">没有设置</span>
+			</td>
+		</tr>
+	</tbody>
+	<tbody v-if="media.type == 'webhook'">
+	<tr>
+		<td>URL</td>
+			<td>
+				{{media.options.url}}
+			</td>
+		</tr>
+		<tr>
+			<td>请求方法</td>
+			<td>
+				{{media.options.method}}
+			</td>
+		</tr>
+	</tbody>
+	<tbody v-if="media.type == 'script'">
+	<tr>
+		<td>脚本</td>
+		<td>
+			<span v-if="media.options.scriptType == 'path'">{{media.options.path}}</span>
+			<div id="script-code-editor" v-show="media.options.scriptType == 'code'"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>当前工作目录<em>（CWD）</em></td>
+		<td>
+			<span v-if="media.options.cwd.length > 0">{{media.options.cwd}}</span>
+			<span v-if="media.options.cwd.length == 0" class="disabled">没有设置</span>
+		</td>
+	</tr>
+	<tr>
+		<td>环境变量<em>（ENV）</em></td>
+		<td>
+			<span v-if="media.options.env == null || media.options.env.length == 0" class="disabled">没有设置</span>
+			<div v-if="media.options.env != null && media.options.env.length > 0">
+				<span class="ui label small" v-for="(var1, index) in media.options.env">
+					<em>{{var1.name}}</em>: {{var1.value}}
+				</span>
+			</div>
+		</td>
+	</tr>
+</table>
+

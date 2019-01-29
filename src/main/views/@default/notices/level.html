@@ -1,0 +1,52 @@
+{$layout}
+
+<div class="ui menu text blue">
+	<a href="/notices?read=0" class="item">未读通知<span> &nbsp;({{countUnread}})</span></a>
+	<a href="/notices?read=1" class="item">已读通知</a>
+	<a href="/notices/setting" class="item active">级别</a>
+	<a href="/notices/medias" class="item">媒介</a>
+</div>
+
+<div class="ui divider"></div>
+<div class="ui menu text blue small">
+	<a :href="'/notices/level?level=' + level.code" class="item active">级别：{{level.name}}</a>
+</div>
+<div class="ui divider"></div>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td class="title">级别</td>
+		<td :style="{color:level.color, background:level.bgcolor}">{{level.name}}</td>
+	</tr>
+	<tr>
+		<td>描述</td>
+		<td>{{level.description}}</td>
+	</tr>
+</table>
+
+<h3>接收人<a :href="'/notices/addReceiver?level=' + level.code">添加</a></h3>
+<p class="comment" v-if="receivers.length == 0">暂时还没有设置该级别通知接收人。</p>
+
+<table class="ui table selectable" v-if="receivers.length > 0">
+	<thead>
+		<tr>
+			<th>接收人名称</th>
+			<th>接收人标识</th>
+			<th>媒介</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="receiver in receivers">
+		<td>{{receiver.name}}<br/>
+			<span class="ui label tiny" v-if="!receiver.on">未开启</span>
+		</td>
+		<td>{{receiver.user}}</td>
+		<td>{{receiver.mediaName}}
+			<span class="ui label tiny">{{receiver.mediaTypeName}}</span>
+		</td>
+		<td>
+			<a :href="'/notices/receiver?receiverId=' + receiver.id">详情</a>&nbsp;
+			<a href="" @click.prevent="deleteReceiver(receiver.id)">删除</a>
+		</td>
+	</tr>
+</table>
