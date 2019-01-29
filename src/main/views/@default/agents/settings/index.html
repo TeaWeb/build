@@ -8,7 +8,7 @@
             <td>是否启用</td>
             <td>
                 <span class="ui label green small" v-if="agent.on">启用中</span>
-                <span class="ui label small" v-if="!agent.on">未开启</span>
+                <span class="ui label small" v-if="!agent.on">未启用</span>
             </td>
         </tr>
         <tr>
@@ -51,5 +51,7 @@ id: {{agent.id}}
 key: {{agent.key}}
 </pre>
     </div>
-    其中当前服务器带端口的地址通常为当前TeaWeb所在服务器可访问的IP加上端口7777，比如当前服务器的IP是<span class="ui label">192.168.1.100</span>，那么可以填上<span class="ui label">master: http://192.168.1.100:7777</span>
+    <div>
+		其中当前服务器带端口的地址通常为当前TeaWeb所在服务器可访问的IP加上端口7777，比如当前服务器的IP是<span class="ui label">192.168.1.100</span>，那么可以填上<span class="ui label">master: http://192.168.1.100:7777</span>
+	</div>
 </div>
