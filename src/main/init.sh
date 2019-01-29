@@ -64,6 +64,7 @@ go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"
 
 go_get "github.com/TeaWeb/plugin"
+go_get "github.com/TeaWeb/jsapps"
 go_get "github.com/TeaWeb/uaparser"
 
 echo "[done]"
