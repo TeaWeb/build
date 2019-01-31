@@ -5,7 +5,7 @@
 
 <div class="ui text menu small blue">
     <a :href="'/agents/apps/manual?agentId=' + agentId + '&appId=' + app.id" class="item active">任务列表</a>
-    <a :href="'/agents/apps/addTask?agentId=' + agentId + '&appId=' + app.id + '&from=' + from + '&isManual=1'" class="item">添加任务</a>
+    <a :href="'/agents/apps/addTask?agentId=' + agentId + '&appId=' + app.id + '&from=' + from + '&isManual=1'" class="item" v-if="!teaDemoEnabled">添加任务</a>
 </div>
 <div class="ui divider margin"></div>
 
