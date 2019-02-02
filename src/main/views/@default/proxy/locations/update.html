@@ -126,26 +126,25 @@
                 </tr>
             </tbody>
 			<tbody>
-			<tr>
-				<td colspan="2">
-					<a href="" v-if="!testingVisible" @click.prevent="showTesting()" style="font-weight:normal">匹配测试 <i class="icon down angle"></i> </a>
-					<a href="" v-if="testingVisible" @click.prevent="showTesting()" style="font-weight:normal">收起匹配测试 <i class="icon up angle"></i> </a>
-				</td>
-			</tr>
+				<tr>
+					<td colspan="2">
+						<a href="" v-if="!testingVisible" @click.prevent="showTesting()" style="font-weight:normal">匹配测试 <i class="icon down angle"></i> </a>
+						<a href="" v-if="testingVisible" @click.prevent="showTesting()" style="font-weight:normal">收起匹配测试 <i class="icon up angle"></i> </a>
+					</td>
+				</tr>
 			</tbody>
 			<tbody v-show="testingVisible">
-			<tr>
-				<td>测试路径</td>
-				<td>
-					<input type="text" name="testingPath" placeholder="要测试的路径"/>
-					<p class="comment"><a href="" @click.prevent="testSubmit()">提交测试</a> &nbsp;  <span class="green" v-if="testingFinished && testingSuccess">匹配成功</span>
-						<span v-if="testingMapping != null" v-for="(v, k) in testingMapping" class="ui label tiny">${<em>{{k}}</em>}:{{v}}</span>
-						<span class="red" v-if="testingFinished && !testingSuccess">匹配失败 {{testingError}}</span></p>
-				</td>
-			</tr>
+				<tr>
+					<td>测试路径</td>
+					<td>
+						<input type="text" name="testingPath" placeholder="要测试的路径"/>
+						<p class="comment"><a href="" @click.prevent="testSubmit()">提交测试</a> &nbsp;  <span class="green" v-if="testingFinished && testingSuccess">匹配成功</span>
+							<span v-if="testingMapping != null" v-for="(v, k) in testingMapping" class="ui label tiny">${<em>{{k}}</em>}:{{v}}</span>
+							<span class="red" v-if="testingFinished && !testingSuccess">匹配失败 {{testingError}}</span></p>
+					</td>
+				</tr>
 			</tbody>
         </table>
-
 
         <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
     </form>
