@@ -34,6 +34,10 @@
         margin-bottom: 1em;
     }
 
+    .right-box {
+        margin-left: 0;
+    }
+
     .right-box .column:not(.one) {
         width: 100%!important;
     }

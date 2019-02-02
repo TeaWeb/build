@@ -81,4 +81,46 @@ Tea.context(function () {
     this.removeLocationIndex = function (index) {
         this.indexes.$remove(index);
     };
+
+	/**
+	 * 匹配测试
+	 */
+	this.testingVisible = false;
+	this.testingFinished = false;
+	this.testingSuccess = false;
+	this.testingMapping = null;
+	this.testingError = "";
+
+	this.showTesting = function () {
+		this.testingVisible = !this.testingVisible;
+		if (this.testingVisible) {
+			this.$delay(function () {
+				this.$find("form input[name='testingPath']").focus();
+			});
+		}
+	};
+
+	this.testSubmit = function () {
+		this.testingFinished = false;
+		this.testingError = "";
+		this.testingMapping = null;
+
+		var form = this.$find("#location-form")[0];
+		var formData = new FormData(form);
+		this.$post("/proxy/locations/test")
+			.params(formData)
+			.success(function (resp) {
+				this.testingMapping = resp.data.mapping;
+				this.testingFinished = true;
+				this.testingSuccess = true;
+			})
+			.fail(function (resp) {
+				if (resp.message != null && resp.message.length > 0) {
+					this.testingError = resp.message;
+				}
+
+				this.testingFinished = true;
+				this.testingSuccess = false;
+			});
+	};
 });
