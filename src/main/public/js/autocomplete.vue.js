@@ -37,7 +37,10 @@ Vue.component("auto-complete-box", {
             this.visible = false;
         },
         blur: function () {
-            this.visible = false;
+        	var that = this;
+            setTimeout(function () {
+				that.visible = false;
+			}, 500);
         },
         down: function () {
             this.move(true);
@@ -88,7 +91,8 @@ Vue.component("auto-complete-box", {
               {{option.name}} \
             </a> \
           </div> \
-        </div></div>'
+        </div> \
+    </div>'
 });
 
 Vue.component("auto-complete-path-box", {
