@@ -86,6 +86,22 @@
                         <p class="comment">访问路径未指定文件名时，自动查找这些文件</p>
                     </td>
                 </tr>
+				<tr>
+					<td>请求Body最大尺寸</td>
+					<td>
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="maxBodySize" v-model="maxBodySize" value="0" size="8" maxlength="10"/>
+							</div>
+							<div class="ui field">
+								<select class="ui dropdown" name="maxBodyUnit" v-model="maxBodyUnit">
+									<option v-for="unit in maxBodyUnits" :value="unit.code">{{unit.name}}</option>
+								</select>
+							</div>
+						</div>
+						<p class="ui comment">0及以下表示不限制</p>
+					</td>
+				</tr>
                 <tr>
                     <td>是否启用</td>
                     <td colspan="3">

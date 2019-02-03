@@ -50,6 +50,14 @@
 				<a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
 			</td>
 		</tr>
+		<tr>
+			<td>请求Body最大尺寸</td>
+			<td>
+				<span v-if="location.maxBodySize.length == 0" class="disabled">还没有设置</span>
+				<span v-if="location.maxBodySize.length > 0">{{location.maxBodySize}}</span>
+				<p class="ui comment" v-if="location.maxBodySize.length > 0">0及以下表示不限制</p>
+			</td>
+		</tr>
 	</table>
 
 	<h3>特殊设置 <a :href="'/proxy/locations/update?server=' + proxy.filename + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>
