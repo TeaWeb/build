@@ -79,5 +79,12 @@
 				<p class="ui comment" v-if="proxy.maxBodySize.length > 0">0及以下表示不限制</p>
 			</td>
 		</tr>
+		<tr>
+			<td>访问日志</td>
+			<td>
+				<span class="ui label green tiny" v-if="!proxy.disableAccessLog">已开启</span>
+				<span class="ui label tiny" v-if="proxy.disableAccessLog">未开启</span>
+			</td>
+		</tr>
     </table>
 </div>

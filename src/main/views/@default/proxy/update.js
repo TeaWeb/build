@@ -130,4 +130,9 @@ Tea.context(function () {
 		this.maxBodyUnit = this.proxy.maxBodySize[this.proxy.maxBodySize.length - 1];
 		this.proxy.maxBodySize = this.proxy.maxBodySize.substring(0, this.proxy.maxBodySize.length - 1);
 	}
+
+	/**
+	 * 访问日志
+	 */
+	this.enableAccessLog = !this.proxy.disableAccessLog;
 });
