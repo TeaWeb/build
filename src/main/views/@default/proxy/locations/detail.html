@@ -65,6 +65,21 @@
 				<span class="ui label tiny" v-if="!location.enableAccessLog">未开启</span>
 			</td>
 		</tr>
+		<tr>
+			<td>Gzip压缩级别</td>
+			<td>
+				<span v-if="location.gzipLevel < 0">不设置</span>
+				<span v-if="location.gzipLevel == 0">不压缩</span>
+				<span v-if="location.gzipLevel > 0">{{location.gzipLevel}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>Gzip内容最小长度</td>
+			<td>
+				<span v-if="location.gzipMinLength.length == 0" class="disabled">-</span>
+				<span v-if="location.gzipMinLength.length > 0">{{location.gzipMinLength}}</span>
+			</td>
+		</tr>
 	</table>
 
 	<h3>特殊设置 <a :href="'/proxy/locations/update?server=' + proxy.filename + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>

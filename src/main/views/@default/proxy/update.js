@@ -135,4 +135,26 @@ Tea.context(function () {
 	 * 访问日志
 	 */
 	this.enableAccessLog = !this.proxy.disableAccessLog;
+
+	/**
+	 * 压缩级别
+	 */
+	this.gzipLevels = Array.$range(1, 9);
+	this.gzipMinUnits = [
+		{
+			"code": "b",
+			"name": "B"
+		},
+		{
+			"code": "k",
+			"name": "K"
+		}, {
+			"code": "m",
+			"name": "M"
+		}];
+	this.gzipMinUnit = "k";
+	if (this.proxy.gzipMinLength.length > 0) {
+		this.gzipMinUnit = this.proxy.gzipMinLength[this.proxy.gzipMinLength.length - 1];
+		this.proxy.gzipMinLength = this.proxy.gzipMinLength.substring(0, this.proxy.gzipMinLength.length - 1);
+	}
 });

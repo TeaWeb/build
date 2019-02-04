@@ -111,6 +111,33 @@
 						</div>
 					</td>
 				</tr>
+				<tr>
+					<td>Gzip压缩级别</td>
+					<td>
+						<select name="gzipLevel" v-model="location.gzipLevel" class="ui dropdown" style="width:10em">
+							<option value="-1">不设置</option>
+							<option value="0">不压缩</option>
+							<option v-for="level in gzipLevels" :value="level">{{level}}</option>
+						</select>
+						<p class="ui comment">级别越高，压缩比例越大</p>
+					</td>
+				</tr>
+				<tr>
+					<td>Gzip内容最小长度</td>
+					<td>
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="gzipMinLength" size="8" v-model="location.gzipMinLength"/>
+							</div>
+							<div class="ui field">
+								<select class="ui dropdown" name="gzipMinUnit" v-model="gzipMinUnit">
+									<option v-for="unit in gzipMinUnits" :value="unit.code">{{unit.name}}</option>
+								</select>
+							</div>
+						</div>
+						<p class="comment">0表示不限制，内容长度从文件尺寸或Content-Length中获取。</p>
+					</td>
+				</tr>
                 <tr>
                     <td>是否启用</td>
                     <td colspan="3">

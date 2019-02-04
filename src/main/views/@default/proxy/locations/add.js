@@ -138,4 +138,22 @@ Tea.context(function () {
 		"name": "G"
 	}];
 	this.maxBodyUnit = "m";
+
+	/**
+	 * 压缩级别
+	 */
+	this.gzipLevels = Array.$range(1, 9);
+	this.gzipMinUnits = [
+		{
+			"code": "b",
+			"name": "B"
+		},
+		{
+			"code": "k",
+			"name": "K"
+		}, {
+			"code": "m",
+			"name": "M"
+		}];
+	this.gzipMinUnit = "k";
 });

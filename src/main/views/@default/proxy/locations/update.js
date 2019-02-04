@@ -127,4 +127,26 @@ Tea.context(function () {
 		this.maxBodyUnit = this.location.maxBodySize[this.location.maxBodySize.length - 1];
 		this.maxBodySize = this.location.maxBodySize.substring(0, this.location.maxBodySize.length - 1);
 	}
+
+	/**
+	 * 压缩级别
+	 */
+	this.gzipLevels = Array.$range(1, 9);
+	this.gzipMinUnits = [
+		{
+			"code": "b",
+			"name": "B"
+		},
+		{
+			"code": "k",
+			"name": "K"
+		}, {
+			"code": "m",
+			"name": "M"
+		}];
+	this.gzipMinUnit = "k";
+	if (this.location.gzipMinLength.length > 0) {
+		this.gzipMinUnit = this.location.gzipMinLength[this.location.gzipMinLength.length - 1];
+		this.location.gzipMinLength = this.location.gzipMinLength.substring(0, this.location.gzipMinLength.length - 1);
+	}
 });

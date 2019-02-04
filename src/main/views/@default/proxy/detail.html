@@ -86,5 +86,19 @@
 				<span class="ui label tiny" v-if="proxy.disableAccessLog">未开启</span>
 			</td>
 		</tr>
+		<tr>
+			<td>Gzip压缩级别</td>
+			<td>
+				<span v-if="proxy.gzipLevel == 0">不压缩</span>
+				<span v-if="proxy.gzipLevel > 0">{{proxy.gzipLevel}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>Gzip内容最小长度</td>
+			<td>
+				<span v-if="proxy.gzipMinLength == 0" class="disabled">-</span>
+				<span v-if="proxy.gzipMinLength.length > 0">{{proxy.gzipMinLength}}</span>
+			</td>
+		</tr>
     </table>
 </div>

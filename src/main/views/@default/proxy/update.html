@@ -83,7 +83,7 @@
 
 			<tr>
 				<td colspan="2">
-					<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项（字符编码、首页文件等） <i class="icon angle down"></i> </a>
+					<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项（字符编码、首页文件、日志、gzip压缩等） <i class="icon angle down"></i> </a>
 					<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
 				</td>
 			</tr>
@@ -148,6 +148,32 @@
 							<input type="checkbox" name="enableAccessLog" v-model="enableAccessLog"/>
 							<label></label>
 						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>Gzip压缩级别</td>
+					<td>
+						<select name="gzipLevel" v-model="proxy.gzipLevel" class="ui dropdown" style="width:10em">
+							<option value="0">不压缩</option>
+							<option v-for="level in gzipLevels" :value="level">{{level}}</option>
+						</select>
+						<p class="ui comment">级别越高，压缩比例越大</p>
+					</td>
+				</tr>
+				<tr>
+					<td>Gzip内容最小长度</td>
+					<td>
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="gzipMinLength" size="8" v-model="proxy.gzipMinLength"/>
+							</div>
+							<div class="ui field">
+								<select class="ui dropdown" name="gzipMinUnit" v-model="gzipMinUnit">
+									<option v-for="unit in gzipMinUnits" :value="unit.code">{{unit.name}}</option>
+								</select>
+							</div>
+						</div>
+						<p class="comment">0表示不限制，内容长度从文件尺寸或Content-Length中获取。</p>
 					</td>
 				</tr>
 			</tbody>
