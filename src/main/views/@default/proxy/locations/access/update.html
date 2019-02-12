@@ -194,6 +194,7 @@
 					<div class="ui fields inline">
 						<button class="ui button" type="button" @click="addAccessAllowIP()">+</button>
 					</div>
+					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*。</p>
 				</td>
 			</tr>
 			<tr v-if="accessOn">
@@ -220,6 +221,7 @@
 					<div class="ui fields inline">
 						<button class="ui button" type="button" @click="addAccessDenyIP()">+</button>
 					</div>
+					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*。</p>
 				</td>
 			</tr>
 		</table>
