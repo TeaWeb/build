@@ -17,7 +17,7 @@
 
 	<h3>访问控制 <a :href="'/proxy/locations/access/update?server=' + server.filename + '&locationId=' + location.id">修改</a></h3>
 	<p class="comment" v-if="policy == null">暂时还没有设置访问控制。可以控制当前路径的访问频率、IP黑白名单等。</p>
-	
+
 	<!-- 流量控制 -->
 	<table class="ui table selectable" v-if="policy != null">
 		<thead>
