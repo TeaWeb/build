@@ -5,6 +5,7 @@
 .main .menu.text {
     margin-top: 0!important;
     margin-bottom: 0!important;
+    scrollbar-width: thin; /** firefox **/
 }
 
 .main .menu.text .location-pattern.item {
@@ -13,9 +14,6 @@
     display: block;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.main .menu.text {
 }
 
 .main .menu.text span.item {

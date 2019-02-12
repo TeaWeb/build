@@ -32,9 +32,14 @@
 		</tr>
 		<tr>
 			<td>规则类型</td>
-			<td v-if="location.type == 1">匹配前缀</td>
-			<td v-if="location.type == 2">精准匹配</td>
-			<td v-if="location.type == 3">正则表达式匹配</td>
+			<td>
+				<span v-if="location.type == 1">匹配前缀</span>
+				<span v-if="location.type == 2">精准匹配</span>
+				<span v-if="location.type == 3">正则表达式匹配</span>
+
+				&nbsp; <span class="ui label tiny" v-if="location.caseInsensitive">不区分大小写</span>
+				<span class="ui label tiny" v-if="location.reverse">反向匹配</span>
+			</td>
 		</tr>
 		<tr>
 			<td>文档根目录<em>(Root)</em></td>
@@ -82,7 +87,7 @@
 		</tr>
 	</table>
 
-	<h3>特殊设置 <a :href="'/proxy/locations/update?server=' + proxy.filename + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>
+	<h3>特殊匹配设置 <a :href="'/proxy/locations/update?server=' + proxy.filename + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>
 	<table class="ui table selectable definition">
 		<tr>
 			<td class="title">反向匹配</td>

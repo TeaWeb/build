@@ -1,0 +1,12 @@
+.fields.margin {
+    margin-top: 0.8em!important;
+    margin-bottom: 0!important;
+}
+
+.fields input.number {
+    width: 8em!important;
+}
+
+.fields input.short-number {
+    width: 5em!important;
+}

@@ -1,0 +1,107 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+	<i class="exclamation circle icon large"></i>
+	代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+	{$template "/proxy/menu"}
+	{$template "menu"}
+
+	<h3>访问控制 <a :href="'/proxy/locations/access/update?server=' + server.filename + '&locationId=' + location.id">修改</a></h3>
+	<p class="comment" v-if="policy == null">暂时还没有设置访问控制。可以控制当前路径的访问频率、IP黑白名单等。</p>
+	
+	<!-- 流量控制 -->
+	<table class="ui table selectable" v-if="policy != null">
+		<thead>
+			<tr>
+				<th colspan="2">流量控制</th>
+			</tr>
+		</thead>
+		<tr>
+			<td class="title">是否开启流量控制</td>
+			<td>
+				<span v-if="policy.traffic.on" class="enabled">已开启</span>
+				<span v-if="!policy.traffic.on" class="disabled">未开启</span>
+			</td>
+		</tr>
+		<tr v-if="policy.traffic.total.on">
+			<td>总量控制</td>
+			<td>{{policy.traffic.total.total}}次</td>
+		</tr>
+		<tr v-if="policy.traffic.second.on">
+			<td>每秒钟调用限制</td>
+			<td>{{policy.traffic.second.total}}次/每{{policy.traffic.second.duration}}秒</td>
+		</tr>
+		<tr v-if="policy.traffic.minute.on">
+			<td>每分钟调用限制</td>
+			<td>{{policy.traffic.minute.total}}次/每{{policy.traffic.minute.duration}}分钟</td>
+		</tr>
+		<tr v-if="policy.traffic.hour.on">
+			<td>每小时调用限制</td>
+			<td>{{policy.traffic.hour.total}}次/每{{policy.traffic.hour.duration}}小时</td>
+		</tr>
+		<tr v-if="policy.traffic.day.on">
+			<td>每天调用限制</td>
+			<td>{{policy.traffic.day.total}}次/每{{policy.traffic.day.duration}}天</td>
+		</tr>
+		<tr v-if="policy.traffic.month.on">
+			<td>每月调用限制</td>
+			<td>{{policy.traffic.month.total}}次/每{{policy.traffic.month.duration}}月</td>
+		</tr>
+	</table>
+
+	<!-- 安全控制 -->
+	<table class="ui table selectable" v-if="policy != null">
+		<thead>
+		<tr>
+			<th colspan="2">安全控制</th>
+		</tr>
+		</thead>
+		<tr>
+			<td class="title">是否开启完全控制</td>
+			<td>
+				<span v-if="policy.access.on" class="enabled">已开启</span>
+				<span v-if="!policy.access.on" class="disabled">未开启</span>
+			</td>
+		</tr>
+		<tr v-if="policy.access.on">
+			<td>是否开启白名单</td>
+			<td>
+				<span v-if="policy.access.allowOn" class="enabled">已开启</span>
+				<span v-if="!policy.access.allowOn" class="disabled">未开启</span>
+			</td>
+		</tr>
+		<tr v-if="policy.access.on && policy.access.allowOn">
+			<td>IP白名单</td>
+			<td>
+				<span class="disabled" v-if="policy.access.allow.length == 0">还没有添加IP白名单</span>
+				<div class="ui field" v-for="client in policy.access.allow">
+					{{client.ip}}
+				</div>
+			</td>
+		</tr>
+		<tr v-if="policy.access.on">
+			<td>是否开启黑名单</td>
+			<td>
+				<span v-if="policy.access.denyOn" class="enabled">已开启</span>
+				<span v-if="!policy.access.denyOn" class="disabled">未开启</span>
+			</td>
+		</tr>
+		<tr v-if="policy.access.on && policy.access.denyOn">
+			<td>IP黑名单</td>
+			<td>
+				<span class="disabled" v-if="policy.access.deny.length == 0">还没有添加IP黑名单</span>
+				<div class="ui field" v-for="client in policy.access.deny">
+					{{client.ip}}
+				</div>
+			</td>
+	</table>
+</div>

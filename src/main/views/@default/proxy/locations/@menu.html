@@ -16,6 +16,8 @@
     <a :href="'/proxy/locations/fastcgi?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'fastcgi'}">Fastcgi<span v-if="location.fastcgi.length > 0">({{location.fastcgi.length}})</span></a>
     <span class="item">|</span>
     <a :href="'/proxy/locations/websocket?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'websocket'}">Websocket<span v-if="location.websocket!=null && location.websocket.on">(已设置)</span></a>
+	<span class="item">|</span>
+	<a :href="'/proxy/locations/access?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'access'}">访问控制</a>
     <span class="item">|</span>
     <a :href="'/proxy/locations/cache?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'cache'}">缓存设置<span v-if="location.cachePolicy">(已设置)</span></a>
 </div>
