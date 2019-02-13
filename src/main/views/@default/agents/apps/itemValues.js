@@ -42,6 +42,9 @@ Tea.context(function () {
 	};
 
 	this.clearValues = function () {
+		if (!window.confirm("确定要清除所有数值记录吗？")) {
+			return;
+		}
 		this.$post("/agents/apps/clearItemValues")
 			.params({
 				"agentId": this.agentId,

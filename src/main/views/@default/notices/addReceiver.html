@@ -14,11 +14,11 @@
 </div>
 <div class="ui divider"></div>
 
+<h3>添加接收人</h3>
+
 <p class="comment" v-if="medias.length == 0">
 	<a href="/notices/addMedia">还没有可选的媒介，请先添加媒介 &raquo;</a>
 </p>
-
-<h3>添加接收人</h3>
 
 <form class="ui form" style="margin-top:1em" data-tea-action="$" data-tea-success="submitSuccess" v-if="medias.length > 0">
 	<input type="hidden" name="level" :value="level.code"/>

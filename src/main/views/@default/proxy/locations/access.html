@@ -28,8 +28,8 @@
 		<tr>
 			<td class="title">是否开启流量控制</td>
 			<td>
-				<span v-if="policy.traffic.on" class="enabled">已开启</span>
-				<span v-if="!policy.traffic.on" class="disabled">未开启</span>
+				<span v-if="policy.traffic.on" class="ui label tiny green">已开启</span>
+				<span v-if="!policy.traffic.on" class="ui label tiny">未开启</span>
 			</td>
 		</tr>
 		<tr v-if="policy.traffic.total.on">
@@ -68,15 +68,15 @@
 		<tr>
 			<td class="title">是否开启完全控制</td>
 			<td>
-				<span v-if="policy.access.on" class="enabled">已开启</span>
-				<span v-if="!policy.access.on" class="disabled">未开启</span>
+				<span v-if="policy.access.on" class="ui label tiny green">已开启</span>
+				<span v-if="!policy.access.on" class="ui label tiny">未开启</span>
 			</td>
 		</tr>
 		<tr v-if="policy.access.on">
 			<td>是否开启白名单</td>
 			<td>
-				<span v-if="policy.access.allowOn" class="enabled">已开启</span>
-				<span v-if="!policy.access.allowOn" class="disabled">未开启</span>
+				<span v-if="policy.access.allowOn" class="ui label tiny green">已开启</span>
+				<span v-if="!policy.access.allowOn" class="ui label tiny">未开启</span>
 			</td>
 		</tr>
 		<tr v-if="policy.access.on && policy.access.allowOn">
@@ -91,8 +91,8 @@
 		<tr v-if="policy.access.on">
 			<td>是否开启黑名单</td>
 			<td>
-				<span v-if="policy.access.denyOn" class="enabled">已开启</span>
-				<span v-if="!policy.access.denyOn" class="disabled">未开启</span>
+				<span v-if="policy.access.denyOn" class="ui label tiny green">已开启</span>
+				<span v-if="!policy.access.denyOn" class="ui label tiny">未开启</span>
 			</td>
 		</tr>
 		<tr v-if="policy.access.on && policy.access.denyOn">

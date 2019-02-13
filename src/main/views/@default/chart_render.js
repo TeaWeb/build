@@ -117,7 +117,7 @@ function ChartRender(charts) {
             }),
             grid: {
                 left: 40,
-                right: 40,
+                right: 10,
                 bottom: bottomHeight,
                 top: 16
             },

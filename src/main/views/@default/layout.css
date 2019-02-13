@@ -99,7 +99,7 @@ p.comment em {
     }
 
     .main-menu .ui.menu .item {
-        height: 2.4em;
+        height: 2.8em;
     }
 
     .main-menu .ui.menu .item span {
@@ -171,6 +171,11 @@ body.expanded .main {
     width: 100%;
     z-index: 1000;
     background: #276ac6!important;
+    overflow-x: auto;
+}
+
+.top-nav::-webkit-scrollbar {
+    height: 2px;
 }
 
 .top-nav img.avatar {
@@ -439,6 +444,11 @@ body.expanded .main {
     width: 100%;
     border-radius: 0!important;
     z-index: 10;
+    overflow-x: auto;
+}
+
+#footer::-webkit-scrollbar {
+    height: 2px;
 }
 
 #footer a {

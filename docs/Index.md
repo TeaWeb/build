@@ -46,7 +46,7 @@
   * [安装lsof命令](apps/InstallLsof.md)
   * [自定义探针](apps/Probe.md)
 * 高级
-  * 外部监控API
+  * [外部监控API](advanced/APIMonitor.md)
   * 集群
 * 开发者
   * [从源码启动或编译](main/Build.md)

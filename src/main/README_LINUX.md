@@ -17,6 +17,9 @@ http://plus.teaos.cn/doc
 
 # print version
 ./bin/teaweb -v
+
+# reset service state
+./bin/teaweb reset
 ~~~
 
 # Issues

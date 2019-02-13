@@ -63,6 +63,10 @@ function build() {
     cp -R ${GOPATH}/src/main/resources ${TARGET}/
     cp -R ${GOPATH}/src/main/views ${TARGET}/
     cp -R ${GOPATH}/src/main/libs ${TARGET}
+    if [ -d ${TARGET}/libs/.idea ]
+    then
+		rm -rf ${TARGET}/libs/.idea
+    fi
 
     if [ ${GOOS} = "windows" ]
     then
@@ -126,7 +130,7 @@ function buildAgent() {
     if [ ${GOOS} = "windows" ]
     then
 		cp ${GOPATH}/src/main/start-agent.bat ${TARGET}/start.bat
-		cp ${GOPATH}/src/main/README_AGENT_WINDOWS.txt ${TARGET}/README_WINDOWS.txt
+		cp ${GOPATH}/src/main/README_AGENT_WINDOWS.txt ${TARGET}/README.txt
     fi
 
 	go build -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
