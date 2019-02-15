@@ -55,6 +55,7 @@
                     <td>字符编码<em>(charset)</em></td>
                     <td>
                         <select name="charset" class="ui dropdown" v-model="location.charset">
+							<option value="">未选择</option>
                             <optgroup label="常用"></optgroup>
                             <option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
                             <optgroup label="所有"></optgroup>

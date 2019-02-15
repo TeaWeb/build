@@ -12,6 +12,11 @@
     color: grey;
 }
 
+.table td {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
 #qps-chart-box {
     height: 16em;
 }

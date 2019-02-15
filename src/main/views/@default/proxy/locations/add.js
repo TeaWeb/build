@@ -5,7 +5,7 @@ Tea.context(function () {
 	this.pattern = "";
 	this.type = 2;
 	this.root = "";
-	this.charset = "utf-8";
+	this.charset = "";
 	this.indexes = [];
 	this.on = true;
 	this.isCaseInsensitive = false;

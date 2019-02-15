@@ -39,15 +39,16 @@
    * [监控项](agents/Item.md)
    * 监控实例-监控进程
    * 监控实例-监控Nginx
-* Apps
-  * [本地服务](apps/Index.md)
-  * [安装ps命令](apps/InstallPs.md)
-  * [安装pgrep命令](apps/InstallPgrep.md)
-  * [安装lsof命令](apps/InstallLsof.md)
-  * [自定义探针](apps/Probe.md)
+<!--* Apps-->
+<!--  * [本地服务](apps/Index.md)-->
+<!--  * [安装ps命令](apps/InstallPs.md)-->
+<!--  * [安装pgrep命令](apps/InstallPgrep.md)-->
+<!--  * [安装lsof命令](apps/InstallLsof.md)-->
+<!--  * [自定义探针](apps/Probe.md)-->
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
   * 集群
+  * 性能指南
 * 开发者
   * [从源码启动或编译](main/Build.md)
   * 插件

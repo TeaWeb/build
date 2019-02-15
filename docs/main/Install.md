@@ -6,12 +6,14 @@
     cd teaweb-v0.0.1/  # 转到teaweb目录
     bin/teaweb start
     ~~~
+    如果是Windows，则可以直接运行安装目录下的`start.bat`；
 4. 如果没有出现错误的话，可以在浏览器中访问：
     ~~~
     http://127.0.0.1:7777
     ~~~
     其中`127.0.0.1`可能需要换成你服务器的IP，而且我们默认使用了`7777`端口（可以在`configs/server.conf`中修改），如果访问遇到了问题，请检查防火墙设置；
-5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息，也可以在设置界面中修改。
+5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息，也可以在设置界面中修改；
+6. 如果是Unix或者Linux，请确保安装目录下的`configs/`和`tmp/`是有读取和写入权限的。
 
 ## MongoDB
 TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，可以在"设置">"MongoDB"中修改MongoDB的连接参数：
