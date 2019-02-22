@@ -80,7 +80,7 @@ p.comment em {
 }
 
 .op.two {
-    width: 7em;
+    width: 7.4em;
 }
 
 .op.four {
@@ -290,7 +290,7 @@ body.expanded .main {
 }
 
 .main .tab-menu {
-
+    margin-top: 1em!important;
 }
 
 .main .tab-menu .item {

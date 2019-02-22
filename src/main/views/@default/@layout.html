@@ -56,7 +56,7 @@
     <!-- 右侧主操作栏 -->
     <div class="main" :class="{'without-menu': teaSubMenus.length == 0}" v-cloak="">
 		<!-- 左侧子菜单 -->
-		<div class="sub-menu">
+		<div class="sub-menu" v-if="teaSubMenus.length > 0">
 			<div class="ui secondary menu vertical borderless blue pointing" v-if="teaSubMenus.length > 0" v-cloak="">
 				<span class="item header" v-if="teaSubHeader.length > 0">{{teaSubHeader}}</span>
 				<a :href="subMenu.url" class="item" :class="{active:subMenu.active}" v-for="subMenu in teaSubMenus">{{subMenu.name}}<span v-if="subMenu.subName != null && subMenu.subName.length > 0">({{subMenu.subName}})</span></a>

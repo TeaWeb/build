@@ -3,5 +3,4 @@ charts.Clock = function () {
 	this.timestamp = new Date().getTime() / 1000;
 };
 
-
 charts.Clock.prototype = new charts.Chart();
