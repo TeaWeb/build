@@ -1,0 +1,93 @@
+{$layout}
+{$template "/code_editor"}
+
+<div class="ui menu text basic blue">
+	<a :href="'/proxy/board?server=' + server.filename" class="item">看板</a>
+	<a :href="'/proxy/board/charts?server=' + server.filename" class="item active">添加图表</a>
+	<a :href="'/proxy/board/make?server=' + server.filename" class="item">制作图表</a>
+</div>
+<div class="ui divider"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="make-form">
+	<input type="hidden" name="serverId" :value="server.id"/>
+	<input type="hidden" name="widgetId" :value="widget.id"/>
+	<input type="hidden" name="chartId" :value="chart.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">名称</td>
+			<td>
+				<input type="text" name="name" v-model="chart.name"/>
+				<p class="comment">起一个容易识别的名称，比如IP统计</p>
+			</td>
+		</tr>
+		<tr>
+			<td>说明</td>
+			<td>
+				<textarea rows="3" name="description" v-model="chart.description"></textarea>
+				<p class="comment">此图表的详细说明</p>
+			</td>
+		</tr>
+		<tr>
+			<td>数据指标</td>
+			<td>
+				<div class="selected-items-box">
+					<div v-for="item in items" v-if="item.isChecked" class="ui label tiny item">{{item.name}} <em>{{item.code}}</em>&nbsp;<span v-if="item.period.length > 0">（{{item.period}}）</span><a href="" @click.prevent="uncheckItem(item)" title="移除此数据"><i class="icon remove"></i></a> </div>
+				</div>
+				<div class="ui grid three column items-box">
+					<div class="column" v-for="item in items">
+						<div class="ui checkbox">
+							<input type="checkbox" name="items" :value="item.code" v-model="item.isChecked" />
+							<label>
+								{{item.name}}&nbsp;<span v-if="item.period.length > 0">（{{item.period}}）</span><br/>
+								<em>{{item.code}}</em>
+							</label>
+						</div>
+					</div>
+				</div>
+
+			</td>
+		</tr>
+		<tr>
+			<td>Javascript代码</td>
+			<td>
+				<textarea name="javascriptCode" id="javascript-code-editor" rows="1"></textarea>
+				<p class="comment">可以使用<span class="ui label tiny">console.log()</span>输出内容到浏览器控制台</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>宽度</td>
+				<td>
+					<select class="ui dropdown" name="columns" v-model="chart.columns" style="width:10em">
+						<option value="1">1列</option>
+						<option value="2">2列</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="chart.on"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+	&nbsp; <a :href="from">返回</a>&nbsp; |
+	&nbsp;
+	<a href="" @click.prevent="test()">测试这个图表 &raquo;</a>
+</form>
+
+<div style="margin-top:1em">
+	{$template "/chart_render"}
+</div>

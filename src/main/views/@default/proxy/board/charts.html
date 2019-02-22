@@ -1,0 +1,53 @@
+{$layout}
+
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<div class="ui menu text basic blue">
+	<a :href="'/proxy/board?server=' + server.filename" class="item">看板</a>
+	<a :href="'/proxy/board/charts?server=' + server.filename" class="item active">添加图表</a>
+	<a :href="'/proxy/board/make?server=' + server.filename" class="item">制作图表</a>
+</div>
+<div class="ui divider"></div>
+
+<p class="comment" v-if="widgets.length == 0">暂时还没有任何可用的图表。</p>
+
+<p class="comment" v-if="usingCharts.length > 0">以下是已添加图表，可以拖动改变位置：</p>
+<div v-show="usingCharts.length > 0" class="using-charts-box ui segment">
+	<span v-for="chart in usingCharts" class="ui label small">{{chart.name}}<em>({{chart.columns}}列)</em> <a href="" title="移除" @click.prevent="cancelChart(chart, server.id, chart.widgetId, chart.id)"><i class="icon remove" ></i></a></span>
+</div>
+<p class="ui message success" v-if="moveSuccess">保存成功</p>
+
+<p class="comment" v-if="usingCharts.length > 0">更多图表：</p>
+<table class="ui table selectable" v-if="widgets.length > 0">
+	<thead>
+		<tr>
+			<th class="three wide">名称</th>
+			<th class="five wide">说明</th>
+			<th>数据指标</th>
+			<th>列数</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tbody v-for="widget in widgets">
+		<tr v-for="chart in widget.charts">
+			<td>{{chart.name}}
+				<br/>
+				<span class="ui label tiny" v-if="!chart.on">未启用</span>
+			</td>
+			<td>
+				<span v-if="chart.description.length > 0">{{chart.description}}</span>
+				<span v-if="chart.description.length == 0" class="disabled">还没有说明</span>
+			</td>
+			<td>
+				<p v-for="requirement in chart.requirements" v-if="chart.requirements.length > 0"><em style="font-style: italic">{{requirement}}</em></p>
+				<span class="disabled" v-if="chart.requirements.length == 0">不使用数据指标</span>
+			</td>
+			<td>{{chart.columns}}列</td>
+			<td>
+				<a :href="'/proxy/board/chart?serverId=' + server.id + '&widgetId=' + widget.id + '&chartId=' + chart.id">详情</a> &nbsp; <a href="" v-if="!chart.isUsing && chart.on" @click.prevent="useChart(chart, server.id, widget.id, chart.id)">添加</a><span class="grey" v-if="chart.isUsing && chart.on">已添加</span><span class="grey" v-if="!chart.on">未启用</span>
+			</td>
+		</tr>
+	</tbody>
+</table>

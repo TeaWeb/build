@@ -1,0 +1,43 @@
+@media screen and (max-width: 512px) {
+    .column:not(.one) {
+        width: 100%!important;
+    }
+}
+
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.using-charts-box .label {
+    margin: 0.3em!important;
+    cursor: pointer;
+}
+
+.using-charts-box .label em {
+    font-style: normal;
+    padding-left: 0.3em;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+table .label.tiny {
+    padding: 3px;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd!important;
+}
+
+.sortable-drag {
+    opacity: 0.1;
+}

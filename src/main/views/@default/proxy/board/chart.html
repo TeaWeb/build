@@ -1,0 +1,61 @@
+{$layout}
+{$template "/code_editor"}
+
+<div class="ui menu text basic blue">
+	<a :href="'/proxy/board?server=' + server.filename" class="item">看板</a>
+	<a :href="'/proxy/board/charts?server=' + server.filename" class="item active">添加图表</a>
+	<a :href="'/proxy/board/make?server=' + server.filename" class="item">制作图表</a>
+</div>
+<div class="ui divider"></div>
+
+<h3>图表详情 <a :href="'/proxy/board/updateChart?serverId=' + server.id + '&widgetId=' + widget.id + '&chartId=' + chart.id + '&from=' + from">修改</a></h3>
+
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">是否启用</td>
+		<td>
+			<span class="ui label tiny green" v-if="chart.on">启用中</span>
+			<span class="ui label tiny" v-if="!chart.on">未启用</span>
+		</td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td>
+			{{chart.name}}
+		</td>
+	</tr>
+	<tr>
+		<td>说明</td>
+		<td>
+			<span v-if="chart.description.length > 0">{{chart.description}}</span>
+			<span v-if="chart.description.length == 0" class="disabled">还没有说明</span>
+		</td>
+	</tr>
+	<tr>
+		<td>数据指标</td>
+		<td>
+			<p v-for="requirement in chart.requirements" v-if="chart.requirements.length > 0"><em style="font-style: italic">{{requirement}}</em></p>
+			<span class="disabled" v-if="chart.requirements.length == 0">不使用数据指标</span>
+		</td>
+	</tr>
+	<tr>
+		<td>Javascript代码</td>
+		<td>
+			<textarea name="javascriptCode" id="javascript-code-editor" rows="1"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>宽度</td>
+		<td>{{chart.columns}}列</td>
+	</tr>
+</table>
+
+<div style="height:1em"></div>
+<h3>图表</h3>
+<div style="margin-top:1em">
+	{$template "/chart_render"}
+</div>
+
+<div style="height:2em"></div>
+<h3>删除</h3>
+<button class="ui button" type="button" @click.prevent="deleteChart()">删除这个图表</button>

@@ -1,0 +1,64 @@
+@media screen and (max-width: 512px) {
+    .column:not(.one) {
+        width: 100%!important;
+    }
+}
+
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.items-box {
+    margin-top: 0.1em!important;
+    max-height: 10em;
+    overflow-y: auto;
+    margin-right: 0.1em!important;
+    margin-bottom: 0.1em!important;
+}
+
+.items-box::-webkit-scrollbar {
+    width: 4px;
+}
+
+.items-box .column {
+    border: 1px #eee solid;
+    margin-bottom: 0.4em;
+    border-left: 0;
+}
+
+.items-box .column div.checkbox label {
+    line-height: 150%!important;
+}
+
+.items-box .column div.checkbox label em {
+    font-style: italic;
+}
+
+.selected-items-box .item.label {
+    margin-top: 0.2em!important;
+    margin-bottom: 0.2em!important;
+}
+
+.selected-items-box .item.label em {
+    font-style: italic;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}

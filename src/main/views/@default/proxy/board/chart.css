@@ -16,3 +16,14 @@
 .divider {
     margin-top: 0!important;
 }
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
