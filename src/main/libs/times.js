@@ -208,9 +208,9 @@ times.Time = function (date) {
 		total = total - w2 + (w - 1);
 		var weeks = 0;
 		if (w2 != 0) {
-			weeks = (total / 7 + 1);
+			weeks = parseInt(total / 7 + 1);
 		} else {
-			weeks = (total / 7);
+			weeks = parseInt(total / 7);
 		}
 		if (weeks.toString().length == 1) {
 			weeks = "0" + weeks;

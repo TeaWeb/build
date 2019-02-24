@@ -146,7 +146,7 @@ logs.Query = function () {
 			}
 		}
 
-		var result = callExecuteQuery(query);
+		var result = callLogExecuteQuery(query);
 		if (query.cache > 0 && result != null) {
 			caches.set(cacheKey, result, query.cache);
 		}

@@ -42,6 +42,16 @@ function ChartRender(charts) {
 		})) {
 			bottomHeight += 20;
 		}
+		var maxValue = 0;
+		chart.lines.$each(function (k, v) {
+			var m = v.values.$max();
+			if (m > maxValue) {
+				maxValue = m;
+			}
+		});
+		if (maxValue == 0) {
+			maxValue = 1;
+		}
         var option = {
             textStyle: {
                 fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
@@ -116,7 +126,7 @@ function ChartRender(charts) {
                 };
             }),
             grid: {
-                left: 40,
+                left: this.charactersWidth([ (Math.ceil(maxValue * 100)).toString() ]) + 10,
                 right: 10,
                 bottom: bottomHeight,
                 top: 16
