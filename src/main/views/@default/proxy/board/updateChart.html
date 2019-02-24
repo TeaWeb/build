@@ -2,9 +2,9 @@
 {$template "/code_editor"}
 
 <div class="ui menu text basic blue">
-	<a :href="'/proxy/board?server=' + server.filename" class="item">看板</a>
-	<a :href="'/proxy/board/charts?server=' + server.filename" class="item active">添加图表</a>
-	<a :href="'/proxy/board/make?server=' + server.filename" class="item">制作图表</a>
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item">看板</a>
+	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item active">可用图表</a>
+	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item">制作图表</a>
 </div>
 <div class="ui divider"></div>
 
@@ -12,6 +12,7 @@
 	<input type="hidden" name="serverId" :value="server.id"/>
 	<input type="hidden" name="widgetId" :value="widget.id"/>
 	<input type="hidden" name="chartId" :value="chart.id"/>
+	<input type="hidden" name="autoGenerate" :value="1"/>
 	<table class="ui table definition selectable">
 		<tr>
 			<td class="title">名称</td>

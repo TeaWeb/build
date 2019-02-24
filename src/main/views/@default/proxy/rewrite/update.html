@@ -3,7 +3,7 @@
 <h3>修改重写规则</h3>
 
 <form  class="ui form" data-tea-action="/proxy/rewrite/update" data-tea-success="updateSuccess" id="rewrite-form">
-    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <input type="hidden" name="rewriteId" :value="rewrite.id"/>
     <table class="ui table definition">

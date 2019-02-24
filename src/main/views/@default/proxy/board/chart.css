@@ -21,6 +21,7 @@
 .CodeMirror {
     border: 1px solid #eee;
     height: auto!important;
+    max-height: 10em;
 }
 
 .CodeMirror-scroll {

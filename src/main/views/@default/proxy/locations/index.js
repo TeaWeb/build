@@ -7,7 +7,7 @@ Tea.context(function () {
         }
         this.$post("/proxy/locations/delete")
             .params({
-                "server": this.server.filename,
+                "serverId": this.server.id,
                 "locationId": locationId
             })
             .refresh();
@@ -16,7 +16,7 @@ Tea.context(function () {
     this.moveUp = function (index) {
         this.$post("/proxy/locations/moveUp")
             .params({
-                "filename": this.filename,
+                "serverId": this.server.id,
                 "index": index
             });
     };
@@ -24,7 +24,7 @@ Tea.context(function () {
     this.moveDown = function (index) {
         this.$post("/proxy/locations/moveDown")
             .params({
-                "filename": this.filename,
+                "serverId": this.server.id,
                 "index": index
             });
     };

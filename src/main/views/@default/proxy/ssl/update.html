@@ -16,7 +16,7 @@
 
     <!-- HTTPS 设置 -->
     <form class="ui form" data-tea-action="/proxy/ssl/update" data-tea-success="submitSuccess">
-        <input type="hidden" name="server" :value="proxy.filename"/>
+        <input type="hidden" name="serverId" :value="server.id"/>
         <table class="ui table definition">
             <tr>
                 <td class="title">是否开启HTTPS</td>
@@ -30,7 +30,7 @@
             <tr>
                 <td>证书文件<em>(Certificate)</em></td>
                 <td>
-                    <span v-if="proxy.ssl != null && proxy.ssl.certificate.length > 0">{{proxy.ssl.certificate}}</span>
+                    <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
 
                     <input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"/>
                 </td>
@@ -38,14 +38,14 @@
             <tr>
                 <td>密钥文件<em>(Key)</em></td>
                 <td>
-                    <span v-if="proxy.ssl != null && proxy.ssl.certificateKey.length > 0">{{proxy.ssl.certificateKey}}</span>
+                    <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
                     <input type="file" name="keyFile" accept="application/pkcs8"/>
                 </td>
             </tr>
             <tr>
                 <td>绑定地址<em>(listen)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(listen, arrayIndex) in proxy.ssl.listen">{{listen}}
+                    <span class="ui label small" v-for="(listen, arrayIndex) in server.ssl.listen">{{listen}}
                         <input type="hidden" name="listen" :value="listen"/>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>

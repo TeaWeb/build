@@ -35,7 +35,7 @@
                 <div class="code nginx">server {
     # nginx address
     listen 80;
-    server_name {{proxy.name.join(' ')}};
+    server_name {{server.name.join(' ')}};
 
     # max request body size
     #client_max_body_size 128M;
@@ -47,7 +47,7 @@
         proxy_set_header X-Forwarded-For $remote_addr;
 
         # teaweb bind address
-        proxy_pass http://<span v-if="proxy.listen.length > 0">{{proxy.listen[0]}}</span><span v-if="proxy.listen.length == 0" class="disabled">[请先绑定网络地址]</span>;
+        proxy_pass http://<span v-if="server.listen.length > 0">{{server.listen[0]}}</span><span v-if="server.listen.length == 0" class="disabled">[请先绑定网络地址]</span>;
     }
 }</div>
             </td>

@@ -1,6 +1,6 @@
 Tea.context(function () {
 	this.submitSuccess = function () {
-		window.location = "/proxy/locations/access?server=" + this.server.filename + "&locationId=" + this.location.id;
+		window.location = "/proxy/locations/access?serverId=" + this.server.id + "&locationId=" + this.location.id;
 	};
 
 	// format policy

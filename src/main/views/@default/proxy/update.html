@@ -8,12 +8,12 @@
     {$template "menu"}
 
     <form class="ui form" data-tea-action="/proxy/update" data-tea-success="submitSuccess">
-        <input type="hidden" name="server" :value="proxy.filename"/>
+        <input type="hidden" name="serverId" :value="server.id"/>
         <table class="ui table selectable definition">
             <tr>
                 <td class="title">代理服务名称</td>
                 <td>
-                    <input type="text" name="description" v-model="proxy.description" maxlength="100"/>
+                    <input type="text" name="description" v-model="server.description" maxlength="100"/>
                     <p class="comment">给此服务起一个易懂的名称</p>
                 </td>
             </tr>
@@ -21,7 +21,7 @@
                 <td class="title">是否开启HTTP</td>
                 <td>
                     <div class="ui checkbox">
-                        <input type="checkbox" name="httpOn" value="1" v-model="proxy.http"/>
+                        <input type="checkbox" name="httpOn" value="1" v-model="server.http"/>
                         <label></label>
                     </div>
                 </td>
@@ -29,7 +29,7 @@
             <tr>
                 <td>域名<em>(name)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(name, arrayIndex) in proxy.name">{{name}}
+                    <span class="ui label small" v-for="(name, arrayIndex) in server.name">{{name}}
                         <input type="hidden" name="name" :value="name"/>
                         <a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>
@@ -51,7 +51,7 @@
             <tr>
                 <td>绑定地址<em>(listen)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(listen, arrayIndex) in proxy.listen">{{listen}}
+                    <span class="ui label small" v-for="(listen, arrayIndex) in server.listen">{{listen}}
                         <input type="hidden" name="listen" :value="listen"/>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>
@@ -76,7 +76,7 @@
             <tr>
                 <td>文档根目录<em>(root)</em></td>
                 <td>
-                    <auto-complete-path-box name="root" placeholder="类似于 /home/www" :value="proxy.root" maxlength="100"></auto-complete-path-box>
+                    <auto-complete-path-box name="root" placeholder="类似于 /home/www" :value="server.root" maxlength="100"></auto-complete-path-box>
                     <p class="comment">可以访问此根目录下的静态资源</p>
                 </td>
             </tr>
@@ -93,7 +93,7 @@
 				<tr>
 					<td>字符编码<em>(charset)</em></td>
 					<td>
-						<select name="charset" class="ui dropdown" v-model="proxy.charset">
+						<select name="charset" class="ui dropdown" v-model="server.charset">
 							<option value="">未选择</option>
 							<optgroup label="常用"></optgroup>
 							<option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
@@ -107,7 +107,7 @@
 				<tr>
 					<td>首页文件<em>(index)</em></td>
 					<td>
-						<span class="ui label small" v-for="(index, arrayIndex) in proxy.index">{{index}}
+						<span class="ui label small" v-for="(index, arrayIndex) in server.index">{{index}}
 							<input type="hidden" name="index" :value="index"/>
 							<a href="" @click.prevent="removeIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
 						</span>
@@ -131,7 +131,7 @@
 					<td>
 						<div class="ui fields inline">
 							<div class="ui field">
-								<input type="text" name="maxBodySize" v-model="proxy.maxBodySize" size="8" maxlength="10"/>
+								<input type="text" name="maxBodySize" v-model="server.maxBodySize" size="8" maxlength="10"/>
 							</div>
 							<div class="ui field">
 								<select class="ui dropdown" name="maxBodyUnit" v-model="maxBodyUnit">
@@ -154,7 +154,7 @@
 				<tr>
 					<td>Gzip压缩级别</td>
 					<td>
-						<select name="gzipLevel" v-model="proxy.gzipLevel" class="ui dropdown" style="width:10em">
+						<select name="gzipLevel" v-model="server.gzipLevel" class="ui dropdown" style="width:10em">
 							<option value="0">不压缩</option>
 							<option v-for="level in gzipLevels" :value="level">{{level}}</option>
 						</select>
@@ -166,7 +166,7 @@
 					<td>
 						<div class="ui fields inline">
 							<div class="ui field">
-								<input type="text" name="gzipMinLength" size="8" v-model="proxy.gzipMinLength"/>
+								<input type="text" name="gzipMinLength" size="8" v-model="server.gzipMinLength"/>
 							</div>
 							<div class="ui field">
 								<select class="ui dropdown" name="gzipMinUnit" v-model="gzipMinUnit">

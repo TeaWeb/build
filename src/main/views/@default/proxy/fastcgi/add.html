@@ -3,7 +3,7 @@
 <h3>添加Fastcgi服务</h3>
 
 <form  class="ui form" data-tea-action="/proxy/fastcgi/add" data-tea-success="addSuccess">
-    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <table class="ui table definition">
         <tr>

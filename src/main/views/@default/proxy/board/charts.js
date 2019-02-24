@@ -17,7 +17,10 @@ Tea.context(function () {
 					"name": chart.name,
 					"widgetId": widgetId,
 					"on": chart.on,
-					"columns": chart.columns
+					"columns": chart.columns,
+					"widget": {
+						"id": widgetId
+					}
 				});
 
 				chart.isUsing = true;

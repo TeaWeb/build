@@ -5,9 +5,9 @@
 {$end}
 
 <div class="ui menu text basic blue">
-	<a :href="'/proxy/board?server=' + server.filename" class="item">看板</a>
-	<a :href="'/proxy/board/charts?server=' + server.filename" class="item active">添加图表</a>
-	<a :href="'/proxy/board/make?server=' + server.filename" class="item">制作图表</a>
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item">看板</a>
+	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item active">可用图表</a>
+	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item">制作图表</a>
 </div>
 <div class="ui divider"></div>
 
@@ -15,11 +15,11 @@
 
 <p class="comment" v-if="usingCharts.length > 0">以下是已添加图表，可以拖动改变位置：</p>
 <div v-show="usingCharts.length > 0" class="using-charts-box ui segment">
-	<span v-for="chart in usingCharts" class="ui label small">{{chart.name}}<em>({{chart.columns}}列)</em> <a href="" title="移除" @click.prevent="cancelChart(chart, server.id, chart.widgetId, chart.id)"><i class="icon remove" ></i></a></span>
+	<span v-for="chart in usingCharts" class="ui label small">{{chart.name}}<em>({{chart.columns}}列)</em> <a href="" title="移除" @click.prevent="cancelChart(chart, server.id, chart.widget.id, chart.id)"><i class="icon remove" ></i></a></span>
 </div>
 <p class="ui message success" v-if="moveSuccess">保存成功</p>
 
-<p class="comment" v-if="usingCharts.length > 0">更多图表：</p>
+<p class="comment" v-if="usingCharts.length > 0">更多可以添加到看板的图表：</p>
 <table class="ui table selectable" v-if="widgets.length > 0">
 	<thead>
 		<tr>
@@ -34,6 +34,7 @@
 		<tr v-for="chart in widget.charts">
 			<td>{{chart.name}}
 				<br/>
+				<span class="ui label tiny" v-if="chart.widget.author.length > 0">{{chart.widget.author}}</span>
 				<span class="ui label tiny" v-if="!chart.on">未启用</span>
 			</td>
 			<td>
@@ -46,7 +47,7 @@
 			</td>
 			<td>{{chart.columns}}列</td>
 			<td>
-				<a :href="'/proxy/board/chart?serverId=' + server.id + '&widgetId=' + widget.id + '&chartId=' + chart.id">详情</a> &nbsp; <a href="" v-if="!chart.isUsing && chart.on" @click.prevent="useChart(chart, server.id, widget.id, chart.id)">添加</a><span class="grey" v-if="chart.isUsing && chart.on">已添加</span><span class="grey" v-if="!chart.on">未启用</span>
+				<a :href="'/proxy/board/chart?serverId=' + server.id + '&widgetId=' + widget.id + '&chartId=' + chart.id+'&boardType=' + boardType">详情</a> &nbsp; <a href="" v-if="!chart.isUsing && chart.on" @click.prevent="useChart(chart, server.id, widget.id, chart.id)">添加</a><span class="grey" v-if="chart.isUsing && chart.on">已添加</span><span class="grey" v-if="!chart.on">未启用</span>
 			</td>
 		</tr>
 	</tbody>

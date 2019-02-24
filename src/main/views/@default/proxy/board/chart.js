@@ -95,7 +95,7 @@ Tea.context(function () {
 			})
 			.success(function () {
 				alert("删除成功");
-				window.location = "/proxy/board/charts?server=" + this.server.filename;
+				window.location = "/proxy/board/charts?serverId=" + this.server.id + "&boardType=" + this.boardType;
 			});
 	};
 });

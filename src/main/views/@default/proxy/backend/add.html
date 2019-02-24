@@ -3,7 +3,7 @@
 {$template "/proxy/menu"}
 
 <form class="ui form" data-tea-action="/proxy/backend/add" data-tea-success="submitSuccess">
-    <input type="hidden" name="server" :value="proxy.filename"/>
+    <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <input type="hidden" name="websocket" :value="websocket"/>
     <p class="ui comment" style="padding-top:0">下面表单中标星号（*）的为必填项。</p>

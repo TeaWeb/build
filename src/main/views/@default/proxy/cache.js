@@ -21,7 +21,7 @@ Tea.context(function () {
     this.saveCacheEditing = function () {
         this.$post(".updateCache")
             .params({
-                "server": this.server.filename,
+                "serverId": this.server.id,
                 "policy": this.selectedCachePolicy
             })
             .success(function (resp) {

@@ -13,14 +13,17 @@ Tea.context(function () {
     this.loadWidgets = function () {
         this.$post("/proxy/board")
             .params({
-                "server": this.server.filename
+                "serverId": this.server.id,
+				"type": this.boardType
             })
             .timeout(10)
 			.success(function (resp) {
 				// output
-				resp.data.output.$each(function (k, v) {
-					console.log("[widget]" + v);
-				});
+				if (resp.data.output != null) {
+					resp.data.output.$each(function (k, v) {
+						console.log("[widget]" + v);
+					});
+				}
 
 				// charts
 				this.charts = resp.data.charts;

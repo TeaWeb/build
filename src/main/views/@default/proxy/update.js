@@ -1,7 +1,7 @@
 Tea.context(function () {
 	this.submitSuccess = function () {
 		alert("保存成功");
-		window.location = "/proxy/detail?server=" + this.proxy.filename;
+		window.location = "/proxy/detail?serverId=" + this.server.id;
 	};
 
 	/**
@@ -24,7 +24,7 @@ Tea.context(function () {
 			this.$find("form input[name='addingNameName']").focus();
 			return;
 		}
-		this.proxy.name.push(this.addingNameName);
+		this.server.name.push(this.addingNameName);
 		this.cancelNameAdding();
 	};
 
@@ -34,7 +34,7 @@ Tea.context(function () {
 	};
 
 	this.removeName = function (index) {
-		this.proxy.name.$remove(index);
+		this.server.name.$remove(index);
 	};
 
 	/**
@@ -66,7 +66,7 @@ Tea.context(function () {
 			this.$find("form input[name='addingListenName']").focus();
 			return;
 		}
-		this.proxy.listen.push(this.addingListenName);
+		this.server.listen.push(this.addingListenName);
 		this.cancelListenAdding();
 	};
 
@@ -76,7 +76,7 @@ Tea.context(function () {
 	};
 
 	this.removeListen = function (index) {
-		this.proxy.listen.$remove(index);
+		this.server.listen.$remove(index);
 	};
 
 	/**
@@ -99,7 +99,7 @@ Tea.context(function () {
 			this.$find("form input[name='addingIndexName']").focus();
 			return;
 		}
-		this.proxy.index.push(this.addingIndexName);
+		this.server.index.push(this.addingIndexName);
 		this.cancelIndexAdding();
 	};
 
@@ -109,7 +109,7 @@ Tea.context(function () {
 	};
 
 	this.removeIndex = function (index) {
-		this.proxy.index.$remove(index);
+		this.server.index.$remove(index);
 	};
 
 	/**
@@ -126,15 +126,15 @@ Tea.context(function () {
 		"name": "G"
 	}];
 	this.maxBodyUnit = "m";
-	if (this.proxy.maxBodySize.length > 0) {
-		this.maxBodyUnit = this.proxy.maxBodySize[this.proxy.maxBodySize.length - 1];
-		this.proxy.maxBodySize = this.proxy.maxBodySize.substring(0, this.proxy.maxBodySize.length - 1);
+	if (this.server.maxBodySize.length > 0) {
+		this.maxBodyUnit = this.server.maxBodySize[this.server.maxBodySize.length - 1];
+		this.server.maxBodySize = this.server.maxBodySize.substring(0, this.server.maxBodySize.length - 1);
 	}
 
 	/**
 	 * 访问日志
 	 */
-	this.enableAccessLog = !this.proxy.disableAccessLog;
+	this.enableAccessLog = !this.server.disableAccessLog;
 
 	/**
 	 * 压缩级别
@@ -153,8 +153,8 @@ Tea.context(function () {
 			"name": "M"
 		}];
 	this.gzipMinUnit = "k";
-	if (this.proxy.gzipMinLength.length > 0) {
-		this.gzipMinUnit = this.proxy.gzipMinLength[this.proxy.gzipMinLength.length - 1];
-		this.proxy.gzipMinLength = this.proxy.gzipMinLength.substring(0, this.proxy.gzipMinLength.length - 1);
+	if (this.server.gzipMinLength.length > 0) {
+		this.gzipMinUnit = this.server.gzipMinLength[this.server.gzipMinLength.length - 1];
+		this.server.gzipMinLength = this.server.gzipMinLength.substring(0, this.server.gzipMinLength.length - 1);
 	}
 });

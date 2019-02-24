@@ -5,7 +5,7 @@ Tea.context(function () {
         }
         this.$post("/proxy/delete")
             .params({
-                "server": this.server.filename
+                "serverId": this.server.id
             })
             .success(function () {
                 alert("删除成功");

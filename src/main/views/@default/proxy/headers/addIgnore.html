@@ -4,7 +4,7 @@
 <p class="comment" style="padding-top: 0">屏蔽的Header在对客户端响应时不会出现。</p>
 
 <form  class="ui form" data-tea-action="/proxy/headers/addIgnore" data-tea-success="addSuccess">
-    <input type="hidden" name="server" :value="server.filename"/>
+    <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <input type="hidden" name="rewriteId" :value="rewriteId"/>
     <input type="hidden" name="backendId" :value="backendId"/>

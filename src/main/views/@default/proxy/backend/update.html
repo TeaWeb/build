@@ -3,7 +3,7 @@
 {$template "/proxy/menu"}
 
 <form class="ui form" data-tea-action="/proxy/backend/update" data-tea-success="updateSuccess">
-    <input type="hidden" name="server" :value="proxy.filename"/>
+    <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <input type="hidden" name="websocket" :value="websocket"/>
     <input type="hidden" name="backendId" :value="backend.id"/>

@@ -33,10 +33,14 @@
     border: 1px #eee solid;
     margin-bottom: 0.4em;
     border-left: 0;
+    padding-top: 0.4em!important;
+    padding-bottom: 0.4em!important;
 }
 
 .items-box .column div.checkbox label {
     line-height: 150%!important;
+    font-size: 0.9em;
+    cursor: pointer;
 }
 
 .items-box .column div.checkbox label em {

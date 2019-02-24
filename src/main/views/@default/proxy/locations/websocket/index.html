@@ -16,7 +16,7 @@
 
     {$template "../menu"}
 
-    <h3>Websocket信息 <a :href="'/proxy/locations/websocket/update?server=' + server.filename + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
+    <h3>Websocket信息 <a :href="'/proxy/locations/websocket/update?serverId=' + server.id + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
     <p v-if="websocket == null" class="comment" style="padding-top:0">暂时还没有设置Websocket。</p>
     <table class="ui table definition" v-if="websocket != null">
         <tr>

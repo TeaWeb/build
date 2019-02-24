@@ -67,7 +67,7 @@ Tea.context(function () {
 		var lastSize = 0;
 		this.$get(".get")
 			.params({
-				"server": this.server.filename,
+				"serverId": this.server.id,
 				"fromId": this.fromId,
 				"size": loadSize,
 				"bodyFetching": this.bodyFetching ? 1 : 0

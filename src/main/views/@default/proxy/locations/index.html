@@ -15,9 +15,9 @@
     {$template "/proxy/menu"}
 
     <div class="ui text menu blue small">
-        <a :href="'/proxy/locations?server=' + proxy.filename" class="ui item active">所有路径规则</a>
+        <a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则</a>
         <span class="item">|</span>
-        <a :href="'/proxy/locations/add?server=' + proxy.filename"  class="u item">添加新路径规则</a>
+        <a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item">添加新路径规则</a>
     </div>
 
     <p class="comment" v-if="locations.length == 0">暂时还没有路径规则配置。</p>
@@ -52,7 +52,7 @@
                     </p>
                 </td>
                 <td>
-                    <a :href="$url('/proxy/locations/detail', { 'server':filename,'locationId':location.id })">详情</a> &nbsp;
+                    <a :href="$url('/proxy/locations/detail', { 'serverId':server.id,'locationId':location.id })">详情</a> &nbsp;
                     <a href="" v-on:click.prevent="deleteLocation(location.id)">删除</a> &nbsp;
                 </td>
                 <td v-if="locations.length > 1">

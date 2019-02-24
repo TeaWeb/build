@@ -5,7 +5,7 @@
 <p>在这里可以设置TeaWeb到后端服务器的调度算法。</p>
 
 <form class="ui form" data-tea-action="/proxy/backend/scheduling" data-tea-success="saveSuccess">
-    <input type="hidden" name="server" :value="proxy.filename"/>
+    <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <input type="hidden" name="websocket" :value="websocket"/>
     <table class="ui table definition">

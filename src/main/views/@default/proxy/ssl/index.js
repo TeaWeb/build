@@ -2,7 +2,7 @@ Tea.context(function () {
     /**
      * SSL管理
      */
-    this.showSSLOptions = (this.proxy.ssl != null) ? this.proxy.ssl.on : false;
+    this.showSSLOptions = (this.server.ssl != null) ? this.server.ssl.on : false;
     this.sslCertFile = null;
     this.sslCertEditing = false;
 
@@ -10,27 +10,27 @@ Tea.context(function () {
     this.sslKeyEditing = false;
 
     this.switchSSLOn = function () {
-        var message = (this.proxy.ssl != null && this.proxy.ssl.on) ? "确定要关闭HTTPS吗？" : "确定要开启HTTPS吗？";
+        var message = (this.server.ssl != null && this.server.ssl.on) ? "确定要关闭HTTPS吗？" : "确定要开启HTTPS吗？";
         if (!window.confirm(message)) {
             return;
         }
 
         this.showSSLOptions = !this.showSSLOptions;
-        if (this.proxy.ssl == null) {
-            this.proxy.ssl = { "on": this.showSSLOptions };
+        if (this.server.ssl == null) {
+            this.server.ssl = { "on": this.showSSLOptions };
         } else {
-            this.proxy.ssl.on = !this.proxy.ssl.on;
+            this.server.ssl.on = !this.server.ssl.on;
         }
 
-        if (this.proxy.ssl.on) {
+        if (this.server.ssl.on) {
             this.$post("/proxy/ssl/on")
                 .params({
-                    "filename": this.filename
+                    "serverId": this.server.id
                 });
         } else {
             this.$post("/proxy/ssl/off")
                 .params({
-                    "filename": this.filename
+                    "serverId": this.server.id
                 });
         }
     };
@@ -49,7 +49,7 @@ Tea.context(function () {
 
         this.$post("/proxy/ssl/uploadCert")
             .params({
-                "filename": this.filename,
+                "serverId": this.server.id,
                 "certFile": this.sslCertFile
             });
     };
@@ -68,7 +68,7 @@ Tea.context(function () {
 
         this.$post("/proxy/ssl/uploadKey")
             .params({
-                "filename": this.filename,
+                "serverId": this.server.id,
                 "keyFile": this.sslKeyFile
             });
     };

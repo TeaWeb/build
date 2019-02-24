@@ -15,36 +15,36 @@
     {$template "/proxy/menu"}
 
     <!-- HTTPS 设置 -->
-    <h3>HTTPS <a :href="'/proxy/ssl/update?server=' + proxy.filename">修改</a></h3>
+    <h3>HTTPS <a :href="'/proxy/ssl/update?serverId=' + server.id">修改</a></h3>
 
     <table class="ui table selectable definition">
         <tr>
             <td class="title">是否开启HTTPS</td>
             <td>
-                <span class="ui label tiny green" v-if="proxy.ssl != null && proxy.ssl.on">已开启</span>
-                <span class="ui label tiny" v-if="proxy.ssl == null || !proxy.ssl.on">未开启</span>
+                <span class="ui label tiny green" v-if="server.ssl != null && server.ssl.on">已开启</span>
+                <span class="ui label tiny" v-if="server.ssl == null || !server.ssl.on">未开启</span>
             </td>
         </tr>
         <tr>
             <td>证书文件<em>(Certificate)</em></td>
             <td>
-                <span v-if="proxy.ssl != null && proxy.ssl.certificate.length > 0">{{proxy.ssl.certificate}}</span>
-                <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.certificate.length == 0">[还没有上传密钥文件]</a>
+                <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
+                <a class="disabled" v-if="server.ssl == null || server.ssl.certificate.length == 0">[还没有上传密钥文件]</a>
             </td>
         </tr>
         <tr>
             <td>密钥文件<em>(Key)</em></td>
             <td>
-                <span v-if="proxy.ssl != null && proxy.ssl.certificateKey.length > 0">{{proxy.ssl.certificateKey}}</span>
-                <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
+                <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
+                <a class="disabled" v-if="server.ssl == null || server.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
             </td>
         </tr>
         <tr>
             <td>绑定地址<em>(listen)</em></td>
             <td colspan="2">
-                <a class="disabled" v-if="proxy.ssl == null || proxy.ssl.listen == null || proxy.ssl.listen.length == 0">[还没有绑定网络地址]</a>
-                <div v-if="proxy.ssl != null && proxy.ssl.listen != null">
-                    <span class="ui label small" v-for="listen in proxy.ssl.listen">{{listen}}</span>
+                <a class="disabled" v-if="server.ssl == null || server.ssl.listen == null || server.ssl.listen.length == 0">[还没有绑定网络地址]</a>
+                <div v-if="server.ssl != null && server.ssl.listen != null">
+                    <span class="ui label small" v-for="listen in server.ssl.listen">{{listen}}</span>
                 </div>
             </td>
         </tr>

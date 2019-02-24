@@ -1,24 +1,24 @@
 Tea.context(function () {
-    this.httpsOn = (this.proxy.ssl != null && this.proxy.ssl.on);
+    this.httpsOn = (this.server.ssl != null && this.server.ssl.on);
 
-    if (this.proxy.ssl == null) {
-       this.proxy.ssl = {
+    if (this.server.ssl == null) {
+       this.server.ssl = {
            "certificate": "",
            "certificateKey": "",
            "listen": []
        };
     }
-    if (this.proxy.ssl.listen == null) {
-        this.proxy.ssl.listen = [];
+    if (this.server.ssl.listen == null) {
+        this.server.ssl.listen = [];
     }
-    if (this.proxy.ssl.listen.length == 0) {
-        this.proxy.ssl.listen = [ "0.0.0.0:443" ];
+    if (this.server.ssl.listen.length == 0) {
+        this.server.ssl.listen = [ "0.0.0.0:443" ];
     }
 
     this.submitSuccess = function () {
         alert("修改成功");
 
-        window.location = "/proxy/ssl?server=" + this.proxy.filename;
+        window.location = "/proxy/ssl?serverId=" + this.server.id;
     };
 
     /**
@@ -41,7 +41,7 @@ Tea.context(function () {
             this.$find("form input[name='addingListenName']").focus();
             return;
         }
-        this.proxy.ssl.listen.push(this.addingListenName);
+        this.server.ssl.listen.push(this.addingListenName);
         this.cancelListenAdding();
     };
 
@@ -51,6 +51,6 @@ Tea.context(function () {
     };
 
     this.removeListen = function (index) {
-        this.proxy.ssl.listen.$remove(index);
+        this.server.ssl.listen.$remove(index);
     };
 });

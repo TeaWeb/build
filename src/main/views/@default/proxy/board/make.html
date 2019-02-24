@@ -2,15 +2,15 @@
 {$template "/code_editor"}
 
 <div class="ui menu text basic blue">
-	<a :href="'/proxy/board?server=' + server.filename" class="item">看板</a>
-	<a :href="'/proxy/board/charts?server=' + server.filename" class="item">添加图表</a>
-	<a :href="'/proxy/board/make?server=' + server.filename" class="item active">制作图表</a>
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item">看板</a>
+	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item">可用图表</a>
+	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item active">制作图表</a>
 </div>
 <div class="ui divider"></div>
 
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="make-form">
-	<input type="hidden" name="server" :value="server.filename"/>
 	<input type="hidden" name="serverId" :value="server.id"/>
+	<input type="hidden" name="autoGenerate" :value="1"/>
 	<table class="ui table definition selectable">
 		<tr>
 			<td class="title">名称</td>
@@ -33,10 +33,10 @@
 					<div v-for="item in items" v-if="item.isChecked" class="ui label tiny item">{{item.name}} <em>{{item.code}}</em>&nbsp;<span v-if="item.period.length > 0">（{{item.period}}）</span><a href="" @click.prevent="uncheckItem(item)" title="移除此数据"><i class="icon remove"></i></a> </div>
 				</div>
 				<div class="ui grid three column items-box">
-					<div class="column" v-for="item in items">
+					<div class="column" v-for="(item, index) in items">
 						<div class="ui checkbox">
-							<input type="checkbox" name="items" :value="item.code" v-model="item.isChecked" />
-							<label>
+							<input type="checkbox" name="items" :id="'item-' + item.code" :value="item.code" v-model="item.isChecked" />
+							<label :for="'item-' + item.code">
 								{{item.name}}&nbsp;<span v-if="item.period.length > 0">（{{item.period}}）</span><br/>
 								<em>{{item.code}}</em>
 							</label>

@@ -12,9 +12,9 @@
 <!--  检测配置是否有更新 end -->
 
 <div class="ui menu text basic blue">
-	<a :href="'/proxy/board?server=' + server.filename" class="item active">看板</a>
-	<a :href="'/proxy/board/charts?server=' + server.filename" class="item">添加图表</a>
-	<a :href="'/proxy/board/make?server=' + server.filename" class="item">制作图表</a>
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item active">看板</a>
+	<a :href="'/proxy/board/charts?serverId=' + server.id+ '&boardType=' + boardType" class="item">可用图表</a>
+	<a :href="'/proxy/board/make?serverId=' + server.id+ '&boardType=' + boardType" class="item">制作图表</a>
 </div>
 <div class="ui divider"></div>
 

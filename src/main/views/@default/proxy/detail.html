@@ -15,36 +15,36 @@
 <div>
     {$template "menu"}
 
-    <h3>基本信息<a :href="'/proxy/update?server=' + proxy.filename">修改</a></h3>
+    <h3>基本信息<a :href="'/proxy/update?serverId=' + server.id">修改</a></h3>
 
     <table class="ui table selectable definition">
         <tr>
             <td class="title">代理服务名称</td>
-            <td>{{proxy.description}}</td>
+            <td>{{server.description}}</td>
         </tr>
         <tr>
             <td class="title">是否开启HTTP</td>
             <td>
-                <span class="ui label tiny green" v-if="proxy.http">已开启</span>
-                <span class="ui label tiny" v-if="!proxy.http">未开启</span>
+                <span class="ui label tiny green" v-if="server.http">已开启</span>
+                <span class="ui label tiny" v-if="!server.http">未开启</span>
             </td>
         </tr>
 		<tr>
 			<td>ID</td>
-			<td>{{proxy.id}}</td>
+			<td>{{server.id}}</td>
 		</tr>
         <tr>
             <td>域名<em>(name)</em></td>
             <td colspan="2">
-                <a class="disabled" v-if="proxy.name.length == 0">[还没有绑定域名]</a>
-                <span class="ui label small" v-for="name in proxy.name">{{name}}</span>
+                <a class="disabled" v-if="server.name.length == 0">[还没有绑定域名]</a>
+                <span class="ui label small" v-for="name in server.name">{{name}}</span>
             </td>
         </tr>
         <tr>
             <td>绑定地址<em>(listen)</em></td>
             <td colspan="2">
-                <a class="disabled" v-if="proxy.listen.length == 0">[还没有绑定网络地址]</a>
-                <span class="ui label small" v-for="listen in proxy.listen">{{listen}}</span>
+                <a class="disabled" v-if="server.listen.length == 0">[还没有绑定网络地址]</a>
+                <span class="ui label small" v-for="listen in server.listen">{{listen}}</span>
             </td>
         </tr>
 
@@ -52,8 +52,8 @@
         <tr>
             <td>文档根目录<em>(root)</em></td>
             <td>
-                <span style="word-break: break-all;" v-if="proxy.root.length > 0">{{proxy.root}}</span>
-                <a class="disabled" v-if="proxy.root.length == 0">还没有设置。</a>
+                <span style="word-break: break-all;" v-if="server.root.length > 0">{{server.root}}</span>
+                <a class="disabled" v-if="server.root.length == 0">还没有设置。</a>
             </td>
         </tr>
 
@@ -61,8 +61,8 @@
         <tr>
             <td>字符编码<em>(charset)</em></td>
             <td>
-                <span v-if="proxy.charset.length > 0">{{proxy.charset}}</span>
-                <a class="disabled" v-if="proxy.charset.length == 0">还没有设置。</a>
+                <span v-if="server.charset.length > 0">{{server.charset}}</span>
+                <a class="disabled" v-if="server.charset.length == 0">还没有设置。</a>
             </td>
         </tr>
 
@@ -70,38 +70,38 @@
         <tr>
             <td>首页文件<em>(index)</em></td>
             <td>
-                <a class="disabled" v-if="proxy.index.length == 0">还没有设置。</a>
-                <span class="ui label small" v-for="index in proxy.index">{{index}}</span>
+                <a class="disabled" v-if="server.index.length == 0">还没有设置。</a>
+                <span class="ui label small" v-for="index in server.index">{{index}}</span>
             </td>
         </tr>
 
 		<tr>
 			<td>请求Body最大尺寸</td>
 			<td>
-				<span v-if="proxy.maxBodySize.length == 0" class="disabled">还没有设置</span>
-				<span v-if="proxy.maxBodySize.length > 0">{{proxy.maxBodySize}}</span>
-				<p class="ui comment" v-if="proxy.maxBodySize.length > 0">0及以下表示不限制</p>
+				<span v-if="server.maxBodySize.length == 0" class="disabled">还没有设置</span>
+				<span v-if="server.maxBodySize.length > 0">{{server.maxBodySize}}</span>
+				<p class="ui comment" v-if="server.maxBodySize.length > 0">0及以下表示不限制</p>
 			</td>
 		</tr>
 		<tr>
 			<td>访问日志</td>
 			<td>
-				<span class="ui label green tiny" v-if="!proxy.disableAccessLog">已开启</span>
-				<span class="ui label tiny" v-if="proxy.disableAccessLog">未开启</span>
+				<span class="ui label green tiny" v-if="!server.disableAccessLog">已开启</span>
+				<span class="ui label tiny" v-if="server.disableAccessLog">未开启</span>
 			</td>
 		</tr>
 		<tr>
 			<td>Gzip压缩级别</td>
 			<td>
-				<span v-if="proxy.gzipLevel == 0">不压缩</span>
-				<span v-if="proxy.gzipLevel > 0">{{proxy.gzipLevel}}</span>
+				<span v-if="server.gzipLevel == 0">不压缩</span>
+				<span v-if="server.gzipLevel > 0">{{server.gzipLevel}}</span>
 			</td>
 		</tr>
 		<tr>
 			<td>Gzip内容最小长度</td>
 			<td>
-				<span v-if="proxy.gzipMinLength == 0" class="disabled">-</span>
-				<span v-if="proxy.gzipMinLength.length > 0">{{proxy.gzipMinLength}}</span>
+				<span v-if="server.gzipMinLength == 0" class="disabled">-</span>
+				<span v-if="server.gzipMinLength.length > 0">{{server.gzipMinLength}}</span>
 			</td>
 		</tr>
     </table>

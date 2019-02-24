@@ -7,7 +7,7 @@ Tea.context(function () {
 
 	this.submitSuccess = function () {
 		alert("保存成功");
-		window.location = "/proxy/board/charts?server=" + this.server.filename;
+		window.location = "/proxy/board/charts?serverId=" + this.server.id + "&boardType=" + this.boardType;
 	};
 
 	/**

@@ -17,7 +17,7 @@
     {$template "menu"}
 
 	<!-- 基本信息 -->
-	<h3>基本信息 <a :href="'/proxy/locations/update?server=' + proxy.filename + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
+	<h3>基本信息 <a :href="'/proxy/locations/update?serverId=' + server.id + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
 	<table class="ui table selectable definition ">
 		<tr>
 			<td>是否启用</td>
@@ -87,7 +87,7 @@
 		</tr>
 	</table>
 
-	<h3>特殊匹配设置 <a :href="'/proxy/locations/update?server=' + proxy.filename + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>
+	<h3>特殊匹配设置 <a :href="'/proxy/locations/update?serverId=' + server.id + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>
 	<table class="ui table selectable definition">
 		<tr>
 			<td class="title">反向匹配</td>

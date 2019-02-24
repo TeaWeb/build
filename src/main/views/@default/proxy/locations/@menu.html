@@ -3,21 +3,21 @@
 {$end}
 
 <div class="ui text menu blue small">
-    <a class="item" :href="'/proxy/locations?server=' + proxy.filename">所有</a>
+    <a class="item" :href="'/proxy/locations?serverId=' + server.id">所有</a>
     <span class="item">|</span>
-    <a class="item location-pattern" :href="'/proxy/locations/detail?server=' + proxy.filename + '&locationId=' + location.id">当前路径：{{location.pattern}}</a>
+    <a class="item location-pattern" :href="'/proxy/locations/detail?serverId=' + server.id + '&locationId=' + location.id">当前路径：{{location.pattern}}</a>
     <span class="item">&raquo;</span>
-    <a :href="'/proxy/locations/detail?server=' + proxy.filename + '&locationId=' + location.id" class="ui item" :class="{active:selectedSubTab == 'detail'}">基本信息</a>
+    <a :href="'/proxy/locations/detail?serverId=' + server.id + '&locationId=' + location.id" class="ui item" :class="{active:selectedSubTab == 'detail'}">基本信息</a>
     <span class="item">|</span>
-    <a :href="'/proxy/locations/headers?server=' + proxy.filename + '&locationId=' + location.id" class="ui item" :class="{active:selectedSubTab == 'headers'}">自定义Header<span v-if="location.headers.length > 0">({{location.headers.length}})</span></a>
+    <a :href="'/proxy/locations/headers?serverId=' + server.id + '&locationId=' + location.id" class="ui item" :class="{active:selectedSubTab == 'headers'}">自定义Header<span v-if="location.headers.length > 0">({{location.headers.length}})</span></a>
     <span class="item">|</span>
-    <a :href="'/proxy/locations/rewrite?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'rewrite'}">重写规则<span v-if="location.rewrite.length > 0">({{location.rewrite.length}})</span></a>
+    <a :href="'/proxy/locations/rewrite?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'rewrite'}">重写规则<span v-if="location.rewrite.length > 0">({{location.rewrite.length}})</span></a>
     <span class="item">|</span>
-    <a :href="'/proxy/locations/fastcgi?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'fastcgi'}">Fastcgi<span v-if="location.fastcgi.length > 0">({{location.fastcgi.length}})</span></a>
+    <a :href="'/proxy/locations/fastcgi?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'fastcgi'}">Fastcgi<span v-if="location.fastcgi.length > 0">({{location.fastcgi.length}})</span></a>
     <span class="item">|</span>
-    <a :href="'/proxy/locations/websocket?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'websocket'}">Websocket<span v-if="location.websocket!=null && location.websocket.on">(已设置)</span></a>
+    <a :href="'/proxy/locations/websocket?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'websocket'}">Websocket<span v-if="location.websocket!=null && location.websocket.on">(已设置)</span></a>
 	<span class="item">|</span>
-	<a :href="'/proxy/locations/access?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'access'}">访问控制</a>
+	<a :href="'/proxy/locations/access?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'access'}">访问控制</a>
     <span class="item">|</span>
-    <a :href="'/proxy/locations/cache?server=' + proxy.filename + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'cache'}">缓存设置<span v-if="location.cachePolicy">(已设置)</span></a>
+    <a :href="'/proxy/locations/cache?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'cache'}">缓存设置<span v-if="location.cachePolicy">(已设置)</span></a>
 </div>
