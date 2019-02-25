@@ -27,6 +27,11 @@
     line-height: 1.1;
 }
 
+.table td {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
 pre {
     margin: 0;
     max-height: 7em;
