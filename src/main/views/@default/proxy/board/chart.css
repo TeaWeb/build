@@ -20,11 +20,14 @@
 /** codemirror **/
 .CodeMirror {
     border: 1px solid #eee;
-    height: auto!important;
     max-height: 10em;
 }
 
 .CodeMirror-scroll {
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: auto;
+}
+
+.CodeMirror-vscrollbar {
+    width: 4px;
 }

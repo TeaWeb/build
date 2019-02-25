@@ -2,7 +2,8 @@
 {$template "/code_editor"}
 
 <div class="ui menu text basic blue">
-	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item">看板</a>
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item" v-if="boardType != 'stat'">看板</a>
+	<a :href="'/proxy/stat?serverId=' + server.id" class="item" v-if="boardType == 'stat'">统计看板</a>
 	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item active">可用图表</a>
 	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item">制作图表</a>
 </div>
@@ -45,7 +46,7 @@
 						</div>
 					</div>
 				</div>
-
+				<p class="comment">需要选择对应的数据指标才能正常采集图表需要的数据。</p>
 			</td>
 		</tr>
 		<tr>

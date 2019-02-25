@@ -49,6 +49,7 @@ Tea.context(function () {
 	this.charts = [];
 	this.isLoaded = false;
 	this.intervalSeconds = 5;
+	this.events = [];
 
 	this.test = function () {
 		this.$post("/proxy/board/test")
@@ -56,7 +57,8 @@ Tea.context(function () {
 				"serverId": this.server.id,
 				"name": this.chart.name,
 				"javascriptCode": this.chart.options.code,
-				"columns": this.chart.columns
+				"columns": this.chart.columns,
+				"events": JSON.stringify(this.events)
 			})
 			.success(function (resp) {
 				// output
@@ -66,12 +68,17 @@ Tea.context(function () {
 
 				// charts
 				this.charts = resp.data.charts;
-				new ChartRender(this.charts);
+				var that = this;
+				new ChartRender(this.charts, function (events) {
+					that.events.$pushAll(events);
+					that.test();
+				});
 			})
 			.fail(function (resp) {
 				throw new Error("[widget]" + resp.message);
 			})
 			.done(function () {
+				this.events = [];
 				this.isLoaded = true;
 			});
 	};

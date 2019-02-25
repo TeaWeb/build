@@ -4,17 +4,19 @@ Tea.context(function () {
     this.charts = [];
 
     this.$delay(function () {
-        this.loadWidgets();
+        this.loadCharts();
     });
 
     this.widgetIsLoaded = false;
-    this.widgetError = ""
+    this.widgetError = "";
+    this.events = [];
 
-    this.loadWidgets = function () {
+    this.loadCharts = function () {
         this.$post("/proxy/board")
             .params({
                 "serverId": this.server.id,
-				"type": this.boardType
+				"type": this.boardType,
+				"events": JSON.stringify(this.events)
             })
             .timeout(10)
 			.success(function (resp) {
@@ -27,7 +29,11 @@ Tea.context(function () {
 
 				// charts
 				this.charts = resp.data.charts;
-				new ChartRender(this.charts);
+				var that = this;
+				new ChartRender(this.charts, function (events) {
+					that.events = events;
+					that.loadCharts();
+				});
 			})
 			.fail(function (resp) {
 				throw new Error("[widget]" + resp.message);
@@ -37,9 +43,13 @@ Tea.context(function () {
 					this.widgetIsLoaded = true;
 				}, 500);
 
-				this.$delay(function () {
-					this.loadWidgets();
-				}, 3000);
+				if (this.boardType == "realtime") {
+					this.$delay(function () {
+						this.loadCharts();
+					}, 5000);
+				}
+
+				//this.events = [];
 			});
     };
 });

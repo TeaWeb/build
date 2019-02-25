@@ -69,10 +69,12 @@ Tea.context(function () {
 	this.charts = [];
 	this.isLoaded = false;
 	this.intervalSeconds = 5;
+	this.events = [];
 
 	this.test = function () {
 		var form = this.$find("#make-form")[0];
 		var formData = new FormData(form);
+		formData.append("events", JSON.stringify(this.events));
 		this.$post("/proxy/board/test")
 			.params(formData)
 			.success(function (resp) {
@@ -83,7 +85,11 @@ Tea.context(function () {
 
 				// charts
 				this.charts = resp.data.charts;
-				new ChartRender(this.charts);
+				var that = this;
+				new ChartRender(this.charts, function (events) {
+					that.events.$pushAll(events);
+					that.test();
+				});
 
 				this.$delay(function () {
 					window.scroll(0, 10000);
@@ -91,6 +97,7 @@ Tea.context(function () {
 			})
 			.done(function () {
 				this.isLoaded = true;
+				this.events = [];
 			});
 	};
 });

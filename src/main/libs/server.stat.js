@@ -111,11 +111,13 @@ stat.Query = function () {
 		return this.time("year", yearString);
 	};
 
-	this.seconds = function (count) {
+	this.seconds = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("YmdHis"));
@@ -125,11 +127,13 @@ stat.Query = function () {
 		return this;
 	};
 
-	this.minutes = function (count) {
+	this.minutes = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("YmdHi"));
@@ -139,11 +143,13 @@ stat.Query = function () {
 		return this;
 	};
 
-	this.hours = function (count) {
+	this.hours = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("YmdH"));
@@ -153,11 +159,13 @@ stat.Query = function () {
 		return this;
 	};
 
-	this.days = function (count) {
+	this.days = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("Ymd"));
@@ -167,11 +175,13 @@ stat.Query = function () {
 		return this;
 	};
 
-	this.weeks = function (count) {
+	this.weeks = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("YW"));
@@ -181,11 +191,13 @@ stat.Query = function () {
 		return this;
 	};
 
-	this.months = function (count) {
+	this.months = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("Ym"));
@@ -195,11 +207,13 @@ stat.Query = function () {
 		return this;
 	};
 
-	this.years = function (count) {
+	this.years = function (count, date) {
 		if (count < 1) {
 			return;
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		var timeStrings = [];
 		for (var i = 0; i < count; i++) {
 			timeStrings.push(date.format("Y"));
@@ -264,7 +278,7 @@ stat.Query = function () {
 			.execute();
 	};
 
-	this.latest = function (size, defValue) {
+	this.latest = function (size, defValue, date) {
 		if (size == null) {
 			size = 10;
 		}
@@ -290,7 +304,9 @@ stat.Query = function () {
 		if (size <= 0) {
 			return [];
 		}
-		var date = new times.Time();
+		if (date == null) {
+			date = new times.Time();
+		}
 		switch (period) {
 			case "second":
 				for (var i = 0; i < size; i++) {
@@ -389,5 +405,9 @@ stat.Query = function () {
 			});
 		}
 		return result;
+	};
+
+	this.inspect = function () {
+		return query;
 	};
 };

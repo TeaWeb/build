@@ -5,7 +5,8 @@
 {$end}
 
 <div class="ui menu text basic blue">
-	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item">看板</a>
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item" v-if="boardType != 'stat'">看板</a>
+	<a :href="'/proxy/stat?serverId=' + server.id" class="item" v-if="boardType == 'stat'">统计看板</a>
 	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item active">可用图表</a>
 	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item">制作图表</a>
 </div>
@@ -42,8 +43,8 @@
 				<span v-if="chart.description.length == 0" class="disabled">还没有说明</span>
 			</td>
 			<td>
-				<p v-for="requirement in chart.requirements" v-if="chart.requirements.length > 0"><em style="font-style: italic">{{requirement}}</em></p>
-				<span class="disabled" v-if="chart.requirements.length == 0">不使用数据指标</span>
+				<p v-for="item in chart.items" v-if="chart.items.length > 0"> &nbsp; {{item.name}} <em style="font-style: italic;color:grey">({{item.code}})</em> &nbsp; </p>
+				<span class="disabled" v-if="chart.items.length == 0">不使用数据指标</span>
 			</td>
 			<td>{{chart.columns}}列</td>
 			<td>

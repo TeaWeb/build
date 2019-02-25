@@ -1,0 +1,69 @@
+.chart-list .chart-box {
+    height: 12em;
+    position: relative;
+    line-height: 1.8;
+    overflow-y: auto;
+}
+
+.chart-list .chart-box::-webkit-scrollbar, .chart-list .chart-box div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chart-list .chart-box iframe {
+    position: absolute;
+    border:0;
+    width:100%;
+    padding:0;
+    margin:0;
+    height: 100%;
+}
+
+.chart-list .column {
+    padding-bottom: 0!important;
+}
+
+.chart-list .table th em {
+    font-weight: normal;
+    font-style: normal;
+    color: grey;
+}
+
+.chart-list .table th .menu {
+    position: absolute;
+    top: 0.1em;
+    right: 2em;
+}
+
+.chart-list .table th .menu var {
+    font-style: normal;
+}
+
+.chart-list .table td {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+.chart-list .chart-box .table {
+    border: 0;
+}
+
+.chart-list .progress.tiny {
+    margin-bottom: 1em;
+    margin-top: 0.2em;
+    width: 90%;
+}
+
+.chart-list .progress .bar {
+    min-width: 0;
+}
+
+.chart-list .progress.tiny .label {
+    margin-top: 0.6em;
+    text-align: left;
+}
+
+.chart-list .progress.tiny .bar {
+    height: 2px;
+    border-radius: 1px;
+    min-width: 0;
+}

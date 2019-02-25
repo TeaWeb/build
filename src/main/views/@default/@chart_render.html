@@ -2,23 +2,37 @@
 <script src="/js/echarts.min.js" type="text/javascript"></script>
 <script src="/js/clock.js" type="text/javascript"></script>
 <script src="/_/@default/chart_render.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/_/@default/chart_render.css" type="text/css"/>
+<link rel="stylesheet" href="/_/@default/@chart_render.css" type="text/css"/>
 {$end}
 
 <div class="ui grid two columns chart-list">
     <div v-for="chart in charts" :class="{'one column row':chart.options.columns > 1, 'column':chart.options.columns <= 1}">
         <div :class="{'column':chart.options.columns > 1}">
-            <table class="ui table small">
+            <table class="ui table small" :class="{selectable:chart.type=='table'}">
                 <thead>
-                <tr>
-                    <th v-html="chart.options.name"></th>
-                </tr>
+					<tr>
+						<th colspan="5">
+							<span v-html="chart.options.name"></span>&nbsp;
+
+							<div class="ui text basic menu blue small" v-if="chart.menus != null && chart.menus.length > 0" :id="'chart-menu-box-' + chart.id">
+								<a class="item" v-for="item in chart.menus[0].items" :class="{active:item.isActive}" :data-code="item.code" :data-name="item.name" :data-menuindex="item.menuIndex" :data-active="item.isActive ? 1 : 0">{{item.name}}</a>
+							</div>
+						</th>
+					</tr>
                 </thead>
-                <tr>
-                    <td>
-                        <div class="chart-box" :id="'chart-box-' + chart.id"><!-- Chart --></div>
-                    </td>
-                </tr>
+				<tbody v-if="chart.type != 'table' || chart.rows.length == 0">
+					<tr>
+						<td colspan="5">
+							<div class="chart-box" :id="'chart-box-' + chart.id"><!-- Chart --></div>
+						</td>
+					</tr>
+				</tbody>
+				<tbody :id="'chart-tbody-' + chart.id" v-if="chart.type == 'table'">
+					<!-- table rows -->
+					<tr v-for="row in chart.rows">
+						<td v-for="(col, colIndex) in row" v-html="col" :class="chart.widths[colIndex]"></td>
+					</tr>
+				</tbody>
             </table>
         </div>
     </div>
