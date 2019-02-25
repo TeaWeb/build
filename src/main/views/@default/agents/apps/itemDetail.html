@@ -122,7 +122,7 @@
     </tr>
     <tbody>
         <tr>
-            <td>阈值设置</td>
+            <td>阈值设置<em>（通知触发条件）</em></td>
             <td>
                 <span v-if="item.thresholds == null || item.thresholds.length == 0" class="disabled">还没有设置</span>
                 <div v-if="item.thresholds != null && item.thresholds.length > 0" v-for="threshold in item.thresholds" style="margin-top:0.2em;margin-bottom:0.4em">
