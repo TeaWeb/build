@@ -5,6 +5,10 @@ Tea.context(function () {
 
     this.$delay(function () {
         this.loadCharts();
+
+        if (this.boardType == "realtime") {
+			this.serversSortable();
+		}
     });
 
     this.widgetIsLoaded = false;
@@ -52,4 +56,27 @@ Tea.context(function () {
 				//this.events = [];
 			});
     };
+
+	/**
+	 * 左侧菜单排序
+	 */
+	this.serversSortable = function () {
+		var box = this.$find(".sub-menu div")[0];
+		var that = this;
+		Sortable.create(box, {
+			draggable: "a.item.sortable",
+			onStart: function () {
+
+			},
+			onUpdate: function (event) {
+				var newIndex = event.newIndex;
+				var oldIndex = event.oldIndex;
+				that.$post("/proxy/move")
+					.params({
+						"fromIndex": oldIndex,
+						"toIndex": newIndex
+					});
+			}
+		});
+	};
 });

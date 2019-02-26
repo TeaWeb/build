@@ -11,6 +11,11 @@
 {$end}
 <!--  检测配置是否有更新 end -->
 
+<!-- 排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <div class="ui menu text basic blue">
 	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item active" v-if="boardType != 'stat'">看板</a>
 	<a :href="'/proxy/stat?serverId=' + server.id" class="item active" v-if="boardType == 'stat'">统计看板</a>

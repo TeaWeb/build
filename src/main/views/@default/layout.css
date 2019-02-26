@@ -362,6 +362,11 @@ body.expanded .main {
     font-size: 0.8em;
 }
 
+.sub-menu .menu .item.header span {
+    font-weight: normal;
+    color: grey;
+}
+
 .sub-menu .menu a {
     display: block;
     word-break: break-all;
