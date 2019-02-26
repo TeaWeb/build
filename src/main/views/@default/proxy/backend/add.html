@@ -16,9 +16,18 @@
             <td>地址 *</td>
             <td>
                 <input type="text" name="address" placeholder="比如 192.168.1.100:8800"/>
-                <p class="ui comment">服务器地址，可以是一个IP，也可以是一个Unix Socket。</p>
+                <p class="ui comment">服务器地址，可以是一个IP，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em> 。</p>
             </td>
         </tr>
+		<tr>
+			<td>协议</td>
+			<td>
+				<select class="ui dropdown" name="scheme" style="width:10em">
+					<option value="http">http</option>
+					<option value="https">https</option>
+				</select>
+			</td>
+		</tr>
         <tr>
             <td>权重</td>
             <td>
@@ -67,7 +76,7 @@
             <tr>
                 <td>连接最多失败次数</td>
                 <td>
-                    <input type="text" name="maxFails" value="5" size="5"/>
+                    <input type="text" name="maxFails" value="0" size="5"/>
                     <p class="comment">0表示不限制，即使连接失败也不会自动下线</p>
                 </td>
             </tr>

@@ -27,6 +27,8 @@
            <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
            <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
 
+		   <span class="ui label tiny" v-if="backend.scheme.length > 0">{{backend.scheme}}</span>
+
            <br/>
            <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
        <td>{{backend.weight}}</td>
