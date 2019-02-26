@@ -57,6 +57,9 @@ bin/teaweb-agent restart
 
 # 手动执行任务，123456是任务ID示例
 bin/teaweb-agent run 123456
+
+# 手动执行监控项数据源，123456是监控项ID示例
+bin/teaweb-agent run 123456
 ~~~
 
 ## Windows系统

@@ -1,6 +1,11 @@
 {$layout}
 {$template "/code_editor"}
 
+{$var "header"}
+<!-- clipboard -->
+<script src="/js/clipboard.min.js" type="text/javascript"></script>
+{$end}
+
 <div class="ui menu text basic blue">
 	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item" v-if="boardType != 'stat'">看板</a>
 	<a :href="'/proxy/stat?serverId=' + server.id" class="item" v-if="boardType == 'stat'">统计看板</a>
@@ -43,6 +48,8 @@
 		<td>Javascript代码</td>
 		<td>
 			<textarea name="javascriptCode" id="javascript-code-editor" rows="1"></textarea>
+			<textarea type="text" id="javascript-code-editor2" style="position:fixed;width:1px;height:1px;right:-1024px;">{{chart.options.code}}</textarea>
+			<span class="btn" title="拷贝到剪切板" data-clipboard-target="#javascript-code-editor2"><i class="ui icon copy small"></i><em>已拷贝剪切板</em></span>
 		</td>
 	</tr>
 	<tr>

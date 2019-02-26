@@ -23,6 +23,7 @@
   * [重写规则](proxy/Rewrite.md)
   * [Websocket](proxy/Websocket.md)
   * 访问日志
+  * 统计
   * 缓存
   * [内置变量](proxy/Variables.md)
   * 前端代理

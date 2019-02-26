@@ -472,6 +472,42 @@ body.expanded .main {
     margin: 0;
 }
 
+#footer-outer-box {
+    z-index: 999999;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    bottom: 2.6em;
+}
+
+#footer-outer-box .qrcode {
+    width: 20em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -14em;
+    margin-left: -10em;
+}
+
+#footer-outer-box .qrcode img {
+    width: 100%;
+}
+
+#footer-outer-box .qrcode a {
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+}
+
+@media screen and (max-width: 512px) {
+    #footer-outer-box .qrcode {
+        margin-left: 0;
+        left: 3.5em;
+    }
+}
+
 /** Vue **/
 [v-cloak] {
     display: none!important;

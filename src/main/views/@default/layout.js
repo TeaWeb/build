@@ -37,4 +37,13 @@ Tea.context(function () {
 				}, 60000);
 			});
 	};
+
+	/**
+	 * 底部伸展框
+	 */
+	this.footerOuterVisible = false;
+
+	this.showQQGroupQrcode = function () {
+		this.footerOuterVisible = !this.footerOuterVisible;
+	};
 });

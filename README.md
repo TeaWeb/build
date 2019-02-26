@@ -82,7 +82,7 @@ Client  <->  | TeaWeb:7777  |   <->  | Nginx, Apache, Tomcat,     |
 [点击这里查看在线演示的版本](http://teaos.cn:7777/)
 
 # 报告问题
-请在 *https://github.com/TeaWeb/build/issues* 报告你所遇到的问题，或者加入QQ群199435611跟大家一起讨论，也可以发送邮件到 `root@teaos.cn`。
+请在 *https://github.com/TeaWeb/build/issues* 报告你所遇到的问题，或者加入QQ群199435611、微信liuxiangchao（"刘祥超"的全拼）跟大家一起讨论，也可以发送邮件到 `root@teaos.cn`。
 
 # 相关源码
 * [主项目Go语言源码](https://github.com/TeaWeb/code)

@@ -3,6 +3,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.loadJavascriptChart();
+		this.loadClipboard();
 	});
 
 	/**
@@ -33,12 +34,6 @@ Tea.context(function () {
 			CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
 			CodeMirror.autoLoadMode(editor, info.mode);
 		}
-
-		var that = this;
-		editor.on("change", function () {
-			editor.save();
-			that.chartCode = editor.getValue();
-		});
 
 		//editor.focus();
 	};
@@ -104,5 +99,20 @@ Tea.context(function () {
 				alert("删除成功");
 				window.location = "/proxy/board/charts?serverId=" + this.server.id + "&boardType=" + this.boardType;
 			});
+	};
+
+	/**
+	 * 剪切板
+	 */
+	this.loadClipboard = function () {
+		new ClipboardJS('[data-clipboard-target]');
+
+		this.$find("[data-clipboard-target]").bind("click", function () {
+			var em =  Tea.element(this).find("em")[0];
+			em.style.cssText = "display:inline";
+			setTimeout(function () {
+				em.style.cssText = "display:none";
+			}, 1000);
+		});
 	};
 });

@@ -31,3 +31,12 @@
 .CodeMirror-vscrollbar {
     width: 4px;
 }
+
+/** 拷贝 **/
+span.btn {
+    cursor: pointer;
+}
+
+span[data-clipboard-target] em {
+    display: none;
+}

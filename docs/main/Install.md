@@ -21,6 +21,8 @@ TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，�
 
 如果还没有安装，可以使用TeaWeb帮你安装（"设置">"MongoDB"界面的底部），也可以从 [https://www.mongodb.com/download-center/community](https://www.mongodb.com/download-center/community)下载并安装符合你的系统的MongoDB，目前支持Linux和MacOS。
 
+**注意：目前TeaWeb只支持MongoDB v3.0以上版本，如果你正在使用老的版本，请更换。**
+
 在Linux和MacOS上，解压MongoDB安装包后，建议的启动命令为：
 ~~~bash
 cd MongoDB安装目录

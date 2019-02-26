@@ -133,6 +133,11 @@ function buildAgent() {
 		cp ${GOPATH}/src/main/README_AGENT_WINDOWS.txt ${TARGET}/README.txt
     fi
 
+    if [ ${GOOS} != "windows" ]
+    then
+		cp ${GOPATH}/src/main/README_AGENT_LINUX.md ${TARGET}/README.md
+    fi
+
 	go build -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
 
 	echo "[zip files]"
