@@ -10,7 +10,7 @@
 	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=today'" class="item" :class="{active:day == 'today'}">今天</a>
 	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=yesterday'" class="item" :class="{active:day == 'yesterday'}">昨天</a>
 	<a :href="'/proxy/log/history?serverId=' + server.id" class="item" :class="{active:isHistory}">历史</a>
-	<span class="item" v-if="isHistory">|</span>
+	<span class="item" v-if="isHistory" style="padding-left:0;padding-right:0">&raquo;</span>
 	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=' + day" class="item" v-if="isHistory">{{day}}</a>
 </div>
 
@@ -25,7 +25,8 @@
 	{{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
 </div>
 
-<form class="ui form">
+<!-- 检索 -->
+<form class="ui form segment" style="padding-bottom: 0">
 	<input type="hidden" name="serverId" :value="server.id"/>
 	<input type="hidden" name="day" :value="day"/>
 	<input type="hidden" name="logType" :value="logType"/>
