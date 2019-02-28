@@ -4,7 +4,7 @@
 
 ## 从源码运行
 1. 从 `https://github.com/TeaWeb/build` 中下载项目源码，放到本地磁盘上；
-2. 设置全局变量`GOPATH`为项目目录路径；
+2. 在开发工具中设置全局变量`GOPATH`为项目目录路径；
 3. `cd` 到 *src/main* 目录
 4. 执行 `init.sh` 初始化项目，如果下载中出现网络错误，可以尝试多次运行此脚本；
 5. 执行 `run.sh` 启动项目；
@@ -12,7 +12,7 @@
 
 ## 从源码编译
 1. 从 *https://github.com/TeaWeb/build* 中下载项目源码，放到本地磁盘上；
-2. 设置全局变量`GOPATH`为项目目录路径；
+2. 在开发工具中设置全局变量`GOPATH`为项目目录路径；
 3. `cd` 到 *src/main* 目录
 4. 执行 `init.sh` 初始化项目，如果下载中出现网络错误，可以尝试多次运行此脚本；
 5. 运行 `build-[系统版本].sh` 构建可执行文件；
@@ -23,3 +23,11 @@
 ~~~bash
 git clone https://github.com/TeaWeb/build.git
 ~~~
+然后再运行`init.sh`：
+~~~bash
+./init.sh
+~~~
+
+## GoLand
+如果你正在使用GoLand开发工具，则可以在下面的界面中设置GOPATH:
+![goland.png](goland.png)

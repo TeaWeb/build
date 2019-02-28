@@ -67,3 +67,7 @@
 * `${bodyBytesSent}` - 发送的内容长度，不包括Header（字节）
 * `${status}` - 状态码，比如`200`
 * `${statusMessage}` - 状态消息，比如`200 OK`
+* `${backend.id}` - 后端服务器ID，v0.0.9开始支持
+* `${backend.code}` - 后端服务器代号，v0.0.9开始支持
+* `${backend.address}` - 后端服务器地址，v0.0.9开始支持
+* `${backend.scheme}` - 后端服务器协议，`http`或`https`，v0.0.9开始支持

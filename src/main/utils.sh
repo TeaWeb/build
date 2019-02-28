@@ -18,6 +18,11 @@ function build() {
     echo "[goversion]using" `go version`
     echo "[create target directory]"
 
+    if [ ! -d ${GOPATH}/dist ]
+    then
+		mkdir ${GOPATH}/dist
+    fi
+
     if [ -d ${TARGET} ]
     then
         rm -rf ${TARGET}
@@ -126,6 +131,7 @@ function buildAgent() {
     mkdir ${TARGET}/plugins
 
     cp ${GOPATH}/src/main/configs/agent.sample.conf ${TARGET}/configs/agent.conf
+    cp ${GOPATH}/src/main/configs/widgets ${TARGET}/configs/
 
     if [ ${GOOS} = "windows" ]
     then
