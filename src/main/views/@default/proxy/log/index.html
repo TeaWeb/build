@@ -33,9 +33,6 @@
         <button class="ui button tiny basic" :class="{blue:bodyFetching}" type="button" @click="startBodyFetching()">抓取 <i class="ui icon code"></i> </button>
     </div>
 
-    <div class="ui message info" v-if="!isPlaying">
-        日志刷新功能已被暂停， <a href="" @click.prevent="pause()">[恢复日志刷新]</a>
-    </div>
     <div class="ui message info" v-if="bodyFetching">
         正在抓取请求的内容，可以在单个日志详情中的响应数据（Response）和请求数据（Request）中查看这些内容，<a href="" @click.prevent="startBodyFetching()">[停止]</a>
     </div>
@@ -67,19 +64,59 @@
                 <div class="ui field column">
                     关键词：<input type="text" name="keyword" placeholder="比如 /user/profile" v-model="searchKeyword" :class="{focus:searchKeyword.trim().length > 0}"/>
                 </div>
+				<div class="ui field column">
+					后端服务器：
+					<select class="ui dropdown" v-if="server.backends != null && server.backends.length > 0" v-model="searchBackendId">
+						<option value="">[没有选择]</option>
+						<option v-for="backend in server.backends" :value="backend.id">{{backend.address}}</option>
+					</select>
+					<select class="ui dropdown" disabled="disabled" v-if="server.backends == null || server.backends.length == 0">
+						<option value="">没有可选项</option>
+					</select>
+				</div>
+				<div class="ui field column">
+					路径规则：
+					<select class="ui dropdown" v-if="server.locations != null && server.locations.length > 0" @change="changeLocation(searchLocationId)" v-model="searchLocationId">
+						<option value="">[没有选择]</option>
+						<option v-for="location in server.locations" :value="location.id">{{location.pattern}}</option>
+					</select>
+					<select class="ui dropdown" disabled="disabled" v-if="server.locations == null || server.locations.length == 0">
+						<option value="">没有可选项</option>
+					</select>
+				</div>
+				<div class="ui field column">
+					重写规则：
+					<select class="ui dropdown" v-if="location != null && location.rewrite != null && location.rewrite.length > 0" v-model="searchRewriteId">
+						<option value="">[没有选择]</option>
+						<option v-for="rewrite in location.rewrite" :value="rewrite.id">{{rewrite.pattern}}</option>
+					</select>
+					<select class="ui dropdown" disabled="disabled" v-if="location == null || location.rewrite == null || location.rewrite.length == 0">
+					<option value="">没有可选项</option>
+					</select>
+				</div>
+				<div class="ui field column">
+					Fastcgi：
+					<select class="ui dropdown" v-if="location != null && location.fastcgi != null && location.fastcgi.length > 0" v-model="searchFastcgiId">
+						<option value="">[没有选择]</option>
+						<option v-for="fastcgi in location.fastcgi" :value="fastcgi.id">{{fastcgi.pass}}</option>
+					</select>
+					<select class="ui dropdown" disabled="disabled" v-if="location == null || location.fastcgi == null || location.fastcgi.length == 0">
+						<option value="">没有可选项</option>
+					</select>
+				</div>
             </div>
         </form>
     </div>
 
 	{$template "log_row"}
 
-    <div v-if="started && logs.length == 0">
+    <div v-if="isLoaded && logs.length == 0">
         <a class="disabled" v-if="!hasSearchConditions()">当天还没有访问。</a>
         <span class="disabled" v-if="hasSearchConditions()">当天还没有筛选符合条件的访问，可以尝试去掉筛选条件（<a href="" @click.prevent="resetSearchBox()">清除筛选条件</a> ）。</span>
     </div>
 
     <!-- loading indicator -->
-    <div v-if="!started">
+    <div v-if="!isLoaded">
         <div class="ui active inline loader small"></div> &nbsp; loading...
     </div>
 </div>

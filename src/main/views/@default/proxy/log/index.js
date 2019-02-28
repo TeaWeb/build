@@ -10,7 +10,7 @@ Tea.context(function () {
 	this.qps = 0;
 
 	this.isPlaying = true;
-	this.started = false;
+	this.isLoaded = false;
 
 	// 搜索相关
 	this.searchBoxVisible = teaweb.getBool("searchBoxVisible");
@@ -20,6 +20,18 @@ Tea.context(function () {
 	this.searchBrowser = teaweb.getString("searchBrowser");
 	this.searchMinCost = teaweb.getString("searchMinCost");
 	this.searchKeyword = teaweb.getString("searchKeyword");
+	this.searchBackendId = teaweb.getString("searchBackendId");
+	this.searchLocationId = teaweb.getString("searchLocationId");
+	if (this.searchLocationId.length > 0) {
+		this.$delay(function () {
+			this.location = this.server.locations.$find(function (k, v) {
+				return v.id == that.searchLocationId;
+			});
+			this.changeLocation();
+		});
+	}
+	this.searchRewriteId = teaweb.getString("searchRewriteId");
+	this.searchFastcgiId = teaweb.getString("searchFastcgiId");
 
 	this.$delay(function () {
 		this.loadLogs();
@@ -55,7 +67,32 @@ Tea.context(function () {
 		teaweb.set("searchBrowser", that.searchBrowser);
 		teaweb.set("searchMinCost", that.searchMinCost);
 		teaweb.set("searchKeyword", that.searchKeyword);
+		teaweb.set("searchBackendId", that.searchBackendId);
+		teaweb.set("searchLocationId", that.searchLocationId);
+		teaweb.set("searchRewriteId", that.searchRewriteId);
+		teaweb.set("searchFastcgiId", that.searchFastcgiId);
 	});
+
+	/**
+	 * 路径规则相关筛选
+	 */
+	this.location = null;
+
+	this.changeLocation = function (locationId) {
+		if (locationId != null) {
+			this.searchRewriteId = "";
+			this.searchFastcgiId = "";
+		}
+
+		if (this.searchLocationId == null || this.searchLocationId.length == 0) {
+			this.location = null;
+			return;
+		}
+		var that = this;
+		this.location = this.server.locations.$find(function (k, v) {
+			return v.id == that.searchLocationId;
+		});
+	};
 
 	var loadSize = 10;
 	this.loadLogs = function () {
@@ -116,7 +153,9 @@ Tea.context(function () {
 				this.filterLogs();
 			})
 			.done(function () {
-				this.started = true;
+				this.$delay(function () {
+					this.isLoaded = true;
+				}, 1000);
 
 				// 每1秒刷新一次
 				Tea.delay(function () {
@@ -174,16 +213,25 @@ Tea.context(function () {
 				has = true;
 			}
 		});
+		this.$find(".search-box form select").each(function (k, v) {
+			if (typeof (v.value) == "string" && v.value.trim().length > 0) {
+				has = true;
+			}
+		});
 		return has;
 	};
 
 	this.resetSearchBox = function () {
-		that.searchIp = "";
-		that.searchDomain = "";
-		that.searchOs = "";
-		that.searchBrowser = "";
-		that.searchMinCost = "";
-		that.searchKeyword = "";
+		this.searchIp = "";
+		this.searchDomain = "";
+		this.searchOs = "";
+		this.searchBrowser = "";
+		this.searchMinCost = "";
+		this.searchKeyword = "";
+		this.searchBackendId = "";
+		this.searchLocationId = "";
+		this.searchRewriteId = "";
+		this.searchFastcgiId = "";
 	};
 
 	this.filterLogs = function () {
@@ -209,6 +257,19 @@ Tea.context(function () {
 				if (isNaN(cost) || log.requestTime < cost * 0.001) {
 					return false;
 				}
+			}
+
+			if (that.searchBackendId.length > 0 && log.backendId != that.searchBackendId) {
+				return false;
+			}
+			if (that.searchLocationId.length > 0 && log.locationId != that.searchLocationId) {
+				return false;
+			}
+			if (that.searchRewriteId.length > 0 && log.rewriteId != that.searchRewriteId) {
+				return false;
+			}
+			if (that.searchFastcgiId.length > 0 && log.fastcgiId != that.searchFastcgiId) {
+				return false;
 			}
 
 			if (that.searchKeyword != null && that.searchKeyword.length > 0) {
