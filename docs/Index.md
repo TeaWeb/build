@@ -48,6 +48,7 @@
 <!--  * [自定义探针](apps/Probe.md)-->
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
+  * [主机监控项API](advanced/APIMonitorAgentItem.md)
   * 集群
   * 性能指南
 * 开发者

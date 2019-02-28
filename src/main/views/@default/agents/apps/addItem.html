@@ -132,9 +132,10 @@
             <tr>
                 <td>数据格式</td>
                 <td>
-                    <select class="ui dropdown" name="dataFormat" style="width:10em">
+                    <select class="ui dropdown" name="dataFormat" v-model="dataFormat" @change="changeDataFormat()" style="width:10em">
                         <option v-for="dataFormat in dataFormats" :value="dataFormat.code">{{dataFormat.name}}</option>
                     </select>
+					<p class="comment">{{dataFormatDescription}}</p>
                 </td>
             </tr>
             <tr>
@@ -165,7 +166,7 @@
                                 </td>
                                 <td>
                                     <select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">
-                                        <option v-for="op in operators" :value="op.op">{{op.name}}</option>
+										<option v-for="op in operators" :value="op.op">{{op.name}}</option>
                                     </select>
                                     <p class="comment">{{cond.description}}</p>
                                 </td>

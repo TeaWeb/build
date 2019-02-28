@@ -141,9 +141,10 @@
             <tr>
                 <td>数据格式</td>
                 <td>
-                    <select class="ui dropdown" name="dataFormat" v-model="item.sourceOptions.dataFormat" style="width:10em">
+                    <select class="ui dropdown" name="dataFormat" v-model="item.sourceOptions.dataFormat" style="width:10em" @change="changeDataFormat()">
                         <option v-for="dataFormat in dataFormats" :value="dataFormat.code">{{dataFormat.name}}</option>
                     </select>
+					<p class="comment">{{dataFormatDescription}}</p>
                 </td>
             </tr>
             <tr>

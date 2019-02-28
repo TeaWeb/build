@@ -230,6 +230,22 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 数据格式
+	 */
+	this.dataFormat = this.dataFormats[0].code;
+	this.dataFormatDescription = "";
+	this.$delay(function () {
+		this.changeDataFormat();
+	});
+
+	this.changeDataFormat = function () {
+		var that = this;
+		this.dataFormatDescription = this.dataFormats.$find(function (k, v) {
+			return v.code == that.dataFormat;
+		}).description;
+	};
+
+	/**
 	 * 阈值
 	 */
 	this.conds = [];
