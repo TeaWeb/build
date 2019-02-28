@@ -1,0 +1,27 @@
+{$layout}
+
+<div class="ui menu text blue">
+	<a :href="'/proxy/log?serverId=' + server.id" class="item">实时</a>
+	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=today'" class="item">今天</a>
+	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=yesterday'" class="item">昨天</a>
+	<a :href="'/proxy/log/history?serverId=' + server.id" class="item active">历史</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div v-if="mongoError.length > 0" class="ui message warning">
+	{{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
+</div>
+
+<p class="comment" v-if="mongoError.length == 0 && days.length == 0">最近30天没有任何日志。</p>
+<div v-if="days.length > 0">
+	<p class="comment">最近30天日志：</p>
+
+	<table class="ui table selectable" style="width:10em">
+		<tr v-for="day in days">
+			<td>
+				<a :href="'/proxy/log/day?serverId=' + server.id + '&day=' + day">{{day}} <span class="ui label tiny" v-if="day == today">今天</span> &raquo;</a>
+			</td>
+		</tr>
+	</table>
+</div>

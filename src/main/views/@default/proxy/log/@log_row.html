@@ -1,0 +1,206 @@
+<div v-if="logs.length > 0">
+	<table class="ui table log-table">
+		<tr v-for="(log, index) in logs" class="log-row">
+			<td class="log-td">
+				<div>
+					<p @click="showLog(index)" :class="{ error:log.status>=400 }">
+                            <span class="browser">
+                                <i class="icon" :class="log.browserIcon" v-if="log.browserIcon.length > 0"></i>
+                                <span v-if="log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
+                            </span>
+						<span class="ui label tiny" v-if="log.upgrade.length > 0">{{log.upgrade}}</span>
+
+						{{log.remoteAddr}} [{{log.timeLocal}}] <em>&quot;{{log.requestMethod}} {{log.requestScheme}}://{{log.host}}{{log.requestURI}} <a :href="log.requestScheme + '://' + log.host + log.requestURI" target="_blank" title="新窗口打开" class="disabled"><i class="external icon tiny"></i> </a> {{log.proto}}&quot;</em> - 耗时:{{formatCost(log.requestTime)}} ms
+						<i class="ui icon angle" :class="{ down:!log.isOpen, up:log.isOpen }"></i>
+					</p>
+				</div>
+
+				<!-- 详情菜单 -->
+				<div class="ui top attached menu tabular tab-menu small" v-if="log.isOpen">
+					<a class="item" :class="{active:log.tabName == null || log.tabName == 'summary'}" @click.prevent="showLogTab(log, index, 'summary')">综合信息</a>
+					<a class="item" :class="{active:log.tabName == 'responseHeader'}" @click.prevent="showLogTab(log, index, 'responseHeader')">响应数据<span>（Response）</span></a>
+					<a class="item" :class="{active:log.tabName == 'request'}" @click.prevent="showLogTab(log, index, 'request')">请求数据<span>（Request）</span></a>
+					<a class="item" :class="{active:log.tabName == 'preview'}" @click.prevent="showLogTab(log, index, 'preview')">预览</a>
+					<a class="item" :class="{active:log.tabName == 'cookie'}" @click.prevent="showLogTab(log, index, 'cookie')">Cookie</a>
+					<a class="item" :class="{active:log.tabName == 'client'}" @click.prevent="showLogTab(log, index, 'client')">终端信息</a>
+				</div>
+
+				<!-- 综合信息 -->
+				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && (log.tabName == null || log.tabName == 'summary')">
+					<tr>
+						<td width="50%">请求ID<em>(ID)</em>：{{log.id}}</td>
+						<td>请求概要<em>(Request)</em>：{{log.request}}</td>
+					</tr>
+					<tr>
+						<td>请求URI<em>(RequestURI)</em>：{{log.requestURI}}</td>
+						<td>请求方法<em>(RequestMethod)</em>：{{log.requestMethod}}</td>
+					</tr>
+					<tr>
+						<td>主机地址<em>(Host)</em>：{{log.host}}</td>
+						<td>请求来源<em>(Referer)</em>：<span v-if="log.referer.length == 0">-</span><span v-if="log.referer.length > 0">{{log.referer}}</span></td>
+					</tr>
+					<tr>
+						<td>终端地址<em>(RemoteAddr:RemotePort)</em>：{{log.remoteAddr}}:{{log.remotePort}}</td>
+						<td>终端信息<em>(UserAgent)</em>：{{log.userAgent}}</td>
+					</tr>
+					<tr>
+						<td v-if="log.extend.client.os != null">操作系统(OS)：{{log.extend.client.os.family}} {{log.extend.client.os.major}}</td>
+						<td>浏览器<em>(Browser)</em>：{{log.extend.client.browser.family}} {{log.extend.client.browser.major}}</td>
+					</tr>
+					<tr>
+						<td>协议<em>(Proto)</em>：{{log.proto}}</td>
+						<td :class="{error:log.status>=400}">状态<em>(StatusMessage)</em>：<span v-if="log.statusMessage.length == 0">-</span><span v-if="log.statusMessage.length > 0">{{log.statusMessage}}</span></td>
+					</tr>
+					<tr>
+						<td>文件类型<em>(ContentType)</em>：<span v-if="log.contentType.length == 0">-</span><span v-if="log.contentType.length > 0">{{log.contentType}}</span></td>
+						<td>发送字节<em>(BytesSent)</em>：{{log.bytesSent}}</td>
+					</tr>
+					<tr>
+						<td>ISO8601时间：{{log.timeISO8601}}</td>
+						<td>本地时间(TimeLocal)：{{log.timeLocal}}</td>
+					</tr>
+					<tr>
+						<td>后端服务<em>(Backend)</em>：
+							<span v-if="log.backendAddress.length > 0">{{log.backendAddress}}</span>
+							<span v-if="log.backendAddress.length == 0">-</span>
+						</td>
+						<td>
+							Fastcgi服务：
+							<span v-if="log.fastcgiAddress.length > 0">{{log.fastcgiAddress}}</span>
+							<span v-if="log.fastcgiAddress.length == 0">-</span>
+						</td>
+					</tr>
+					<tbody v-if="log.errors != null && log.errors.length > 0">
+						<tr>
+							<td colspan="4"><strong>详细错误信息：</strong></td>
+						</tr>
+						<tr v-for="error in log.errors">
+							<td colspan="4" class="error">
+								<span>{{error}}</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- 响应数据 -->
+				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'responseHeader' && log.responseHeaders != null">
+					<tr>
+						<td>Status</td>
+						<td>{{log.proto}} {{log.statusMessage}}</td>
+					</tr>
+					<tbody v-for="(value, key) in log.responseHeaders">
+					<tr v-for="subValue in value">
+						<td class="middle-title">{{key}}</td>
+						<td>{{subValue}}</td>
+					</tr>
+					</tbody>
+					<tr v-if="log.responseBody.length > 0">
+						<td colspan="2">
+							<pre>{{log.responseBody}}</pre>
+						</td>
+					</tr>
+				</table>
+
+				<!-- 请求数据 -->
+				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'request' && log.requestHeaders != null">
+					<tbody v-if="log.hasRequestHeaders != null && !log.hasRequestHeaders">
+					<tr>
+						<td>没有设定请求信息</td>
+					</tr>
+					</tbody>
+					<tbody v-for="(value, key) in log.requestHeaders">
+					<tr v-for="subValue in value">
+						<td class="middle-title">{{key}}</td>
+						<td>{{subValue}}</td>
+					</tr>
+					</tbody>
+					<tr v-if="log.requestBody.length > 0">
+						<td colspan="2">
+							<pre>{{log.requestBody}}</pre>
+						</td>
+					</tr>
+				</table>
+
+				<!-- 预览 -->
+				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'preview'">
+					<tbody v-if="log.previewImageLoaded && (log.previewImageURL == null || log.previewImageURL.length == 0)">
+					<tr>
+						<td>目前只能预览图片资源</td>
+					</tr>
+					</tbody>
+					<tbody v-if="log.previewImageURL != null && log.previewImageURL.length > 0">
+					<tr>
+						<td>每次预览可能会产生新的请求日志</td>
+					</tr>
+					<tr>
+						<td class="preview-box">
+							<a :href="log.previewImageURL" target="_blank" title="点击打开"><img :src="log.previewImageURL"/></a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<!-- cookies -->
+				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'cookie' && log.cookies != null">
+					<tbody v-if="log.countCookies == 0">
+					<tr>
+						<td colspan="2">没有任何Cookie</td>
+					</tr>
+					</tbody>
+					<tbody v-for="(value, key) in log.cookies">
+					<tr>
+						<td class="title">{{key}}</td>
+						<td>{{value}}</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<!-- 终端 -->
+				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'client'">
+					<tbody>
+					<tr>
+						<td class="middle-title">综合信息<em>(UserAgent)</em></td>
+						<td>{{log.userAgent}}</td>
+					</tr>
+					<tr>
+						<td>IP</td>
+						<td>{{log.remoteAddr}}</td>
+					</tr>
+					<tr>
+						<td>设备<em>(Device)</em></td>
+						<td>
+							<span v-if="log.extend.client.device.family.length > 0 && log.extend.client.device.family != 'Other'">{{log.extend.client.device.family}}</span>
+							<span v-if="log.extend.client.device.family.length == 0 || log.extend.client.device.family == 'Other'">暂时无法识别</span>
+						</td>
+					</tr>
+					<tr>
+						<td>操作系统<em>(OS)</em></td>
+						<td>
+							<span v-if="log.osVersion.length > 0">{{log.osVersion}}</span>
+							<span v-if="log.osVersion.length == 0">暂时无法识别</span>
+						</td>
+					<tr>
+						<td>浏览器<em>(Browser)</em></td>
+						<td>
+							<span v-if="log.browserVersion.length > 0">{{log.browserVersion}}</span>
+							<span v-if="log.browserVersion.length == 0">暂时无法识别</span>
+						</td>
+					</tr>
+					<tr>
+						<td>地理位置<em>(Location)</em></td>
+						<td>
+							<span v-if="log.geoAddr.length > 0">{{log.geoAddr}}</span>
+							<span v-if="log.geoAddr.length == 0">暂时无法识别</span>
+						</td>
+					</tr>
+					<tr v-if="log.geoAddr.length > 0">
+						<td colspan="2">
+							<div class="map-box" :id="'map-box-' + log.id">地图加载中...</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>

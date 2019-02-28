@@ -1,0 +1,25 @@
+/** 菜单 **/
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.main .menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.main .menu.text span.item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.divider {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+/** 主页面 **/
+.table .label.tiny {
+    padding: 3px;
+    font-size: 0.6em;
+}

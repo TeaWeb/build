@@ -65,12 +65,13 @@ Tea.context(function () {
 		}
 
 		var lastSize = 0;
-		this.$get(".get")
+		this.$get(".list")
 			.params({
 				"serverId": this.server.id,
 				"fromId": this.fromId,
 				"size": loadSize,
-				"bodyFetching": this.bodyFetching ? 1 : 0
+				"bodyFetching": this.bodyFetching ? 1 : 0,
+				"logType": this.logType
 			})
 			.success(function (response) {
 				// 日志
@@ -124,20 +125,11 @@ Tea.context(function () {
 			});
 	};
 
-	this.log_animation = function (log) {
-		return;
-		/**if (log.animationIsInitialized) {
-            return "log-line";
-        }
-		 log.animationIsInitialized = true;
-		 return "log-animation-init";**/
-	};
-
 	this.showLog = function (index) {
 		var log = this.logs[index];
 		log.isOpen = !log.isOpen;
 		if (log.isOpen) {
-        	this.isPlaying = false;
+			this.isPlaying = false;
 		}
 
 		log.tabName = "summary";
@@ -261,7 +253,7 @@ Tea.context(function () {
 		// 响应信息
 		else if (tabName == "responseHeader") {
 			if (typeof (log.responseHeaders) == "undefined") {
-				this.$get(".responseHeader." + log.id)
+				this.$get(".responseHeader." + log.id + "." + log.day)
 					.success(function (response) {
 						log.responseHeaders = response.data.headers;
 						log.responseBody = response.data.body;
@@ -273,7 +265,7 @@ Tea.context(function () {
 		// 请求信息
 		else if (tabName == "request") {
 			if (typeof (log.requestHeaders) == "undefined") {
-				this.$get(".requestHeader." + log.id)
+				this.$get(".requestHeader." + log.id + "." + log.day)
 					.success(function (response) {
 						log.requestHeaders = response.data.headers;
 						log.requestBody = response.data.body;
@@ -293,7 +285,7 @@ Tea.context(function () {
 		else if (tabName == "preview") {
 			if (typeof (log.responseHeaders) == "undefined") {
 				log.previewImageLoaded = false;
-				this.$get(".responseHeader." + log.id)
+				this.$get(".responseHeader." + log.id + "." + log.day)
 					.success(function (response) {
 						log.responseHeaders = response.data.headers;
 						log.responseBody = response.data.body;
@@ -323,7 +315,7 @@ Tea.context(function () {
 		// Cookie
 		else if (tabName == "cookie") {
 			if (typeof (log.cookies) == "undefined") {
-				this.$get(".cookies." + log.id)
+				this.$get(".cookies." + log.id + "." + log.day)
 					.success(function (response) {
 						log.cookies = response.data.cookies;
 						log.countCookies = response.data.count;

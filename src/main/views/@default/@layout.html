@@ -78,7 +78,7 @@
     </div>
 
     <!-- 底部 -->
-	<div id="footer-outer-box" v-if="footerOuterVisible">
+	<div id="footer-outer-box" v-if="footerOuterVisible" v-cloak="">
 		<div class="qrcode">
 			<a href="" title="关闭"  @click.prevent="footerOuterVisible = false"><i class="icon close large"></i></a>
 			<img src="/images/qq-group-qrcode.png" class="" alt=""/>

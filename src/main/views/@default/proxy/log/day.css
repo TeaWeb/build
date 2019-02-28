@@ -8,67 +8,9 @@
     margin-bottom: 0!important;
 }
 
-.main .menu.text span.item {
-    padding-left: 0;
-    padding-right: 0;
-}
-
 .divider {
     margin-top: 0!important;
     margin-bottom: 0!important;
-}
-
-/** 筛选框 **/
-.search-box {
-    border: 1px rgba(0, 0, 0, 0.2) solid;
-    padding: 0.8em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    position: relative;
-    border-radius: 0.3em;
-}
-
-.search-box.close {
-    text-align: center;
-}
-
-.search-box button {
-    margin: 0 auto!important;
-    display: inline-block!important;
-}
-
-.search-box .close-btn {
-    position: absolute;
-    left: 50%;
-    margin-left: -1em;
-    top: 0.8em;
-    z-index: 1;
-}
-
-.search-box .clean-btn {
-    position: absolute;
-    right: 0.8em;
-    top: 0.8em;
-    z-index: 1;
-}
-
-.search-box .column {
-    margin-bottom: 0!important;
-    margin-top: 0!important;
-    padding-top: 1em!important;
-    padding-bottom: 0!important;
-}
-
-.search-box .column input {
-    margin-top: 0.2em!important;
-}
-
-.search-box .buttons {
-    margin-top: 0.5em;
-}
-
-.search-box .focus {
-    border:1px #85b7d9 solid!important;
 }
 
 /** 日志表 **/
