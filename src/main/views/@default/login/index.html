@@ -20,15 +20,24 @@
             <div class="ui field">
                 <div class="ui left icon input">
                     <i class="ui user icon"></i>
-                    <input type="text" name="username" :value="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="30"/>
+                    <input type="text" name="username" v-model="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="30"/>
                 </div>
             </div>
             <div class="ui field">
                 <div class="ui left icon input">
                     <i class="ui lock icon"></i>
-                    <input type="password" name="password" :value="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="30"/>
+                    <input type="password" name="password" v-model="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="30"/>
                 </div>
             </div>
+			<div class="ui field">
+				<a href="" @click.prevent="showMoreOptions()">更多选项 <i class="icon angle" :class="{down:!moreOptionsVisible, up:moreOptionsVisible}"></i> </a>
+			</div>
+			<div class="ui field" v-show="moreOptionsVisible">
+				<div class="ui checkbox">
+					<input type="checkbox" name="remember" value="1" checked="checked"/>
+					<label>记住登录（14天）</label>
+				</div>
+			</div>
 
             <button class="ui button primary fluid" type="submit">登录</button>
             <p class="comment">注意：为了安全起见，登录错误3次后，系统会被锁定，使用命令 <em>bin/teaweb reset</em> 重置后才可以登录。</p>

@@ -10,4 +10,10 @@ Tea.context(function () {
     this.$delay(function () {
         this.$find("form input[name='username']").focus();
     });
+
+    // 更多选项
+	this.moreOptionsVisible = false;
+    this.showMoreOptions = function () {
+    	this.moreOptionsVisible = !this.moreOptionsVisible;
+	};
 });
