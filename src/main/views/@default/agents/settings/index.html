@@ -24,9 +24,16 @@
             </td>
         </tr>
         <tr>
-            <td>ID</td>
+            <td>主机ID</td>
             <td>{{agent.id}}</td>
         </tr>
+		<tr>
+			<td>分组</td>
+			<td>
+				<span v-if="groupNames.length == 0" class="disabled">默认分组</span>
+				<span v-for="groupName in groupNames">{{groupName}}</span>
+			</td>
+		</tr>
         <tr>
             <td>密钥</td>
             <td>{{agent.key}}</td>
@@ -46,12 +53,12 @@
     <div>
         请在要管理App的主机上<a href="http://plus.teaos.cn/doc/agents/Install.md" target="_blank">下载并安装agent</a>，并修改<span class="ui label">configs/agent.conf</span>内容如下：
         <pre>
-master: <em>http://当前服务器带端口的地址</em>
+master: <em>http://TeaWeb访问地址</em>
 id: {{agent.id}}
 key: {{agent.key}}
 </pre>
     </div>
     <div>
-		其中当前服务器带端口的地址通常为当前TeaWeb所在服务器可访问的IP加上端口7777，比如当前服务器的IP是<span class="ui label">192.168.1.100</span>，那么可以填上<span class="ui label">master: http://192.168.1.100:7777</span>
+		其中TeaWeb访问地址通常为当前TeaWeb所在服务器可访问的IP加上端口7777，比如当前服务器的IP是<span class="ui label">192.168.1.100</span>，那么可以填上<span class="ui label">master: http://192.168.1.100:7777</span>
 	</div>
 </div>

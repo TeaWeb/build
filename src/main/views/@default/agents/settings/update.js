@@ -1,4 +1,5 @@
 Tea.context(function () {
+	this.from = encodeURIComponent(window.location.toString());
     this.allowAllIP = this.agent.allowAll;
 
     this.$delay(function () {

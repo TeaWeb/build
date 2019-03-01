@@ -1,6 +1,11 @@
 {$layout}
 {$template "menu"}
 
+<!-- 排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <p class="comment" v-if="isLoaded && charts.length == 0">暂时还没有图表，可能没有连接或者<a :href="'/agents/settings?agentId=' + agentId">没有部署</a>。</p>
 
 <div class="ui field" style="margin-bottom:2em" v-if="isLoaded && charts.length > 0">

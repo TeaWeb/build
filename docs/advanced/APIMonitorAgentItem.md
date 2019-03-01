@@ -3,7 +3,7 @@
 ~~~
 http://TeaWeb访问地址/api/monitor/主机ID/item/监控项ID?TeaKey=登录用户密钥
 ~~~
-其中：
+可以通过`GET`和`POST`请求此URL，其中：
 * "TeaWeb访问地址"换成你的TeaWeb实际访问地址，当然如果你开启了HTTPS，也可以是`https://TeaWeb访问地址`
 * `登录用户密钥` - 可以在"设置">"登录设置"中可以查看，[api_monitor1.png](api_monitor1.png)
 * `主机ID` - 可以在主机"设置"中查看

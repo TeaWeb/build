@@ -46,4 +46,29 @@ Tea.context(function () {
 	this.showQQGroupQrcode = function () {
 		this.footerOuterVisible = !this.footerOuterVisible;
 	};
+
+	/**
+	 * 左侧子菜单
+	 */
+	this.showSubMenu = function (menu) {
+		if (menu.alwaysActive) {
+			return;
+		}
+		if (this.teaSubMenus.menus != null && this.teaSubMenus.menus.length > 0) {
+			this.teaSubMenus.menus.$each(function (k, v) {
+				if (menu.id == v.id) {
+					return;
+				}
+				v.isActive = false;
+			});
+		}
+		menu.isActive = !menu.isActive;
+	};
+
+	this.$delay(function () {
+		var activeItem = this.$find(".main .sub-menu .item.active");
+		if (activeItem.length > 0) {
+			activeItem.focus();
+		}
+	}, 0);
 });

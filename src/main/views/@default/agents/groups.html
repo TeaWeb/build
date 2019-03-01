@@ -1,0 +1,22 @@
+{$layout}
+
+<h3>分组管理 <a href="/agents/groups/add">添加</a></h3>
+
+<p class="comment" v-if="groups.length == 0">暂时还没有分组。</p>
+
+<table class="ui table" v-if="groups.length > 0">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="group in groups">
+		<td>{{group.name}}</td>
+		<td>
+			<a :href="'/agents/groups/update?groupId=' + group.id">修改</a>
+			&nbsp;
+			<a href="" @click.prevent="deleteGroup(group.id)">删除</a>
+		</td>
+	</tr>
+</table>

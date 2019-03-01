@@ -1,5 +1,6 @@
 Tea.context(function () {
     this.allowAllIP = true;
+	this.from = encodeURIComponent(window.location.toString());
 
     this.$delay(function () {
         this.$find("form input[name='name']").focus();

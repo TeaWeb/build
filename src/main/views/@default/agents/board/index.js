@@ -3,6 +3,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.loadCharts();
+		this.agentsSortable();
 	});
 
 	/**
@@ -46,5 +47,54 @@ Tea.context(function () {
 			.refresh();
 
 		return false;
+	};
+
+	/**
+	 * 左侧菜单排序
+	 */
+	this.agentsSortable = function () {
+		var that = this;
+		this.$find(".sub-menu div").each(function (k, box) {
+			var items = Tea.element(box).find("a.item.sortable");
+			Sortable.create(box, {
+				draggable: "a.item.sortable",
+				onStart: function () {
+
+				},
+				onUpdate: function (event) {
+					var newIndex = event.newIndex;
+					var oldIndex = event.oldIndex;
+
+					var fromId = Tea.element(items[oldIndex]).attr("data-id");
+					var toId = Tea.element(items[newIndex]).attr("data-id");
+
+					that.$post("/agents/move")
+						.params({
+							"fromId": fromId,
+							"toId": toId
+						})
+						.success(function () {
+							this.$get("/agents/menu")
+								.params({ "agentId":this.agentId })
+								.success(function (resp) {
+									this.teaSubMenus.menus = [];
+									this.$delay(function () {
+										this.teaSubMenus = resp.data.teaSubMenus;
+										this.teaSubMenus.menus.$each(function (k, menu) {
+											menu.items.$each(function (k, item) {
+												if (item.id == fromId && !menu.isActive) {
+													that.showSubMenu(menu);
+												}
+											});
+										});
+										this.$delay(function () {
+											this.agentsSortable();
+										});
+									});
+								});
+						});
+				}
+			});
+		});
 	};
 });

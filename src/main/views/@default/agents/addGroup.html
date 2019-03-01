@@ -1,0 +1,16 @@
+{$layout}
+
+<h3>添加分组</h3>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">分组名称</td>
+			<td>
+				<input type="text" name="name" maxlength="100"/>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button> &nbsp; <a href="/agents/groups" v-if="from.length == 0">返回</a><a :href="from" v-if="from.length > 0">返回</a>
+</form>

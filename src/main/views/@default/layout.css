@@ -356,14 +356,20 @@ body.expanded .main {
 
 .sub-menu .menu .item.active {
     font-weight: normal!important;
+    outline: none!important;
 }
 
 .sub-menu .menu .item span {
     font-size: 0.8em;
 }
 
+.sub-menu .menu .item var {
+    font-style: normal;
+}
+
 .sub-menu .menu .item.header {
-    padding-right: 0!important;
+    padding-right: 0.2em!important;
+    cursor: pointer;
 }
 
 .sub-menu .menu .item.header span {

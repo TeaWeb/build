@@ -18,6 +18,16 @@
                     <p class="comment">比如192.168.1.100</p>
                 </td>
             </tr>
+			<tr>
+				<td>分组</td>
+				<td>
+					<select class="ui dropdown" name="groupId" style="width:10em">
+						<option value="">[默认分组]</option>
+						<option v-for="group in groups" :value="group.id">{{group.name}}</option>
+					</select>
+					<p class="comment"><a :href="'/agents/groups/add?from=' + from">添加分组</a> </p>
+				</td>
+			</tr>
             <tr>
                 <td colspan="2">
                     <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
