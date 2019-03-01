@@ -26,7 +26,7 @@ Tea.context(function () {
 			.success(function (resp) {
 				this.countNoticesBadge = resp.data.count;
 				if (this.countNoticesBadge > 0) {
-					document.title = documentTitle + "(" + this.countNoticesBadge + "通知)";
+					document.title = "(" + this.countNoticesBadge + "通知)" + documentTitle;
 				} else {
 					document.title = documentTitle;
 				}
