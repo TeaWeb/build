@@ -6,3 +6,7 @@
 .ui.divider {
     margin-top: 0!important;
 }
+
+.table .label.tiny {
+    padding: 3px;
+}

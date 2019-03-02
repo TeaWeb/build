@@ -367,6 +367,14 @@ body.expanded .main {
     font-style: normal;
 }
 
+.sub-menu .menu .item:not(.active) var.grey {
+    color: grey;
+}
+
+.sub-menu .menu .item span:not(.green) {
+    color: grey;
+}
+
 .sub-menu .menu .item.header {
     padding-right: 0.2em!important;
     cursor: pointer;
