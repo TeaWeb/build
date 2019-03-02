@@ -7,7 +7,7 @@
     <span class="item">|</span>
     <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item">数值记录</a>
     <span class="item">|</span>
-    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表</a>
+    <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表<span>({{item.charts.length}})</span></a>
 </div>
 <div class="ui divider"></div>
 

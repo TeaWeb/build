@@ -1,0 +1,23 @@
+.menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.ui.divider {
+    margin-top: 0!important;
+}
+
+.table .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.table th {
+    position: relative;
+}
+
+.table th a {
+    font-weight: normal;
+    position: absolute;
+    right: 1em;
+}

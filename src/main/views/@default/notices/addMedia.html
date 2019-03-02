@@ -94,7 +94,7 @@
 				<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
 					<input type="text" name="scriptPath" maxlength="100"/>
 					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
-						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>分别代表通知的接收人标识、标题和内容。
+						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>三个环境变量分别代表通知的接收人标识、标题和内容。
 					</p>
 				</div>
 				<div class="ui bottom segment attached" v-show="scriptTab == 'code'" style="padding-top:0">
@@ -103,7 +103,7 @@
 					</div>
 					<textarea name="scriptCode" id="script-code-editor" rows="1"></textarea>
 					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
-						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>分别代表通知的接收人标识、标题和内容。
+						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>三个环境变量分别代表通知的接收人标识、标题和内容。
 					</p>
 				</div>
 			</td>

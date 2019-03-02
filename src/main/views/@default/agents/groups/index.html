@@ -1,0 +1,39 @@
+{$layout}
+
+<!-- 排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<h3>分组管理 <a href="/agents/groups/add">添加</a></h3>
+
+<p class="comment" v-if="groups.length == 0">暂时还没有分组。</p>
+
+<table class="ui table" v-if="groups.length > 0" id="groups-table">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>主机数</th>
+			<th>通知接收人</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tbody v-for="group in groups" :class="{sortable:group.id.length>0}">
+		<tr>
+			<td>{{group.name}}</td>
+			<td>
+				<span v-if="group.countAgents > 0">{{group.countAgents}}</span>
+				<span v-if="group.countAgents == 0" class="disabled">-</span>
+			</td>
+			<td>
+				<a :href="'/agents/groups/noticeReceivers?groupId=' + group.id" :class="{disabled:group.countReceivers == 0}">{{group.countReceivers}}</a>
+			</td>
+			<td>
+				<a :href="'/agents/groups/detail?groupId=' + group.id">详情</a>
+				&nbsp; &nbsp;
+				<a href="" @click.prevent="deleteGroup(group.id)" v-if="group.canDelete">删除</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<p class="comment" v-if="groups.length > 1">上面分组可拖动排序，默认分组除外</p>

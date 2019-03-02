@@ -13,7 +13,7 @@
 
 <h3>监控项 <a :href="'/agents/apps/updateItem?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" v-if="!app.isSystem">修改</a></h3>
 
-<table class="ui table definition">
+<table class="ui table definition selectable">
 	<tr>
 		<td>是否启用</td>
 		<td>

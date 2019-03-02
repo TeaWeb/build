@@ -21,7 +21,7 @@ Tea.context(function () {
 		var that = this;
 		this.$find("#groups-table").each(function (k, box) {
 			Sortable.create(box, {
-				draggable: "tbody",
+				draggable: "tbody.sortable",
 				onStart: function () {
 
 				},
