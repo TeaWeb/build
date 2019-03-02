@@ -54,4 +54,18 @@ Tea.context(function () {
 			CodeMirror.autoLoadMode(scriptEditor, info.mode);
 		}
 	};
+
+	/**
+	 * 外部监控API
+	 */
+	this.agentItemAPIVisible = false;
+
+	this.showAgentItemAPI = function () {
+		this.agentItemAPIVisible = !this.agentItemAPIVisible;
+		if (this.agentItemAPIVisible) {
+			this.$delay(function () {
+				window.scroll(0, 10000);
+			});
+		}
+	};
 });

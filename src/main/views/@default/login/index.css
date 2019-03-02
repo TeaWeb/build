@@ -1,5 +1,5 @@
 /**body {
-    background:url(/images/)!important;
+    background:url(/images/Hawaiian-Print-2048.jpg)!important;
     -webkit-background-size: cover;
     background-size: cover;
 }**/
@@ -17,7 +17,7 @@ form {
     width: 21em;
     top: 50%;
     left: 50%;
-    margin-left: -10.5em;
+    margin-left: -10em;
     margin-top: -12em;
 }
 
