@@ -1,8 +1,8 @@
 FROM centos:7
-MAINTAINER root@teaos.cn
+LABEL maintainer="root@teaos.cn"
 ENV TZ 'Asia/Shanghai'
-ENV TEAWEB_VERSION "0.0.8.2"
-ENV TEAWEB_URL "http://teaos.cn/downloads/v0.0.8.2/teaweb-linux-amd64-v${TEAWEB_VERSION}.zip"
+ENV TEAWEB_VERSION "0.0.9"
+ENV TEAWEB_URL "http://teaos.cn/downloads/v${TEAWEB_VERSION}/teaweb-linux-amd64-v${TEAWEB_VERSION}.zip"
 ENV MONGO_VERSION "4.0.6"
 ENV MONGO_URL "https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGO_VERSION}.tgz"
 
