@@ -148,52 +148,74 @@
                 </td>
             </tr>
             <tr>
-                <td>阈值设置<em>（通知触发条件）</em></td>
+                <td>阈值设置<em>（触发条件）</em></td>
                 <td>
-                    <table class="ui table without-definition" v-if="conds.length > 0">
-                        <thead>
-                            <tr>
-                                <th>参数</th>
-                                <th>运算符</th>
-                                <th>对比值</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody v-for="(cond, index) in conds" :key="index">
-                            <tr>
-                                <td>
-                                    <input type="text" name="condParams" v-model="cond.param"/>
-                                </td>
-                                <td>
-                                    <select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">
-										<option v-for="op in operators" :value="op.op">{{op.name}}</option>
-                                    </select>
-                                    <p class="comment">{{cond.description}}</p>
-                                </td>
-                                <td class="value-td">
-                                    <input type="text" name="condValues" v-model="cond.value"/>
-                                </td>
-                                <td>
-                                    <a href="" @click.prevent="removeCond(index)" title="删除"><i class="icon remove"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <select class="ui dropdown" style="width:10em" name="condNoticeLevels" v-model="cond.noticeLevel">
-                                        <option v-for="level in noticeLevels" :value="level.code">{{level.name}}</option>
-                                    </select>
-                                </td>
-                                <td colspan="2">
-                                    <input type="text" name="condNoticeMessages" v-model="cond.noticeMessage" placeholder="通知消息，可以为空"/>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="padding-top:0.1em"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button type="button" class="ui button" @click="addCond()">+</button>
+					<p class="threshold-box">
+						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a>
+						<input type="hidden" name="condParams" v-model="cond.param"/>
+						<input type="hidden" name="condOps" v-model="cond.op"/>
+						<input type="hidden" name="condValues" v-model="cond.value"/>
+						<input type="hidden" name="condNoticeLevels" v-model="cond.noticeLevel"/>
+						<input type="hidden" name="condNoticeMessages" v-model="cond.noticeMessage"/>
+						<input type="hidden" name="condActions" :value="JSON.stringify(cond.actions)"/>
+						</span>
+
+					</p>
+					<div v-if="addingCond != null" class="field">
+                    	<table class="ui table without-definition">
+							<thead>
+								<tr>
+									<th>参数</th>
+									<th>运算符</th>
+									<th>对比阈值</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<input type="text" name="addingParam" v-model="addingCond.param"/>
+									</td>
+									<td style="width:11em">
+										<select class="ui dropdown" style="width:10em" v-model="addingCond.op" @change="changeCondOp(addingCond)">
+											<option v-for="op in operators" :value="op.op">{{op.name}}</option>
+										</select>
+										<p class="comment">{{addingCond.description}}</p>
+									</td>
+									<td class="value-td">
+										<input type="text" v-model="addingCond.value"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<select class="ui dropdown" style="width:10em" v-model="addingCond.noticeLevel">
+											<option v-for="level in noticeLevels" :value="level.code">{{level.name}}</option>
+										</select>
+									</td>
+									<td colspan="2">
+										<input type="text" v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空"/>
+									</td>
+								</tr>
+								<tr v-for="(actionMap, index) in addingCond.actions">
+									<td>
+										<select class="ui dropdown" style="width:10em" name="actionCodes" v-model="actionMap.code">
+											<option v-for="action in actions" :value="action.code">{{action.name}}</option>
+										</select>
+									</td>
+									<td colspan="2">
+										<input type="text" v-model="actionMap.options.path" placeholder="脚本路径"/>
+										<p class="comment"><a href="" title="删除此动作" @click.prevent="removeCondAction(index)"><i class="icon remove small"></i> </a> </p>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3"><a href="" style="font-weight: normal;" @click.prevent="addCondAction()">+动作 &nbsp; <span style="color: rgba(0, 0, 0, 0.3)">(需要将Agent更新到v0.0.9版本以上)</span></a></td>
+								</tr>
+							</tbody>
+						</table>
+						<button class="ui primary button small" type="button" @click.prevent="confirmAddingCond()" v-if="addingCond.isAdding">确认添加</button>
+						<button class="ui primary button small" type="button" @click.prevent="saveCond()" v-if="!addingCond.isAdding">保存修改</button> &nbsp; <a href="" @click.prevent="cancelAddingCond()">取消</a>
+					</div>
+
+                    <button type="button" class="ui button small" @click="addCond()" v-if="addingCond == null">+</button>
                     <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
                 </td>
             </tr>

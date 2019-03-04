@@ -25,6 +25,20 @@
     padding: 2px;
 }
 
+.threshold-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.threshold-box .label em {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.threshold-box .label var {
+    font-style: normal;
+    font-weight: normal;
+}
 
 /** codemirror **/
 .CodeMirror {

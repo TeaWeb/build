@@ -249,18 +249,26 @@ Tea.context(function () {
 	 * 阈值
 	 */
 	this.conds = [];
+	this.addingCond = null;
+	this.condIndex = 0;
+	this.condActions = [];
+
 	this.addCond = function () {
-		this.conds.push({
-			"param": "",
+		this.addingCond = {
+			"id": this.condIndex++,
+			"param": "${0}",
 			"op": "eq",
 			"value": "",
 			"description": "",
 			"noticeLevel": 2,
-			"noticeMessage": ""
-		});
-		this.changeCondOp(this.conds.$last());
+			"noticeLevelName": "",
+			"noticeMessage": "",
+			"isAdding": true,
+			"actions": []
+		};
+		this.changeCondOp(this.addingCond);
 		this.$delay(function () {
-			this.$find("form input[name='condParams']").last().focus();
+			this.$find("form input[name='addingParam']").focus();
 			window.scroll(0, 10000);
 		});
 	};
@@ -272,6 +280,79 @@ Tea.context(function () {
 	};
 
 	this.removeCond = function (index) {
+		if (!window.confirm("确定要删除该阈值设置吗？")) {
+			return;
+		}
 		this.conds.$remove(index);
+		this.addingCond = null;
+	};
+
+	this.confirmAddingCond = function () {
+		if (this.addingCond.param.length == 0) {
+			alert("请输入参数");
+			this.$find("form input[name='addingParam']").focus();
+			return;
+		}
+		var that = this;
+		this.addingCond.noticeLevelName = this.noticeLevels.$find(function (k, v) {
+			return v.code == that.addingCond.noticeLevel;
+		}).name;
+		this.addingCond.isAdding = false;
+		this.conds.push(this.addingCond);
+		this.addingCond = null;
+	};
+
+	this.cancelAddingCond = function () {
+		this.addingCond = null;
+	};
+
+	this.editCond = function (cond) {
+		this.addingCond = {
+			"id": cond.id,
+			"param": cond.param,
+			"op": cond.op,
+			"value": cond.value,
+			"description": cond.description,
+			"noticeLevel": cond.noticeLevel,
+			"noticeLevelName": cond.noticeLevelName,
+			"noticeMessage": cond.noticeMessage,
+			"actions": cond.actions,
+			"isAdding": false
+		};
+	};
+
+	this.saveCond = function () {
+		var index = -1;
+		var that = this;
+		this.addingCond.noticeLevelName = this.noticeLevels.$find(function (k, v) {
+			return v.code == that.addingCond.noticeLevel;
+		}).name;
+
+		this.conds.$each(function (k, v) {
+			if (v.id == that.addingCond.id) {
+				v.param = that.addingCond.param;
+				v.op = that.addingCond.op;
+				v.value = that.addingCond.value;
+				v.description = that.addingCond.description;
+				v.noticeLevel = that.addingCond.noticeLevel;
+				v.noticeLevelName = that.addingCond.noticeLevelName;
+				v.noticeMessage = that.addingCond.noticeMessage;
+				v.actions = that.addingCond.actions;
+			}
+		});
+		this.addingCond = null;
+	};
+
+	this.addCondAction = function () {
+		this.addingCond.actions.push({
+			"code": "script",
+			"options": {
+				"scriptType": "path"
+			}
+		});
+	};
+
+	this.removeCondAction = function (index) {
+		this.addingCond.actions.$remove(index);
 	};
 });
