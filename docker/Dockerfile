@@ -1,6 +1,6 @@
 FROM centos:7
 LABEL maintainer="root@teaos.cn"
-ENV TZ 'Asia/Shanghai'
+ENV TZ "Asia/Shanghai"
 ENV TEAWEB_VERSION "0.0.9"
 ENV TEAWEB_URL "http://teaos.cn/downloads/v${TEAWEB_VERSION}/teaweb-linux-amd64-v${TEAWEB_VERSION}.zip"
 ENV MONGO_VERSION "4.0.6"
