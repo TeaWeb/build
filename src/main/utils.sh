@@ -58,10 +58,10 @@ function build() {
 
     echo "[copy files]"
     cp -R ${GOPATH}/src/main/configs/admin.sample.conf ${TARGET}/configs/admin.conf
-    cp -R ${GOPATH}/src/main/configs/server.prod.conf ${TARGET}/configs/server.conf
-    cp -R ${GOPATH}/src/main/configs/mongo.conf ${TARGET}/configs/
-    cp -R ${GOPATH}/src/main/configs/server.www.proxy.conf ${TARGET}/configs/
-    cp -R ${GOPATH}/src/main/configs/board.default.conf ${TARGET}/configs/
+    cp -R ${GOPATH}/src/main/configs/server.sample.conf ${TARGET}/configs/server.conf
+    cp -R ${GOPATH}/src/main/configs/mongo.sample.conf ${TARGET}/configs/mongo.conf
+    cp -R ${GOPATH}/src/main/configs/server.sample.www.proxy.conf ${TARGET}/configs/server.www.proxy.conf
+    cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/www ${TARGET}/
 
     cp -R ${GOPATH}/src/main/public ${TARGET}/
@@ -131,7 +131,6 @@ function buildAgent() {
     mkdir ${TARGET}/plugins
 
     cp ${GOPATH}/src/main/configs/agent.sample.conf ${TARGET}/configs/agent.conf
-    cp ${GOPATH}/src/main/configs/widgets ${TARGET}/configs/
 
     if [ ${GOOS} = "windows" ]
     then

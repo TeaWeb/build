@@ -28,7 +28,7 @@
             <div v-if="item.thresholds != null && item.thresholds.length > 0" v-for="threshold in item.thresholds" style="margin-top:0.2em;margin-bottom:0.4em">
                 <span class="ui label small">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
                     <em v-if="threshold.noticeMessage.length > 0">[{{threshold.levelName}}:...]</em>
-                    <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em> <em v-if="threshold.actions.length > 0">[{{threshold.actions.length}}动作]</em>
+                    <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em> <em v-if="threshold.actions != null && threshold.actions.length > 0">[{{threshold.actions.length}}动作]</em>
                 </span>
             </div>
         </td>
