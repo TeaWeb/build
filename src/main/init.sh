@@ -23,10 +23,6 @@ go_get "github.com/iwind/gofcgi"
 go_get "github.com/oschwald/maxminddb-golang"
 go_get "github.com/oschwald/geoip2-golang"
 
-# mongodb
-# go_get "github.com/mongodb/mongo-go-driver"
-# echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in mongodb"
-
 # system cpu, memory, disk ...
 go_get "github.com/shirou/gopsutil"
 go_get "github.com/StackExchange/wmi"
@@ -46,9 +42,6 @@ go_get "github.com/russross/blackfriday"
 
 # fsnotify
 go_get "github.com/fsnotify/fsnotify"
-
-# yaml
-go_get "github.com/go-yaml/yaml"
 
 # websocket
 go_get "github.com/gorilla/websocket"
