@@ -12,6 +12,8 @@
     <a :href="'/proxy/locations/headers?serverId=' + server.id + '&locationId=' + location.id" class="ui item" :class="{active:selectedSubTab == 'headers'}">自定义Header<span v-if="location.headers.length > 0">({{location.headers.length}})</span></a>
     <span class="item">|</span>
     <a :href="'/proxy/locations/rewrite?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'rewrite'}">重写规则<span v-if="location.rewrite.length > 0">({{location.rewrite.length}})</span></a>
+	<span class="item">|</span>
+	<a :href="'/proxy/locations/backends?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'backends'}">后端服务器<span v-if="location.backends.length > 0">({{location.backends.length}})</span></a>
     <span class="item">|</span>
     <a :href="'/proxy/locations/fastcgi?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'fastcgi'}">Fastcgi<span v-if="location.fastcgi.length > 0">({{location.fastcgi.length}})</span></a>
     <span class="item">|</span>
