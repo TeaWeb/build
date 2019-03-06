@@ -1,5 +1,5 @@
 # Documents
-http://plus.teaos.cn/doc
+http://teaos.cn/doc
 
 # Commands
 ~~~bash
