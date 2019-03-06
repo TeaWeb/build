@@ -1,0 +1,21 @@
+{$layout}
+
+<div class="ui menu text basic blue">
+	<a :href="'/agents/settings?agentId=' + agent.id" class="item">详情</a>
+	<a :href="'/agents/settings/install?agentId=' + agent.id" class="item active">部署</a>
+</div>
+
+<div class="ui divider"></div>
+
+<h3>部署Agent</h3>
+<div>
+	请在要管理App的主机上<a href="http://plus.teaos.cn/doc/agents/Install.md" target="_blank">下载并安装agent</a>，并修改<span class="ui label tiny">configs/agent.conf</span>内容如下：
+	<pre>
+master: <em>http://TeaWeb访问地址</em>
+id: {{agent.id}}
+key: {{agent.key}}
+</pre>
+</div>
+<div>
+	其中TeaWeb访问地址通常为当前TeaWeb所在服务器可访问的IP加上端口7777，比如当前服务器的IP是<span class="ui label tiny">192.168.1.100</span>，那么可以填上<span class="ui label tiny">master: http://192.168.1.100:7777</span>
+</div>
