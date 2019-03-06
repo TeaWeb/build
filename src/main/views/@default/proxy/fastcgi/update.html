@@ -23,13 +23,15 @@
                             <input type="text" name="paramNames" placeholder="参数名" v-model="param.name" style="width:14em" />
                         </div>
                         <div class="ui field">
-                            <input type="text" name="paramValues" placeholder="参数值" v-model="param.value" style="width:16em"/>
+                            <input type="text" name="paramValues" placeholder="参数值" v-model="param.value" style="width:19em"/>
                         </div>
                         <div class="ui field">
                             <a href="" title="删除" v-on:click.prevent="removeParam(index)"><i class="ui icon remove"></i> </a>
                         </div>
                     </div>
                 </div>
+
+				<p class="comment" v-if="params.length > 0">可以在参数值中使用一些变量<a href="http://plus.teaos.cn/doc/proxy/Fastcgi.md#%E5%8F%82%E6%95%B0%E5%8F%98%E9%87%8F" target="_blank">点这里查看</a> 。</p>
 
                 <button class="ui button" type="button" v-on:click.prevent="addParam()">+</button>
             </td>
@@ -57,6 +59,13 @@
                     <p class="comment">0表示不限制，通常可以设置为CPU数量的两倍</p>
                 </td>
             </tr>
+			<tr>
+				<td>PATH_INFO匹配</td>
+				<td>
+					<input type="text" name="pathInfoPattern" v-model="fastcgi.pathInfoPattern" maxlength="100"/>
+					<p class="comment">匹配PATH_INFO的正则表达式，用括号表示匹配的内容，如果只有一个匹配括号表示第一个括号为${fastcgi.pathInfo}值；如果有两个或两个以上的匹配括号，则第一个表示匹配的是${fastcgi.filename}，第二个匹配的是${fastcgi.pathInfo}，比如(\w+\.php)(.+)$。</p>
+				</td>
+			</tr>
             <tr>
                 <td>是否启用</td>
                 <td>

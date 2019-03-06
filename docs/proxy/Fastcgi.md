@@ -23,6 +23,8 @@
 ![fastcgi5.png](fastcgi5.png)
 其中 *Fastcgi地址* 是Fastcgi的端口地址，如果你是使用unix socket启动，可以填入unix socket的绝对路径；*SCRIPT_FILENAME* 是接收请求的入口文件，通常是一个脚本，比如PHP文件；*DOCUMENT_ROOT* 是脚本所在的根目录。在这里还可以添加更多的Fastcgi参数。
 
+自定义参数集中支持一些变量，可以参考[参数变量](#参数变量)。
+
 6. 点击底部的"保存"按钮，保存，跳转后的页面为：
 ![fastcgi6.png](fastcgi6.png)
 
@@ -36,3 +38,10 @@ index.html index.php
 
 ## 分发静态内容
 如果网站有静态内容需要分发，可以在代理服务的"基本信息"中设置"文档根目录"。
+
+## 参数变量
+自定义参数集中的参数值部分支持一些变量：
+* `${fastcgi.documentRoot}` - 参数`DOCUMENT_ROOT`的值，v0.0.10开始支持
+* `${fastcgi.filename}` - URL中匹配的文件名，v0.0.10开始支持
+* `${fastcgi.pathInfo}` - 通过`PATH_INFO匹配`选项匹配出来的PATH_INFO变量，v0.0.10开始支持
+* 支持所有的[请求相关变量](http://plus.teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F)，v0.0.10开始支持
