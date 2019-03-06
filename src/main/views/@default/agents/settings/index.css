@@ -10,3 +10,7 @@
 .ui.divider {
     margin-top: 0;
 }
+
+.table .label var {
+    font-style: normal;
+}

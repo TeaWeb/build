@@ -18,6 +18,13 @@
                 <span class="ui label small" v-if="!agent.on">未启用</span>
             </td>
         </tr>
+		<tr>
+			<td>状态</td>
+			<td>
+				<span v-if="agentIsWaiting" class="ui label green small">已连接<var v-if="agentVersion.length > 0"> v{{agentVersion}}</var></span>
+				<span v-if="!agentIsWaiting" class="ui label small">未连接</span>
+			</td>
+		</tr>
         <tr>
             <td class="title">主机名</td>
             <td>
