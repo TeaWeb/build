@@ -11,6 +11,9 @@
 </div>
 <div class="ui divider"></div>
 
+<!-- 数据源CSS -->
+<div v-html="formCSS"></div>
+
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
     <input type="hidden" name="agentId" :value="agentId"/>
     <input type="hidden" name="appId" :value="app.id"/>
@@ -33,111 +36,32 @@
             </td>
         </tr>
 
-        <!-- 脚本 -->
-        <tbody v-show="sourceCode == 'script'">
-            <tr>
-                <td>脚本 *</td>
-                <td>
-					<input type="hidden" name="scriptType" :value="scriptTab"/>
-					<input type="hidden" name="scriptLang" :value="scriptLang"/>
-					<div class="ui tabular menu attached small">
-						<a class="item" :class="{active:scriptTab == 'path'}" @click.prevent="selectScriptTab('path')">脚本文件</a>
-						<a class="item" :class="{active:scriptTab == 'code'}" @click.prevent="selectScriptTab('code')" v-if="!teaDemoEnabled">脚本代码</a>
-					</div>
-					<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
-						<input type="text" name="scriptPath" maxlength="100" v-model="item.sourceOptions.path"/>
-						<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em></p>
-					</div>
-					<div class="ui bottom segment attached" v-show="scriptTab == 'code'" style="padding-top:0">
-						<div class="ui menu text small">
-							<a class="item" v-for="lang in scriptLangs" :class="{active:lang.code == scriptLang}" @click.prevent="selectScriptLang(lang.code)">{{lang.name}}</a>
-						</div>
-						<textarea name="scriptCode" id="script-code-editor" rows="1"></textarea>
-						<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em></p>
-					</div>
-                </td>
-            </tr>
-            <tr v-show="advancedOptionsVisible">
-                <td>当前工作目录<em>（CWD）</em></td>
-                <td>
-                    <input type="text" name="scriptCwd" v-model="item.sourceOptions.cwd" maxlength="100"/>
-                </td>
-            </tr>
-            <tr v-show="advancedOptionsVisible">
-                <td>环境变量<em>（ENV）</em></td>
-                <td>
-                    <div class="ui field">
-                        <span class="ui label small" v-for="(var1, index) in env">
-                            <input type="hidden" name="scriptEnvNames" :value="var1.name"/>
-                            <input type="hidden" name="scriptEnvValues" :value="var1.value"/>
-                            <em>{{var1.name}}</em>: {{var1.value}}
-                            <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
-                        </span>
-                    </div>
-                    <div v-if="envAdding" class="ui fields inline">
-                        <div class="ui field">
-                            <input type="text" name="envAddingName" v-model="envAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
-                        </div>
-                        <div class="ui field">
-                            <input type="text" name="envAddingValue" v-model="envAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
-                        </div>
-                        <div class="ui field">
-                            <button class="ui button" type="button" @click="confirmAddEnv()">添加</button>
-                        </div>
-                        <div class="ui field">
-                            <a href="" @click.prevent="cancelEnv()"><i class="icon remove"></i></a>
-                        </div>
-                    </div>
-                    <div class="ui field">
-                        <button class="ui button small" type="button" @click="addEnv()">+</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
 
-        <!-- WebHook -->
-        <tbody v-show="sourceCode == 'webhook'">
-            <tr>
-                <td>URL *</td>
-                <td>
-                    <input type="text" name="webhookURL" maxlength="100" v-model="item.sourceOptions.url" placeholder="http://..."/>
-                </td>
-            </tr>
-            <tr>
-                <td>请求方法 *</td>
-                <td>
-                    <select name="webhookMethod" class="ui dropdown" v-model="item.sourceOptions.method" style="width:10em">
-                        <option v-for="method in methods" :value="method">{{method}}</option>
-                    </select>
-                </td>
-            </tr>
-            <tr v-show="advancedOptionsVisible">
-                <td>请求超时<em>（Timeout）</em></td>
-                <td>
-                    <div class="ui input right labeled">
-                        <input type="text" name="webhookTimeout" v-model="item.sourceOptions.timeout" style="width: 5em" maxlength="10" value="10"/>
-                        <label class="ui label">秒</label>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
+		{$range $x := .formGroups1}
+		<!-- {$ $x.Namespace} source options begins -->
+		<tbody v-show="sourceCode == '{$ $x.Namespace}'">
+			{$ $x.HTML}
+		</tbody>
+		<!-- {$ $x.Namespace} source options end -->
+		{$end}
 
-        <!-- 文件 -->
-        <tbody v-show="sourceCode == 'file'">
-            <tr>
-                <td>数据文件路径 *</td>
-                <td>
-                    <input type="text" name="filePath" v-model="item.sourceOptions.path" maxlength="100"/>
-                </td>
-            </tr>
-        </tbody>
         <tr>
             <td colspan="2">
                 <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
                 <a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
             </td>
         </tr>
-        <tbody v-show="advancedOptionsVisible">
+
+		{$range $x := .formGroups2}
+		<!-- {$ $x.Namespace} source options begins -->
+		<tbody v-show="advancedOptionsVisible && sourceCode == '{$ $x.Namespace}'">
+			{$ $x.HTML}
+		</tbody>
+		<!-- {$ $x.Namespace} source options end -->
+		{$end}
+
+
+		<tbody v-show="advancedOptionsVisible">
             <tr>
                 <td>数据格式</td>
                 <td>

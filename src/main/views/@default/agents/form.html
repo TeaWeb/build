@@ -1,0 +1,12 @@
+{$layout}
+
+{$template "/code_editor"}
+<div v-html="form.css"></div>
+
+<form class="ui form" data-tea-action="$">
+	<table class="ui table definition">
+	<tbody v-if="form.isVisible">{$(index $.form.Groups 0).HTML}</tbody>
+</table>
+
+<button class="ui button primary" type="submit">保存</button>
+</form>

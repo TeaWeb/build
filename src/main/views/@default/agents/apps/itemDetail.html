@@ -13,6 +13,9 @@
 
 <h3>监控项 <a :href="'/agents/apps/updateItem?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" v-if="!app.isSystem">修改</a></h3>
 
+<!-- 数据源CSS -->
+<div v-html="sourcePresentation.css"></div>
+
 <table class="ui table definition selectable">
 	<tr>
 		<td>是否启用</td>
@@ -36,82 +39,22 @@
     <tr v-if="source != null">
         <td>数据源</td>
         <td>
-            {{source.summary.name}}
-            <p class="comment">{{source.summary.description}}</p>
+            {{sourceOptions.summary.name}}
+            <p class="comment">{{sourceOptions.summary.description}}</p>
         </td>
     </tr>
 
-    <!-- 脚本 -->
-    <tbody v-if="source != null && source.summary.code == 'script'">
-        <tr v-if="source.options.scriptType == 'path' || source.options.scriptType == null || source.options.scriptType.length == 0">
-            <td>脚本路径</td>
-            <td>
-                {{source.options.path}}
-            </td>
-        </tr>
-		<tr v-if="source.options.scriptType == 'code'">
-			<td>脚本代码</td>
-			<td>
-				<div id="script-code-editor"></div>
-			</td>
-		</tr>
-        <tr>
-            <td>当前工作目录<em>（CWD）</em></td>
-            <td>
-                <span v-if="source.options.cwd.length > 0">{{source.options.cwd}}</span>
-                <span v-if="source.options.cwd.length == 0" class="disabled">没有设置</span>
-            </td>
-        </tr>
-        <tr>
-            <td>环境变量<em>（ENV）</em></td>
-            <td>
-                <span v-if="source.options.env != null && source.options.env.length > 0" class="ui label small" v-for="(var1, index) in source.options.env">
-                    <em>{{var1.name}}</em>: {{var1.value}}
-                    <a href="" @click.prevent="removeEnv(index)"><i class="icon remove"></i></a>
-                </span>
-                <span v-if="source.options.env == null || source.options.env.length == 0" class="disabled">没有设置</span>
-            </td>
-        </tr>
-    </tbody>
-
-    <!-- WebHook -->
-    <tbody v-if="source != null && source.summary.code == 'webhook'">
-        <tr>
-            <td>URL</td>
-            <td>
-                {{source.options.url}}
-            </td>
-        </tr>
-        <tr>
-            <td>请求方法</td>
-            <td>
-                {{source.options.method}}
-            </td>
-        </tr>
-        <tr>
-            <td>请求超时<em>（Timeout）</em></td>
-            <td>
-                {{source.options.timeout}}
-            </td>
-        </tr>
-    </tbody>
-
-    <!-- 文件 -->
-    <tbody v-if="source != null && source.summary.code == 'file'">
-        <tr>
-            <td>数据文件路径</td>
-            <td>
-                {{source.options.path}}
-            </td>
-        </tr>
-    </tbody>
+	<!-- 数据源 -->
+	<tbody v-if="source != null">
+		{$.sourcePresentation.HTML}
+	</tbody>
 
     <!-- 通用数据源设置 -->
     <tr>
         <td>数据格式</td>
         <td>
-            <span v-if="source != null && source.dataFormat != null">{{source.dataFormat.name}}</span>
-            <span v-if="source == null || source.dataFormat == null" class="disabled">没有设置</span>
+            <span v-if="sourceOptions != null && sourceOptions.dataFormat != null">{{sourceOptions.dataFormat.name}}</span>
+            <span v-if="sourceOptions == null || sourceOptions.dataFormat == null" class="disabled">没有设置</span>
         </td>
     </tr>
     <tr>

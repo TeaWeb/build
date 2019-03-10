@@ -4,6 +4,13 @@ Tea.context(function () {
 
 	this.from = encodeURIComponent(window.location.toString());
 
+	this.$delay(function () {
+		// 数据源
+		if (this.sourcePresentation.javascript != null && this.sourcePresentation.javascript.length > 0) {
+			eval(this.sourcePresentation.javascript);
+		}
+	});
+
 	if (this.item.thresholds != null) {
 		this.item.thresholds.$each(function (k, v) {
 			v.levelName = that.noticeLevels.$find(function (k, v1) {
@@ -12,13 +19,7 @@ Tea.context(function () {
 		});
 	}
 
-	if (this.item.sourceCode == "script" && this.item.sourceOptions.scriptType == "code") {
-		this.$delay(function () {
-			this.loadEditor();
-		});
-	}
-
-	this.loadEditor = function () {
+	this.loadCodeEditor = function (scriptLang, scriptCode) {
 		if (scriptEditor == null) {
 			scriptEditor = CodeMirror(document.getElementById("script-code-editor"), {
 				theme: "idea",
@@ -35,11 +36,11 @@ Tea.context(function () {
 				indentWithTabs: true
 			});
 		}
-		scriptEditor.setValue(this.item.sourceOptions.script);
+		scriptEditor.setValue(scriptCode);
 
 		var lang = "sh";
-		if (this.item.sourceOptions.scriptLang != null && this.item.sourceOptions.scriptLang.length > 0) {
-			lang = this.item.sourceOptions.scriptLang;
+		if (scriptLang != null && scriptLang.length > 0) {
+			lang = scriptLang;
 		}
 		var mimeType = "text/x-" + lang;
 		if (lang == "nodejs") {
