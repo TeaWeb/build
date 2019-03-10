@@ -58,12 +58,12 @@ tbody {
     width: 40em!important;
 }
 
-p.comment {
+p.comment, div.comment {
     color: rgba(0, 0, 0, 0.3);
     padding-top: 0.4em;
 }
 
-p.comment em {
+p.comment em, div.comment em {
     font-style: italic!important;
 }
 

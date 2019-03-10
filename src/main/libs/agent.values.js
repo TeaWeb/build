@@ -164,7 +164,7 @@ values.Query = function () {
  * 获取参数值
  */
 values.valueOf = function (value, param) {
-	var v = param.replace(/(\${\w+})/, function (match) {
+	var v = param.replace(/(\${[\w\\.]+})/, function (match) {
 		var varName = match.substring(2, match.length - 1);
 		if (value instanceof Array) {
 			var index = parseInt(varName, 10);
@@ -176,6 +176,23 @@ values.valueOf = function (value, param) {
 			if (typeof (value[varName]) != "undefined") {
 				return value[varName];
 			} else {
+				var pieces = varName.split(".");
+				if (pieces.length > 1) {
+					var lastObject = value;
+					for (var i = 0; i < pieces.length; i++) {
+						var piece = pieces[i];
+						if (lastObject != null && typeof(lastObject[piece]) != "undefined") {
+							lastObject = lastObject[piece];
+
+							if (i == pieces.length - 1) {
+								return lastObject;
+							}
+						} else {
+							break;
+						}
+					}
+				}
+
 				return "";
 			}
 		}

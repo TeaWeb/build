@@ -93,7 +93,6 @@ Tea.context(function () {
 	 * 线图
 	 */
 	this.lineLimit = (this.chart.type == "line") ? this.chart.options.Limit : 60;
-	console.log(this.chart.options);
 	this.lineParams = [{
 		"varName": "${0}"
 	}];

@@ -29,13 +29,21 @@
         <tr>
             <td>数据源 *</td>
             <td>
-                <select class="ui dropdown" name="sourceCode" v-model="sourceCode" @change="changeSource()" style="width:10em">
-                    <option v-for="source in sources" :value="source.code">{{source.name}}</option>
-                </select>
-                <p class="comment">{{sourceDescription}}</p>
+				<!-- 数据源列表 -->
+				<select class="ui dropdown" name="sourceCode" v-model="sourceCode" @change="changeSource()" style="width:12em">
+					<option v-for="source in sources" :value="source.code" v-if="source.category == 'basic'">基础 &raquo; {{source.name}}</option>
+					<option v-for="source in sources" :value="source.code" v-if="source.category == 'common'">常用 &raquo; {{source.name}}</option>
+				</select>
+				<p class="comment" style="margin-bottom:0.3em">{{sourceDescription}}</p>
+
+				<!-- 变量 -->
+				<div v-for="source in sources" style="line-height:1.8" v-if="source.code == sourceCode" class="comment">
+					<div class="ui divider" style="margin-bottom:0.4em!important;" v-if="source.variables != null && source.variables.length > 0"></div>
+					<span v-if="source.variables != null && source.variables.length > 0">该数据源提供的数据变量：</span>
+					<span v-if="source.variables != null" v-for="(var1, index) in source.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < source.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == source.variables.length - 1">。</var> </span>
+				</div>
             </td>
         </tr>
-
 
 		{$range $x := .formGroups1}
 		<!-- {$ $x.Namespace} source options begins -->
@@ -148,7 +156,10 @@
 						<button class="ui primary button small" type="button" @click.prevent="saveCond()" v-if="!addingCond.isAdding">保存修改</button> &nbsp; <a href="" @click.prevent="cancelAddingCond()">取消</a>
 					</div>
 
-					<button type="button" class="ui button small" @click="addCond()" v-if="addingCond == null">+</button>
+					<div v-if="addingCond == null">
+						<button type="button" class="ui button small" @click="addCond()" title="添加新阈值">+</button>
+						&nbsp; <a href="" @click.prevent="addDefaultThresholds()" v-if="defaultThresholds.length > 0">添加当前数据源内置阈值模板</a>
+					</div>
 
 					<p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
                 </td>

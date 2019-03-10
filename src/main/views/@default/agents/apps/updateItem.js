@@ -17,18 +17,37 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 数据源分类
+	 */
+	this.selectedCategory = "basic";
+
+	this.selectCategory = function (category) {
+		this.selectedCategory = category;
+		this.changeSource();
+	};
+
+	/**
 	 * 数据源
 	 */
 	this.isLoaded = false;
 	this.sourceCode = this.item.sourceCode;
 	this.sourceDescription = "";
 	this.item.interval = this.item.interval.replace(/s$/, "");
+	var that = this;
+	this.selectedCategory = this.sources.$find(function (k, v) {
+		return v.code == that.sourceCode;
+	}).category;
+	this.defaultThresholds = [];
 
 	this.changeSource = function () {
 		var that = this;
-		this.sourceDescription = this.sources.$find(function (k, v) {
+		var source = this.sources.$find(function (k, v) {
 			return v.code == that.sourceCode;
-		}).description;
+		});
+		this.sourceDescription = source.description;
+		if (source.thresholds != null) {
+			this.defaultThresholds = source.thresholds;
+		}
 
 		if (!this.isLoaded) {
 			this.isLoaded = true;
@@ -40,7 +59,9 @@ Tea.context(function () {
 		});
 	};
 
-	this.changeSource();
+	this.$delay(function () {
+		this.changeSource();
+	});
 
 	/**
 	 * 更多选项
@@ -193,5 +214,32 @@ Tea.context(function () {
 
 	this.removeCondAction = function (index) {
 		this.addingCond.actions.$remove(index);
+	};
+
+	/**
+	 * 默认阈值
+	 */
+	this.addThreshold = function (threshold) {
+		this.conds.push({
+			"id": this.condIndex++,
+			"param": threshold.param,
+			"op": threshold.operator,
+			"value": threshold.value,
+			"description": "",
+			"noticeLevel": threshold.noticeLevel,
+			"noticeLevelName": this.noticeLevels.$find(function (k1, v1) {
+				return v1.code == threshold.noticeLevel
+			}).name,
+			"noticeMessage": threshold.noticeMessage,
+			"actions": (threshold.actions == null) ? [] : threshold.actions,
+			"isAdding": false
+		});
+	};
+
+	this.addDefaultThresholds = function () {
+		var that = this;
+		this.defaultThresholds.$each(function (k, v) {
+			that.addThreshold(v);
+		});
 	};
 });

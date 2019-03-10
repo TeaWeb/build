@@ -14,7 +14,9 @@
 <h3>监控项 <a :href="'/agents/apps/updateItem?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" v-if="!app.isSystem">修改</a></h3>
 
 <!-- 数据源CSS -->
+{$ if not ( isNil .sourcePresentation ) }
 <div v-html="sourcePresentation.css"></div>
+{$ end}
 
 <table class="ui table definition selectable">
 	<tr>
@@ -46,7 +48,9 @@
 
 	<!-- 数据源 -->
 	<tbody v-if="source != null">
-		{$.sourcePresentation.HTML}
+		{$ if not ( isNil .sourcePresentation ) }
+			{$.sourcePresentation.HTML}
+		{$end}
 	</tbody>
 
     <!-- 通用数据源设置 -->

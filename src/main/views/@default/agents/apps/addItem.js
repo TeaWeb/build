@@ -17,17 +17,35 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 数据源分类
+	 */
+	this.selectedCategory = "basic";
+
+	this.selectCategory = function (category) {
+		this.selectedCategory = category;
+		this.sourceCode = this.sources.$findAll(function (k, v) {
+			return v.category == category;
+		})[0].code;
+		this.changeSource();
+	};
+
+	/**
 	 * 数据源
 	 */
 	this.isLoaded = false;
 	this.sourceCode = this.sources[0].code;
 	this.sourceDescription = "";
+	this.defaultThresholds = [];
 
 	this.changeSource = function () {
 		var that = this;
-		this.sourceDescription = this.sources.$find(function (k, v) {
+		var source = this.sources.$find(function (k, v) {
 			return v.code == that.sourceCode;
-		}).description;
+		});
+		this.sourceDescription = source.description;
+		if (source.thresholds != null) {
+			this.defaultThresholds = source.thresholds;
+		}
 
 		if (!this.isLoaded) {
 			this.isLoaded = true;
@@ -174,5 +192,32 @@ Tea.context(function () {
 
 	this.removeCondAction = function (index) {
 		this.addingCond.actions.$remove(index);
+	};
+
+	/**
+	 * 默认阈值
+	 */
+	this.addThreshold = function (threshold) {
+		this.conds.push({
+			"id": this.condIndex++,
+			"param": threshold.param,
+			"op": threshold.operator,
+			"value": threshold.value,
+			"description": "",
+			"noticeLevel": threshold.noticeLevel,
+			"noticeLevelName": this.noticeLevels.$find(function (k1, v1) {
+				return v1.code == threshold.noticeLevel
+			}).name,
+			"noticeMessage": threshold.noticeMessage,
+			"actions": (threshold.actions == null) ? [] : threshold.actions,
+			"isAdding": false
+		});
+	};
+
+	this.addDefaultThresholds = function () {
+		var that = this;
+		this.defaultThresholds.$each(function (k, v) {
+			that.addThreshold(v);
+		});
 	};
 });

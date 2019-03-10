@@ -18,3 +18,7 @@
 <div class="ui field" style="margin-bottom:2em" v-if="isLoaded && charts.length > 0">
     {$template "/chart_render"}
 </div>
+
+<p v-if="hasDefaultCharts">
+	<a href="" @click.prevent="addDefaultCharts()">添加当前数据源<span style="text-decoration: underline">({{sourceName}})</span>内置的图表</a>
+</p>

@@ -6,7 +6,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		// 数据源
-		if (this.sourcePresentation.javascript != null && this.sourcePresentation.javascript.length > 0) {
+		if (this.sourcePresentation != null && this.sourcePresentation.javascript != null && this.sourcePresentation.javascript.length > 0) {
 			eval(this.sourcePresentation.javascript);
 		}
 	});

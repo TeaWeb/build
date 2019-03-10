@@ -51,4 +51,20 @@ Tea.context(function () {
 			.refresh();
 		return false;
 	};
+
+	/**
+	 * 添加数据源内置图表
+	 */
+	this.addDefaultCharts = function () {
+		if (!window.confirm("确定要添加数据源内置图表吗？")) {
+			return;
+		}
+		this.$post("/agents/apps/addDefaultCharts")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id
+			})
+			.refresh();
+	};
 });
