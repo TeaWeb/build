@@ -25,7 +25,7 @@
 						<option v-for="source in sources" :value="source.code" v-if="source.category == 'basic'">基础 &raquo; {{source.name}}</option>
 						<option v-for="source in sources" :value="source.code" v-if="source.category == 'common'">常用 &raquo; {{source.name}}</option>
 					</select>
-					<p class="comment" style="margin-bottom:0.3em">{{sourceDescription}}</p>
+					<p class="comment" style="margin-bottom:0.3em">{{sourceDescription}} <var v-if="sourcePlatforms.length > 0">，支持的平台：<span v-for="platform in sourcePlatforms" class="ui label tiny">{{platform}}</span></var></p>
 
 					<!-- 变量 -->
 					<div v-for="source in sources" style="line-height:1.8" v-if="source.code == sourceCode" class="comment">

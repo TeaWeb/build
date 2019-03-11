@@ -40,6 +40,10 @@
     font-weight: normal;
 }
 
+.table var {
+    font-style: normal;
+}
+
 /** codemirror **/
 .CodeMirror {
     border: 1px solid #eee;

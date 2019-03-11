@@ -36,6 +36,7 @@ Tea.context(function () {
 	this.sourceCode = this.sources[0].code;
 	this.sourceDescription = "";
 	this.defaultThresholds = [];
+	this.sourcePlatforms = [];
 
 	this.changeSource = function () {
 		var that = this;
@@ -45,6 +46,9 @@ Tea.context(function () {
 		this.sourceDescription = source.description;
 		if (source.thresholds != null) {
 			this.defaultThresholds = source.thresholds;
+		}
+		if (source.platforms != null) {
+			this.sourcePlatforms = source.platforms;
 		}
 
 		if (!this.isLoaded) {

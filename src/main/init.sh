@@ -52,6 +52,9 @@ go_get "github.com/syndtr/goleveldb/leveldb"
 # go winio
 go_get "github.com/Microsoft/go-winio"
 
+# ping
+go_get "github.com/tatsushid/go-fastping"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"
