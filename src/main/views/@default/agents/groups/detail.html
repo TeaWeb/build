@@ -17,8 +17,27 @@
 	</tr>
 </table>
 
-<h3>主机</h3>
-<p class="comment" v-if="agents.length == 0">暂时还没有主机。</p>
+<h3 style="margin-top:2em!important">主机</h3>
+<form class="ui form segment" style="padding-bottom:0" v-if="hasAgents">
+	<div class="ui fields inline">
+		<div class="ui field">
+			<input type="text" placeholder="输入主机名、主机地址检索" size="23" @input="changeKeyword()" v-model="keyword"/>
+		</div>
+		<div class="ui field">
+			<select class="ui dropdown" v-model="filterOnline" @change="changeOnlineFilter()" style="width:5em">
+				<option value="-1">所有</option>
+				<option value="1">在线</option>
+				<option value="0">离线</option>
+			</select>
+		</div>
+		<div class="ui field" v-if="keyword.length > 0 || filterOnline != '-1'">
+			<a href="" @click.prevent="resetKeyword()">清除条件</a>
+		</div>
+	</div>
+</form>
+
+<p class="comment" v-if="agents.length == 0 && keyword.length == 0 && filterOnline == '-1'">暂时还没有主机。</p>
+<p class="comment" v-if="agents.length == 0 && keyword.length > 0 || filterOnline != '-1'">暂时还没有匹配的主机。</p>
 <table class="ui table selectable" v-if="agents.length > 0">
 	<thead>
 		<tr>
