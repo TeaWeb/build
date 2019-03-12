@@ -32,7 +32,14 @@
 				<!-- 数据源列表 -->
 				<select class="ui dropdown" name="sourceCode" v-model="sourceCode" @change="changeSource()" style="width:12em">
 					<option v-for="source in sources" :value="source.code" v-if="source.category == 'basic'">基础 &raquo; {{source.name}}</option>
+					<optgroup label="------------------"></optgroup>
+
+					<!-- 常用 -->
 					<option v-for="source in sources" :value="source.code" v-if="source.category == 'common'">常用 &raquo; {{source.name}}</option>
+
+					<!-- 插件 -->
+					<optgroup label="------------------" v-if="hasPluginSource"></optgroup>
+					<option v-for="source in sources" :value="source.code" v-if="source.category == 'plugin'">插件 &raquo; {{source.name}}</option>
 				</select>
 				<p class="comment" style="margin-bottom:0.3em">{{sourceDescription}}<var v-if="sourcePlatforms.length > 0">，支持的平台：<span v-for="platform in sourcePlatforms" class="ui label tiny">{{platform}}</span></var></p>
 
@@ -114,7 +121,7 @@
 							<tbody>
 							<tr>
 								<td>
-									<input type="text" name="addingParam" v-model="addingCond.param"/>
+									<input type="text" name="addingParam" v-model="addingCond.param" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 								</td>
 								<td style="width:11em">
 									<select class="ui dropdown" style="width:10em" v-model="addingCond.op" @change="changeCondOp(addingCond)">
@@ -123,7 +130,7 @@
 									<p class="comment">{{addingCond.description}}</p>
 								</td>
 								<td class="value-td">
-									<input type="text" v-model="addingCond.value"/>
+									<input type="text" v-model="addingCond.value" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 								</td>
 							</tr>
 							<tr>
@@ -133,7 +140,7 @@
 									</select>
 								</td>
 								<td colspan="2">
-									<input type="text" v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空"/>
+									<input type="text" v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 								</td>
 							</tr>
 							<tr v-for="(actionMap, index) in addingCond.actions">
@@ -143,7 +150,7 @@
 									</select>
 								</td>
 								<td colspan="2">
-									<input type="text" v-model="actionMap.options.path" placeholder="脚本路径"/>
+									<input type="text" v-model="actionMap.options.path" placeholder="脚本路径" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 									<p class="comment"><a href="" title="删除此动作" @click.prevent="removeCondAction(index)"><i class="icon remove small"></i> </a> </p>
 								</td>
 							</tr>

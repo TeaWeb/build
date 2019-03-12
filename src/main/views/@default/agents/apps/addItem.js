@@ -164,6 +164,11 @@ Tea.context(function () {
 	};
 
 	this.saveCond = function () {
+		if (this.addingCond.isAdding) {
+			this.confirmAddingCond();
+			return;
+		}
+
 		var index = -1;
 		var that = this;
 		this.addingCond.noticeLevelName = this.noticeLevels.$find(function (k, v) {
