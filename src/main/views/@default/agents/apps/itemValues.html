@@ -29,6 +29,9 @@
             <pre>{{value.value}}</pre>
         </td>
     </tr>
+	<tr v-if="value.threshold != null && value.threshold.length > 0" :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}">
+		<td>[阈值] {{value.threshold}}</td>
+	</tr>
 	<tr v-if="value.error.length > 0">
 		<td class="error">错误：{{value.error}}</td>
 	</tr>

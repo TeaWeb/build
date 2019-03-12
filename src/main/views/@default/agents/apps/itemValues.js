@@ -33,7 +33,9 @@ Tea.context(function () {
 				}
 			})
 			.done(function () {
-				this.isLoaded = true;
+				this.$delay(function () {
+					this.isLoaded = true;
+				});
 
 				this.$delay(function () {
 					this.loadValues();
