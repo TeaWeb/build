@@ -39,12 +39,14 @@ Tea.context(function () {
 	}).category;
 	this.defaultThresholds = [];
 	this.sourcePlatforms = [];
+	this.selectedSource = null;
 
 	this.changeSource = function () {
 		var that = this;
 		var source = this.sources.$find(function (k, v) {
 			return v.code == that.sourceCode;
 		});
+		this.selectedSource = source;
 		this.sourceDescription = source.description;
 		if (source.thresholds != null) {
 			this.defaultThresholds = source.thresholds;
@@ -190,7 +192,7 @@ Tea.context(function () {
 			this.confirmAddingCond();
 			return;
 		}
-		
+
 		var index = -1;
 		var that = this;
 		this.addingCond.noticeLevelName = this.noticeLevels.$find(function (k, v) {

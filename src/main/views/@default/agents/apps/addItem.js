@@ -37,12 +37,14 @@ Tea.context(function () {
 	this.sourceDescription = "";
 	this.defaultThresholds = [];
 	this.sourcePlatforms = [];
+	this.selectedSource = null;
 
 	this.changeSource = function () {
 		var that = this;
 		var source = this.sources.$find(function (k, v) {
 			return v.code == that.sourceCode;
 		});
+		this.selectedSource = source;
 		this.sourceDescription = source.description;
 		if (source.thresholds != null) {
 			this.defaultThresholds = source.thresholds;

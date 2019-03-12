@@ -42,7 +42,14 @@
         <td>数据源</td>
         <td>
             {{sourceOptions.summary.name}}
-            <p class="comment">{{sourceOptions.summary.description}}</p>
+			<p class="comment" style="margin-bottom:0.3em">{{sourceOptions.summary.description}}<span v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0">，<a href="" @click.prevent="showSourceVariables()">提供的数据变量<i class="icon angle" :class="{down:!sourceVariablesVisible,up:sourceVariablesVisible}"></i></a>。</span></p>
+
+			<!-- 变量 -->
+			<div style="line-height:1.8" v-if="sourceVariablesVisible && selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
+				<div class="ui divider" style="margin-bottom:0.4em!important;"></div>
+				<span>该数据源提供的数据变量：</span>
+				<span v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
+			</div>
         </td>
     </tr>
 

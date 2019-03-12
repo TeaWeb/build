@@ -35,10 +35,10 @@
 					<p class="comment" style="margin-bottom:0.3em">{{sourceDescription}} <var v-if="sourcePlatforms.length > 0">，支持的平台：<span v-for="platform in sourcePlatforms" class="ui label tiny">{{platform}}</span></var></p>
 
 					<!-- 变量 -->
-					<div v-for="source in sources" style="line-height:1.8" v-if="source.code == sourceCode" class="comment">
-						<div class="ui divider" style="margin-bottom:0.4em!important;" v-if="source.variables != null && source.variables.length > 0"></div>
-						<span v-if="source.variables != null && source.variables.length > 0">该数据源提供的数据变量：</span>
-						<span v-if="source.variables != null" v-for="(var1, index) in source.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < source.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == source.variables.length - 1">。</var> </span>
+					<div style="line-height:1.8" v-if="selectedSource != null" class="comment">
+						<div class="ui divider" style="margin-bottom:0.4em!important;" v-if="selectedSource.variables != null && selectedSource.variables.length > 0"></div>
+						<span v-if="selectedSource.variables != null && selectedSource.variables.length > 0">该数据源提供的数据变量：</span>
+						<span v-if="selectedSource.variables != null" v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
 					</div>
 				</td>
 			</tr>
@@ -158,7 +158,14 @@
 						&nbsp; <a href="" @click.prevent="addDefaultThresholds()" v-if="defaultThresholds.length > 0">添加当前数据源内置阈值模板</a>
 					</div>
 
-                    <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+                    <p class="comment" style="margin-bottom:0.3em">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+
+					<!-- 变量 -->
+					<div style="line-height:1.8" v-if="selectedSource != null" class="comment">
+						<div class="ui divider" style="margin-bottom:0.4em!important;" v-if="selectedSource.variables != null && selectedSource.variables.length > 0"></div>
+						<span v-if="selectedSource.variables != null && selectedSource.variables.length > 0">该数据源提供的数据变量：</span>
+						<span v-if="selectedSource.variables != null" v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
+					</div>
                 </td>
             </tr>
             <tr>

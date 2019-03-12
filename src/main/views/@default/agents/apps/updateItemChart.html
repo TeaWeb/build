@@ -63,7 +63,13 @@
                 <td>
                     <input type="text" name="pieParam" value="${0}" v-if="chart.type != 'pie'"/>
                     <input type="text" name="pieParam" v-model="chart.options.Param" v-if="chart.type == 'pie'"/>
-                    <p class="comment">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+                    <p class="comment" style="margin-bottom:0.3em">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+					<!-- 变量 -->
+					<div style="line-height:1.8" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
+						<div class="ui divider" style="margin-bottom:0.4em!important;"></div>
+						<span>该数据源提供的数据变量：</span>
+						<span v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
+					</div>
                 </td>
             </tr>
             <tr>
@@ -94,7 +100,13 @@
                             <a href="" title="删除" @click.prevent="removeLine(index)"><i class="icon remove"></i></a>
                         </div>
                     </div>
-                    <p class="comment" v-if="index == 0">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+                    <p class="comment" style="margin-bottom:0.3em" v-if="index == 0">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+					<!-- 变量 -->
+					<div style="line-height:1.8" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
+						<div class="ui divider" style="margin-bottom:0.4em!important;"></div>
+						<span>该数据源提供的数据变量：</span>
+						<span v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
+					</div>
                 </td>
             </tr>
             <tr>
@@ -124,6 +136,12 @@
                 <td>Javascript代码</td>
                 <td>
                     <textarea name="javascriptCode" id="javascript-code-editor" rows="1"></textarea>
+
+					<!-- 变量 -->
+					<div style="line-height:1.8" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
+						<span>该数据源提供的数据变量：</span>
+						<span v-for="(var1, index) in selectedSource.variables"><var class="ui label tiny" v-text="'${' + var1.code + '}'" style="font-style: normal;"></var> - {{var1.description}} <var style="font-style: normal;" v-if="index < selectedSource.variables.length - 1">；</var><var style="font-style: normal;" v-if="index == selectedSource.variables.length - 1">。</var> </span>
+					</div>
                 </td>
             </tr>
         </tbody>

@@ -3,6 +3,7 @@ Tea.context(function () {
 	var that = this;
 
 	this.from = encodeURIComponent(window.location.toString());
+	this.selectedSource = this.sourceOptions.summary;
 
 	this.$delay(function () {
 		// 数据源
@@ -68,5 +69,14 @@ Tea.context(function () {
 				window.scroll(0, 10000);
 			});
 		}
+	};
+
+	/**
+	 * 显示数据源变量
+	 */
+	this.sourceVariablesVisible = false;
+
+	this.showSourceVariables = function () {
+		this.sourceVariablesVisible = !this.sourceVariablesVisible;
 	};
 });
