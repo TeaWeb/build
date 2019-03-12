@@ -3,6 +3,13 @@
 # initialize project
 export GOPATH=`pwd`/../../
 
+# mkdir
+if [ ! -d ${GOPATH}/src/main/tmp ]
+then
+	echo "mkdir tmp/"
+	mkdir ${GOPATH}/src/main/tmp
+fi
+
 # go_get function
 function go_get() {
     echo "go get ${1} ..."
@@ -25,6 +32,7 @@ go_get "github.com/oschwald/geoip2-golang"
 
 # system cpu, memory, disk ...
 go_get "github.com/shirou/gopsutil"
+go_get "github.com/shirou/w32"
 go_get "github.com/StackExchange/wmi"
 go_get "github.com/go-ole/go-ole"
 

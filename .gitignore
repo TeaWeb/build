@@ -43,6 +43,7 @@ src/main/configs/cache.*
 src/main/configs/admin.conf
 src/main/configs/avatars
 src/main/configs/*.js
+src/main/upgrade
 src/main/views/@default/plus
 src/main/plugins/*.tea
 src/main/plus

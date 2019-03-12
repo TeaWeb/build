@@ -68,6 +68,7 @@ function build() {
     cp -R ${GOPATH}/src/main/resources ${TARGET}/
     cp -R ${GOPATH}/src/main/views ${TARGET}/
     cp -R ${GOPATH}/src/main/libs ${TARGET}
+    cp -R ${GOPATH}/src/main/upgrade ${TARGET}
     if [ -d ${TARGET}/libs/.idea ]
     then
 		rm -rf ${TARGET}/libs/.idea
@@ -101,8 +102,6 @@ function build() {
     rm -rf ${TARGET}
 
     echo "[done]"
-
-    buildAgent
 }
 
 function buildAgent() {
@@ -144,6 +143,13 @@ function buildAgent() {
     fi
 
 	go build -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
+
+	if [ ! -d "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}" ]
+	then
+		mkdir -p "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"
+	fi
+	rm -f "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"/*
+	cp ${TARGET}/bin/teaweb-agent${EXT} "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"/teaweb-agent${EXT}
 
 	echo "[zip files]"
     cd ${TARGET}/../
