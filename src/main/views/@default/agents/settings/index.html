@@ -25,6 +25,20 @@
 				<span v-if="!agentIsWaiting" class="ui label small">未连接</span>
 			</td>
 		</tr>
+		<tr>
+			<td>连接速度</td>
+			<td>
+				<div class="ui progress tiny" :class="{green:speedPercent>=80, yellow:speedPercent<80&&speedPercent>=50, red:speedPercent>0&&speedPercent<50}" v-if="agentIsWaiting">
+					<div class="ui bar" :style="{width:speedPercent+'%'}"></div>
+					<span class="label">{{agentSpeed}}ms</span>
+				</div>
+
+				<div class="ui progress tiny" v-if="!agentIsWaiting">
+					<div class="ui bar"></div>
+					<span class="label disabled">未连接</span>
+				</div>
+			</td>
+		</tr>
         <tr>
             <td class="title">主机名</td>
             <td>

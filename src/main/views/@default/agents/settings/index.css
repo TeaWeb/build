@@ -14,3 +14,17 @@
 .table .label var {
     font-style: normal;
 }
+
+.progress {
+    width: 10em;
+}
+
+.progress .bar {
+    min-width: 0!important;
+}
+
+.ui.progress>.label{
+    text-align: left!important;
+    font-weight: normal;
+    line-height: 2em;
+}
