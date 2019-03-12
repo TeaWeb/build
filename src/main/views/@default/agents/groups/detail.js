@@ -4,6 +4,10 @@ Tea.context(function () {
 	var allAgents = this.agents;
 	this.hasAgents = allAgents.length > 0;
 
+	this.$delay(function () {
+		this.sortable();
+	});
+
 	this.changeKeyword = function () {
 		this.filter();
 	};
@@ -42,6 +46,36 @@ Tea.context(function () {
 				}
 			}
 			return true;
+		});
+	};
+
+	/**
+	 * 拖动排序
+	 */
+	this.sortable = function () {
+		if (this.agents.length == 0) {
+			return;
+		}
+		var box = this.$find("#agents-table")[0];
+		var that = this;
+		Sortable.create(box, {
+			draggable: "tbody",
+			handle: ".icon.handle",
+			onStart: function () {
+
+			},
+			onUpdate: function (event) {
+				var newIndex = event.newIndex;
+				var oldIndex = event.oldIndex;
+				var toId = allAgents[newIndex].id;
+				var fromId = allAgents[oldIndex].id;
+				that.$post("/agents/move")
+					.params({
+						"fromId": fromId,
+						"toId": toId
+					})
+					.refresh();
+			}
 		});
 	};
 });
