@@ -46,8 +46,10 @@ Tea.context(function () {
 					return false;
 				}
 			}
+			v.isChecked = false;
 			return true;
 		});
+		this.selectedAgents = [];
 	};
 
 	/**

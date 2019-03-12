@@ -72,6 +72,16 @@
                         </div>
                     </td>
                 </tr>
+				<tr>
+					<td>自动检测离线</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="checkDisconnections" value="1" v-model="agent.checkDisconnections"/>
+							<label></label>
+						</div>
+						<p class="comment">选中后，主机离线会自动发通知</p>
+					</td>
+				</tr>
                 <tr>
                     <td>是否启用</td>
                     <td>
