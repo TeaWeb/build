@@ -22,7 +22,7 @@
 	</tr>
 </table>
 
-<h3 style="margin-top:2em!important">主机</h3>
+<h3 style="margin-top:2em!important">主机 &nbsp; <span v-if="countAllAgents > 0">({{countAllAgents}}个)</span></h3>
 <form class="ui form segment" style="padding-bottom:0" v-if="hasAgents">
 	<div class="ui fields inline">
 		<div class="ui field">
@@ -37,6 +37,13 @@
 		</div>
 		<div class="ui field" v-if="keyword.length > 0 || filterOnline != '-1'">
 			<a href="" @click.prevent="resetKeyword()">清除条件</a>
+		</div>
+		<div class="ui field" v-if="(keyword.length > 0 || filterOnline != '-1') && agents.length > 0">
+			<a href="" @click.prevent="selectAllAgents()">全选</a>
+		</div>
+		<div class="ui field" v-if="(keyword.length > 0 || filterOnline != '-1') && selectedAgents.length > 0">
+			<a href="" @click.prevent="deleteAgents()" v-if="!isDeleting">删除所选({{selectedAgents.length}})</a>
+			<span v-if="isDeleting" class="grey">删除中，请耐心等待...</span>
 		</div>
 	</div>
 </form>
@@ -54,7 +61,13 @@
 	</thead>
 	<tbody v-for="agent in agents">
 		<tr>
-			<td style="text-align: center;"><i class="icon list small handle grey" v-if="keyword.length == 0 && filterOnline == '-1'"></i> </td>
+			<td style="text-align: center;">
+				<i class="icon arrows alternate grey handle" v-if="keyword.length == 0 && filterOnline == '-1'"></i>
+				<div class="ui checkbox" v-if="keyword.length > 0 || filterOnline != '-1'">
+					<input type="checkbox" name="hostIds" v-model="agent.isChecked" @change="changeAgentChecked()"/>
+					<label></label>
+				</div>
+			</td>
 			<td>{{agent.name}}
 				<br/>
 				<span v-if="!agent.on" class="ui label tiny">未启用</span>
@@ -68,4 +81,4 @@
 	</tbody>
 </table>
 
-<p class="comment" v-if="hasAgents && keyword.length == 0 && filterOnline == '-1'">可以拖动左侧的<i class="icon list small"></i>排序。</p>
+<p class="comment" v-if="hasAgents && keyword.length == 0 && filterOnline == '-1'">可以拖动左侧的<i class="icon arrows alternate"></i>排序。</p>

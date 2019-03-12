@@ -3,6 +3,7 @@ Tea.context(function () {
 	this.filterOnline = "-1";
 	var allAgents = this.agents;
 	this.hasAgents = allAgents.length > 0;
+	this.countAllAgents = allAgents.length;
 
 	this.$delay(function () {
 		this.sortable();
@@ -77,5 +78,49 @@ Tea.context(function () {
 					.refresh();
 			}
 		});
+	};
+
+	/**
+	 * 全选删除
+	 */
+	this.selectedAgents = [];
+
+	this.selectAllAgents = function () {
+		this.agents = this.agents.$map(function (k, v) {
+			v.isChecked = true;
+			return v;
+		});
+		this.selectedAgents = this.agents;
+	};
+
+	this.changeAgentChecked = function () {
+		this.$delay(function () {
+			this.selectedAgents = this.agents.$findAll(function (k, v) {
+				return v.isChecked;
+			});
+		});
+	};
+
+	this.isDeleting = false;
+
+	this.deleteAgents = function () {
+		if (this.selectedAgents.length == 0) {
+			alert("请选择要删除的主机");
+			return;
+		}
+
+		if (!window.confirm("确定要删除选中的主机吗？")) {
+			return;
+		}
+
+		this.isDeleting = true;
+
+		this.$post("/agents/deleteAgents")
+			.params({
+				"agentIds": this.selectedAgents.$map(function (k, v) {
+					return v.id
+				})
+			})
+			.refresh();
 	};
 });
