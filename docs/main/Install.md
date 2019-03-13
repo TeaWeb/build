@@ -46,10 +46,11 @@ firewall-cmd --zone=public --add-port=7777/tcp --permanent
 firewall-cmd --reload
 ~~~
 
-要使用插件服务，请确保`ps`、`pgrep`和`lsof`命令可用，如果没有安装对应的命令，可以使用以下命令安装：
+## Red Hat Enterprise Linux Server 7
+在Red Hat Enterprise Linux Server 7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
 ~~~bash
-yum install procps
-yum install lsof
+firewall-cmd --zone=public --add-port=7777/tcp --permanent
+firewall-cmd --reload
 ~~~
 
 ## Windows
