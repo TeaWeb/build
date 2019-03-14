@@ -4,9 +4,14 @@
     background-size: cover;
 }**/
 
+.menu {
+    border-radius: 0!important;
+    background: #276ac6!important;
+}
+
 .form-box {
     position: fixed;
-    top: 0;
+    top: 2.5em;
     bottom: 0;
     left: 0;
     right: 0;
