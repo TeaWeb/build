@@ -78,8 +78,15 @@
 		<tr>
 			<td>自动检测离线</td>
 			<td>
-				<span v-if="agent.checkDisconnections">检测</span>
+				<span v-if="agent.checkDisconnections" class="green">检测</span>
 				<span v-if="!agent.checkDisconnections">不检测</span>
+			</td>
+		</tr>
+		<tr>
+			<td>自动升级</td>
+			<td>
+				<span v-if="agent.autoUpdates" class="green">自动升级</span>
+				<span v-if="!agent.autoUpdates">不自动升级</span>
 			</td>
 		</tr>
     </table>
