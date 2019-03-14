@@ -14,7 +14,8 @@ Tea.context(function () {
 				"agentId": this.agentId,
 				"appId": this.app.id,
 				"itemId": this.item.id,
-				"lastId": this.lastId
+				"lastId": this.lastId,
+				"level": this.selectedLevel
 			})
 			.success(function (resp) {
 				if (resp.data.values.length == 0) {
@@ -51,7 +52,8 @@ Tea.context(function () {
 			.params({
 				"agentId": this.agentId,
 				"appId": this.app.id,
-				"itemId": this.item.id
+				"itemId": this.item.id,
+				"level": this.selectedLevel
 			})
 			.refresh();
 	};

@@ -2,6 +2,7 @@
 
 {$template "menu"}
 
+<!-- 子菜单 -->
 <div class="ui text menu small blue">
     <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">{{item.name}} &raquo; 详情</a>
     <span class="item">|</span>
@@ -9,8 +10,13 @@
     <span class="item">|</span>
     <a :href="'/agents/apps/itemCharts?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">图表<span>({{item.charts.length}})</span></a>
 
+	<span class="item">|</span>
+	<a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item" :class="{active:selectedLevel == 0}">所有级别</a>
+	<a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&level=' + level.code" class="item" v-for="level in levels" :class="{active:selectedLevel==level.code}">{{level.name}}</a>
+
 	<span class="item" v-if="values.length > 0">|</span>
 	<a href="" class="item" v-if="values.length > 0" @click.prevent="clearValues()">清空数值记录</a>
+
 </div>
 <div class="ui divider"></div>
 
