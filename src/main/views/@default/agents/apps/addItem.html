@@ -103,7 +103,7 @@
                     	<table class="ui table without-definition">
 							<thead>
 								<tr>
-									<th>参数</th>
+									<th style="width:11em">参数</th>
 									<th>运算符</th>
 									<th>对比阈值</th>
 								</tr>
@@ -111,7 +111,7 @@
 							<tbody>
 								<tr>
 									<td>
-										<input type="text" name="addingParam" v-model="addingCond.param" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
+										<input type="text" name="addingParam" v-model="addingCond.param" @keyup.enter="saveCond" @keypress.enter.prevent="1" style="width:10em"/>
 									</td>
 									<td style="width:11em">
 										<select class="ui dropdown" style="width:10em" v-model="addingCond.op" @change="changeCondOp(addingCond)">
@@ -168,6 +168,16 @@
 					</div>
                 </td>
             </tr>
+			<tr>
+				<td>成功判定</td>
+				<td>
+					<div class="ui input right labeled">
+						<input type="text" name="recoverSuccesses" style="width: 5em" maxlength="10" value="1"/>
+						<label class="ui label">次</label>
+					</div>
+					<p class="comment">如果因为触发了某个阈值而发生了错误，则在N次成功获取数据后，发送成功级别的通知。</p>
+				</td>
+			</tr>
             <tr>
                 <td>是否启用</td>
                 <td>

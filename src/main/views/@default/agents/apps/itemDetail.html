@@ -89,6 +89,13 @@
         </tr>
     </tbody>
 	<tr>
+		<td>成功判定</td>
+		<td>
+			{{item.recoverSuccesses}}次
+			<p class="comment">如果因为触发了某个阈值而发生了错误，则在<span style="text-decoration: underline">{{item.recoverSuccesses}}</span>次成功获取数据后，发送成功级别的通知。</p>
+		</td>
+	</tr>
+	<tr>
 		<td>外部监控API</td>
 		<td>
 			<a href="" @click.prevent="showAgentItemAPI()">点此查看 <i class="icon angle" :class="{down:!agentItemAPIVisible, up:agentItemAPIVisible}"></i> </a>
