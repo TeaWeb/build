@@ -99,13 +99,14 @@
                 <td>阈值设置<em>（触发条件）</em></td>
                 <td>
 					<p class="threshold-box">
-						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a>
+						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a>
 						<input type="hidden" name="condParams" v-model="cond.param"/>
 						<input type="hidden" name="condOps" v-model="cond.op"/>
 						<input type="hidden" name="condValues" v-model="cond.value"/>
 						<input type="hidden" name="condNoticeLevels" v-model="cond.noticeLevel"/>
 						<input type="hidden" name="condNoticeMessages" v-model="cond.noticeMessage"/>
 						<input type="hidden" name="condActions" :value="JSON.stringify(cond.actions)"/>
+						<input type="hidden" name="condMaxFails" v-model="cond.maxFails"/>
 						</span>
 
 					</p>
@@ -122,6 +123,7 @@
 							<tr>
 								<td>
 									<input type="text" name="addingParam" v-model="addingCond.param" @keyup.enter="saveCond" @keypress.enter.prevent="1" style="width:10em"/>
+									<p style="margin-top:1em"><a href="" @click.prevent="showCondMoreOptions(addingCond)" style="font-weight: normal">更多选项<i class="icon angle" :class="{down:!addingCond.moreOptions,up:addingCond.moreOptions}"></i> </a></p>
 								</td>
 								<td style="width:11em">
 									<select class="ui dropdown" style="width:10em" v-model="addingCond.op" @change="changeCondOp(addingCond)">
@@ -133,7 +135,7 @@
 									<input type="text" v-model="addingCond.value" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 								</td>
 							</tr>
-							<tr>
+							<tr v-show="addingCond.moreOptions">
 								<td>
 									<select class="ui dropdown" style="width:10em" v-model="addingCond.noticeLevel">
 										<option v-for="level in noticeLevels" :value="level.code">{{level.name}}</option>
@@ -143,7 +145,22 @@
 									<input type="text" v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 								</td>
 							</tr>
-							<tr v-for="(actionMap, index) in addingCond.actions">
+							<tr v-show="addingCond.moreOptions">
+								<td style="font-weight: normal; background:white" colspan="3">
+									<div class="ui fields inline">
+										<div class="ui field">
+											连续
+										</div>
+										<div class="ui field">
+											<input type="text" placeholder="次数" v-model="addingCond.maxFails" size="4" value="" maxlength="4" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
+										</div>
+										<div class="ui field">
+											次
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr v-show="addingCond.moreOptions" v-for="(actionMap, index) in addingCond.actions">
 								<td>
 									<select class="ui dropdown" style="width:10em" name="actionCodes" v-model="actionMap.code">
 										<option v-for="action in actions" :value="action.code">{{action.name}}</option>
@@ -154,17 +171,17 @@
 									<p class="comment"><a href="" title="删除此动作" @click.prevent="removeCondAction(index)"><i class="icon remove small"></i> </a> </p>
 								</td>
 							</tr>
-							<tr>
+							<tr v-show="addingCond.moreOptions">
 								<td colspan="3"><a href="" style="font-weight: normal;" @click.prevent="addCondAction()">+动作 &nbsp; <span style="color: rgba(0, 0, 0, 0.3)">(需要将Agent更新到v0.0.9版本以上)</span></a></td>
 							</tr>
 							</tbody>
 						</table>
-						<button class="ui primary button small" type="button" @click.prevent="confirmAddingCond()" v-if="addingCond.isAdding">确认添加</button>
-						<button class="ui primary button small" type="button" @click.prevent="saveCond()" v-if="!addingCond.isAdding">保存修改</button> &nbsp; <a href="" @click.prevent="cancelAddingCond()">取消</a>
+						<button class="ui primary button tiny" type="button" @click.prevent="confirmAddingCond()" v-if="addingCond.isAdding">确认添加</button>
+						<button class="ui primary button tiny" type="button" @click.prevent="saveCond()" v-if="!addingCond.isAdding">保存修改</button> &nbsp; <a href="" @click.prevent="cancelAddingCond()">取消</a>
 					</div>
 
 					<div v-if="addingCond == null">
-						<button type="button" class="ui button small" @click="addCond()" title="添加新阈值">+</button>
+						<button type="button" class="ui button tiny" @click="addCond()" title="添加新阈值">+</button>
 						&nbsp; <a href="" @click.prevent="addDefaultThresholds()" v-if="defaultThresholds.length > 0">添加当前数据源内置阈值模板</a>
 					</div>
 
@@ -183,7 +200,7 @@
 				<td>
 					<div class="ui input right labeled">
 						<input type="text" name="recoverSuccesses" style="width: 5em" maxlength="10" v-model="item.recoverSuccesses"/>
-						<label class="ui label">次</label>
+						<label class="ui label">次成功</label>
 					</div>
 					<p class="comment">如果因为触发了某个阈值而发生了错误，则在N次成功获取数据后，发送成功级别的通知。</p>
 				</td>

@@ -83,6 +83,7 @@
                     <span class="ui label small">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
                         <em v-if="threshold.noticeMessage.length > 0">[{{threshold.levelName}}:{{threshold.noticeMessage}}]</em>
                         <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em> <em v-if="threshold.actions != null && threshold.actions.length > 0">[{{threshold.actions.length}}动作]</em>
+						<em v-if="threshold.maxFails > 1">[连续{{threshold.maxFails}}次]</em>
                     </span>
                 </div>
             </td>

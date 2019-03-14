@@ -108,12 +108,13 @@ Tea.context(function () {
 			"noticeLevelName": "",
 			"noticeMessage": "",
 			"isAdding": true,
-			"actions": []
+			"actions": [],
+			"maxFails": 1,
+			"moreOptions": false
 		};
 		this.changeCondOp(this.addingCond);
 		this.$delay(function () {
 			this.$find("form input[name='addingParam']").focus();
-			window.scroll(0, 10000);
 		});
 	};
 
@@ -161,7 +162,9 @@ Tea.context(function () {
 			"noticeLevelName": cond.noticeLevelName,
 			"noticeMessage": cond.noticeMessage,
 			"actions": cond.actions,
-			"isAdding": false
+			"isAdding": false,
+			"maxFails": cond.maxFails,
+			"moreOptions": false
 		};
 	};
 
@@ -187,6 +190,7 @@ Tea.context(function () {
 				v.noticeLevelName = that.addingCond.noticeLevelName;
 				v.noticeMessage = that.addingCond.noticeMessage;
 				v.actions = that.addingCond.actions;
+				v.maxFails = that.addingCond.maxFails;
 			}
 		});
 		this.addingCond = null;
@@ -205,6 +209,10 @@ Tea.context(function () {
 		this.addingCond.actions.$remove(index);
 	};
 
+	this.showCondMoreOptions = function (cond) {
+		cond.moreOptions = !cond.moreOptions;
+	};
+
 	/**
 	 * 默认阈值
 	 */
@@ -221,6 +229,7 @@ Tea.context(function () {
 			}).name,
 			"noticeMessage": threshold.noticeMessage,
 			"actions": (threshold.actions == null) ? [] : threshold.actions,
+			"maxFails": (threshold.maxFails == 0) ? 1 : threshold.maxFails,
 			"isAdding": false
 		});
 	};
