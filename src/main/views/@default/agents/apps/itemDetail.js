@@ -3,7 +3,9 @@ Tea.context(function () {
 	var that = this;
 
 	this.from = encodeURIComponent(window.location.toString());
-	this.selectedSource = this.sourceOptions.summary;
+	if (this.sourceOptions != null) {
+		this.selectedSource = this.sourceOptions.summary;
+	}
 
 	this.$delay(function () {
 		// 数据源
