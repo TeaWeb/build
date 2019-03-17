@@ -146,7 +146,7 @@ Tea.context(function () {
 	this.authMasterURL = window.location.protocol + "//" + window.location.host;
 	this.authUsername = "root";
 	this.authPassword = "";
-	this.installDir = "/opt/teaweb/agent";
+	this.installDir = "/opt/teaweb";
 	this.authGroupId = "";
 	this.authType = "password";
 	this.authKey = "";
@@ -188,6 +188,7 @@ Tea.context(function () {
 			v.state = "READY";
 			v.isInstalled = false;
 			v.result = "";
+			v.hasError = false;
 		});
 		this.countInstalledHosts = 0;
 		this.$delay(function () {

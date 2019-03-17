@@ -5,7 +5,7 @@
 	<a href="/agents/cluster/add" class="item active">集群部署</a>
 </div>
 
-<p class="comment">当前只支持Linux系统的SSH自动部署，安装的目录为 /opt/teaweb/agent。</p>
+<p class="comment">当前只支持Linux系统的SSH自动部署，安装的目录为 {{installDir}}。</p>
 
 <p class="ui message error" v-if="!checkInstaller">当前安装的TeaWeb缺少Agent安装工具（位置在 $TeaWeb安装目录/installers），请将下载包中的installers目录也一并安装。</p>
 <p class="ui message error" v-if="!checkUpgradeFiles">当前安装的TeaWeb缺少Agent安装包（位置在 $TeaWeb安装目录/upgrade），请将下载包中的upgrade目录也一并安装。</p>
@@ -134,7 +134,7 @@
 					<td class="title">TeaWeb访问地址</td>
 					<td>
 						<input type="text" name="master" v-model="authMasterURL" maxlength="100"/>
-						<p style="padding-top:0.4em">重要：当前TeaWeb访问地址，需要确保所安装Agent主机上能够正常访问此地址</p>
+						<p style="padding-top:0.4em"><strong>重要：</strong>当前TeaWeb访问地址，需要确保所安装Agent主机上能够正常访问此地址</p>
 					</td>
 				</tr>
 				<tr>

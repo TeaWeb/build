@@ -1,0 +1,26 @@
+#! /bin/bash
+#
+# teaweb       TeaWeb agent management
+#
+# chkconfig: 2345 40 90
+# description: TeaWeb agent management
+
+# teaweb agent install dir
+INSTALL_DIR=/opt/teaweb/agent
+
+export TEAROOT=${INSTALL_DIR}
+
+case "$1" in
+start)
+    ${INSTALL_DIR}/bin/teaweb-agent start
+    ;;
+stop)
+    ${INSTALL_DIR}/bin/teaweb-agent stop
+    ;;
+restart)
+    ${INSTALL_DIR}/bin/teaweb-agent restart
+    ;;
+*)
+    echo $"Usage: $0 {start|stop|restart}"
+    exit 2
+esac

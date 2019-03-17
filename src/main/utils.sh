@@ -69,6 +69,7 @@ function build() {
     cp -R ${GOPATH}/src/main/views ${TARGET}/
     cp -R ${GOPATH}/src/main/libs ${TARGET}
     cp -R ${GOPATH}/src/main/upgrade ${TARGET}
+    cp -R ${GOPATH}/src/main/scripts ${TARGET}
     if [ -d ${TARGET}/libs/.idea ]
     then
 		rm -rf ${TARGET}/libs/.idea
