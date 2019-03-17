@@ -1,5 +1,10 @@
 {$layout}
 
+<div class="ui menu tabular">
+	<a href="/agents/addAgent" class="item active">手动部署</a>
+	<a href="/agents/cluster/add" class="item">集群部署</a>
+</div>
+
 <div>
     <p class="comment">添加主机后，请在主机上<a href="http://teaos.cn/doc/agents/Install.md" target="_blank">安装Agent</a>。</p>
     <form class="ui form" data-tea-action="/agents/addAgent" data-tea-success="submitSuccess">

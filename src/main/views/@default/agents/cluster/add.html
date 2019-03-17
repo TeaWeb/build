@@ -1,0 +1,208 @@
+{$layout}
+
+<div class="ui menu tabular">
+	<a href="/agents/addAgent" class="item">手动部署</a>
+	<a href="/agents/cluster/add" class="item active">集群部署</a>
+</div>
+
+<p class="comment">当前只支持Linux系统的SSH自动部署，安装的目录为 /opt/teaweb-agent/。</p>
+
+<p class="ui message error" v-if="!checkInstaller">当前安装的TeaWeb缺少Agent安装工具（位置在 $TeaWeb安装目录/installers），请将下载包中的installers目录也一并安装。</p>
+<p class="ui message error" v-if="!checkUpgradeFiles">当前安装的TeaWeb缺少Agent安装包（位置在 $TeaWeb安装目录/upgrade），请将下载包中的upgrade目录也一并安装。</p>
+
+<div v-if="checkInstaller && checkUpgradeFiles">
+	<div class="ui steps small grey fluid">
+		<div class="step" :class="{active:currentStep == 'search'}">
+			<div class="content">
+				<div class="title">搜索主机</div>
+			</div>
+		</div>
+		<div class="step" :class="{active:currentStep == 'auth'}">
+			<div class="content">
+				<div class="title">认证信息</div>
+			</div>
+		</div>
+		<div class="step" :class="{active:currentStep == 'install'}">
+			<div class="content">
+				<div class="title">部署</div>
+			</div>
+		</div>
+		<div class="step" :class="{active:currentStep == 'finish'}">
+			<div class="content">
+				<div class="title">完成</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 搜索主机 -->
+	<div class="search-step" v-show="currentStep == 'search' && subStep == 'form'">
+		<p>使用规则搜索主机名和IP地址：</p>
+
+		<form class="ui form" id="search-form" data-tea-action=".search" data-tea-success="searchDone">
+			<table class="ui table">
+				<tr>
+					<td>
+						<textarea name="rules" placeholder="搜索规则，每行一条"></textarea>
+					</td>
+					<td style="width:1em">&nbsp;</td>
+					<td style="padding-left:1em">
+						<div class="search-examples">
+							<p>&nbsp; 每行一条规则，使用方括号（[]）表示范围，以下是常用的例子：</p>
+							<p>&nbsp; 192.168.1.<em>[2-200]</em> - 表示 192.168.1.2 - 192.168.1.200</p>
+							<p>&nbsp; 192.168.<em>[1-2]</em>.<em>[3-10]</em> - 表示 192.168.1.3 - 192.168.2.10</p>
+							<p>&nbsp; web<em>[001-123]</em>.com - 表示 web001.com - web123.com</p>
+						</div>
+
+						<p class="comment">&nbsp; 匹配的结果最多只有10000条。</p>
+					</td>
+				</tr>
+			</table>
+
+			<div class="ui fields inline">
+				<div class="ui field">SSH端口：</div>
+				<div class="ui field">
+					<input type="text" name="port" v-model="port" maxlength="6" size="6"/>
+				</div>
+			</div>
+			<button class="ui button primary" type="submit">搜索</button>
+		</form>
+	</div>
+
+	<div class="search-step2" v-show="currentStep == 'search' && subStep == 'hosts'">
+		<form class="ui form">
+			<div class="ui field">
+				<span v-if="isSearching">正在扫描中，</span>已扫描{{countTestedHosts}}/{{hosts.length}}个主机，其中{{countFoundHosts}}个主机可以连接。
+			</div>
+			<div class="table-box">
+				<table class="ui table selectable">
+					<thead>
+						<tr>
+							<th></th>
+							<th>主机地址</th>
+							<th>主机名称</th>
+							<th>IP地址</th>
+							<th>可以连接</th>
+							<th>状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="host in hosts">
+							<td>
+								<div class="ui checkbox">
+									<input type="checkbox" name="hosts" :value="host.addr" :checked="host.isChecked" @change="changeChecked(host)"/>
+									<label></label>
+								</div>
+							</td>
+							<td>{{host.addr}}</td>
+							<td>
+								<span v-if="host.name != null && host.name.length > 0">{{host.name}}</span>
+								<span v-if="host.name == null || host.name.length == 0">-</span>
+							</td>
+							<td>
+								<span v-if="host.ip != null && host.ip.length > 0">{{host.ip}}</span>
+								<span v-if="host.ip == null || host.ip.length == 0">-</span>
+							</td>
+							<td>
+								<span v-if="host.canConnect" class="green">YES</span>
+								<span v-if="!host.canConnect" class="disabled">NO</span>
+							</td>
+							<td>
+								<span v-if="host.result != null && host.result.length > 0">{{host.result}}</span>
+								<span v-if="host.result == null || host.result.length == 0">-</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="ui field">
+				已选中{{countSelectedHosts}}个主机。
+			</div>
+
+			<div class="ui field">
+				<button class="ui button" type="button" v-if="isSearching">请等待扫描完成</button>
+				<button class="ui button primary" type="button" v-if="!isSearching" @click.prevent="goAuth()" :disabled="countSelectedHosts == 0">下一步</button> &nbsp; &nbsp; <a href="" @click.prevent="goSearchForm()">上一步</a>
+			</div>
+		</form>
+	</div>
+
+	<!-- 认证 -->
+	<div class="auth-step" v-show="currentStep == 'auth'">
+		<form class="ui form" data-tea-action=".auth" data-tea-success="authSuccess">
+			<table class="ui table definition">
+				<tr>
+					<td class="title">TeaWeb访问地址</td>
+					<td>
+						<input type="text" name="master" v-model="authMasterURL" maxlength="100"/>
+						<p style="padding-top:0.4em">重要：当前TeaWeb访问地址，需要确保所安装Agent主机上能够正常访问此地址</p>
+					</td>
+				</tr>
+				<tr>
+					<td>安装目录</td>
+					<td>
+						<input type="text" name="dir" v-model="installDir">
+						<p class="comment">在Agent主机上的目录</p>
+					</td>
+				</tr>
+				<tr>
+					<td>登录主机的用户名</td>
+					<td>
+						<input type="text" name="username" maxlength="100" value="root" v-model="authUsername"/>
+						<p class="comment">需要确保该用户有在{{installDir}}目录下创建文件的权限</p>
+					</td>
+				</tr>
+				<tr>
+					<td>登录主机的密码</td>
+					<td>
+						<input type="password" name="password" maxlength="100" v-model="authPassword"/>
+					</td>
+				</tr>
+				<tr>
+					<td>分组</td>
+					<td>
+						<select class="ui dropdown" style="width:10em" v-model="authGroupId">
+							<option v-for="group in groups" :value="group.id">{{group.name}}</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+
+			<button class="ui button primary" type="submit">下一步</button> &nbsp; &nbsp; <a href="" @click.prevent="goSearchResult()">上一步</a>
+		</form>
+	</div>
+
+	<!-- 安装 -->
+	<div class="install-step" v-show="currentStep == 'install'">
+		<p>已成功完成{{countSelectedHosts}}个主机中的{{countInstalledHosts}}个</p>
+		<table class="ui table">
+			<thead>
+				<tr>
+					<th>主机地址</th>
+					<th>主机名称</th>
+					<th>IP地址</th>
+					<th>安装成功</th>
+					<th class="three wide">状态</th>
+				</tr>
+			</thead>
+			<tr v-for="host in this.selectedHosts" :class="{error:host.hasError&&!host.isInstalled, positive:host.isInstalled}">
+				<td>{{host.addr}}</td>
+				<td>{{host.name}}</td>
+				<td>{{host.ip}}</td>
+				<td>
+					<span v-if="host.isInstalled" class="green">YES</span>
+					<span v-if="!host.isInstalled" class="disabled">NO</span>
+				</td>
+				<td>{{host.result}}</td>
+			</tr>
+		</table>
+
+		<button class="ui button" type="button" v-if="isInstalling">安装中，请耐心等待</button>
+		<button class="ui button primary" type="button" @click.prevent="startInstall()" v-if="!isInstalling">重新尝试</button> &nbsp; &nbsp; <button class="ui button" type="button" @click.prevent="finish()">完成</button> &nbsp; &nbsp; <a href="" @click.prevent="goBackAuth()" v-if="!isInstalling">上一步</a>
+	</div>
+
+	<!-- 完成 -->
+	<div class="finish-step" v-show="currentStep == 'finish'">
+		成功在{{countInstalledHosts}}个主机上安装了Agent<span v-if="countInstalledHosts > 0">，<a :href="'/agents/groups/detail?groupId=' + authGroupId">去查看</a></span> 。
+	</div>
+
+</div>

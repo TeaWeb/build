@@ -1,0 +1,41 @@
+p.message {
+    line-height: 1.8!important;
+}
+
+/** 搜索主机 / 表单 **/
+.search-examples {
+    padding-bottom: 1em;
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.search-examples p {
+    line-height: 1;
+}
+
+.search-examples p em {
+    font-style: normal;
+}
+
+.search-step textarea {
+    width: 20em!important;
+}
+
+.search-step table {
+    border: 0!important;
+}
+
+.search-step table td {
+    padding: 0!important;
+    margin: 0!important;
+}
+
+/** 搜索主机 / 主机列表 */
+.search-step2 .table-box {
+    max-height: 20em;
+    overflow-y: auto;
+    margin-bottom: 1em;
+}
+
+.search-step2 .table-box::-webkit-scrollbar {
+    width: 4px;
+}

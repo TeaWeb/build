@@ -21,6 +21,8 @@
 
 .progress .bar {
     min-width: 0!important;
+    height: 0.25em!important;
+    border-radius: 0.14em!important;
 }
 
 .ui.progress>.label{

@@ -5,6 +5,7 @@
 . utils.sh
 
 . build-all-agents.sh
+. build-all-installers.sh
 
 . build-linux-32.sh
 . build-linux-64.sh

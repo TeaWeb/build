@@ -5,6 +5,8 @@ src/github.com/golang
 src/github.com/gorilla
 src/github.com/hpcloud
 src/github.com/iwind
+src/github.com/kr
+src/github.com/stretchr
 src/github.com/MicroSoft
 src/github.com/nerney
 src/github.com/onsi
@@ -18,6 +20,7 @@ src/github.com/StackExchange
 src/github.com/syndtr
 src/github.com/tatsushid
 src/github.com/TeaWeb/agent
+src/github.com/TeaWeb/agentinstaller
 src/github.com/TeaWeb/code
 src/github.com/TeaWeb/jsapps
 src/github.com/TeaWeb/plugin
@@ -48,6 +51,7 @@ src/main/views/@default/plus
 src/main/plugins/*.tea
 src/main/plus
 src/main/mongodb
+src/main/installers
 src/tests/
 bin/
 dist/

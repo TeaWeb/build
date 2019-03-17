@@ -86,6 +86,12 @@ function build() {
 		cp -R ${GOPATH}/src/main/upgrade.sh ${TARGET}
     fi
 
+    # installers
+	if [ -d ${GOPATH}/src/main/installers ]
+	then
+		cp -R ${GOPATH}/src/main/installers ${TARGET}
+	fi
+
     # remove plus files
     rm -rf ${TARGET}/views/@default/plus
 
@@ -129,6 +135,7 @@ function buildAgent() {
     mkdir ${TARGET}/logs
     mkdir ${TARGET}/plugins
 
+	# agent
     cp ${GOPATH}/src/main/configs/agent.sample.conf ${TARGET}/configs/agent.conf
 
     if [ ${GOOS} = "windows" ]
@@ -165,3 +172,29 @@ function buildAgent() {
 
 	echo "[done]"
 }
+
+function buildAgentInstaller() {
+    EXT=""
+	if [ ${GOOS} = "windows" ]
+	then
+    	EXT=".exe"
+	fi
+
+	echo "[================ building agent installer ${GOOS}/${GOARCH}/v${VERSION}] ================]"
+
+
+	if [ ! -d ${GOPATH}/src/main/installers ]
+	then
+		mkdir ${GOPATH}/src/main/installers
+	fi
+
+	if [ ! -d ${GOPATH}/src/main/installers ]
+	then
+		rm -f ${GOPATH}/src/main/installers/*
+	fi
+
+	go build -o ${GOPATH}/src/main/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
+
+	echo "[done]"
+}
+
