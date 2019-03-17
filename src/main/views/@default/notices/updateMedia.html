@@ -23,7 +23,8 @@
 		<tr>
 			<td class="title">媒介名称</td>
 			<td>
-				<input type="text" name="name" v-model="media.name"/>
+				<input type="text" name="name" v-model="media.name" @input="changeName(media.name)"/>
+				<p v-if="rateNoticeVisible" class="comment">友情提醒：请注意设置发送频率，防止服务超载</p>
 			</td>
 		</tr>
 		<tr>
@@ -148,6 +149,26 @@
 		</tr>
 		</tbody>
 		<tr>
+			<td>发送频率</td>
+			<td>
+				<div class="ui fields inline">
+					<div class="ui field">
+						每
+					</div>
+					<div class="ui field">
+						<input type="text" name="rateMinutes" v-model="media.rateMinutes" size="4" maxlength="2" value="1"/>
+					</div>
+					<div class="ui field">分钟可以发送</div>
+					<div class="ui field">
+						<input type="text" name="rateCount" v-model="media.rateCount" size="4" maxlength="2" value="1"/>
+					</div>
+					<div class="ui field">
+						个通知
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="2">
 				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
 				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
@@ -183,26 +204,6 @@
 						</div>
 						<div class="ui field">
 							秒：<input type="text" name="timeToSecond" v-model="timeToSecond" placeholder="0-59" size="4" maxlength="2" value="59"/>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>发送频率</td>
-				<td>
-					<div class="ui fields inline">
-						<div class="ui field">
-							每
-						</div>
-						<div class="ui field">
-							<input type="text" name="rateMinutes" v-model="media.rateMinutes" size="4" maxlength="2" value="1"/>
-						</div>
-						<div class="ui field">分钟可以发送</div>
-						<div class="ui field">
-							<input type="text" name="rateCount" v-model="media.rateCount" size="4" maxlength="2" value="1"/>
-						</div>
-						<div class="ui field">
-							个通知
 						</div>
 					</div>
 				</td>

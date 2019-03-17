@@ -108,15 +108,15 @@
 			</td>
 		</tr>
 	</tbody>
-	<tr v-if="media.timeFrom.length > 0">
-		<td>发送时间段</td>
-		<td>{{media.timeFrom}} 到 {{media.timeTo}}</td>
-	</tr>
 	<tr v-if="media.rateMinutes > 0 || media.rateCount > 0">
 		<td>发送频率</td>
 		<td>
 			每 {{media.rateMinutes}} 分钟可以发送 {{media.rateCount}} 个通知
 		</td>
+	</tr>
+	<tr v-if="media.timeFrom.length > 0">
+		<td>发送时间段</td>
+		<td>{{media.timeFrom}} 到 {{media.timeTo}}</td>
 	</tr>
 </table>
 

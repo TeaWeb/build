@@ -13,6 +13,20 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 名称
+	 */
+	this.name = "";
+	this.rateNoticeVisible = false;
+
+	this.changeName = function (name) {
+		if (name.indexOf("短信") > -1 || name.indexOf("钉钉") > -1 || name.indexOf("微信") > -1) {
+			this.rateNoticeVisible = true;
+		} else {
+			this.rateNoticeVisible = false;
+		}
+	};
+
+	/**
 	 * 类型
 	 */
 	this.mediaType = "email";
