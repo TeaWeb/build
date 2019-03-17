@@ -146,14 +146,21 @@ Tea.context(function () {
 	this.authMasterURL = window.location.protocol + "//" + window.location.host;
 	this.authUsername = "root";
 	this.authPassword = "";
-	this.installDir = "/opt";
+	this.installDir = "/opt/teaweb/agent";
 	this.authGroupId = "";
+	this.authType = "password";
+	this.authKey = "";
 
 	this.goAuth = function () {
 		this.currentStep = "auth";
+		this.authKey = "";
 		this.selectedHosts = this.hosts.$findAll(function (k, v) {
 			return v.isChecked;
 		});
+	};
+
+	this.selectAuthType = function (authType) {
+		this.authType = authType;
 	};
 
 	this.goSearchResult = function () {
@@ -161,8 +168,9 @@ Tea.context(function () {
 		this.subStep = "hosts";
 	};
 
-	this.authSuccess = function () {
+	this.authSuccess = function (resp) {
 		this.currentStep = "install";
+		this.authKey = resp.data.key;
 		this.$delay(function () {
 			this.startInstall();
 		});
@@ -178,6 +186,8 @@ Tea.context(function () {
 		this.isInstalling = true;
 		this.selectedHosts.$each(function (k, v) {
 			v.state = "READY";
+			v.isInstalled = false;
+			v.result = "";
 		});
 		this.countInstalledHosts = 0;
 		this.$delay(function () {
@@ -212,7 +222,9 @@ Tea.context(function () {
 				"username": this.authUsername,
 				"password": this.authPassword,
 				"port": this.port,
-				"groupId": this.authGroupId
+				"groupId": this.authGroupId,
+				"authType": this.authType,
+				"key": this.authKey
 			})
 			.success(function (resp) {
 				var that = this;
@@ -222,7 +234,7 @@ Tea.context(function () {
 					});
 					host.isInstalled = state.isInstalled;
 					if (host.isInstalled) {
-						that.countInstalledHosts ++;
+						that.countInstalledHosts++;
 					}
 					host.result = state.result;
 					host.hasError = state.hasError;

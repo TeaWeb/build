@@ -5,7 +5,7 @@
 	<a href="/agents/cluster/add" class="item active">集群部署</a>
 </div>
 
-<p class="comment">当前只支持Linux系统的SSH自动部署，安装的目录为 /opt/teaweb-agent/。</p>
+<p class="comment">当前只支持Linux系统的SSH自动部署，安装的目录为 /opt/teaweb/agent。</p>
 
 <p class="ui message error" v-if="!checkInstaller">当前安装的TeaWeb缺少Agent安装工具（位置在 $TeaWeb安装目录/installers），请将下载包中的installers目录也一并安装。</p>
 <p class="ui message error" v-if="!checkUpgradeFiles">当前安装的TeaWeb缺少Agent安装包（位置在 $TeaWeb安装目录/upgrade），请将下载包中的upgrade目录也一并安装。</p>
@@ -152,9 +152,21 @@
 					</td>
 				</tr>
 				<tr>
-					<td>登录主机的密码</td>
+					<td>登录主机的密码/密钥文件</td>
 					<td>
-						<input type="password" name="password" maxlength="100" v-model="authPassword"/>
+						<input type="hidden" name="authType" v-model="authType"/>
+						<div class="ui tabular menu tiny attached">
+							<a href="" class="item" :class="{active:authType == 'password'}" @click.prevent="selectAuthType('password')"> 密码</a>
+							<a href="" class="item" :class="{active:authType == 'key'}" @click.prevent="selectAuthType('key')">密钥文件</a>
+						</div>
+						<div class="ui segment attached" v-if="authType == 'password'">
+							<input type="password" name="password" maxlength="100" v-model="authPassword"/>
+							<p class="comment">用来登录主机的密码</p>
+						</div>
+						<div class="ui segment attached" v-if="authType == 'key'">
+							<input type="file" name="key"/>
+							<p class="comment">RSA密钥文件</p>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -197,7 +209,7 @@
 		</table>
 
 		<button class="ui button" type="button" v-if="isInstalling">安装中，请耐心等待</button>
-		<button class="ui button primary" type="button" @click.prevent="startInstall()" v-if="!isInstalling">重新尝试</button> &nbsp; &nbsp; <button class="ui button" type="button" @click.prevent="finish()">完成</button> &nbsp; &nbsp; <a href="" @click.prevent="goBackAuth()" v-if="!isInstalling">上一步</a>
+		<button class="ui button primary" type="button" @click.prevent="startInstall()" v-if="!isInstalling">重新尝试</button> &nbsp; &nbsp; <button class="ui button" type="button" @click.prevent="finish()" v-if="!isInstalling">完成</button> &nbsp; &nbsp; <a href="" @click.prevent="goBackAuth()" v-if="!isInstalling">上一步</a>
 	</div>
 
 	<!-- 完成 -->
