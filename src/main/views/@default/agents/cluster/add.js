@@ -227,6 +227,7 @@ Tea.context(function () {
 				"authType": this.authType,
 				"key": this.authKey
 			})
+			.timeout(300)
 			.success(function (resp) {
 				var that = this;
 				resp.data.states.$each(function (k, state) {
