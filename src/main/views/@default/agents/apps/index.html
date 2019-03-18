@@ -6,10 +6,7 @@
 </div>
 <div class="ui divider"></div>
 
-
-<h3>自定义App</h3>
-
-<p class="comment" v-if="apps.length == 0">暂时还没有自定义的App。</p>
+<p class="comment" v-if="apps.length == 0">暂时还没有App。</p>
 <table class="ui table selectable" v-if="apps.length > 0">
     <thead>
         <tr>
@@ -43,38 +40,3 @@
     </tr>
 </table>
 
-<h3 class="margin">系统提供的App</h3>
-<p class="comment" v-if="systemApps.length == 0">暂时还没有系统提供的App。</p>
-
-<table class="ui table selectable" v-if="systemApps.length > 0">
-    <thead>
-    <tr>
-        <th>应用名称</th>
-        <th>监控项</th>
-        <th>定时任务</th>
-        <th>启动任务</th>
-        <th>手动任务</th>
-        <th class="two op">操作</th>
-    </tr>
-    </thead>
-    <tr v-for="app in systemApps">
-        <td>{{app.name}}<br/>
-            <span v-if="!app.on" class="ui label tiny">未启用</span>
-        </td>
-        <td>
-            <a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id">{{app.items.length}}</a>
-        </td>
-        <td>
-            {{app.schedulingTasks.length}}
-        </td>
-        <td>
-            {{app.bootingTasks.length}}
-        </td>
-        <td>
-           {{app.manualTasks.length}}
-        </td>
-        <td>
-            <a :href="'/agents/apps/detail?agentId=' + agentId + '&appId=' + app.id">详情</a>
-        </td>
-    </tr>
-</table>

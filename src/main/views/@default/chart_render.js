@@ -136,6 +136,7 @@ function ChartRender(charts, eventCallback) {
 		if (maxValue == 0) {
 			maxValue = 1;
 		}
+
 		var option = {
 			textStyle: {
 				fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
@@ -210,7 +211,7 @@ function ChartRender(charts, eventCallback) {
 				};
 			}),
 			grid: {
-				left: this.charactersWidth([(Math.ceil(maxValue * 100)).toString()]) + 10,
+				left: this.charactersWidth([(Math.ceil(maxValue * ( (maxValue <= 1) ? 1000 : 10 ))).toString()]) + 10,
 				right: 10,
 				bottom: bottomHeight,
 				top: 16

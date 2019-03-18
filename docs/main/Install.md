@@ -39,8 +39,8 @@ ps ax|grep mongo
 21040 ?        Sl   632:19bin/mongod --dbpath=./data/ --fork --logpath=./data/fork.log
 ~~~
 
-## CentOS7
-在CentOS7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
+## CentOS 7
+在CentOS 7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
 ~~~bash
 firewall-cmd --zone=public --add-port=7777/tcp --permanent
 firewall-cmd --reload
@@ -55,3 +55,28 @@ firewall-cmd --reload
 
 ## Windows
 Windows版本的目录下自带有 *start.bat* ，请解压后，直接双击运行 *start.bat* 即可。
+
+## 开机启动脚本
+通常我们在安装软件后，希望能随开机启动，以免重启时忘了启动服务。从v0.0.10版本开始，Linux二进制发行版自带启动脚本模板，可以在*scripts/*目录下找到：
+~~~
+teaweb - teaweb启动脚本 
+teaweb-agent - agent启动脚本
+~~~
+
+使用步骤为：
+1. 修改启动脚本中的`INSTALL_DIR`为实际的TeaWeb或Agent安装目录
+2. 将启动脚本文件拷贝到*/etc/init.d*目录下
+3. 使用`root`设置权限：`chmod u+x /etc/init.d/teaweb` 或者 `chmod u+x /etc/init.d/teaweb-agent`
+4. 使用`chkconfig`添加到启动项中：`chkconfig --add teaweb` 或者 `chkconfig --add teaweb-agent`
+
+现在你就可以使用以下命令了：
+~~~bash
+service teaweb start|stop|restart|reset
+service teaweb-agent start|stop|restart
+~~~
+
+而且开机启动的时候会自动执行：
+~~~bash
+service teaweb start
+service teaweb-agent start
+~~~

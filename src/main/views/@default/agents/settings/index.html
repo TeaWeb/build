@@ -51,9 +51,13 @@
                 {{agent.host}}
             </td>
         </tr>
+		<tr>
+			<td>主机ID</td>
+			<td>{{agent.id}}</td>
+		</tr>
         <tr>
-            <td>主机ID</td>
-            <td>{{agent.id}}</td>
+            <td>密钥</td>
+            <td>{{agent.key}}</td>
         </tr>
 		<tr>
 			<td>分组</td>
@@ -62,10 +66,6 @@
 				<span v-for="groupName in groupNames">{{groupName}}</span>
 			</td>
 		</tr>
-        <tr>
-            <td>密钥</td>
-            <td>{{agent.key}}</td>
-        </tr>
         <tr>
             <td>允许访问的IP</td>
             <td>
