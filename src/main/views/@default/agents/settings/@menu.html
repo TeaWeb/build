@@ -1,0 +1,7 @@
+<div class="ui menu text basic blue">
+	<a :href="'/agents/settings?agentId=' + agent.id" class="item" :class="{active:selectedTab == 'detail'}">详情</a>
+	<a :href="'/agents/settings/install?agentId=' + agent.id" class="item" :class="{active:selectedTab == 'install'}">部署</a>
+	<a :href="'/agents/settings/noticeReceivers?agentId=' + agent.id" class="item" :class="{active:selectedTab == 'noticeSetting'}">通知设置<span v-if="countNoticeReceivers>0">({{countNoticeReceivers}})</span></a>
+</div>
+
+<div class="ui divider"></div>

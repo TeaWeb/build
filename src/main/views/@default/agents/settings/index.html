@@ -1,11 +1,5 @@
 {$layout}
-
-<div class="ui menu text basic blue">
-	<a :href="'/agents/settings?agentId=' + agent.id" class="item active">详情</a>
-	<a :href="'/agents/settings/install?agentId=' + agent.id" class="item">部署</a>
-</div>
-
-<div class="ui divider"></div>
+{$template "menu"}
 
 <h3>设置<a :href="'/agents/settings/update?agentId=' + agent.id">修改</a></h3>
 
