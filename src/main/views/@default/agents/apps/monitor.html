@@ -2,7 +2,7 @@
 
 {$template "menu"}
 
-<h3>监控项 <a :href="'/agents/apps/addItem?agentId=' + agentId + '&appId=' + app.id + '&from=' + from"  v-if="!app.isSystem">添加</a></h3>
+<h3>监控项 <a :href="'/agents/apps/addItem?agentId=' + agentId + '&appId=' + app.id + '&from=' + from"  >添加</a></h3>
 
 <p class="comment" v-if="app.items == null || app.items.length == 0">暂时还没有监控项。</p>
 
@@ -40,7 +40,7 @@
         </td>
         <td>
             <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id">详情</a> &nbsp;
-            <a href="" @click.prevent="deleteItem(item.id)" v-if="!app.isSystem">删除</a>
+            <a href="" @click.prevent="deleteItem(item.id)">删除</a>
         </td>
     </tr>
 </table>

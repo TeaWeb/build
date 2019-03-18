@@ -69,6 +69,18 @@ Tea.context(function () {
 		this.changeSource();
 	});
 
+	this.sourceVariablesVisible1 = false;
+	this.sourceVariablesVisible2 = false;
+
+	this.showSourceVariables = function (n) {
+		if (n == 1) {
+			this.sourceVariablesVisible1 = !this.sourceVariablesVisible1;
+		}
+		if (n == 2) {
+			this.sourceVariablesVisible2 = !this.sourceVariablesVisible2;
+		}
+	};
+
 	/**
 	 * 更多选项
 	 */
