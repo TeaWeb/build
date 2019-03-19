@@ -16,7 +16,7 @@
 
 ## 步骤3：下载并部署Agent
 在 [http://teaos.cn/download](http://teaos.cn/download) 下载对应平台的Agent版本，解压后用编辑器打开`configs/agent.conf`，然后修改里面的内容：
-* `master` - 可以访问到Master的地址，需要带有`http://`或者`https://`；
+* `master` - 可以访问到Master的地址，需要带有`http://`或者`https://`；如果有必要，需要设置`iptables`或`firewall`；
 * `id` - 将此值修改为步骤2看到的ID；
 * `key` - 将此值修改为步骤2看到的密钥。
 

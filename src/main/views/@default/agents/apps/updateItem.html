@@ -185,7 +185,7 @@
 						&nbsp; <a href="" @click.prevent="addDefaultThresholds()" v-if="defaultThresholds.length > 0">添加当前数据源内置阈值模板</a>
 					</div>
 
-					<p class="comment" style="margin-bottom:0.3em">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符<span v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0">，</span><a href="" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" @click.prevent="showSourceVariables(2)">当前数据源提供的数据变量<i class="icon angle" :class="{down:!sourceVariablesVisible2,up:sourceVariablesVisible2}"></i></a></p>
+					<p class="comment" style="margin-bottom:0.3em">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>；使用<span class="ui label tiny">${OLD}</span>表示上一条数据。支持加(+)减(-)乘(*)除(/)取余(%)运算符<span v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0">，</span><a href="" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" @click.prevent="showSourceVariables(2)">当前数据源提供的数据变量<i class="icon angle" :class="{down:!sourceVariablesVisible2,up:sourceVariablesVisible2}"></i></a></p>
 
 					<!-- 变量 -->
 					<div style="line-height:1.8" v-if="sourceVariablesVisible2 && selectedSource != null && selectedSource.variables != null" class="comment">

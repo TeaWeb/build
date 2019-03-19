@@ -4,7 +4,7 @@
 * [升级](main/Upgrade.md)
 * [常用命令](main/Commands.md)
 * [登录](main/Login.md)
-* [常见问题](main/FAQ.md)  
+* [常见问题](main/FAQ.md)
 * 通用设置
   * [管理界面](settings/Service.md)
   * [个人资料](settings/Profile.md)
@@ -38,14 +38,9 @@
    * [应用（App）](agents/App.md)
    <!--* 任务-->
    * [监控项](agents/Item.md)
+   * [阈值](agents/Threshold.md)
    * 监控实例-监控进程
    * 监控实例-监控Nginx
-<!--* Apps-->
-<!--  * [本地服务](apps/Index.md)-->
-<!--  * [安装ps命令](apps/InstallPs.md)-->
-<!--  * [安装pgrep命令](apps/InstallPgrep.md)-->
-<!--  * [安装lsof命令](apps/InstallLsof.md)-->
-<!--  * [自定义探针](apps/Probe.md)-->
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
   * [主机监控项API](advanced/APIMonitorAgentItem.md)
