@@ -66,6 +66,9 @@ go_get "github.com/tatsushid/go-fastping"
 # ssh
 go_get "github.com/pkg/sftp"
 
+# mysql
+go_get "github.com/go-sql-driver/mysql"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

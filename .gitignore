@@ -1,4 +1,5 @@
 src/github.com/fsnotify
+src/github.com/go-sql-driver
 src/github.com/go-ole
 src/github.com/go-redis
 src/github.com/golang
