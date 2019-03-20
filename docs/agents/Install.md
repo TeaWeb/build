@@ -67,3 +67,6 @@ bin/teaweb-agent run 123456
 ~~~bash
 bin\teaweb-agent.exe xxx
 ~~~
+
+## 开机启动
+在Linux上可以设置开机启动服务，具体 [看这里](http://teaos.cn/doc/main/Install.md#%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC)。

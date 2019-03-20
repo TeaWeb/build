@@ -57,7 +57,7 @@ firewall-cmd --reload
 Windows版本的目录下自带有 *start.bat* ，请解压后，直接双击运行 *start.bat* 即可。
 
 ## 开机启动脚本
-通常我们在安装软件后，希望能随开机启动，以免重启时忘了启动服务。从v0.0.10版本开始，Linux二进制发行版自带启动脚本模板，可以在*scripts/*目录下找到：
+通常我们在安装软件后，希望能随开机启动，以免重启时忘了启动服务。从v0.0.10版本开始，Linux二进制发行版自带启动脚本模板，可以在 *scripts/* 目录下找到：
 ~~~
 teaweb - teaweb启动脚本 
 teaweb-agent - agent启动脚本

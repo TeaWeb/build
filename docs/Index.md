@@ -39,8 +39,8 @@
    <!--* 任务-->
    * [监控项](agents/Item.md)
    * [阈值](agents/Threshold.md)
-   * 监控实例-监控进程
-   * 监控实例-监控Nginx
+   * [监控实例-监控进程](agents/examples/Mongo.md)
+   * [监控实例-监控Nginx](agents/examples/Nginx.md)
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
   * [主机监控项API](advanced/APIMonitorAgentItem.md)
