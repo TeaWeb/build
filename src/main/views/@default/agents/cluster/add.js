@@ -232,7 +232,7 @@ Tea.context(function () {
 				var that = this;
 				resp.data.states.$each(function (k, state) {
 					var host = that.selectedHosts.$find(function (k, v) {
-						return state.addr = v.addr;
+						return state.addr == v.addr;
 					});
 					host.isInstalled = state.isInstalled;
 					if (host.isInstalled) {
