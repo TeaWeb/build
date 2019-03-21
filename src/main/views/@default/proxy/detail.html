@@ -97,6 +97,13 @@
 				</td>
 			</tr>
 			<tr>
+				<td>小静态文件加速</td>
+				<td>
+					<span class="ui label green tiny" v-if="server.cacheStatic">已开启</span>
+					<span class="ui label tiny" v-if="!server.cacheStatic">未开启</span>
+				</td>
+			</tr>
+			<tr>
 				<td>Gzip压缩级别</td>
 				<td>
 					<span v-if="server.gzipLevel == 0">不压缩</span>

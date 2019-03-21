@@ -153,6 +153,16 @@
 					</td>
 				</tr>
 				<tr>
+					<td>是否开启小静态文件加速</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="cacheStatic" v-model="cacheStatic"/>
+							<label></label>
+						</div>
+						<p class="comment">如果开启了小静态文件加速，则在文件尺寸10K以下的静态文件会被自动缓存，并自动检测文件是否已经有变化（修改时间和文件尺寸）</p>
+					</td>
+				</tr>
+				<tr>
 					<td>Gzip压缩级别</td>
 					<td>
 						<select name="gzipLevel" v-model="server.gzipLevel" class="ui dropdown" style="width:10em">

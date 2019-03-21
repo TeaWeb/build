@@ -137,6 +137,11 @@ Tea.context(function () {
 	this.enableAccessLog = !this.server.disableAccessLog;
 
 	/**
+	 * 小静态文件加速
+	 */
+	this.cacheStatic = this.server.cacheStatic;
+
+	/**
 	 * 压缩级别
 	 */
 	this.gzipLevels = Array.$range(1, 9);

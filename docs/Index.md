@@ -45,7 +45,7 @@
   * [外部监控API](advanced/APIMonitor.md)
   * [主机监控项API](advanced/APIMonitorAgentItem.md)
   * 集群
-  * 性能指南
+  * [性能指南](advanced/Performance.md)
 * 开发者
   * [从源码启动或编译](main/Build.md)
   * 插件
