@@ -45,8 +45,8 @@
 			<tr>
 				<td>账号 *</td>
 				<td>
-					<input type="text" name="emailUsername" maxlength="100" placeholder="类似于 xxx@xxx.com"/>
-					<p class="comment">邮箱账号，比如 123456@qq.com。</p>
+					<input type="text" name="emailUsername" v-model="emailUsername" maxlength="100" placeholder="类似于 xxx@xxx.com" @input="changeEmailUsername()"/>
+					<p class="comment">邮箱账号，比如 123456@qq.com<span v-html="emailUsernameHelp"></span>。</p>
 				</td>
 			</tr>
 			<tr>
@@ -145,6 +145,15 @@
 				</div>
 			</td>
 		</tr>
+		</tbody>
+		<tbody v-show="mediaType == 'dingTalk'">
+			<tr>
+				<td>Hook地址 *</td>
+				<td>
+					<textarea name="dingTalkWebhookURL" maxlength="200" placeholder="https://oapi.dingtalk.com/robot/send?access_token=xxx" rows="2"></textarea>
+					<p class="comment">填入自定义群机器人的Hook地址，<a href="https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq" target="_blank">获取方法&raquo;</a></p>
+				</td>
+			</tr>
 		</tbody>
 		<tr>
 			<td>发送频率</td>

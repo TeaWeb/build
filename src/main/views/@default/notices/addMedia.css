@@ -23,6 +23,11 @@
     margin-bottom: 0!important;
 }
 
+form textarea {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
 /** codemirror **/
 .CodeMirror {
     border: 1px solid #eee;

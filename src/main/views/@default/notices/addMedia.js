@@ -53,8 +53,26 @@ Tea.context(function () {
 			this.$delay(function () {
 				this.$find("form input[name='scriptPath']").focus();
 			});
+		} else if (this.mediaType == "dingTalk") {
+			this.$delay(function () {
+				this.$find("form textarea[name='dingTalkWebhookURL']").focus();
+			});
 		}
 	};
+
+	/**
+	 * 邮箱
+	 */
+	this.emailUsername = "";
+	this.emailUsernameHelp = "";
+
+	this.changeEmailUsername = function () {
+		this.emailUsernameHelp = "";
+		if (this.emailUsername.indexOf("qq.com") > 0) {
+			this.emailUsernameHelp = "，<a href=\"https://service.mail.qq.com/cgi-bin/help?id=28\" target='_blank'>QQ邮箱相关设置帮助</a>";
+		}
+	};
+
 	this.changeMediaType("email");
 
 	/**

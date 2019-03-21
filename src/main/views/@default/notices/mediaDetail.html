@@ -108,6 +108,12 @@
 			</td>
 		</tr>
 	</tbody>
+	<tbody v-if="media.type == 'dingTalk'">
+		<tr>
+			<td>Hook地址</td>
+			<td>{{media.options.webhookURL}}</td>
+		</tr>
+	</tbody>
 	<tr v-if="media.rateMinutes > 0 || media.rateCount > 0">
 		<td>发送频率</td>
 		<td>
