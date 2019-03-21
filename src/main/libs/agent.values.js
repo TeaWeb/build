@@ -4,7 +4,14 @@ values.Query = function () {
 	var query = {
 		"action": "",
 		"group": null,
-		"cond": {},
+		"cond": {
+			"noticeLevel": {
+				"eq": 0
+			},
+			"error": {
+				"eq": ""
+			}
+		},
 		"duration": "",
 		"for": null,
 		"offset": -1,
