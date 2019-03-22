@@ -63,6 +63,7 @@ Tea.context(function () {
 		return false;
 	};
 
+	var lastQPSMax = 0;
 	this.renderQPS = function (qps) {
 		var chartBox = document.getElementById("qps-chart-box");
 		var chart = echarts.init(chartBox);
@@ -75,6 +76,11 @@ Tea.context(function () {
 			max = 10000;
 		} else {
 			max = 100000;
+		}
+		if (max < lastQPSMax) {
+			max = lastQPSMax;
+		} else {
+			lastQPSMax = max;
 		}
 		var options = {
 			"name": "",
