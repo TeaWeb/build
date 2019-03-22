@@ -143,6 +143,7 @@
 								</td>
 								<td colspan="2">
 									<input type="text" v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
+									<p class="comment">同参数一样，通知消息中也可以使用变量</p>
 								</td>
 							</tr>
 							<tr v-show="addingCond.moreOptions">
