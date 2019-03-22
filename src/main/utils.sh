@@ -152,6 +152,11 @@ function buildAgent() {
 
 	go build -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
 
+	if [ -d "${GOPATH}/src/main/upgrade" ]
+	then
+		rm -rf ${GOPATH}/src/main/upgrade/*
+	fi
+
 	if [ ! -d "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}" ]
 	then
 		mkdir -p "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"
