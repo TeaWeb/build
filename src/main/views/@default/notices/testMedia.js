@@ -15,6 +15,10 @@ Tea.context(function () {
 		this.isRunning = false;
 		this.isFinished = true;
 		this.response = resp.data.response;
+		this.responseLines = [];
+		if (this.response != null) {
+			this.responseLines = this.response.split("\n");
+		}
 		this.error = resp.data.error;
 	};
 

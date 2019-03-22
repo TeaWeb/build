@@ -28,7 +28,16 @@ form textarea {
     word-break: break-all;
 }
 
-/** codemirror **/
+.webhook-headers-box {
+    margin-bottom: 0.6em;
+}
+
+.webhook-headers-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+    /** codemirror **/
 .CodeMirror {
     border: 1px solid #eee;
     height: auto!important;

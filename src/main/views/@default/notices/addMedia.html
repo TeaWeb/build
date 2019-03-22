@@ -81,6 +81,73 @@
 					<p class="comment" v-if="webhookMethod == 'POST'">将以POST方式发送<span class="ui label tiny">NoticeUser</span>、<span class="ui label tiny">NoticeSubject</span>和<span class="ui label tiny">NoticeBody</span>参数，分别代表接收人标识、标题和内容</p>
 				</td>
 			</tr>
+			<tr v-show="advancedOptionsVisible">
+				<td>自定义Header</td>
+				<td>
+					<div class="webhook-headers-box">
+						<span class="ui label tiny" v-for="(header,index) in webhookHeaders">{{header.name}}:{{header.value}}
+							<input type="hidden" name="webhookHeaderNames" :value="header.name"/>
+							<input type="hidden" name="webhookHeaderValues" :value="header.value"/>
+							<a href="" title="删除" @click.prevent="removeWebhookHeader(index)"><i class="icon remove"></i></a>
+						</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addWebhookHeader()" v-if="!webhookHeadersAdding">+</button>
+					<div v-if="webhookHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="webhookHeaderName" v-model="webhookHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmWebhookHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="webhookHeadersAddingValue" size="50" maxlength="256" @keyup.enter="confirmWebhookHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmWebhookHeadersAdding()">确认添加</button>
+						&nbsp;  <a href="" @click.prevent="cancelWebhookHeadersAdding()">取消</a>
+					</div>
+				</td>
+			</tr>
+			<tr v-show="webhookMethod == 'POST' && advancedOptionsVisible">
+				<td>自定义内容</td>
+				<td>
+					<div class="ui menu tabular small attached">
+						<a href="" class="item" :class="{active:webhookContentType == 'params'}" @click.prevent="selectWebhookContentType('params')">参数对</a>
+						<a href="" class="item" :class="{active:webhookContentType == 'body'}" @click.prevent="selectWebhookContentType('body')">文本内容</a>
+					</div>
+					<div class="ui segment attached" v-if="webhookContentType == 'params'">
+						<input type="hidden" name="webhookContentType" value="params"/>
+						<div class="webhook-headers-box">
+							<span class="ui label tiny" v-for="(param,index) in webhookParams">{{param.name}}:{{param.value}}
+								<input type="hidden" name="webhookParamNames" :value="param.name"/>
+								<input type="hidden" name="webhookParamValues" :value="param.value"/>
+								<a href="" title="删除" @click.prevent="removeWebhookParam(index)"><i class="icon remove"></i></a>
+							</span>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="addWebhookParam()" v-if="!webhookParamsAdding">+</button>
+						<div v-if="webhookParamsAdding">
+							<input type="hidden" name="webhookContentType" value="params"/>
+							<div class="ui fields inline">
+								<div class="ui field">
+									<input type="text" name="webhookParamName" v-model="webhookParamsAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmWebhookParamsAdding" @keypress.enter.prevent="1"/>
+								</div>
+								<div class="ui field">:</div>
+								<div class="ui field">
+									<textarea type="text" placeholder="值" v-model="webhookParamsAddingValue" cols="50" maxlength="1024" rows="2"></textarea>
+								</div>
+							</div>
+							<button class="ui button tiny" type="button" @click.prevent="confirmWebhookParamsAdding()">确认添加</button>
+							&nbsp;  <a href="" @click.prevent="cancelWebhookParamsAdding()">取消</a>
+						</div>
+					</div>
+					<div class="ui segment attached" v-if="webhookContentType == 'body'">
+						<input type="hidden" name="webhookContentType" value="body"/>
+						<textarea name="webhookBody" v-model="webhookBody" rows="5" placeholder="发送的内容"></textarea>
+						<p class="comment">
+							内容中可以使用三个变量：<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>参数，分别代表接收人标识、标题和内容
+						</p>
+					</div>
+				</td>
+			</tr>
 		</tbody>
 		<tbody v-show="mediaType == 'script'">
 		<tr>

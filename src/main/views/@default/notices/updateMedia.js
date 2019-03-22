@@ -80,8 +80,104 @@ Tea.context(function () {
 	 * webhook
 	 */
 	this.webhookMethod = "GET";
+	this.webhookHeadersAdding = false;
+	this.webhookHeaders = [];
+	this.webhookHeadersAddingName = "";
+	this.webhookHeadersAddingValue = "";
+
+	this.addWebhookHeader = function () {
+		this.webhookHeadersAdding = true;
+		this.$delay(function () {
+			this.$find("form input[name='webhookHeaderName']").focus();
+		});
+	};
+
+	this.cancelWebhookHeadersAdding = function () {
+		this.webhookHeadersAdding = false;
+	};
+
+	this.confirmWebhookHeadersAdding = function () {
+		this.webhookHeaders.push({
+			"name": this.webhookHeadersAddingName,
+			"value": this.webhookHeadersAddingValue
+		});
+		this.webhookHeadersAddingName = "";
+		this.webhookHeadersAddingValue = "";
+		this.webhookHeadersAdding = false;
+	};
+
+	this.removeWebhookHeader = function (index) {
+		if (!window.confirm("确定要删除此Header吗？")) {
+			return;
+		}
+		this.webhookHeaders.$remove(index);
+	};
+
+	this.webhookContentType = "params";
+
+	this.selectWebhookContentType = function (contentType) {
+		this.webhookContentType = contentType;
+		this.$delay(function () {
+			if (contentType == "params") {
+
+			} else if (contentType == "body") {
+				this.$find("form textarea[name='webhookBody']").focus();
+			}
+		});
+	};
+
+	this.webhookParamsAdding = false;
+	this.webhookParams = [];
+	this.webhookParamsAddingName = "";
+	this.webhookParamsAddingValue = "";
+
+	this.addWebhookParam = function () {
+		this.webhookParamsAdding = true;
+		this.$delay(function () {
+			this.$find("form input[name='webhookParamName']").focus();
+		});
+	};
+
+	this.cancelWebhookParamsAdding = function () {
+		this.webhookParamsAdding = false;
+	};
+
+	this.confirmWebhookParamsAdding = function () {
+		this.webhookParams.push({
+			"name": this.webhookParamsAddingName,
+			"value": this.webhookParamsAddingValue
+		});
+		this.webhookParamsAddingName = "";
+		this.webhookParamsAddingValue = "";
+		this.webhookParamsAdding = false;
+	};
+
+	this.removeWebhookParam = function (index) {
+		if (!window.confirm("确定要删除此参数吗？")) {
+			return;
+		}
+		this.webhookParams.$remove(index);
+	};
+
+	this.webhookBody = "";
+
 	if (this.media.type == "webhook") {
 		this.webhookMethod = this.media.options.method;
+		if (this.media.options.headers != null) {
+			this.webhookHeaders = this.media.options.headers;
+		}
+
+		if (this.media.options.contentType == "params") {
+			this.webhookContentType = "params";
+			if (this.media.options.params != null) {
+				this.webhookParams = this.media.options.params;
+			}
+		}
+
+		if (this.media.options.contentType == "body") {
+			this.webhookContentType = "body";
+			this.webhookBody = this.media.options.body;
+		}
 	}
 
 	/**

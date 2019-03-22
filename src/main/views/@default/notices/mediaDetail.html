@@ -80,6 +80,32 @@
 				{{media.options.method}}
 			</td>
 		</tr>
+		<tr>
+			<td>自定义Header</td>
+			<td>
+				<span v-if="media.options.headers == null || media.options.headers.length == 0" class="disabled">还没有自定义Header</span>
+				<div v-if="media.options.headers != null && media.options.headers.length > 0">
+					<span class="ui label small" v-for="header in media.options.headers">{{header.name}}:{{header.value}}</span>
+				</div>
+			</td>
+		</tr>
+		<tr v-if="media.options.contentType != null && media.options.contentType.length > 0">
+			<td>
+				<span v-if="media.options.contentType == 'params'">自定义参数</span>
+				<span v-if="media.options.contentType == 'body'">自定义内容</span>
+			</td>
+			<td>
+				<div v-if="media.options.contentType == 'params'">
+					<span v-if="media.options.params == null || media.options.params.length == 0" class="disabled">还没有自定义参数</span>
+					<div v-if="media.options.params != null && media.options.params.length > 0">
+						<span class="ui label small" v-for="param in media.options.params">{{param.name}}:{{param.value}}</span>
+					</div>
+				</div>
+				<div v-if="media.options.contentType == 'body'">
+					<xmp style="margin-top:0;margin-bottom:0">{{media.options.body}}</xmp>
+				</div>
+			</td>
+		</tr>
 	</tbody>
 	<tbody v-if="media.type == 'script'">
 		<tr>
