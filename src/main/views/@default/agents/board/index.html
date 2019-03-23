@@ -6,7 +6,8 @@
 <script type="text/javascript" src="/js/sortable.min.js"></script>
 {$end}
 
-<p class="comment" v-if="isLoaded && charts.length == 0">暂时还没有图表，可能没有连接或者<a :href="'/agents/settings/install?agentId=' + agentId">没有部署</a>。</p>
+<p class="comment" v-if="agentId == 'local' && isLoaded && charts.length == 0">暂时还没有图表，<a href="" @click.prevent="initDefaultApps()">是否重新初始化内置的系统App？</a></p>
+<p class="comment" v-if="agentId != 'local' && isLoaded && charts.length == 0">暂时还没有图表，可能没有连接 或者 <a :href="'/agents/settings/install?agentId=' + agentId">没有部署</a> 或者 需要<a href="" @click.prevent="initDefaultApps()">重新初始化内置的系统App</a>。</p>
 
 <div class="ui field" style="margin-bottom:2em" v-if="isLoaded && charts.length > 0">
     {$template "/chart_render"}

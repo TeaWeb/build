@@ -97,4 +97,18 @@ Tea.context(function () {
 			});
 		});
 	};
+
+	/**
+	 * 重新初始化
+	 */
+	this.initDefaultApps = function () {
+		if (!window.confirm("确定要初始化内置的系统App吗？")) {
+			return;
+		}
+		this.$post(".initDefaultApp")
+			.params({
+				"agentId": this.agentId
+			})
+			.refresh();
+	};
 });
