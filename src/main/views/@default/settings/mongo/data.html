@@ -1,0 +1,53 @@
+{$layout}
+
+<div class="ui menu text basic blue">
+	<a href="/settings/mongo" class="item">连接设置</a>
+	<a href="/settings/mongo/data" class="item active">数据清理</a>
+</div>
+<div class="ui divider"></div>
+
+<h3>数据清理<span v-if="totalSize > 0" :class="{disabled:countCalculatedColls!=colls.length}"><var v-if="countCalculatedColls!=colls.length">正在读取</var> {{totalSize}}M {{countCalculatedColls}}/{{colls.length}}</span></h3>
+
+<div>
+	<p class="comment">以下是TeaWeb在MongoDB数据库中使用的集合列表。MongoDB中“集合”的概念，同其他数据库的“数据表”的概念类似。通常情况下，删除数据并不影响TeaWeb正常运行。</p>
+	<p v-if="!isLoaded">正在读取数据，请耐心等待...</p>
+	<p class="ui message info" v-if="isLoaded && colls.length == 0">当前MongoDB数据库中还没有TeaWeb相关数据，不需要做任何清理。</p>
+
+	<table class="ui table selectable" v-if="isLoaded && colls.length > 0">
+		<thead>
+			<tr>
+				<th>集合名</th>
+				<th>集合类型</th>
+				<th class="two wide">记录数</th>
+				<th class="two wide">占用空间</th>
+				<th>是否可删除</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tr v-for="coll in colls">
+			<td>{{coll.name}}
+				<br/>
+				<span class="grey" style="font-size:0.8em" v-if="coll.subName != null && coll.subName.length > 0">{{coll.subName}}</span>
+			</td>
+			<td>
+				<span v-if="coll.warning" class="red">{{coll.type}}</span>
+				<span v-if="!coll.warning">{{coll.type}}</span>
+			</td>
+			<td>
+				<span v-if="coll.count != '-'">{{coll.count}}</span>
+				<span v-if="coll.count == '-'" class="disabled">正在读取</span>
+			</td>
+			<td>
+				<span v-if="coll.size != '-'">{{coll.size}}</span>
+				<span v-if="coll.size == '-'" class="disabled">正在读取</span>
+			</td>
+			<td>
+				<span v-if="coll.canDelete" class="green">YES</span>
+				<span v-if="!coll.canDelete" class="disabled">NO</span>
+			</td>
+			<td>
+				<a href="" v-if="coll.canDelete" @click.prevent="deleteColl(coll.name)">删除</a>
+			</td>
+		</tr>
+	</table>
+</div>

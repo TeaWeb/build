@@ -14,11 +14,3 @@
 .divider:not(.margin) {
     margin-bottom: 0!important;
 }
-
- .progress .bar {
-     min-width: 0!important;
-}
-
- .table td {
-     font-style: normal!important;
- }

@@ -1,5 +1,11 @@
 {$layout}
 
+<div class="ui menu text basic blue">
+	<a href="/settings/mongo" class="item active">连接设置</a>
+	<a href="/settings/mongo/data" class="item">数据清理</a>
+</div>
+<div class="ui divider"></div>
+
 <div>
     <h3>MongoDB连接设置 <a href="/settings/mongo/update" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
 

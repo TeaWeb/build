@@ -1,5 +1,11 @@
 {$layout}
 
+<div class="ui menu text basic blue">
+	<a href="/settings/mongo" class="item active">连接设置</a>
+	<a href="/settings/mongo/data" class="item">数据清理</a>
+</div>
+<div class="ui divider"></div>
+
 <h3></h3>
 <div class="ui message success" v-if="isConnected">已正常连接到MongoDB</div>
 <div v-if="!isConnected">

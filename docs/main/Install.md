@@ -65,7 +65,7 @@ teaweb-agent - agent启动脚本
 
 使用步骤为：
 1. 修改启动脚本中的`INSTALL_DIR`为实际的TeaWeb或Agent安装目录
-2. 将启动脚本文件拷贝到*/etc/init.d*目录下
+2. 将启动脚本文件拷贝到 */etc/init.d* 目录下
 3. 使用`root`设置权限：`chmod u+x /etc/init.d/teaweb` 或者 `chmod u+x /etc/init.d/teaweb-agent`
 4. 使用`chkconfig`添加到启动项中：`chkconfig --add teaweb` 或者 `chkconfig --add teaweb-agent`
 

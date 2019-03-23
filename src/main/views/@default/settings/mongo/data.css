@@ -15,10 +15,11 @@
     margin-bottom: 0!important;
 }
 
- .progress .bar {
-     min-width: 0!important;
+h3 span {
+    position: absolute;
+    right: 1em;
 }
 
- .table td {
-     font-style: normal!important;
- }
+h3 span var {
+    font-style: normal;
+}
