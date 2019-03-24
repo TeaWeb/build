@@ -12,7 +12,8 @@ logs.Query = function () {
 		"offset": -1,
 		"size": -1,
 		"sorts": [],
-		"cache": 0
+		"cache": 0,
+		"result": []
 	};
 
 	this.from = function (time) {
@@ -130,12 +131,19 @@ logs.Query = function () {
 		return this;
 	};
 
+	this.result = function (field1) {
+		for (var i = 0; i < arguments.length; i++) {
+			query.result.push(arguments[i]);
+		}
+		return this;
+	};
+
 	this.execute = function () {
 		var cacheKey = null;
 		if (query.cache > 0) {
 			var cacheQuery = query;
-			delete(cacheQuery["timeFrom"]);
-			delete(cacheQuery["timeTo"]);
+			delete (cacheQuery["timeFrom"]);
+			delete (cacheQuery["timeTo"]);
 			cacheKey = JSON.stringify({
 				"query": cacheQuery,
 				"serverId": (context.server == null) ? "" : context.server.id

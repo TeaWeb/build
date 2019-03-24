@@ -188,7 +188,7 @@ values.valueOf = function (value, param) {
 					var lastObject = value;
 					for (var i = 0; i < pieces.length; i++) {
 						var piece = pieces[i];
-						if (lastObject != null && typeof(lastObject[piece]) != "undefined") {
+						if (lastObject != null && typeof (lastObject[piece]) != "undefined") {
 							lastObject = lastObject[piece];
 
 							if (i == pieces.length - 1) {
