@@ -99,7 +99,8 @@ p.comment em, div.comment em {
     }
 
     .main-menu .ui.menu .item {
-        height: 2.8em;
+        padding-top: 2em;
+        padding-bottom: 2.4em;
     }
 
     .main-menu .ui.menu .item span {
