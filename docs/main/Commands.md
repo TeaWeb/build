@@ -24,8 +24,20 @@
 ./bin/teaweb restart
 ~~~
 
+## 重新加载代理配置
+v0.1.0以后支持
+~~~bash
+./bin/teaweb reload
+~~~
+
 ## 重置服务状态
 v0.0.8以后支持
 ~~~bash
 ./bin/teaweb reset
+~~~
+
+## 查看服务状态
+v0.1.0以后支持
+~~~bash
+./bin/teaweb status
 ~~~

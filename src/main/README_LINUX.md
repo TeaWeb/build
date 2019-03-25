@@ -18,8 +18,14 @@ http://teaos.cn/doc
 # print version
 ./bin/teaweb -v
 
+# reload all proxy servers config
+./bin/teaweb reload
+
 # reset service state
 ./bin/teaweb reset
+
+# print server status
+./bin/teaweb status
 ~~~
 
 # Issues

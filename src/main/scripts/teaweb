@@ -20,10 +20,16 @@ stop)
 restart)
     ${INSTALL_DIR}/bin/teaweb restart
     ;;
+reload)
+    ${INSTALL_DIR}/bin/teaweb reload
+    ;;
 reset)
     ${INSTALL_DIR}/bin/teaweb reset
     ;;
+status)
+    ${INSTALL_DIR}/bin/teaweb status
+    ;;
 *)
-    echo $"Usage: $0 {start|stop|restart|reset}"
+    echo $"Usage: $0 {start|stop|restart|reload|reset|status}"
     exit 2
 esac
