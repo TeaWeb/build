@@ -72,4 +72,33 @@ Tea.context(function () {
                 "keyFile": this.sslKeyFile
             });
     };
+
+	/**
+	 * 启动
+	 */
+	this.startHttps = function () {
+		if (!window.confirm("确定要启动此HTTPS服务吗？")) {
+			return;
+		}
+		this.$post(".startHttps")
+			.params({
+				"serverId": this.server.id,
+			})
+			.success(function () {
+				window.location.reload();
+			});
+	};
+
+	this.shutdownHttps = function () {
+		if (!window.confirm("确定要关闭此HTTPS服务吗？")) {
+			return;
+		}
+		this.$post(".shutdownHttps")
+			.params({
+				"serverId": this.server.id,
+			})
+			.success(function () {
+				window.location.reload();
+			});
+	};
 });
