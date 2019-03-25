@@ -5,10 +5,7 @@ Tea.context(function () {
 
     this.$delay(function () {
         this.loadCharts();
-
-        if (this.boardType == "realtime") {
-			this.serversSortable();
-		}
+        this.serversSortable();
     });
 
     this.widgetIsLoaded = false;
@@ -51,6 +48,10 @@ Tea.context(function () {
 					this.$delay(function () {
 						this.loadCharts();
 					}, 5000);
+				} else if (this.boardType == "stat") {
+					this.$delay(function () {
+						this.loadCharts();
+					}, 600 * 1000);
 				}
 
 				//this.events = [];
