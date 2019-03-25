@@ -26,13 +26,24 @@ Tea.context(function () {
      */
     this.listenAdding = false;
     this.addingListenName = "";
+	this.editingListenIndex = -1;
 
     this.addListen = function () {
         this.listenAdding = true;
+		this.editingListenIndex = -1;
         this.$delay(function () {
             this.$find("form input[name='addingListenName']").focus();
         });
     };
+
+	this.editListen = function (index) {
+		this.listenAdding = true;
+		this.editingListenIndex = index;
+		this.$delay(function () {
+			this.$find("form input[name='addingListenName']").focus();
+		});
+		this.addingListenName = this.server.ssl.listen[index];
+	};
 
     this.confirmAddListen = function () {
         this.addingListenName = this.addingListenName.trim();
@@ -41,16 +52,22 @@ Tea.context(function () {
             this.$find("form input[name='addingListenName']").focus();
             return;
         }
-        this.server.ssl.listen.push(this.addingListenName);
+		if (this.editingListenIndex > -1) {
+			this.server.ssl.listen[this.editingListenIndex] = this.addingListenName;
+		} else {
+			this.server.ssl.listen.push(this.addingListenName);
+		}
         this.cancelListenAdding();
     };
 
     this.cancelListenAdding = function () {
-        this.listenAdding = !this.listenAdding;
+		this.listenAdding = false;
         this.addingListenName = "";
+        this.editingListenIndex = -1;
     };
 
     this.removeListen = function (index) {
         this.server.ssl.listen.$remove(index);
+		this.cancelListenAdding();
     };
 });

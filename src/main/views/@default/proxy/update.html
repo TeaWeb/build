@@ -29,8 +29,9 @@
             <tr>
                 <td>域名<em>(name)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(name, arrayIndex) in server.name">{{name}}
-                        <input type="hidden" name="name" :value="name"/>
+                    <span class="ui label small" v-for="(name, arrayIndex) in server.name" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
+                        <input type="hidden" name="name" :value="name"/> &nbsp;
+						<a href="" @click.prevent="editName(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>
                     <div class="ui fields inline" v-if="nameAdding" style="margin-top:0.8em">
@@ -51,8 +52,9 @@
             <tr>
                 <td>绑定地址<em>(listen)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(listen, arrayIndex) in server.listen">{{listen}}
-                        <input type="hidden" name="listen" :value="listen"/>
+                    <span class="ui label small" v-for="(listen, arrayIndex) in server.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+                        <input type="hidden" name="listen" :value="listen"/> &nbsp;
+						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>
                     <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">

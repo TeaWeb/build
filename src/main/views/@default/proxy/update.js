@@ -9,8 +9,19 @@ Tea.context(function () {
 	 */
 	this.nameAdding = false;
 	this.addingNameName = "";
+	this.nameEditingIndex = -1;
 
 	this.addName = function () {
+		this.nameAdding = true;
+		this.nameEditingIndex = -1;
+		this.$delay(function () {
+			this.$find("form input[name='addingNameName']").focus();
+		});
+	};
+
+	this.editName = function (index) {
+		this.nameEditingIndex = index;
+		this.addingNameName = this.server.name[index];
 		this.nameAdding = true;
 		this.$delay(function () {
 			this.$find("form input[name='addingNameName']").focus();
@@ -24,16 +35,22 @@ Tea.context(function () {
 			this.$find("form input[name='addingNameName']").focus();
 			return;
 		}
-		this.server.name.push(this.addingNameName);
+		if (this.nameEditingIndex > -1) {
+			this.server.name[this.nameEditingIndex] = this.addingNameName;
+		} else {
+			this.server.name.push(this.addingNameName);
+		}
 		this.cancelNameAdding();
 	};
 
 	this.cancelNameAdding = function () {
-		this.nameAdding = !this.nameAdding;
+		this.nameAdding = false;
 		this.addingNameName = "";
+		this.nameEditingIndex = -1;
 	};
 
 	this.removeName = function (index) {
+		this.cancelNameAdding();
 		this.server.name.$remove(index);
 	};
 
@@ -51,12 +68,23 @@ Tea.context(function () {
 	 */
 	this.listenAdding = false;
 	this.addingListenName = "";
+	this.editingListenIndex = -1;
 
 	this.addListen = function () {
 		this.listenAdding = true;
+		this.editingListenIndex = -1;
 		this.$delay(function () {
 			this.$find("form input[name='addingListenName']").focus();
 		});
+	};
+
+	this.editListen = function (index) {
+		this.listenAdding = true;
+		this.editingListenIndex = index;
+		this.$delay(function () {
+			this.$find("form input[name='addingListenName']").focus();
+		});
+		this.addingListenName = this.server.listen[index];
 	};
 
 	this.confirmAddListen = function () {
@@ -66,17 +94,23 @@ Tea.context(function () {
 			this.$find("form input[name='addingListenName']").focus();
 			return;
 		}
-		this.server.listen.push(this.addingListenName);
+		if (this.editingListenIndex > -1) {
+			this.server.listen[this.editingListenIndex] = this.addingListenName;
+		} else {
+			this.server.listen.push(this.addingListenName);
+		}
 		this.cancelListenAdding();
 	};
 
 	this.cancelListenAdding = function () {
-		this.listenAdding = !this.listenAdding;
+		this.listenAdding = false;
 		this.addingListenName = "";
+		this.editingListenIndex = -1;
 	};
 
 	this.removeListen = function (index) {
 		this.server.listen.$remove(index);
+		this.cancelListenAdding();
 	};
 
 	/**

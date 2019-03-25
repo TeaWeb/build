@@ -33,6 +33,7 @@
                     <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
 
                     <input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"/>
+					<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
                 </td>
             </tr>
             <tr>
@@ -40,13 +41,15 @@
                 <td>
                     <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
                     <input type="file" name="keyFile" accept="application/pkcs8"/>
+					<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
                 </td>
             </tr>
             <tr>
                 <td>绑定地址<em>(listen)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(listen, arrayIndex) in server.ssl.listen">{{listen}}
-                        <input type="hidden" name="listen" :value="listen"/>
+                    <span class="ui label small" v-for="(listen, arrayIndex) in server.ssl.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+                        <input type="hidden" name="listen" :value="listen"/> &nbsp;
+						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>
                     <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
