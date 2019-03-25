@@ -6,11 +6,14 @@ FROM=${1}
 
 if [ ${FROM} ]
 then
+	yes|cp -R ${FROM}/installers .
 	yes|cp -R ${FROM}/libs .
 	yes|cp -R ${FROM}/public .
 	yes|cp -R ${FROM}/resources .
+	yes|cp -R ${FROM}/scripts .
+	yes|cp -R ${FROM}/upgrade .
 	yes|cp -R ${FROM}/views .
-	yes|cp -R ${FROM}/www
+	yes|cp -R ${FROM}/www .
 
 	# bin & plugins
 	bin/teaweb stop
