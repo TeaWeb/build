@@ -16,6 +16,11 @@
 <script type="text/javascript" src="/js/sortable.min.js"></script>
 {$end}
 
+<!-- 错误信息 -->
+<p class="ui message error" v-for="err in errs">
+	发生错误：{{err}}
+</p>
+
 <div class="ui menu text basic blue">
 	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item active" v-if="boardType != 'stat'">看板</a>
 	<a :href="'/proxy/stat?serverId=' + server.id" class="item active" v-if="boardType == 'stat'">统计看板</a>

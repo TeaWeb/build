@@ -12,6 +12,11 @@
 {$end}
 <!--  检测配置是否有更新 end -->
 
+<!-- 错误信息 -->
+<p class="ui message error" v-for="err in errs">
+	发生错误：{{err}}
+</p>
+
 <div>
     {$template "menu"}
 
