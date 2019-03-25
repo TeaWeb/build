@@ -9,6 +9,7 @@ http.Server = function (options) {
 	this.listen = [];
 	this.backends = [];
 	this.locations = [];
+	this.http = true;
 	this.ssl = {};
 
 	if (options != null && typeof (options) == "object") {
