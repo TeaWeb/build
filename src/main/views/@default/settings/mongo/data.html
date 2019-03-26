@@ -6,7 +6,13 @@
 </div>
 <div class="ui divider"></div>
 
-<h3>数据清理<span v-if="totalSize > 0" :class="{disabled:countCalculatedColls!=colls.length}"><var v-if="countCalculatedColls!=colls.length">正在读取</var> {{totalSize}}M {{countCalculatedColls}}/{{colls.length}}</span></h3>
+<div class="ui menu text basic blue small">
+	<a href="/settings/mongo/data" class="item active">手动清理</a>
+	<a href="/settings/mongo/clean" class="item">自动清理设置</a>
+</div>
+<div class="ui divider"></div>
+
+<h3>手动清理<span :class="{disabled:countCalculatedColls!=colls.length}"><var v-if="countCalculatedColls!=colls.length">正在读取</var> {{formatedTotalSize}} {{countCalculatedColls}}/{{colls.length}}</span></h3>
 
 <div>
 	<p class="comment">以下是TeaWeb在MongoDB数据库中使用的集合列表。MongoDB中“集合”的概念，同其他数据库的“数据表”的概念类似。通常情况下，删除数据并不影响TeaWeb正常运行。</p>
@@ -38,8 +44,8 @@
 				<span v-if="coll.count == '-'" class="disabled">正在读取</span>
 			</td>
 			<td>
-				<span v-if="coll.size != '-'">{{coll.size}}</span>
-				<span v-if="coll.size == '-'" class="disabled">正在读取</span>
+				<span v-if="coll.formattedSize != null">{{coll.formattedSize}}</span>
+				<span v-if="coll.formattedSize == null" class="disabled">正在读取</span>
 			</td>
 			<td>
 				<span v-if="coll.canDelete" class="green">YES</span>

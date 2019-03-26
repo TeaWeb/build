@@ -2,6 +2,7 @@ Tea.context(function () {
 	this.colls = [];
 	this.isLoaded = false;
 	this.totalSize = 0;
+	this.formatedTotalSize = "";
 	this.countCalculatedColls = 0;
 
 	this.$delay(function () {
@@ -51,6 +52,8 @@ Tea.context(function () {
 					if (typeof (resp.data.result[v.name]) != "undefined") {
 						v["count"] = resp.data.result[v.name].count;
 						v["size"] = resp.data.result[v.name].size;
+
+						v["formattedSize"] = resp.data.result[v.name].formattedSize;
 					}
 					return v;
 				});
@@ -85,11 +88,18 @@ Tea.context(function () {
 		var count = 0;
 		this.colls.$each(function (k, v) {
 			if (v.size != "-") {
-				totalSize += parseFloat(v.size.replace("M", ""));
-				count ++;
+				totalSize += v.size;
+				count++;
 			}
 		});
-		this.totalSize = Math.ceil(totalSize * 100) / 100;
+		this.totalSize = totalSize;
 		this.countCalculatedColls = count;
+		if (totalSize < 1024 * 1024) {
+			this.formatedTotalSize = (Math.ceil(totalSize / 1024 * 100) / 100) + "KB";
+		} else if (totalSize < 1024 * 1024 * 1024) {
+			this.formatedTotalSize = (Math.ceil(totalSize / 1024 / 1024 * 100) / 100) + "MB";
+		} else {
+			this.formatedTotalSize = (Math.ceil(totalSize / 1024 / 1024 / 1024 * 100) / 100) + "GB";
+		}
 	};
 });

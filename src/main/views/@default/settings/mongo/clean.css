@@ -1,0 +1,25 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.text.menu {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.divider {
+    margin-top: 0!important;
+}
+
+.divider:not(.margin) {
+    margin-bottom: 0!important;
+}
+
+h3 span {
+    position: absolute;
+    right: 1em;
+}
+
+h3 span var {
+    font-style: normal;
+}
