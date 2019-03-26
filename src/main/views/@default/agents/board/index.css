@@ -14,6 +14,7 @@
 .table th .ops {
     position: absolute;
     right: 2em;
+    font-style: normal;
 }
 
 .table th a {
