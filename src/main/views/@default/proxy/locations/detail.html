@@ -71,6 +71,20 @@
 			</td>
 		</tr>
 		<tr>
+			<td>存储的访问日志</td>
+			<td>
+				<p v-if="!location.enableAccessLog" class="disabled">访问日志未开启</p>
+				<span v-if="location.enableAccessLog" v-for="field in accessLogFields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>统计</td>
+			<td>
+				<span class="ui label green tiny" v-if="location.enableStat">已开启</span>
+				<span class="ui label tiny" v-if="!location.enableStat">未开启</span>
+			</td>
+		</tr>
+		<tr>
 			<td>Gzip压缩级别</td>
 			<td>
 				<span v-if="location.gzipLevel < 0">不设置</span>

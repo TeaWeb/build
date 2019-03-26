@@ -16,3 +16,8 @@
     margin-bottom: 0!important;
 }
 
+.table .label.disabled {
+    color: #666!important;
+}
+
+

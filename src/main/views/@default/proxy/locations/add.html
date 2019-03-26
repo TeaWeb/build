@@ -107,13 +107,34 @@
 					</td>
 				</tr>
 				<tr>
-					<td>是否开启访问日志</td>
+					<td>是否开启访问日志存储</td>
 					<td>
 						<div class="ui checkbox">
-							<input type="checkbox" name="enableAccessLog" value="1" checked="checked"/>
+							<input type="checkbox" name="enableAccessLog" v-model="enableAccessLog" value="1" checked="checked"/>
 							<label></label>
 						</div>
 						<p class="comment">如果不开启访问日志，那么数据统计也会停用。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>要存储的访问日志信息</td>
+					<td>
+						<p v-if="!enableAccessLog" class="disabled">开启访问日志存储后可以选择</p>
+						<div v-show="enableAccessLog">
+							<div class="ui checkbox" v-for="field in accessLogFields"  style="width:10em;padding-top:0.4em;padding-bottom:0.4em">
+								<input type="checkbox" name="accessLogFields" :value="field.code" :id="'access-log-field-' + field.code" v-model="field.isChecked"/>
+								<label :for="'access-log-field-' + field.code">{{field.name}}</label>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>是否开启统计</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="enableStat" value="1" checked="checked"/>
+							<label></label>
+						</div>
 					</td>
 				</tr>
 				<tr>

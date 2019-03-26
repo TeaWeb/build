@@ -131,14 +131,16 @@ Tea.context(function () {
 					}
 
 					// 浏览器图标
-					var browserFamily = log.extend.client.browser.family.toLowerCase();
 					log.browserIcon = "";
-					if (["chrome", "firefox", "safari", "opera", "edge", "internet explorer"].$contains(browserFamily)) {
-						log.browserIcon = browserFamily;
-					} else if (browserFamily == "ie") {
-						log.browserIcon = "internet explorer";
-					} else if (browserFamily == "other") {
-						log.extend.client.browser.family = "";
+					if (log.extend != null) {
+						var browserFamily = log.extend.client.browser.family.toLowerCase();
+						if (["chrome", "firefox", "safari", "opera", "edge", "internet explorer"].$contains(browserFamily)) {
+							log.browserIcon = browserFamily;
+						} else if (browserFamily == "ie") {
+							log.browserIcon = "internet explorer";
+						} else if (browserFamily == "other") {
+							log.extend.client.browser.family = "";
+						}
 					}
 				});
 
@@ -244,12 +246,16 @@ Tea.context(function () {
 				return false;
 			}
 
-			if (typeof (log.extend.client.os.family) != "undefined" && !teaweb.match(log.extend.client.os.family, that.searchOs)) {
-				return false;
+			if (log.extend != null) {
+				if (typeof (log.extend.client.os.family) != "undefined" && !teaweb.match(log.extend.client.os.family, that.searchOs)) {
+					return false;
+				}
 			}
 
-			if (typeof (log.extend.client.browser.family) != "undefined" && !teaweb.match(log.extend.client.browser.family, that.searchBrowser)) {
-				return false;
+			if (log.extend != null) {
+				if (typeof (log.extend.client.browser.family) != "undefined" && !teaweb.match(log.extend.client.browser.family, that.searchBrowser)) {
+					return false;
+				}
 			}
 
 			if (that.searchMinCost.length > 0) {
@@ -318,6 +324,9 @@ Tea.context(function () {
 					.success(function (response) {
 						log.responseHeaders = response.data.headers;
 						log.responseBody = response.data.body;
+						if (log.responseHeaders == null) {
+							log.responseHeaders = {};
+						}
 						this.$set(this.logs, index, log);
 					});
 			}
@@ -329,6 +338,9 @@ Tea.context(function () {
 				this.$get(".requestHeader." + log.id + "." + log.day)
 					.success(function (response) {
 						log.requestHeaders = response.data.headers;
+						if (log.requestHeaders == null) {
+							log.requestHeaders = {};
+						}
 						log.requestBody = response.data.body;
 						log.hasRequestHeaders = false;
 						for (var k in log.requestHeaders) {
@@ -350,6 +362,10 @@ Tea.context(function () {
 					.success(function (response) {
 						log.responseHeaders = response.data.headers;
 						log.responseBody = response.data.body;
+
+						if (log.responseHeaders == null) {
+							log.responseHeaders = {};
+						}
 
 						if (typeof (log.responseHeaders["Content-Type"]) != "undefined" && log.responseHeaders["Content-Type"].length > 0 && log.responseHeaders["Content-Type"][0].match(/image\//)) {
 							log.previewImageURL = log.requestScheme + "://" + log.host + log.requestURI;
@@ -380,6 +396,9 @@ Tea.context(function () {
 					.success(function (response) {
 						log.cookies = response.data.cookies;
 						log.countCookies = response.data.count;
+						if (log.cookies == null) {
+							log.cookies = {};
+						}
 						this.$set(this.logs, index, log);
 					});
 			}
@@ -387,73 +406,84 @@ Tea.context(function () {
 
 		// 终端信息
 		else if (tabName == "client") {
-			var client = log.extend.client;
+			if (log.extend != null) {
+				var client = log.extend.client;
 
-			// 操作系统信息
-			var osVersion = client.os.family;
-			if (osVersion.length == 0 || osVersion == "Other") {
-				log.osVersion = "";
-			} else {
-				if (client.os.major.length > 0) {
-					osVersion += " " + client.os.major;
-				}
-				if (client.os.minor.length > 0) {
-					osVersion += "." + client.os.minor;
-				}
-				if (client.os.patch.length > 0) {
-					osVersion += "." + client.os.patch;
-				}
-				if (client.os.patchMinor.length > 0) {
-					osVersion += "." + client.os.patchMinor;
-				}
-				log.osVersion = osVersion;
-			}
-
-			// 浏览器信息
-			var browserVersion = client.browser.family;
-			if (browserVersion.length == 0 || browserVersion == "Other") {
-				log.browserVersion = "";
-			} else {
-				if (client.browser.major.length > 0) {
-					browserVersion += " " + client.browser.major;
-				}
-				if (client.browser.minor.length > 0) {
-					browserVersion += "." + client.browser.minor;
-				}
-				if (client.browser.patch.length > 0) {
-					browserVersion += "." + client.browser.patch;
-				}
-				log.browserVersion = browserVersion;
-			}
-
-			// 地理位置信息
-			var geo = log.extend.geo;
-			var geoAddr = geo.region + " " + geo.state;
-			if (![geo.city, geo.city + "市", geo.city + "州"].$contains(geo.state)) {
-				geoAddr += " " + geo.city;
-			}
-			log.geoAddr = geoAddr.trim();
-
-			if (log.geoAddr.length > 0) {
-				[1].$loop(function (k, v, loop) {
-					var mapBoxId = "map-box-" + log.id;
-					if (document.getElementById(mapBoxId) == null) {
-						setTimeout(function () {
-							loop.next();
-						}, 100);
-						return;
+				// 操作系统信息
+				var osVersion = client.os.family;
+				if (osVersion.length == 0 || osVersion == "Other") {
+					log.osVersion = "";
+				} else {
+					if (client.os.major.length > 0) {
+						osVersion += " " + client.os.major;
 					}
-					var map = new BMap.Map("map-box-" + log.id);
-					var decoder = new BMap.Geocoder();
-					decoder.getPoint(log.geoAddr, function (point) {
-						if (point == null) {
-							point = new BMap.Point(geo.location.longitude, geo.location.latitude);
-							var converter = new BMap.Convertor();
-							converter.translate([point], 3, 5, function (data) {
-								if (data.status == 0) {
-									point = data.points[0];
-								}
+					if (client.os.minor.length > 0) {
+						osVersion += "." + client.os.minor;
+					}
+					if (client.os.patch.length > 0) {
+						osVersion += "." + client.os.patch;
+					}
+					if (client.os.patchMinor.length > 0) {
+						osVersion += "." + client.os.patchMinor;
+					}
+					log.osVersion = osVersion;
+				}
 
+				// 浏览器信息
+				var browserVersion = client.browser.family;
+				if (browserVersion.length == 0 || browserVersion == "Other") {
+					log.browserVersion = "";
+				} else {
+					if (client.browser.major.length > 0) {
+						browserVersion += " " + client.browser.major;
+					}
+					if (client.browser.minor.length > 0) {
+						browserVersion += "." + client.browser.minor;
+					}
+					if (client.browser.patch.length > 0) {
+						browserVersion += "." + client.browser.patch;
+					}
+					log.browserVersion = browserVersion;
+				}
+
+				// 地理位置信息
+				var geo = log.extend.geo;
+				var geoAddr = geo.region + " " + geo.state;
+				if (![geo.city, geo.city + "市", geo.city + "州"].$contains(geo.state)) {
+					geoAddr += " " + geo.city;
+				}
+				log.geoAddr = geoAddr.trim();
+
+				if (log.geoAddr.length > 0) {
+					[1].$loop(function (k, v, loop) {
+						var mapBoxId = "map-box-" + log.id;
+						if (document.getElementById(mapBoxId) == null) {
+							setTimeout(function () {
+								loop.next();
+							}, 100);
+							return;
+						}
+						var map = new BMap.Map("map-box-" + log.id);
+						var decoder = new BMap.Geocoder();
+						decoder.getPoint(log.geoAddr, function (point) {
+							if (point == null) {
+								point = new BMap.Point(geo.location.longitude, geo.location.latitude);
+								var converter = new BMap.Convertor();
+								converter.translate([point], 3, 5, function (data) {
+									if (data.status == 0) {
+										point = data.points[0];
+									}
+
+									var marker = new BMap.Marker(point, {
+										icon: new BMap.Icon("/images/poi.png", new BMap.Size(20, 20), {
+											anchor: new BMap.Size(10, 20),
+											imageSize: new BMap.Size(20, 20)
+										})
+									});
+									map.addOverlay(marker);
+									map.centerAndZoom(point, 5);
+								});
+							} else {
 								var marker = new BMap.Marker(point, {
 									icon: new BMap.Icon("/images/poi.png", new BMap.Size(20, 20), {
 										anchor: new BMap.Size(10, 20),
@@ -462,19 +492,10 @@ Tea.context(function () {
 								});
 								map.addOverlay(marker);
 								map.centerAndZoom(point, 5);
-							});
-						} else {
-							var marker = new BMap.Marker(point, {
-								icon: new BMap.Icon("/images/poi.png", new BMap.Size(20, 20), {
-									anchor: new BMap.Size(10, 20),
-									imageSize: new BMap.Size(20, 20)
-								})
-							});
-							map.addOverlay(marker);
-							map.centerAndZoom(point, 5);
-						}
+							}
+						});
 					});
-				});
+				}
 			}
 		}
 

@@ -169,6 +169,7 @@ Tea.context(function () {
 	 * 访问日志
 	 */
 	this.enableAccessLog = !this.server.disableAccessLog;
+	this.enableStat = !this.server.disableStat;
 
 	/**
 	 * 小静态文件加速

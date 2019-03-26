@@ -156,4 +156,9 @@ Tea.context(function () {
 			"name": "M"
 		}];
 	this.gzipMinUnit = "k";
+
+	/**
+	 * 访问日志相关
+	 */
+	this.enableAccessLog = true;
 });

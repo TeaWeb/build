@@ -6,7 +6,7 @@
 					<p @click="showLog(index)" :class="{ error:log.status>=400 }">
                             <span class="browser">
                                 <i class="icon" :class="log.browserIcon" v-if="log.browserIcon.length > 0"></i>
-                                <span v-if="log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
+                                <span v-if="log.extend != null && log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
                             </span>
 						<span class="ui label tiny" v-if="log.upgrade.length > 0">{{log.upgrade}}</span>
 
@@ -41,11 +41,20 @@
 					</tr>
 					<tr>
 						<td>终端地址<em>(RemoteAddr:RemotePort)</em>：{{log.remoteAddr}}:{{log.remotePort}}</td>
-						<td>终端信息<em>(UserAgent)</em>：{{log.userAgent}}</td>
+						<td>终端信息<em>(UserAgent)</em>：
+							<span v-if="log.userAgent.length > 0">{{log.userAgent}}</span>
+							<span v-if="log.userAgent.length == 0">-</span>
+						</td>
 					</tr>
 					<tr>
-						<td v-if="log.extend.client.os != null">操作系统(OS)：{{log.extend.client.os.family}} {{log.extend.client.os.major}}</td>
-						<td>浏览器<em>(Browser)</em>：{{log.extend.client.browser.family}} {{log.extend.client.browser.major}}</td>
+						<td>操作系统<em>(OS)</em>：
+							<span v-if="log.extend != null && log.extend.client != null && log.extend.client.os != null && log.extend.client.os.family.length > 0">{{log.extend.client.os.family}} {{log.extend.client.os.major}}</span>
+							<span v-if="log.extend == null || log.extend.client == null || log.extend.client.os == null || log.extend.client.os.family.length == 0">暂时无法识别</span>
+						</td>
+						<td>浏览器<em>(Browser)</em>：
+							<span v-if="log.extend != null && log.extend.client != null && log.extend.client.browser != null && log.extend.client.browser.family.length > 0">{{log.extend.client.browser.family}} {{log.extend.client.browser.major}}</span>
+							<span v-if="log.extend == null || log.extend.client == null || log.extend.client.browser == null || log.extend.client.browser.family.length == 0">暂时无法识别</span>
+						</td>
 					</tr>
 					<tr>
 						<td>协议<em>(Proto)</em>：{{log.proto}}</td>
@@ -160,7 +169,10 @@
 					<tbody>
 					<tr>
 						<td class="middle-title">综合信息<em>(UserAgent)</em></td>
-						<td>{{log.userAgent}}</td>
+						<td>
+							<span v-if="log.userAgent.length > 0">{{log.userAgent}}</span>
+							<span v-if="log.userAgent.length == 0">-</span>
+						</td>
 					</tr>
 					<tr>
 						<td>IP</td>
@@ -169,31 +181,31 @@
 					<tr>
 						<td>设备<em>(Device)</em></td>
 						<td>
-							<span v-if="log.extend.client.device.family.length > 0 && log.extend.client.device.family != 'Other'">{{log.extend.client.device.family}}</span>
-							<span v-if="log.extend.client.device.family.length == 0 || log.extend.client.device.family == 'Other'">暂时无法识别</span>
+							<span v-if="log.extend != null && log.extend.client != null && log.extend.client.device.family.length > 0 && log.extend.client.device.family != 'Other'">{{log.extend.client.device.family}}</span>
+							<span v-if="log.extend == null || log.extend.client == null || log.extend.client.device.family.length == 0 || log.extend.client.device.family == 'Other'">暂时无法识别</span>
 						</td>
 					</tr>
 					<tr>
 						<td>操作系统<em>(OS)</em></td>
 						<td>
-							<span v-if="log.osVersion.length > 0">{{log.osVersion}}</span>
-							<span v-if="log.osVersion.length == 0">暂时无法识别</span>
+							<span v-if="log.osVersion != null && log.osVersion.length > 0">{{log.osVersion}}</span>
+							<span v-if="log.osVersion == null || log.osVersion.length == 0">暂时无法识别</span>
 						</td>
 					<tr>
 						<td>浏览器<em>(Browser)</em></td>
 						<td>
-							<span v-if="log.browserVersion.length > 0">{{log.browserVersion}}</span>
-							<span v-if="log.browserVersion.length == 0">暂时无法识别</span>
+							<span v-if="log.browserVersion != null && log.browserVersion.length > 0">{{log.browserVersion}}</span>
+							<span v-if="log.browserVersion == null || log.browserVersion.length == 0">暂时无法识别</span>
 						</td>
 					</tr>
 					<tr>
 						<td>地理位置<em>(Location)</em></td>
 						<td>
-							<span v-if="log.geoAddr.length > 0">{{log.geoAddr}}</span>
-							<span v-if="log.geoAddr.length == 0">暂时无法识别</span>
+							<span v-if="log.geoAddr != null && log.geoAddr.length > 0">{{log.geoAddr}}</span>
+							<span v-if="log.geoAddr == null || log.geoAddr.length == 0">暂时无法识别</span>
 						</td>
 					</tr>
-					<tr v-if="log.geoAddr.length > 0">
+					<tr v-if="log.geoAddr != null && log.geoAddr.length > 0">
 						<td colspan="2">
 							<div class="map-box" :id="'map-box-' + log.id">地图加载中...</div>
 						</td>

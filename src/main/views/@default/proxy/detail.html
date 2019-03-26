@@ -103,6 +103,20 @@
 				</td>
 			</tr>
 			<tr>
+				<td>存储的访问日志</td>
+				<td>
+					<p v-if="server.disableAccessLog" class="disabled">访问日志未开启</p>
+					<span v-if="!server.disableAccessLog" v-for="field in accessLogFields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td>统计</td>
+				<td>
+					<span class="ui label green tiny" v-if="!server.disableStat">已开启</span>
+					<span class="ui label tiny" v-if="server.disableStat">未开启</span>
+				</td>
+			</tr>
+			<tr>
 				<td>小静态文件加速</td>
 				<td>
 					<span class="ui label green tiny" v-if="server.cacheStatic">已开启</span>
