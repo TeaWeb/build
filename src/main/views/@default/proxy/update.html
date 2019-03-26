@@ -59,7 +59,7 @@
                     </span>
                     <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
                         <div class="ui field">
-                            <input type="text" name="addingListenName" style="width:18em" maxlength="30" placeholder="绑定的网络地址，比如 0.0.0.0:80" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
+                            <input type="text" name="addingListenName" style="width:18em" maxlength="100" placeholder="绑定的网络地址，比如 0.0.0.0:80" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
                         </div>
                         <div class="ui field">
                             <button class="ui button" type="button" @click="confirmAddListen()">确定</button>
@@ -116,7 +116,7 @@
 
 						<div class="ui fields inline" v-if="indexAdding" style="margin-top:0.8em">
 							<div class="ui field">
-								<input type="text" name="addingIndexName" style="width:16em" maxlength="10" placeholder="首页文件名，比如 index.php" @keyup.enter="confirmAddIndex()" @keypress.enter.prevent="1" v-model="addingIndexName" />
+								<input type="text" name="addingIndexName" style="width:16em" maxlength="100" placeholder="首页文件名，比如 index.php" @keyup.enter="confirmAddIndex()" @keypress.enter.prevent="1" v-model="addingIndexName" />
 							</div>
 							<div class="ui field">
 								<button class="ui button" type="button" @click="confirmAddIndex()">确定</button>
