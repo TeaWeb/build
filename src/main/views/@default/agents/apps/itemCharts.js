@@ -52,6 +52,36 @@ Tea.context(function () {
 		return false;
 	};
 
+	this.removeChartFormBoard = function (chartId) {
+		if (!window.confirm("确定从看板中移除这个图表吗？")) {
+			return false;
+		}
+		this.$post("/agents/board/removeChart")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id,
+				"chartId": chartId
+			})
+			.refresh();
+		return false;
+	};
+
+	this.addChartToBoard = function (chartId) {
+		if (!window.confirm("确定把这个图表添加到看板吗？")) {
+			return false;
+		}
+		this.$post("/agents/board/addChart")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id,
+				"chartId": chartId
+			})
+			.refresh();
+		return false;
+	};
+
 	/**
 	 * 添加数据源内置图表
 	 */
