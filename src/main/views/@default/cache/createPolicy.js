@@ -1,6 +1,10 @@
 Tea.context(function () {
     this.advancedVisible = false;
 
+    this.$delay(function () {
+    	this.$find("form input[name='name']").focus();
+	});
+
     /**
      * key
      */

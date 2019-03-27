@@ -78,14 +78,14 @@
         <tr>
             <td></td>
             <td>
-                <a href="" v-if="!advancedVisible" @click.prevent="showAdvanced(true)">使用高级选项 <i class="icon down angle"></i> </a>
-                <a href="" v-if="advancedVisible" @click.prevent="showAdvanced(false)">不使用高级选项 <i class="icon up angle"></i> </a>
+                <a href="" v-if="!advancedVisible" @click.prevent="showAdvanced(true)">显示高级选项 <i class="icon down angle"></i> </a>
+                <a href="" v-if="advancedVisible" @click.prevent="showAdvanced(false)">收起高级选项 <i class="icon up angle"></i> </a>
                 <input type="hidden" name="isAdvanced" value="1" v-if="advancedVisible"/>
             </td>
         </tr>
 
         <!-- 内存缓存 -->
-        <tr v-if="cacheType == 'memory' && advancedVisible">
+        <tr v-show="cacheType == 'memory' && advancedVisible">
             <td>缓存容量</td>
             <td>
                 <div class="ui fields inline">
@@ -103,7 +103,7 @@
         </tr>
 
         <!-- 其他高级设置 -->
-        <tr v-if="advancedVisible">
+        <tr v-show="advancedVisible">
             <td>缓存有效期</td>
             <td>
                 <div class="ui fields inline">
@@ -121,7 +121,7 @@
                 <p class="comment">默认72小时（也就是3天）。</p>
             </td>
         </tr>
-        <tr v-if="advancedVisible">
+        <tr v-show="advancedVisible">
             <td>支持的状态码</td>
             <td>
                 <label class="ui label" v-for="(status, index) in statusList" :key="index">{{status}}
@@ -144,7 +144,7 @@
                 <p class="comment">支持的HTTP状态码，必须是3位数字</p>
             </td>
         </tr>
-        <tr v-if="advancedVisible">
+        <tr v-show="advancedVisible">
             <td>最大内容长度</td>
             <td>
                 <div class="ui fields inline">

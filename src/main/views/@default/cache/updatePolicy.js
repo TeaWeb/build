@@ -1,5 +1,9 @@
 Tea.context(function () {
-    this.advancedVisible = this.policy.hasAdvanced;
+    this.advancedVisible = false;
+
+	this.$delay(function () {
+		this.$find("form input[name='name']").focus();
+	});
 
     // life
     if (this.policy.life == "0s") {
