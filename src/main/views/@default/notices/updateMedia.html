@@ -224,6 +224,29 @@
 			</td>
 		</tr>
 		</tbody>
+		<tbody v-show="mediaType == 'qyWeixin'">
+		<tr>
+			<td>企业ID *</td>
+			<td>
+				<input type="text" name="qyWeixinCorporateId" maxlength="100" v-model="media.options.corporateId" />
+				<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#%E4%BC%81%E4%B8%9Aid" target="_blank">如何查看企业ID？</a></p>
+			</td>
+		</tr>
+		<tr>
+			<td>应用AgentId *</td>
+			<td>
+				<input type="text" name="qyWeixinAgentId" maxlength="100" v-model="media.options.agentId"/>
+				<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#agentid" target="_blank">如何查看应用的AgentId？</a> </p>
+			</td>
+		</tr>
+		<tr>
+			<td>应用Secret *</td>
+			<td>
+				<input type="text" name="qyWeixinAppSecret" maxlength="100" v-model="media.options.appSecret"/>
+				<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#appsecret" target="_blank">如何查看应用的Secret？</a> </p>
+			</td>
+		</tr>
+		</tbody>
 		<tr>
 			<td>发送频率</td>
 			<td>

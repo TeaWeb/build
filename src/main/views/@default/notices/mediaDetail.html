@@ -140,6 +140,26 @@
 			<td>{{media.options.webhookURL}}</td>
 		</tr>
 	</tbody>
+	<tbody v-if="media.type == 'qyWeixin'">
+		<tr>
+			<td>企业ID</td>
+			<td>
+				{{media.options.corporateId}}
+			</td>
+		</tr>
+		<tr>
+			<td>应用AgentId</td>
+			<td>
+				{{media.options.agentId}}
+			</td>
+		</tr>
+		<tr>
+			<td>应用Secret</td>
+			<td>
+				{{media.options.appSecret}}
+			</td>
+		</tr>
+	</tbody>
 	<tr v-if="media.rateMinutes > 0 || media.rateCount > 0">
 		<td>发送频率</td>
 		<td>

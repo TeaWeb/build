@@ -61,6 +61,10 @@ Tea.context(function () {
 			this.$delay(function () {
 				this.$find("form textarea[name='dingTalkWebhookURL']").focus();
 			});
+		} else if (this.mediaType == "qyWeixin") {
+			this.$delay(function () {
+				this.$find("form input[name='qyWeixinCorporateId']").focus();
+			});
 		}
 	};
 

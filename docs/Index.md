@@ -42,9 +42,9 @@
    * [阈值](agents/Threshold.md)
    * [监控实例-监控进程](agents/examples/Mongo.md)
    * [监控实例-监控Nginx](agents/examples/Nginx.md)
-   * 通知媒介
-      * 钉钉群机器人
-      * 企业微信
+* 通知媒介
+  * 钉钉群机器人
+  * [企业微信](notices/QyWeixin.md)
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
   * [主机监控项API](advanced/APIMonitorAgentItem.md)

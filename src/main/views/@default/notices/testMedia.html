@@ -39,12 +39,12 @@
 			<td>接收人标识</td>
 			<td>
 				<input type="text" name="user" maxlength="100"/>
-				<p class="comment">{{mediaType.user}}</p>
+				<p class="comment" v-html="mediaType.user"></p>
 			</td>
 		</tr>
 	</table>
 	<div class="ui segment" :class="{green:error.length == 0, red:error.length > 0}" v-if="isFinished">
-		<div v-if="response.length > 0">返回结果：
+		<div v-if="response.length > 0"><span v-if="error.length == 0">成功</span>返回结果：
 			<div v-for="line in responseLines">{{line}}</div>
 		</div>
 		<div v-if="error.length > 0">错误信息：{{error}}</div>
