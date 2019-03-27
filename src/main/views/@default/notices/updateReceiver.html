@@ -36,10 +36,10 @@
 		<tr>
 			<td>媒介</td>
 			<td>
-				<select class="ui dropdown" name="mediaId" style="width:10em" v-model="mediaId" @change="changeMedia()">
+				<select class="ui dropdown" name="mediaId" style="width:16em" v-model="mediaId" @change="changeMedia()">
 					<option v-for="media in medias" :value="media.id">{{media.name}}({{media.typeName}})</option>
 				</select>
-				<p class="comment">{{mediaDescription}}</p>
+				<p class="comment" v-html="mediaDescription"></p>
 			</td>
 		</tr>
 		<tr>

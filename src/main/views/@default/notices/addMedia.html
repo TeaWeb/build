@@ -31,7 +31,7 @@
 				<select class="ui dropdown" name="type" style="width:10em" v-model="mediaType" @change="changeMediaType()">
 					<option v-for="type in mediaTypes" :value="type.code">{{type.name}}</option>
 				</select>
-				<p class="comment">{{typeDescription}}</p>
+				<p class="comment" v-html="typeDescription"></p>
 			</td>
 		</tr>
 		<tbody v-show="mediaType == 'email'">
