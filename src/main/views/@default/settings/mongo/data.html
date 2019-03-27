@@ -15,7 +15,7 @@
 <h3>手动清理<span :class="{disabled:countCalculatedColls!=colls.length}"><var v-if="countCalculatedColls!=colls.length">正在读取</var> {{formatedTotalSize}} {{countCalculatedColls}}/{{colls.length}}</span></h3>
 
 <div>
-	<p class="comment">以下是TeaWeb在MongoDB数据库中使用的集合列表。MongoDB中“集合”的概念，同其他数据库的“数据表”的概念类似。通常情况下，删除数据并不影响TeaWeb正常运行。</p>
+	<p class="comment">以下是TeaWeb在MongoDB数据库中使用的集合列表。MongoDB中“集合”的概念，同其他数据库的“数据表”的概念类似。通常情况下，删除MongoDB中的数据并不影响TeaWeb正常运行。</p>
 	<p v-if="!isLoaded">正在读取数据，请耐心等待...</p>
 	<p class="ui message info" v-if="isLoaded && colls.length == 0">当前MongoDB数据库中还没有TeaWeb相关数据，不需要做任何清理。</p>
 
