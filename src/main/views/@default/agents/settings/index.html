@@ -1,7 +1,7 @@
 {$layout}
 {$template "menu"}
 
-<h3>设置<a :href="'/agents/settings/update?agentId=' + agent.id">修改</a></h3>
+<h3>设置<a :href="'/agents/settings/update?agentId=' + agent.id" v-if="!isLocal">修改</a></h3>
 
 <div>
     <table class="ui table definition selectable">
@@ -42,7 +42,8 @@
         <tr>
             <td>主机地址</td>
             <td>
-                {{agent.host}}
+				<span v-if="isLocal">本地</span>
+                <span v-if="!isLocal">{{agent.host}}</span>
             </td>
         </tr>
 		<tr>

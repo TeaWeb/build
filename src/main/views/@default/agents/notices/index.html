@@ -3,7 +3,8 @@
 <div class="ui menu text blue">
     <a :href="'/agents/notices?agentId=' + agentId + '&read=0'" class="item" :class="{active:!isRead}">未读通知<span> &nbsp;({{countUnread}})</span></a>
     <a :href="'/agents/notices?agentId=' + agentId + '&read=1'" class="item" :class="{active:isRead}">已读通知</a>
-    <span class="item" v-if="!isRead && count > 0">|</span>
+	<a :href="'/agents/settings/noticeReceivers?agentId=' + agentId" class="item">通知设置</a>
+	<span class="item" v-if="!isRead && count > 0">|</span>
     <a href="" class="item" v-if="!isRead && count > 0" @click.prevent="setRead('page', null, '确定要把本页设为已读吗？')">本页标为已读</a>
     <a href="" class="item" v-if="!isRead && count > 0" @click.prevent="setRead('all', null, '确定把全部通知设为已读吗？')">全部标为已读</a>
 </div>
