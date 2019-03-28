@@ -37,7 +37,7 @@
         </thead>
         <tbody v-for="(location, index) in locations">
             <tr>
-				<td style="text-align: center;"><i class="icon  arrows alternate handle grey"></i> </td>
+				<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
                 <td>
                     <span style="line-height:2">{{location.pattern}}</span><br/>
                     <span class="ui label tiny olive">{{location.patternTypeName}}</span>
@@ -65,5 +65,5 @@
             </tr>
         </tbody>
     </table>
-    <p class="comment" v-if="locations.length > 1">所有规则匹配顺序为从上到下，可以拖动左侧的<i class="icon arrows alternate"></i>排序。</p>
+    <p class="comment" v-if="locations.length > 1">所有规则匹配顺序为从上到下，可以拖动左侧的<i class="icon bars"></i>排序。</p>
 </div>
