@@ -45,6 +45,22 @@
 * 通知媒介
   * [钉钉群机器人](notices/DingTalk.md)
   * [企业微信](notices/QyWeixin.md)
+* 图表API
+  * 通用知识
+  * 图表
+     * HTML
+     * URL
+     * 线图
+     * 饼图
+     * 仪表盘
+     * 堆叠柱状图
+     * 表格
+  * 数据
+     * 代理统计
+     * 代理访问日志
+     * 主机监控项
+  * Javascript辅助函数
+     * 数组
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
   * [主机监控项API](advanced/APIMonitorAgentItem.md)
