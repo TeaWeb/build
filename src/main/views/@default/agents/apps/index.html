@@ -20,6 +20,7 @@
     </thead>
     <tr v-for="app in apps">
         <td>{{app.name}}<br/>
+			<span v-if="app.isSharedWithGroup" class="ui label tiny olive">共享</span>
             <span v-if="!app.on" class="ui label tiny">未启用</span>
         </td>
         <td>
