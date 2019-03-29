@@ -42,6 +42,13 @@
 			</td>
 		</tr>
 		<tr>
+			<td>匹配条件</td>
+			<td>
+				<span v-if="location.conds == null || location.conds.length == 0" class="disabled">无匹配条件</span>
+				<div class="ui field" v-if="location.conds != null" v-for="cond in location.conds" style="margin-bottom:0.4em"><span class="ui label small">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
+			</td>
+		</tr>
+		<tr>
 			<td>文档根目录<em>(Root)</em></td>
 			<td>
 				<span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>

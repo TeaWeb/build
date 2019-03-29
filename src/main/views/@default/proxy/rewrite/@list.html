@@ -16,7 +16,7 @@
             <span class="ui label tiny" v-if="!rewrite.on">未启用</span>
         </td>
         <td>
-            <span v-if="rewrite.conds.length == 0" class="disabled">无过滤条件</span>
+            <span v-if="rewrite.conds.length == 0" class="disabled">无匹配条件</span>
             <div class="ui field" v-for="cond in rewrite.conds" style="margin-bottom:0.4em"><span class="ui label small">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
         </td>
         <td>

@@ -22,7 +22,10 @@ Tea.context(function () {
         this.advancedOptionsVisible = !this.advancedOptionsVisible;
     };
 
-    this.conds = this.rewrite.conds.$map(function (k, v) {
+	/**
+	 * 请求条件
+	 */
+	this.conds = this.rewrite.conds.$map(function (k, v) {
         return {
             "param": v.param,
             "value": v.value,

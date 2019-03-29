@@ -44,6 +44,40 @@
                 </td>
             </tr>
             <tbody v-show="advancedOptionsVisible">
+				<tr>
+					<td>匹配条件</td>
+					<td>
+						<table class="ui table without-definition" v-if="conds.length > 0">
+							<thead>
+							<tr>
+								<th>参数</th>
+								<th>运算符</th>
+								<th>对比值</th>
+								<th></th>
+							</tr>
+							</thead>
+							<tr v-for="(cond, index) in conds" :key="index">
+								<td>
+									<input type="text" name="condParams" v-model="cond.param"/>
+								</td>
+								<td>
+									<select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">
+										<option v-for="op in operators" :value="op.op">{{op.name}}</option>
+									</select>
+									<p class="comment">{{cond.description}}</p>
+								</td>
+								<td class="value-td">
+									<input type="text" name="condValues" v-model="cond.value"/>
+								</td>
+								<td>
+									<a href="" @click.prevent="removeCond(index)" title="删除"><i class="icon remove"></i></a>
+								</td>
+							</tr>
+						</table>
+						<button type="button" class="ui button tiny" @click="addCond()">+</button>
+						<p class="comment">满足以上条件时重写规则才会生效。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+					</td>
+				</tr>
                 <tr>
                     <td>文档根目录<em>（Root）</em></td>
                     <td>
@@ -77,12 +111,12 @@
                                 <input type="text" name="addingIndexName" style="width:16em" maxlength="100" placeholder="首页文件名，比如 index.php" @keyup.enter="confirmAddIndex()" @keypress.enter.prevent="1" v-model="addingIndexName" />
                             </div>
                             <div class="ui field">
-                                <button class="ui button" type="button" @click="confirmAddIndex()">确定</button>
+                                <button class="ui button tiny" type="button" @click="confirmAddIndex()">确定</button>
                                 &nbsp; <a href="" @click.prevent="cancelIndexAdding()">取消</a>
                             </div>
                         </div>
                         <div class="ui field" style="margin-top: 1em">
-                            <button class="ui button" type="button" @click="addIndex()">+</button>
+                            <button class="ui button tiny" type="button" @click="addIndex()">+</button>
                         </div>
                         <p class="comment">访问路径未指定文件名时，自动查找这些文件</p>
                     </td>

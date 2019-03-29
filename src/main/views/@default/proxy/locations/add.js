@@ -50,6 +50,33 @@ Tea.context(function () {
 	this.changePatternType(this.type);
 
 	/**
+	 * 重写条件
+	 */
+	this.conds = [];
+	this.addCond = function () {
+		this.conds.push({
+			"param": "",
+			"op": "eq",
+			"value": "",
+			"description": ""
+		});
+		this.changeCondOp(this.conds.$last());
+		this.$delay(function () {
+			this.$find("form input[name='condParams']").last().focus();
+		});
+	};
+
+	this.changeCondOp = function (cond) {
+		cond.description = this.operators.$find(function (k, v) {
+			return cond.op == v.op;
+		}).description;
+	};
+
+	this.removeCond = function (index) {
+		this.conds.$remove(index);
+	};
+
+	/**
 	 * index
 	 */
 	this.indexAdding = false;
