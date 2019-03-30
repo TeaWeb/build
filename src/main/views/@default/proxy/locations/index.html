@@ -40,6 +40,7 @@
 				<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
                 <td>
                     <span style="line-height:2">{{location.pattern}}</span><br/>
+					<p style="font-size:0.9em;color:grey" v-if="location.name.length > 0">{{location.name}}</p>
                     <span class="ui label tiny olive">{{location.patternTypeName}}</span>
                     <span class="ui label tiny" v-if="!location.on">未启用</span>
                     <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>

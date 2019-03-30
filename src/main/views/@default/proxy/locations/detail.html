@@ -42,6 +42,13 @@
 			</td>
 		</tr>
 		<tr>
+			<td>说明</td>
+			<td>
+				<span v-if="location.name.length > 0">{{location.name}}</span>
+				<span v-if="location.name.length == 0">-</span>
+			</td>
+		</tr>
+		<tr>
 			<td>匹配条件</td>
 			<td>
 				<span v-if="location.conds == null || location.conds.length == 0" class="disabled">无匹配条件</span>

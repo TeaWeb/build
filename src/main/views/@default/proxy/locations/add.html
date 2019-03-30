@@ -40,6 +40,12 @@
                     <p class="comment">{{patternDescription}}</p>
                 </td>
             </tr>
+			<tr>
+				<td>说明</td>
+				<td>
+					<input type="text" name="name" maxlength="100" placeholder="说明当前路径规则用途"/>
+				</td>
+			</tr>
             <tr>
                 <td colspan="2">
                     <a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
