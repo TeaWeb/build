@@ -24,7 +24,9 @@
         </tr>
         <tr v-if="config.password.length > 0">
             <td>密码<em>（password）</em></td>
-            <td>{{config.password}}</td>
+            <td>{{config.password}}
+				<p class="comment" v-if="config.password.length > 0">实际密码已使用星号代替</p>
+			</td>
         </tr>
     </table>
 

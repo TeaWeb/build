@@ -41,7 +41,8 @@
             <tr v-if="authUpdating">
                 <td>密码<em>（password）</em></td>
                 <td>
-                    <input type="text" name="password" v-model="config.password" maxlength="128"/>
+                    <input type="password" name="password" v-model="config.password" maxlength="128"/>
+					<p class="comment">留空表示不修改</p>
                 </td>
             </tr>
         </table>
