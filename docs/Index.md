@@ -21,6 +21,7 @@
   * [自定义Header](proxy/Header.md)
   * [Fastcgi](proxy/Fastcgi.md)
   * [重写规则](proxy/Rewrite.md)
+  * 匹配条件
   * [Websocket](proxy/Websocket.md)
   * 访问日志
   * 统计

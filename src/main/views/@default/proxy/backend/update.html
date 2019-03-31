@@ -17,7 +17,7 @@
             <td>地址 *</td>
             <td>
                 <input type="text" name="address" v-model="backend.address" placeholder="比如 192.168.1.100:8800"/>
-                <p class="ui comment">服务器地址，可以是一个IP，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em>。</p>
+                <p class="ui comment">服务器地址，可以是一个IP加端口，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em>。</p>
             </td>
         </tr>
 		<tr>
@@ -43,6 +43,18 @@
             </td>
         </tr>
         <tbody v-show="advancedOptionsVisible">
+		<tr>
+			<td>所属分组</td>
+			<td>
+				<span class="disabled" v-if="server.requestGroups == null || server.requestGroups.length == 0">暂时还没有分组。</span>
+				<div v-if="server.requestGroups != null && server.requestGroups.length > 0">
+					<div class="ui checkbox" v-for="group in server.requestGroups" style="width:10em;margin-top:0.4em;margin-bottom:0.4em">
+						<input type="checkbox" name="requestGroupIds" :value="group.id" :id="'request-group-' + group.id" v-model="group.isChecked"/>
+						<label :for="'request-group-' + group.id">{{group.name}}</label>
+					</div>
+				</div>
+			</td>
+		</tr>
         <tr>
             <td>是否启用</td>
             <td>

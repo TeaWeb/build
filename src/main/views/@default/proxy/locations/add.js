@@ -50,7 +50,7 @@ Tea.context(function () {
 	this.changePatternType(this.type);
 
 	/**
-	 * 重写条件
+	 * 匹配条件
 	 */
 	this.conds = [];
 	this.addCond = function () {

@@ -1,6 +1,40 @@
+.tab-menu {
+    margin-bottom: 0!important;
+}
+
+.main .menu.text {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.main .menu.text span.item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.divider {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
 .table .label.tiny {
     display: inline-block;
     padding: 4px;
-    margin-top: 0.6em;
-    font-size: 0.6em;
+    margin-top: 0.5em;
+    font-size: 0.5em;
 }
+
+.tabular.group-menu {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.tabular.group-menu::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tabular.group-menu .item {
+    padding-left: 1em!important;
+    padding-right: 1em!important;
+}
+

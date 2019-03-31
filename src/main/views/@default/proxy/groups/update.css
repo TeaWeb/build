@@ -7,12 +7,12 @@
     margin-bottom: 0!important;
 }
 
-.main .menu.text span.item {
-    padding-left: 0;
-    padding-right: 0;
+div.margin {
+    margin-top: 2em!important;
 }
 
 .divider {
+    margin-top: 0!important;
     margin-bottom: 0!important;
 }
 
@@ -56,5 +56,3 @@
 .without-definition a {
     font-weight: normal;
 }
-
-
