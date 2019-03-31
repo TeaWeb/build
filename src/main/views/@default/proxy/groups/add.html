@@ -6,10 +6,17 @@
 	<a :href="'/proxy/groups?serverId=' + server.id" class="item">分组管理</a>
 	<a :href="'/proxy/groups/add?serverId=' + server.id" class="item active">添加分组</a>
 </div>
-<div class="ui menu text blue small" v-if="locationId.length > 0">
+
+<div class="ui menu text blue small" v-if="locationId.length > 0 && websocket == '0'">
 	<a :href="'/proxy/locations/backends?serverId=' + server.id + '&locationId=' + locationId" class="item">服务器列表</a>
-	<a :href="'/proxy/groups?serverId=' + server.id + '&locationId=' + locationId" class="item">分组管理</a>
-	<a :href="'/proxy/groups/add?serverId=' + server.id + '&locationId=' + locationId" class="item active">添加分组</a>
+	<a :href="'/proxy/groups?serverId=' + server.id+ '&locationId=' + locationId" class="item">分组管理</a>
+	<a :href="'/proxy/groups/add?serverId=' + server.id+ '&locationId=' + locationId" class="item active">添加分组</a>
+</div>
+
+<div class="ui menu text blue small" v-if="locationId.length > 0 && websocket == '1'">
+	<a :href="'/proxy/locations/websocket?serverId=' + server.id + '&locationId=' + locationId + '&websocket=1'" class="item">服务器列表</a>
+	<a :href="'/proxy/groups?serverId=' + server.id+ '&locationId=' + locationId + '&websocket=1'" class="item">分组管理</a>
+	<a :href="'/proxy/groups/add?serverId=' + server.id+ '&locationId=' + locationId + '&websocket=1'" class="item active">添加分组</a>
 </div>
 
 <div class="ui divider" style="margin-bottom:1em!important;"></div>

@@ -1,6 +1,8 @@
 Tea.context(function () {
 	this.from = encodeURIComponent(window.location.toString());
+	this.currentLocation = window.location.toString();
 	this.query = Tea.serialize(this.queryParams);
+	this.inWebsocketPage = (this.currentLocation.indexOf("/websocket") > 0) ? "1" : "0";
 
 	this.padZero = function (s) {
 		s = s.toString();

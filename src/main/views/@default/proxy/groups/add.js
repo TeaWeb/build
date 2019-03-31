@@ -5,7 +5,7 @@ Tea.context(function () {
 
 	this.submitSuccess = function () {
 		alert("保存成功");
-		window.location = "/proxy/groups?serverId=" + this.server.id + "&locationId=" + this.locationId;
+		window.location = "/proxy/groups?serverId=" + this.server.id + "&locationId=" + this.locationId + "&websocket=" + this.websocket;
 	};
 
 	/**

@@ -18,11 +18,19 @@
 	<a :href="'/proxy/groups?serverId=' + server.id" class="item active">分组管理</a>
 	<a :href="'/proxy/groups/add?serverId=' + server.id" class="item">添加分组</a>
 </div>
-<div class="ui menu text blue small" v-if="locationId.length > 0">
+
+<div class="ui menu text blue small" v-if="locationId.length > 0 && websocket == '0'">
 	<a :href="'/proxy/locations/backends?serverId=' + server.id + '&locationId=' + locationId" class="item">服务器列表</a>
 	<a :href="'/proxy/groups?serverId=' + server.id+ '&locationId=' + locationId" class="item active">分组管理</a>
 	<a :href="'/proxy/groups/add?serverId=' + server.id+ '&locationId=' + locationId" class="item">添加分组</a>
 </div>
+
+<div class="ui menu text blue small" v-if="locationId.length > 0 && websocket == '1'">
+	<a :href="'/proxy/locations/websocket?serverId=' + server.id + '&locationId=' + locationId + '&websocket=1'" class="item">服务器列表</a>
+	<a :href="'/proxy/groups?serverId=' + server.id+ '&locationId=' + locationId + '&websocket=1'" class="item active">分组管理</a>
+	<a :href="'/proxy/groups/add?serverId=' + server.id+ '&locationId=' + locationId + '&websocket=1'" class="item">添加分组</a>
+</div>
+
 <div class="ui divider" style="margin-bottom:1em!important;"></div>
 
 <p class="comment" v-if="groups.length == 0">暂时还没有分组。</p>
@@ -54,7 +62,7 @@
 			</div>
 		</td>
 		<td>
-			<a :href="'/proxy/groups/update?serverId=' + server.id + '&locationId=' + locationId + '&groupId=' + group.id">修改</a> &nbsp;
+			<a :href="'/proxy/groups/update?serverId=' + server.id + '&locationId=' + locationId + '&groupId=' + group.id + '&websocket=' + websocket">修改</a> &nbsp;
 			<a href="" @click.prevent="deleteGroup(group.id)" v-if="group.id != 'default'">删除</a>
 		</td>
 	</tr>
