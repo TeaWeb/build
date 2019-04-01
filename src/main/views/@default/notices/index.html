@@ -5,6 +5,13 @@
     <a href="/notices?read=1" class="item" :class="{active:isRead}">已读通知</a>
 	<a href="/notices/setting" class="item">级别</a>
 	<a href="/notices/medias" class="item">媒介</a>
+
+	<div class="sound-box item right">
+		<div class="ui toggle checkbox" style="transform: scale(0.8);">
+			<input type="checkbox" v-model="soundOn" @click="changeSoundOn()"/>
+			<label style="color:grey!important;padding-left:4rem">提示音</label>
+		</div>
+	</div>
 </div>
 
 <div class="ui divider"></div>

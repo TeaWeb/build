@@ -21,9 +21,26 @@ Tea.context(function () {
 	});
 
 	var documentTitle = document.title;
+	var firstLoad = true;
 	this.renewNoticeBadge = function () {
 		this.$get("/notices/badge")
 			.success(function (resp) {
+				if (!firstLoad && resp.data.count > this.countNoticesBadge) {
+					// play audio
+					var audioBox = document.createElement("AUDIO");
+					audioBox.setAttribute("control", "");
+					audioBox.setAttribute("autoplay", "");
+					audioBox.innerHTML = "<source src=\"/audios/notice.ogg\" type=\"audio/ogg\"/>";
+					document.body.appendChild(audioBox);
+					audioBox.play().then(function () {
+						setTimeout(function () {
+							document.body.removeChild(audioBox);
+						}, 2000);
+					}).catch(function (e) {
+						console.log(e.message);
+					});
+				}
+				firstLoad = false;
 				this.countNoticesBadge = resp.data.count;
 				if (this.countNoticesBadge > 0) {
 					document.title = "(" + this.countNoticesBadge + "通知)" + documentTitle;
