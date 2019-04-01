@@ -25,7 +25,7 @@ Tea.context(function () {
 	this.renewNoticeBadge = function () {
 		this.$get("/notices/badge")
 			.success(function (resp) {
-				if (!firstLoad && resp.data.count > this.countNoticesBadge) {
+				if (!firstLoad && resp.data.soundOn && resp.data.count > this.countNoticesBadge) {
 					// play audio
 					var audioBox = document.createElement("AUDIO");
 					audioBox.setAttribute("control", "");
