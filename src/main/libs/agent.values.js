@@ -5,9 +5,6 @@ values.Query = function () {
 		"action": "",
 		"group": null,
 		"cond": {
-			"noticeLevel": {
-				"eq": 0
-			},
 			"error": {
 				"eq": ""
 			}
