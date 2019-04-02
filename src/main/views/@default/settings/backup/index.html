@@ -1,0 +1,32 @@
+{$layout}
+
+<p class="comment" v-if="files.length == 0">配置内容为configs/目录；暂时还没有备份，每24小时会自动备份一次。<a href="" @click.prevent="backup()">[立即备份]</a> </p>
+
+<p class="comment" v-if="files.length > 0">配置内容为configs/目录；每24小时会自动备份一次。<a href="" @click.prevent="backup()">[立即备份]</a></p>
+
+<p class="ui message error" v-if="shouldRestart">
+	恢复成功，需要立即重启TeaWeb后有些服务才会生效。
+</p>
+
+<table class="ui table selectable" v-if="files.length > 0">
+	<thead>
+		<tr>
+			<th>文件名</th>
+			<th>备份时间</th>
+			<th>尺寸</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="file in files">
+		<td>{{file.name}}</td>
+		<td>{{file.time}}</td>
+		<td>{{file.size}}M</td>
+		<td>
+			<a href="" title="从此备份恢复" @click.prevent="restore(file.name)">恢复</a>
+			&nbsp;
+			<a href="" @click.prevent="deleteBackup(file.name)">删除</a>
+		</td>
+	</tr>
+</table>
+
+<p class="comment" v-if="files.length > 0">备份的文件在backup目录下。</p>
