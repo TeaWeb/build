@@ -18,7 +18,10 @@
 		</tr>
 	</thead>
 	<tr v-for="file in files">
-		<td>{{file.name}}</td>
+		<td>{{file.name}}<br/>
+			<p style="font-size:0.8em;color:grey;padding-top:0.2em" v-if="file.isToday">今天</p>
+			<p style="font-size:0.8em;color:grey;padding-top:0.2em" v-if="file.isYesterday">昨天</p>
+		</td>
 		<td>{{file.time}}</td>
 		<td>{{file.size}}M</td>
 		<td>
