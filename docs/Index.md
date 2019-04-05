@@ -27,7 +27,7 @@
   * 统计
   * 缓存
   * [内置变量](proxy/Variables.md)
-  * 前端代理
+  * [前端代理](proxy/Frontend.md)
      * [Nginx](proxy/Nginx.md)
      <!-- * Apache -->
      <!-- * Varnish -->
@@ -46,6 +46,7 @@
 * 通知媒介
   * [钉钉群机器人](notices/DingTalk.md)
   * [企业微信](notices/QyWeixin.md)
+  * 阿里云短信
 * 图表API
   * 通用知识
   * 图表
