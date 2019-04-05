@@ -20,6 +20,10 @@ Tea.context(function () {
 			this.responseLines = this.response.split("\n");
 		}
 		this.error = resp.data.error;
+		this.errorLines = [];
+		if (this.error.length > 0) {
+			this.errorLines = this.error.split("\n");
+		}
 	};
 
 	this.submitFail = function (resp) {

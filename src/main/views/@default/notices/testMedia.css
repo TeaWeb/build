@@ -23,9 +23,10 @@
     margin-bottom: 0!important;
 }
 
-.segment div {
+.response-box div {
     -ms-word-break: break-all;
     word-break: break-all;
+    line-height: 1.5;
 }
 
 /** codemirror **/

@@ -69,6 +69,9 @@ go_get "github.com/pkg/sftp"
 # mysql
 go_get "github.com/go-sql-driver/mysql"
 
+# aliyun
+go_get "github.com/aliyun/alibaba-cloud-sdk-go/sdk"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

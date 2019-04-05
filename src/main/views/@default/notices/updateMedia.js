@@ -426,6 +426,46 @@ Tea.context(function () {
 	}
 
 	/**
+	 * 阿里云短信模板
+	 */
+	this.aliyunSmsTemplateVars = [];
+	if (this.media.options.variables != null) {
+		this.aliyunSmsTemplateVars = this.media.options.variables;
+	}
+	this.aliyunSmsTemplateVarAdding = false;
+	this.aliyunSmsTemplateVarAddingName = "";
+	this.aliyunSmsTemplateVarAddingValue = "";
+
+	this.addAliyunSmsTemplateVar = function () {
+		this.aliyunSmsTemplateVarAdding = !this.aliyunSmsTemplateVarAdding;
+		this.$delay(function () {
+			this.$find("form input[name='aliyunSmsTemplateVarAddingName']").focus();
+		});
+	};
+
+	this.confirmAddAliyunSmsTemplateVar = function () {
+		if (this.aliyunSmsTemplateVarAddingName.length == 0) {
+			alert("请输入变量名");
+			this.$find("form input[name='aliyunSmsTemplateVarAddingName']").focus();
+		}
+		this.aliyunSmsTemplateVars.push({
+			"name": this.aliyunSmsTemplateVarAddingName,
+			"value": this.aliyunSmsTemplateVarAddingValue
+		});
+		this.aliyunSmsTemplateVarAdding = false;
+		this.aliyunSmsTemplateVarAddingName = "";
+		this.aliyunSmsTemplateVarAddingValue = "";
+	};
+
+	this.removeAliyunSmsTemplateVar = function (index) {
+		this.aliyunSmsTemplateVars.$remove(index);
+	};
+
+	this.cancelAliyunSmsTemplateVar = function () {
+		this.aliyunSmsTemplateVarAdding = false;
+	};
+
+	/**
 	 * 更多选项
 	 */
 	this.advancedOptionsVisible = false;

@@ -43,11 +43,13 @@
 			</td>
 		</tr>
 	</table>
-	<div class="ui segment" :class="{green:error.length == 0, red:error.length > 0}" v-if="isFinished">
+	<div class="ui segment response-box" :class="{green:error.length == 0, red:error.length > 0}" v-if="isFinished">
 		<div v-if="response.length > 0"><span v-if="error.length == 0">成功</span>返回结果：
 			<div v-for="line in responseLines">{{line}}</div>
 		</div>
-		<div v-if="error.length > 0">错误信息：{{error}}</div>
+		<div v-if="error.length > 0">错误信息：
+			<div v-for="line in errorLines">{{line}}</div>
+		</div>
 		<span class="disabled" v-if="response.length == 0 && error.length == 0">成功执行，没有返回结果</span>
 	</div>
 

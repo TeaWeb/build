@@ -37,7 +37,7 @@
 		<td>类型</td>
 		<td>
 			{{mediaType.name}}
-			<p class="comment">{{mediaType.description}}</p>
+			<p class="comment" v-html="mediaType.description"></p>
 		</td>
 	</tr>
 	<tbody v-if="media.type == 'email'">
@@ -160,6 +160,45 @@
 			</td>
 		</tr>
 	</tbody>
+
+	<!-- 阿里云短信 -->
+	<tbody v-show="media.type == 'aliyunSms'">
+	<tr>
+		<td>签名名称</td>
+		<td>
+			{{media.options.sign}}
+		</td>
+	</tr>
+	<tr>
+		<td>模板CODE</td>
+		<td>
+			{{media.options.templateCode}}
+		</td>
+	</tr>
+	<tr>
+		<td>模板变量 *</td>
+		<td>
+			<div v-if="media.options.variables != null">
+				<span class="ui label small" v-for="(var1, index) in media.options.variables">
+					<em>{{var1.name}}</em>: {{var1.value}}
+				</span>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>AccessKey ID</td>
+		<td>
+			{{media.options.accessKeyId}}
+		</td>
+	</tr>
+	<tr>
+		<td>AccessKey Secret</td>
+		<td>
+			{{media.options.accessKeySecret}}
+		</td>
+	</tr>
+	</tbody>
+
 	<tr v-if="media.rateMinutes > 0 || media.rateCount > 0">
 		<td>发送频率</td>
 		<td>
