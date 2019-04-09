@@ -11,6 +11,9 @@
         <td>
             <span class="ui label small green" v-if="app.on">已启用</span>
             <span class="ui label small" v-if="!app.on">未启用</span>
+			&nbsp;
+			<a href="" style="font-size:12px" @click.prevent="putOn()" v-if="!app.on">快速启用</a>
+			<a href="" style="font-size:12px" @click.prevent="putOff()" v-if="app.on">快速关闭</a>
         </td>
     </tr>
     <tr>

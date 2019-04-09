@@ -81,4 +81,27 @@ Tea.context(function () {
 	this.showSourceVariables = function () {
 		this.sourceVariablesVisible = !this.sourceVariablesVisible;
 	};
+
+	/**
+	 * 状态切换
+	 */
+	this.putOn = function () {
+		this.$post(".itemOn")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id
+			})
+			.refresh();
+	};
+
+	this.putOff = function () {
+		this.$post(".itemOff")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id
+			})
+			.refresh();
+	};
 });

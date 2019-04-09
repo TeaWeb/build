@@ -4,4 +4,20 @@ Tea.context(function () {
 	} else {
 		this.speedPercent = 0;
 	}
+
+	this.putOn = function () {
+		this.$post(".on")
+			.params({
+				"agentId": this.agent.id
+			})
+			.refresh();
+	};
+
+	this.putOff = function () {
+		this.$post(".off")
+			.params({
+				"agentId": this.agent.id
+			})
+			.refresh();
+	};
 });
