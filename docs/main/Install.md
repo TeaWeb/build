@@ -14,12 +14,16 @@
     其中`127.0.0.1`可能需要换成你服务器的IP，而且我们默认使用了`7777`端口（可以在`configs/server.conf`中修改），如果访问遇到了问题，请检查防火墙设置；
 5. 使用用户名`admin`和密码`123456`登录，可以在`configs/admin.conf`中修改这些信息，也可以在设置界面中修改；
 6. 如果是Unix或者Linux，请确保安装目录下的`configs/`和`tmp/`是有读取和写入权限的。
+7. [设置MongoDB](#mongodb)
 
 ## MongoDB
 TeaWeb需要使用MongoDB来记录日志和其他数据，如果已经安装，可以在"设置">"MongoDB"中修改MongoDB的连接参数：
 ![mongodb.png](mongodb.png)
 
-如果还没有安装，可以使用TeaWeb帮你安装（"设置">"MongoDB"界面的底部），也可以从 [https://www.mongodb.com/download-center/community](https://www.mongodb.com/download-center/community)下载并安装符合你的系统的MongoDB，目前支持Linux和MacOS。
+如果还没有安装，可以使用TeaWeb帮你安装（"设置">"MongoDB"界面的底部），目前支持Linux和Darwin（Mac OS X）。也可以从 [https://www.mongodb.com/download-center/community](https://www.mongodb.com/download-center/community)下载并安装符合你的系统的MongoDB，或者从TeaOS镜像下载地址中下载：
+* [Linux版本](http://dl.teaos.cn/mongodb-linux-x86_64-4.0.3.tgz)
+* [Darwin版本](http://dl.teaos.cn/mongodb-osx-ssl-x86_64-4.0.3.tgz)
+* [Windows版本](http://dl.teaos.cn/mongodb-win32-x86_64-2008plus-ssl-4.0.8-signed.msi)
 
 **注意：目前TeaWeb只支持MongoDB v3.0以上版本，如果你正在使用老的版本，请更换。**
 
