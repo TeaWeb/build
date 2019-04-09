@@ -1,4 +1,3 @@
-
 /** 通用 **/
 .clear {
     clear: both;
@@ -22,8 +21,8 @@ pre {
     z-index: 9999;
 }
 
-a.disabled, a.disabled:hover, a.disabled:active, span.disabled  {
-    color: #ccc!important;
+a.disabled, a.disabled:hover, a.disabled:active, span.disabled {
+    color: #ccc !important;
 }
 
 a.enabled, span.enabled, span.green {
@@ -31,7 +30,7 @@ a.enabled, span.enabled, span.green {
 }
 
 span.grey, label.grey, p.grey {
-    color: grey!important;
+    color: grey !important;
 }
 
 p.grey {
@@ -47,15 +46,15 @@ tbody {
 }
 
 .table.width30 {
-    width: 30em!important;
+    width: 30em !important;
 }
 
 .table.width35 {
-    width: 35em!important;
+    width: 35em !important;
 }
 
 .table.width40 {
-    width: 40em!important;
+    width: 40em !important;
 }
 
 p.comment, div.comment {
@@ -64,7 +63,7 @@ p.comment, div.comment {
 }
 
 p.comment em, div.comment em {
-    font-style: italic!important;
+    font-style: italic !important;
 }
 
 .truncate {
@@ -89,13 +88,13 @@ p.comment em, div.comment em {
 
 /** 主菜单 **/
 .main-menu .ui.menu {
-    width: 9.5em!important;
-    border-radius: 0!important;
+    width: 9.5em !important;
+    border-radius: 0 !important;
 }
 
 @media screen and (max-width: 512px) {
     .main-menu .ui.menu {
-        width: 3.6em!important;
+        width: 3.6em !important;
     }
 
     .main-menu .ui.menu .item {
@@ -117,21 +116,21 @@ p.comment em, div.comment em {
 }
 
 .main-menu .ui.menu .item .icon.dog {
-    background:url(/images/dog.png?v=1)!important;
-    width: 16px!important;
-    height: 16px!important;
-    display: block!important;
-    -webkit-background-size: cover!important;
-    background-size: cover!important;
+    background: url(/images/dog.png?v=1) !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: block !important;
+    -webkit-background-size: cover !important;
+    background-size: cover !important;
 }
 
 .main-menu .ui.menu .item.active .icon.dog {
-    background:url(/images/dog-active.png?v=1)!important;
-    width: 16px!important;
-    height: 16px!important;
-    display: block!important;
-    -webkit-background-size: cover!important;
-    background-size: cover!important;
+    background: url(/images/dog-active.png?v=1) !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: block !important;
+    -webkit-background-size: cover !important;
+    background-size: cover !important;
 }
 
 /** 扩展UI **/
@@ -167,11 +166,11 @@ body.expanded .main {
 
 /** 布局相关 */
 .top-nav {
-    border-radius: 0!important;
+    border-radius: 0 !important;
     position: fixed;
     width: 100%;
     z-index: 1000;
-    background: #276ac6!important;
+    background: #276ac6 !important;
     overflow-x: auto;
 }
 
@@ -180,12 +179,12 @@ body.expanded .main {
 }
 
 .top-nav img.avatar {
-    width: 1.6em!important;
-    height: 1.6em!important;
+    width: 1.6em !important;
+    height: 1.6em !important;
     padding: 0.2em;
     background: #fff;
     border-radius: 0.9em;
-    margin-right: 0.5em!important;
+    margin-right: 0.5em !important;
 }
 
 /** 右侧主操作区 **/
@@ -242,7 +241,7 @@ body.expanded .main {
 
 .main h3 {
     font-weight: normal;
-    margin-top: 0.4em!important;
+    margin-top: 0.4em !important;
 }
 
 .main h3 span {
@@ -254,9 +253,17 @@ body.expanded .main {
 }
 
 .main h3 a {
-    position: absolute;
-    font-size: 14px!important;
+    margin-left: 1em;
+    font-size: 14px !important;
     right: 1em;
+}
+
+.main h3 a::before {
+    content: "[";
+}
+
+.main h3 a::after {
+    content: "]";
 }
 
 .main h4 {
@@ -279,11 +286,11 @@ body.expanded .main {
     top: 2em;
     bottom: 0;
     overflow-y: auto;
-    background: #276ac6!important;
+    background: #276ac6 !important;
 }
 
 .main-menu .menu {
-    background: #276ac6!important;
+    background: #276ac6 !important;
 }
 
 .main-menu::-webkit-scrollbar {
@@ -291,12 +298,13 @@ body.expanded .main {
 }
 
 .main .tab-menu {
-    margin-top: 1em!important;
+    margin-top: 1em !important;
 }
 
 .main .tab-menu .item {
-    padding: 1em!important;
+    padding: 1em !important;
 }
+
 .main .tab-menu .item var {
     font-style: normal;
 }
@@ -333,7 +341,7 @@ body.expanded .main {
 }
 
 .sub-menu .menu {
-    max-width: 11.1em!important;
+    max-width: 11.1em !important;
 }
 
 @media screen and (max-width: 512px) {
@@ -345,19 +353,19 @@ body.expanded .main {
     }
 
     .sub-menu .menu {
-        width: 100%!important;
-        max-width: 30em!important;
+        width: 100% !important;
+        max-width: 30em !important;
     }
 
     .sub-menu .menu .item {
-        width: 100%!important;
-        max-width: 30em!important;
+        width: 100% !important;
+        max-width: 30em !important;
     }
 }
 
 .sub-menu .menu .item.active {
-    font-weight: normal!important;
-    outline: none!important;
+    font-weight: normal !important;
+    outline: none !important;
 }
 
 .sub-menu .menu .item span {
@@ -377,7 +385,7 @@ body.expanded .main {
 }
 
 .sub-menu .menu .item.header {
-    padding-right: 0.2em!important;
+    padding-right: 0.2em !important;
     cursor: pointer;
 }
 
@@ -392,7 +400,7 @@ body.expanded .main {
 }
 
 .sub-menu .menu .item .menu {
-    margin-top: 0!important;
+    margin-top: 0 !important;
 }
 
 .sub-menu .fourth-menu {
@@ -400,7 +408,7 @@ body.expanded .main {
 }
 
 .sub-menu .fourth-menu .icon, .sub-menu .third-menu .icon {
-    float: left!important;
+    float: left !important;
 }
 
 /** 右侧文本子菜单 **/
@@ -466,7 +474,7 @@ body.expanded .main {
     text-align: left;
     color: gray;
     width: 100%;
-    border-radius: 0!important;
+    border-radius: 0 !important;
     z-index: 10;
     overflow-x: auto;
 }
@@ -534,12 +542,12 @@ body.expanded .main {
 
 /** Vue **/
 [v-cloak] {
-    display: none!important;
+    display: none !important;
 }
 
 /** auto complete **/
 .autocomplete-box .menu {
-    background: #eee!important;
+    background: #eee !important;
 }
 
 .autocomplete-box .menu::-webkit-scrollbar {
@@ -547,7 +555,7 @@ body.expanded .main {
 }
 
 .autocomplete-box .menu .item {
-    border-top: none!important;
+    border-top: none !important;
 }
 
 select {
