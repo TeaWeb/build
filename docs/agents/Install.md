@@ -60,6 +60,9 @@ bin/teaweb-agent run 123456
 
 # 手动执行监控项数据源，123456是监控项ID示例
 bin/teaweb-agent run 123456
+
+# 查看Agent版本（从v0.1.1开始支持）：
+bin/teaweb-agent version
 ~~~
 
 ## Windows系统

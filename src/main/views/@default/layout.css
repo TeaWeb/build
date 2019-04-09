@@ -115,24 +115,6 @@ p.comment em, div.comment em {
 
 }
 
-.main-menu .ui.menu .item .icon.dog {
-    background: url(/images/dog.png?v=1) !important;
-    width: 16px !important;
-    height: 16px !important;
-    display: block !important;
-    -webkit-background-size: cover !important;
-    background-size: cover !important;
-}
-
-.main-menu .ui.menu .item.active .icon.dog {
-    background: url(/images/dog-active.png?v=1) !important;
-    width: 16px !important;
-    height: 16px !important;
-    display: block !important;
-    -webkit-background-size: cover !important;
-    background-size: cover !important;
-}
-
 /** 扩展UI **/
 .field.text {
     padding: .5em;
@@ -190,7 +172,7 @@ body.expanded .main {
 /** 右侧主操作区 **/
 .main {
     position: absolute;
-    left: 20em;
+    left: 22em;
     top: 3em;
     padding-bottom: 5em;
     padding-right: 1em;
@@ -329,7 +311,7 @@ body.expanded .main {
 .sub-menu {
     position: fixed;
     left: 8em;
-    width: 11.5em;
+    width: 12.5em;
     top: 4em;
     bottom: 2.8em;
     overflow-y: auto;
@@ -341,7 +323,7 @@ body.expanded .main {
 }
 
 .sub-menu .menu {
-    max-width: 11.1em !important;
+    max-width: 12.1em !important;
 }
 
 @media screen and (max-width: 512px) {
@@ -368,8 +350,11 @@ body.expanded .main {
     outline: none !important;
 }
 
-.sub-menu .menu .item span {
+.sub-menu .menu .item:not(.header) span {
     font-size: 0.8em;
+    display: block;
+    margin-top: 0.6em !important;
+    line-height: 1.5;
 }
 
 .sub-menu .menu .item var {
@@ -392,6 +377,7 @@ body.expanded .main {
 .sub-menu .menu .item.header span {
     font-weight: normal;
     color: grey;
+    font-size: 0.8em;
 }
 
 .sub-menu .menu a {
@@ -419,52 +405,6 @@ body.expanded .main {
 .text.menu::-webkit-scrollbar {
     width: 4px;
     height: 4px;
-}
-
-/** 小助手相关样式 **/
-#helpers-box {
-    position: fixed;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 4em;
-}
-
-#helpers-box .item {
-    text-transform: uppercase;
-    font-size: 1.3em;
-}
-
-#helpers-box .tooltip {
-    position: fixed;
-    bottom: 4em;
-}
-
-#helpers-box .item {
-    position: relative;
-}
-
-#helpers-box .item a {
-    display: block;
-    width: 100%;
-}
-
-
-#helpers-box .tooltip .icon {
-    width: 4em;
-}
-
-#helper-view {
-    position: fixed;
-    top: 4em;
-    right: 4em;
-}
-
-#helper-view iframe {
-    border: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
 }
 
 /** 脚部相关样式 **/
