@@ -57,4 +57,9 @@ Tea.context(function () {
 			})
 			.refresh();
 	};
+
+	this.showValueTab = function (valueIndex, tab) {
+		this.values[valueIndex].tab = tab;
+		this.$set(this.values, valueIndex, this.values[valueIndex]);
+	};
 });

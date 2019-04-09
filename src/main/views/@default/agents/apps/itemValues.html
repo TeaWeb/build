@@ -26,7 +26,7 @@
 
 <p class="comment" v-if="isLoaded && values.length == 0">暂时还没有数据。</p>
 
-<table class="ui table selectable values-table small" v-for="value in values">
+<table class="ui table selectable values-table small" v-for="(value, valueIndex) in values">
     <thead>
         <tr>
             <th :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}"><span v-if="value.noticeLevel != null">[{{value.noticeLevel.name}}] - </span>{{value.datetime}}</th>
@@ -34,7 +34,27 @@
     </thead>
     <tr>
         <td :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}">
-            <pre>{{value.value}}</pre>
+            <div v-if="value.vars.length > 0">
+				<div class="ui menu tabular small attached">
+					<a href="" class="item" :class="{active:value.tab == null || value.tab == 'vars'}" @click.prevent="showValueTab(valueIndex, 'vars')">变量说明</a>
+					<a href="" class="item" :class="{active:value.tab == 'raw'}" @click.prevent="showValueTab(valueIndex, 'raw')">原始数据</a>
+				</div>
+				<div class="ui segment attached" v-if="value.tab == null || value.tab == 'vars'">
+
+					<table class="ui table definition selectable">
+						<tr v-for="v in value.vars">
+							<td class="title">{{v.description}}</td>
+							<td>
+								<pre>{{v.value}}</pre>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="ui segment attached" v-if="value.tab == 'raw'">
+					<pre>{{value.value}}</pre>
+				</div>
+			</div>
+			<pre v-if="value.vars.length == 0">{{value.value}}</pre>
         </td>
     </tr>
 	<tr v-if="value.threshold != null && value.threshold.length > 0" :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}">
