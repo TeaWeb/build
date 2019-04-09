@@ -104,4 +104,22 @@ Tea.context(function () {
 			})
 			.refresh();
 	};
+
+	/**
+	 * 执行一次数据源
+	 */
+	this.execSource = function (itemId) {
+		if (!window.confirm("确定要立即从数据源采集数据吗？")) {
+			return;
+		}
+		this.$post(".execItemSource")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"itemId": this.item.id
+			})
+			.success(function () {
+				alert("执行成功，请在数值记录里查看获取的数据");
+			});
+	};
 });

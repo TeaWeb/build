@@ -45,7 +45,7 @@
     <tr v-if="source != null">
         <td>数据源</td>
         <td>
-            {{sourceOptions.summary.name}}
+            {{sourceOptions.summary.name}} &nbsp; <a href="" style="font-size:12px" @click.prevent="execSource(item.id)" v-if="isWaiting && selectedSource != null">立即执行</a>
 			<p class="comment" style="margin-bottom:0.3em">{{sourceOptions.summary.description}}<span v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0">，<a href="" @click.prevent="showSourceVariables()">提供的数据变量<i class="icon angle" :class="{down:!sourceVariablesVisible,up:sourceVariablesVisible}"></i></a>。</span></p>
 
 			<!-- 变量 -->
