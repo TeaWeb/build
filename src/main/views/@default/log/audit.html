@@ -10,7 +10,7 @@
 	<tr>
 		<td> {{log.description}}
 			<p class="comment">
-				{{log.actionName}} <span v-if="log.action=='LOGIN'">| IP:{{log.options.ip}}</span>
+				{{log.actionName}} <span v-if="log.action=='LOGIN'">| IP:{{log.options.ip}}</span><span v-if="log.location.length > 0"> | 城市:{{log.location}}</span>
 			</p>
 		</td>
 	</tr>
