@@ -161,7 +161,7 @@
 					<td>
 						<p v-if="!enableAccessLog" class="disabled">开启访问日志存储后可以选择</p>
 						<div v-show="enableAccessLog">
-							<div class="ui checkbox" v-for="field in accessLogFields"  style="width:10em;padding-top:0.4em;padding-bottom:0.4em">
+							<div class="ui checkbox" v-for="field in accessLogFields"  style="width:11em;padding:0.4em">
 								<input type="checkbox" name="accessLogFields" :value="field.code" :id="'access-log-field-' + field.code" v-model="field.isChecked"/>
 								<label :for="'access-log-field-' + field.code">{{field.name}}</label>
 							</div>
