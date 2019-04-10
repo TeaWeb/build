@@ -211,7 +211,7 @@ function ChartRender(charts, eventCallback) {
 				};
 			}),
 			grid: {
-				left: this.charactersWidth([(Math.ceil(maxValue * ( (maxValue <= 1) ? 1000 : 10 ))).toString()]) + 10,
+				left: this.charactersWidth([(Math.ceil(maxValue * ((maxValue <= 1) ? 1000 : 10))).toString()]) + 10,
 				right: 10,
 				bottom: bottomHeight,
 				top: 16
@@ -377,8 +377,12 @@ function ChartRender(charts, eventCallback) {
 		if (chartBox == null) {
 			return "";
 		}
-		var c = echarts.init(chartBox);
 
+		if (chart.options.height != null) {
+			chartBox.style.cssText += ";height:" + chart.options.height + "em";
+		}
+
+		var c = echarts.init(chartBox);
 		var option = {
 			textStyle: {
 				fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
