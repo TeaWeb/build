@@ -28,10 +28,18 @@
 				<p class="comment" v-if="config.password.length > 0">实际密码已使用星号代替</p>
 			</td>
         </tr>
+		<tr v-if="config.authMechanism.length > 0">
+			<td>认证机制</td>
+			<td>{{config.authMechanism}}</td>
+		</tr>
+		<tr v-if="config.authMechanismProperties.length > 0">
+			<td>认证附加参数</td>
+			<td>{{config.authMechanismProperties}}</td>
+		</tr>
     </table>
 
     <h4>组合后连接URI</h4>
-    <p class="ui info message">{{uri}}</p>
+    <p class="ui info message uri-box">{{uri}}</p>
 
     <h4>连接状态</h4>
     <p class="ui info message" v-if="error.length == 0">连接成功</p>

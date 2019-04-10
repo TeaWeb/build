@@ -1,16 +1,20 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .text.menu {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
+    margin-top: 0 !important;
 }
 
 .divider:not(.margin) {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
+}
+
+.uri-box {
+    line-height: 1.8 !important;
 }
