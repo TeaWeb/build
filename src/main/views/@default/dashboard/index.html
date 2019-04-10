@@ -32,7 +32,7 @@
 			</tr>
 			<tr v-for="log in logs">
 				<td>
-					<span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> "{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" - <span class="grey">耗时:{{log.requestTime}}ms</span>
+					<a :href="'/proxy/log?serverId=' + log.serverId" title="点击跳转到相应的代理服务"><span class="grey">{{log.remoteAddr}} - [{{log.timeLocal}}]</span> <span style="color:rgba(0,0,0,.87)">"{{log.requestMethod}} {{log.scheme}}://{{log.host}}{{log.requestURI}} {{log.proto}}" -</span> <span class="grey">耗时:{{log.requestTime}}ms</span></a>
 				</td>
 			</tr>
 		</table>
