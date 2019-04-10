@@ -145,6 +145,13 @@
                     </span>
 				</td>
 			</tr>
+			<tr>
+				<td>临时关闭页面</td>
+				<td>
+					<span v-if="!server.shutdownPageOn" class="disabled">还没有设置。</span>
+					<span v-if="server.shutdownPageOn">{{server.shutdownPage}}</span>
+				</td>
+			</tr>
 		</tbody>
     </table>
 </div>

@@ -350,6 +350,11 @@ body.expanded .main {
     outline: none !important;
 }
 
+.sub-menu .menu .item:not(.header) {
+    padding-top: 0.7em !important;
+    padding-bottom: 0.7em !important;
+}
+
 .sub-menu .menu .item:not(.header) span {
     font-size: 0.8em;
     display: block;
@@ -383,6 +388,7 @@ body.expanded .main {
 .sub-menu .menu a {
     display: block;
     word-break: break-all;
+    line-height: 1.6 !important;
 }
 
 .sub-menu .menu .item .menu {
@@ -506,4 +512,9 @@ select {
     .column:not(.one) {
         width: 100% !important;
     }
+}
+
+/** label **/
+label[for] {
+    cursor: pointer !important;
 }

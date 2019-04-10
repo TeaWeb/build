@@ -43,6 +43,8 @@ ps ax|grep mongo
 21040 ?        Sl   632:19bin/mongod --dbpath=./data/ --fork --logpath=./data/fork.log
 ~~~
 
+在Windows上，直接运行下载的可执行文件进行安装，注意过程中可以选择 **不安装** MongoDB Compass。
+
 ## CentOS 7
 在CentOS 7上，如果你需要使用`7777`端口，可能要在firewall中注册一个规则：
 ~~~bash
