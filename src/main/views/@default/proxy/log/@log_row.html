@@ -58,7 +58,7 @@
 					</tr>
 					<tr>
 						<td>协议<em>(Proto)</em>：{{log.proto}}</td>
-						<td :class="{error:log.status>=400}">状态<em>(StatusMessage)</em>：<span v-if="log.statusMessage.length == 0">-</span><span v-if="log.statusMessage.length > 0">{{log.statusMessage}}</span></td>
+						<td :class="{error:log.status>=400, success:log.status == 200}">状态<em>(StatusMessage)</em>：<span v-if="log.statusMessage.length == 0">-</span><span v-if="log.statusMessage.length > 0">{{log.statusMessage}}</span></td>
 					</tr>
 					<tr>
 						<td>文件类型<em>(ContentType)</em>：<span v-if="log.contentType.length == 0">-</span><span v-if="log.contentType.length > 0">{{log.contentType}}</span></td>

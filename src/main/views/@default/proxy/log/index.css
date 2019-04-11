@@ -1,11 +1,11 @@
 /** 菜单 **/
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text span.item {
@@ -14,8 +14,8 @@
 }
 
 .divider {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 /** 筛选框 **/
@@ -33,8 +33,8 @@
 }
 
 .search-box button {
-    margin: 0 auto!important;
-    display: inline-block!important;
+    margin: 0 auto !important;
+    display: inline-block !important;
 }
 
 .search-box .close-btn {
@@ -53,14 +53,14 @@
 }
 
 .search-box .column {
-    margin-bottom: 0!important;
-    margin-top: 0!important;
-    padding-top: 1em!important;
-    padding-bottom: 0!important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 1em !important;
+    padding-bottom: 0 !important;
 }
 
 .search-box .column input {
-    margin-top: 0.2em!important;
+    margin-top: 0.2em !important;
 }
 
 .search-box .buttons {
@@ -68,7 +68,7 @@
 }
 
 .search-box .focus {
-    border:1px #85b7d9 solid!important;
+    border: 1px #85b7d9 solid !important;
 }
 
 /** 日志表 **/
@@ -91,8 +91,17 @@
     color: #dc143c;
 }
 
+.log-table .log-row .error pre {
+    margin: 0;
+    padding: 0;
+}
+
+.log-table .log-row .success {
+    color: #21ba45;
+}
+
 .log-table .log-row .menu .item {
-    padding: 0.4em 0.7em!important;
+    padding: 0.4em 0.7em !important;
 }
 
 .log-table .log-row .browser span {
@@ -134,7 +143,7 @@
     -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 
-    border-bottom: 1px solid rgba(34,36,38,.1);
+    border-bottom: 1px solid rgba(34, 36, 38, .1);
 
     position: absolute;
     overflow: hidden;
@@ -146,7 +155,7 @@
 .log-table .log-td {
     position: relative;
     overflow: hidden;
-    border: 0!important;
+    border: 0 !important;
     -ms-word-break: break-all;
     word-break: break-all;
 }
@@ -172,8 +181,8 @@
 }
 
 .log-table .map-box .anchorBL {
-    left: auto!important;
-    right: 1em!important;
+    left: auto !important;
+    right: 1em !important;
 }
 
 .log-table .map-box .BMap_cpyCtrl.anchorBL {

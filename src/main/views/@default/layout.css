@@ -41,6 +41,10 @@ span.red, pre.red {
     color: #db2828;
 }
 
+pre {
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+}
+
 tbody {
     background: transparent;
 }

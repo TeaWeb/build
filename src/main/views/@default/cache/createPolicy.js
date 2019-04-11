@@ -12,7 +12,7 @@ Tea.context(function () {
     this.key = "${host}${requestURI}";
     this.formatKey = function () {
         var key = that.key;
-        key = key.replace(/\${(.+?)}/g, "${<a>$1</a>}");
+        key = key.replace(/\${(.+?)}/g, "<em>${<a>$1</a>}</em>");
         return key;
     };
 
@@ -69,5 +69,5 @@ Tea.context(function () {
     /**
      * Redis
      */
-    this.optionsNetwork = "tcp";
+    this.redisNetwork = "tcp";
 });

@@ -38,7 +38,7 @@ Tea.context(function () {
     var that = this;
     this.formatKey = function () {
         var key = that.policy.key;
-        key = key.replace(/\${(.+?)}/g, "${<a>$1</a>}");
+        key = key.replace(/\${(.+?)}/g, "<em>${<a>$1</a>}</em>");
         return key;
     };
 
@@ -95,8 +95,8 @@ Tea.context(function () {
     /**
      * Redis
      */
-    this.optionsNetwork = "tcp";
+    this.redisNetwork = "tcp";
     if (this.policy.options.network) {
-        this.optionsNetwork = this.policy.options.network;
+        this.redisNetwork = this.policy.options.network;
     }
 });
