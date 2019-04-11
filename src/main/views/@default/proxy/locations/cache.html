@@ -20,7 +20,7 @@
     <p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
     <div v-if="cachePolicyList.length > 0" class="ui segment">
         <p v-if="cachePolicy.length == 0" class="grey">没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
-        <p v-if="cachePolicy.length > 0" class="grey">当前正在使用 <strong>{{cachePolicy}}</strong>，<a href="" @click.prevent="editCache()">修改</a></p>
+		<p v-if="cachePolicy.length > 0" class="grey">当前正在使用 <a :href="'/cache/policy?filename=' + selectedCachePolicy"><strong>{{cachePolicy}}</strong></a>，<a href="" @click.prevent="editCache()">[修改]</a></p>
     </div>
     <div v-if="cachePolicyList.length > 0 && cacheEditing" style="margin-top:1em">
         <table class="ui table definition width30" >

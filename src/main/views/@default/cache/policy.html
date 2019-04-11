@@ -98,17 +98,8 @@
 	<tr v-show="cacheType == 'memory'">
 		<td>缓存容量</td>
 		<td>
-			<div class="ui fields inline">
-				<div class="ui field">
-					<input type="text" name="capacity" v-model="capacity" style="width:8em"/>
-				</div>
-				<div class="ui field">
-					<select class="ui dropdown" name="capacityUnit" v-model="capacityUnit">
-						<option value="g">G (千兆)</option>
-						<option value="m">M (兆)</option>
-					</select>
-				</div>
-			</div>
+			<span v-if="capacity.length > 0">{{capacity}}{{capacityUnit}}</span>
+			<span v-if="capacity.length == 0" class="disabled">没有设置</span>
 		</td>
 	</tr>
 
