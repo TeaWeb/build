@@ -157,7 +157,7 @@ Tea.context(function () {
 			.done(function () {
 				this.$delay(function () {
 					this.isLoaded = true;
-				}, 1000);
+				}, 100);
 
 				// 每1秒刷新一次
 				Tea.delay(function () {
