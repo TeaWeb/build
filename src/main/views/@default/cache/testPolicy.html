@@ -1,0 +1,64 @@
+{$layout}
+
+<div class="first-menu">
+	<div class="ui menu text blue">
+		<a class="item active" href="/cache">策略列表</a>
+		<a class="item" href="/cache/createPolicy">添加新策略</a>
+	</div>
+
+	<div class="ui divider"></div>
+</div>
+
+<div class="second-menu">
+	<div class="ui menu text blue small">
+		<a :href="'/cache/policy?filename=' + policy.filename" class="item">{{policy.name}} &raquo; 详情</a>
+		<a :href="'/cache/testPolicy?filename=' + policy.filename" class="item active">测试</a>
+		<a :href="'/cache/statPolicy?filename=' + policy.filename" class="item">统计</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<h3>写入</h3>
+
+<form class="ui form" data-tea-action="$" data-tea-success="writeSuccess" data-tea-fail="writeSuccess">
+	<input type="hidden" name="filename" :value="policy.filename"/>
+	<input type="hidden" name="action" value="write"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">缓存Key</td>
+			<td>
+				<input type="text" name="key" maxlength="100" v-model="key"/>
+			</td>
+		</tr>
+		<tr>
+			<td>缓存值</td>
+			<td>
+				<textarea name="value" rows="3">my value</textarea>
+			</td>
+		</tr>
+		<tr :class="{positive:writeOk && writeResult.length > 0, error:!writeOk && writeResult.length > 0}">
+			<td>返回结果</td>
+			<td class="green">{{writeResult}}</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">写入</button>
+</form>
+
+<h3 style="margin-top:2em!important;">读取</h3>
+<form class="ui form" data-tea-action="$" data-tea-success="readSuccess" data-tea-fail="readSuccess">
+	<input type="hidden" name="filename" :value="policy.filename"/>
+	<input type="hidden" name="action" value="read"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">缓存Key</td>
+			<td>
+				<input type="text" name="key" maxlength="100" v-model="key"/>
+			</td>
+		</tr>
+		<tr :class="{positive:readOk && readResult.length > 0, error:!readOk && readResult.length > 0}">
+			<td>返回结果</td>
+			<td>{{readResult}}</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">读取</button>
+</form>

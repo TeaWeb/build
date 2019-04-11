@@ -1,0 +1,140 @@
+{$layout}
+
+<div class="first-menu">
+	<div class="ui menu text blue">
+		<a class="item active" href="/cache">策略列表</a>
+		<a class="item" href="/cache/createPolicy">添加新策略</a>
+	</div>
+
+	<div class="ui divider"></div>
+</div>
+
+<div class="second-menu">
+	<div class="ui menu text blue small">
+		<a :href="'/cache/policy?filename=' + policy.filename" class="item active">{{policy.name}} &raquo; 详情</a>
+		<a :href="'/cache/testPolicy?filename=' + policy.filename" class="item">测试</a>
+		<a :href="'/cache/statPolicy?filename=' + policy.filename" class="item">统计</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<h3>详情 <a :href="'/cache/updatePolicy?filename=' + policy.filename">修改</a> </h3>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td class="title">策略名称</td>
+		<td>
+			{{policy.name}}
+		</td>
+	</tr>
+	<tr>
+		<td>缓存Key</td>
+		<td>
+			<span v-html="formatKey()"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>存储类型</td>
+		<td>
+			{{typeName}}
+		</td>
+	</tr>
+
+	<!-- 文件缓存 -->
+	<tr v-if="cacheType == 'file'">
+		<td>缓存存放目录</td>
+		<td>
+			{{policy.options.dir}}
+		</td>
+	</tr>
+
+	<!-- Redis缓存 -->
+	<tbody v-if="cacheType == 'redis'">
+		<tr>
+			<td>Redis连接协议</td>
+			<td>
+				{{policy.options.network}}
+			</td>
+		</tr>
+		<tr v-if="redisNetwork == 'tcp'">
+			<td>Redis服务器地址</td>
+			<td>
+				{{policy.options.host}}
+			</td>
+		</tr>
+		<tr v-if="redisNetwork == 'tcp'">
+			<td>Redis服务器端口</td>
+			<td>
+				<span v-if="policy.options.port == 0" class="disabled">没有设置</span>
+				<span v-if="policy.options.port > 0">{{policy.options.port}}</span>
+			</td>
+		</tr>
+		<tr v-if="redisNetwork == 'sock'">
+			<td>Unix路径</td>
+			<td>
+				{{policy.options.sock}}
+			</td>
+		</tr>
+		<tr v-if="cacheType == 'redis'">
+			<td>Redis连接密码</td>
+			<td>
+				<span v-if="policy.options.password.length == 0" class="disabled">没有设置</span>
+				<span v-if="policy.options.password.length > 0">{{policy.options.password}}</span>
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- LevelDB -->
+	<tbody v-if="cacheType == 'leveldb'">
+	<tr>
+		<td>数据库存放目录</td>
+		<td>
+			{{policy.options.dir}}
+		</td>
+	</tr>
+	</tbody>
+
+	<!-- 内存缓存 -->
+	<tr v-show="cacheType == 'memory'">
+		<td>缓存容量</td>
+		<td>
+			<div class="ui fields inline">
+				<div class="ui field">
+					<input type="text" name="capacity" v-model="capacity" style="width:8em"/>
+				</div>
+				<div class="ui field">
+					<select class="ui dropdown" name="capacityUnit" v-model="capacityUnit">
+						<option value="g">G (千兆)</option>
+						<option value="m">M (兆)</option>
+					</select>
+				</div>
+			</div>
+		</td>
+	</tr>
+
+	<!-- 其他高级设置 -->
+	<tr>
+		<td>缓存有效期</td>
+		<td>
+			<span v-if="policy.life == '0s'" class="disabled">默认</span>
+			<span v-if="policy.life != '0s'">{{policy.life}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>支持的状态码</td>
+		<td>
+			<span v-if="policy.status == null || policy.status.length == 0" class="disabled">还没有设置</span>
+			<div v-if="policy.status != null">
+				<span class="ui label tiny" v-for="status in policy.status">{{status}}</span>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>最大内容长度</td>
+		<td>
+			<span v-if="policy.maxSize == '0.00m'" class="disabled">默认</span>
+			<span v-if="policy.maxSize != '0.00m'">{{policy.maxSize}}</span>
+		</td>
+	</tr>
+
+</table>

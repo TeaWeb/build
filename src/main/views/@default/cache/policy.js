@@ -32,10 +32,6 @@ Tea.context(function () {
 		this.capacityUnit = "g";
 	}
 
-	this.submitSuccess = function () {
-    	window.location = "/cache/policy?filename=" + this.policy.filename;
-	};
-
 	/**
 	 * key
 	 */
@@ -44,47 +40,6 @@ Tea.context(function () {
 		var key = that.policy.key;
 		key = key.replace(/\${(.+?)}/g, "<em>${<a>$1</a>}</em>");
 		return key;
-	};
-
-	/**
-	 * 状态管理
-	 */
-	this.statusList = this.policy.status;
-
-	this.statusAdding = false;
-	this.addingStatus = "";
-
-	this.addStatus = function () {
-		this.statusAdding = true;
-		this.$delay(function () {
-			this.$find("form input[name='addingStatus']").focus();
-		});
-	};
-
-	this.cancelAdding = function () {
-		this.statusAdding = false;
-	};
-
-	this.addStatusConfirm = function (e) {
-		if (this.addingStatus.length != 3) {
-			alert("状态码必须是3位数字");
-			this.$find("form input[name='addingStatus']").focus();
-			return;
-		}
-		if (this.statusList.$contains(this.addingStatus)) {
-			alert("状态码已存在");
-			this.$find("form input[name='addingStatus']").focus();
-			return;
-		}
-		this.statusList.push(this.addingStatus);
-		this.statusAdding = false;
-		this.addingStatus = "";
-
-		return false;
-	};
-
-	this.deleteStatus = function (index) {
-		this.statusList.$remove(index);
 	};
 
 	/**

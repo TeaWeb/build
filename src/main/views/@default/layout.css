@@ -522,3 +522,23 @@ select {
 label[for] {
     cursor: pointer !important;
 }
+
+/** Menu **/
+.first-menu .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.first-menu .divider {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.second-menu .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.second-menu .divider {
+    margin-top: 0 !important;
+}

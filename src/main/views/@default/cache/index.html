@@ -29,6 +29,7 @@
                 <span v-if="policy.options.network == 'tcp'">{{policy.options.host}}:{{policy.options.port}}</span>
                 <span v-if="policy.options.network == 'sock'">{{policy.options.sock}}</span>
             </p>
+			<p class="comment" v-if="policy.type == 'leveldb'">{{policy.options.dir}}</p>
         </td>
         <td>
             <span v-if="policy.hasLife">{{policy.life}}</span>
@@ -43,7 +44,7 @@
             <span v-if="!policy.hasMaxSize">-</span>
         </td>
         <td>
-            <a :href="'/cache/updatePolicy?filename=' + policy.filename">修改</a> &nbsp;
+            <a :href="'/cache/policy?filename=' + policy.filename">详情</a> &nbsp;
             <a href="" @click.prevent="deletePolicy(policy.filename)">删除</a>
         </td>
     </tr>
