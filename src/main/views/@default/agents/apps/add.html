@@ -15,16 +15,6 @@
                 <input type="text" name="name" maxlength="100"/>
             </td>
         </tr>
-		<tr>
-			<td>共享</td>
-			<td>
-				<div class="ui checkbox">
-					<input type="checkbox" name="isSharedWithGroup" value="1" id="share-with-group-box"/>
-					<label for="share-with-group-box">与本组下的所有Agent共享</label>
-				</div>
-				<p class="comment" style="margin-top:0.6em">如果选择了共享此App，则对当前App的操作也会自动同步到当前分组下的其他Agent中。</p>
-			</td>
-		</tr>
         <tr>
             <td colspan="2">
                 <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
@@ -32,6 +22,16 @@
             </td>
         </tr>
         <tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>共享</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="isSharedWithGroup" value="1" id="share-with-group-box"/>
+						<label for="share-with-group-box">与本组下的所有Agent共享</label>
+					</div>
+					<p class="comment" style="margin-top:0.6em">如果选择了共享此App，则对当前App的操作也会自动同步到当前分组下的其他Agent中。</p>
+				</td>
+			</tr>
             <tr>
                 <td>是否启用</td>
                 <td>
