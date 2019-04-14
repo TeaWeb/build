@@ -14,6 +14,7 @@
 		<a :href="'/cache/policy?filename=' + policy.filename" class="item active">{{policy.name}} &raquo; 详情</a>
 		<a :href="'/cache/testPolicy?filename=' + policy.filename" class="item">测试</a>
 		<a :href="'/cache/statPolicy?filename=' + policy.filename" class="item">统计</a>
+		<a :href="'/cache/cleanPolicy?filename=' + policy.filename" class="item">清理</a>
 	</div>
 	<div class="ui divider"></div>
 </div>
@@ -36,7 +37,8 @@
 	<tr>
 		<td>存储类型</td>
 		<td>
-			{{typeName}}
+			{{type.name}}
+			<p class="comment">{{type.description}}</p>
 		</td>
 	</tr>
 

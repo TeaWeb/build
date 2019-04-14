@@ -1,0 +1,26 @@
+{$layout}
+
+<div class="first-menu">
+	<div class="ui menu text blue">
+		<a class="item active" href="/cache">策略列表</a>
+		<a class="item" href="/cache/createPolicy">添加新策略</a>
+	</div>
+
+	<div class="ui divider"></div>
+</div>
+
+<div class="second-menu">
+	<div class="ui menu text blue small">
+		<a :href="'/cache/policy?filename=' + policy.filename" class="item">{{policy.name}} &raquo; 详情</a>
+		<a :href="'/cache/testPolicy?filename=' + policy.filename" class="item">测试</a>
+		<a :href="'/cache/statPolicy?filename=' + policy.filename" class="item">统计</a>
+		<a :href="'/cache/cleanPolicy?filename=' + policy.filename" class="item active">清理</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<button class="ui button red" @click.prevent="clean()" v-if="!isCleaning">清理所有缓存</button>
+<button class="ui button disabled" @click.prevent="clean()" v-if="isCleaning">清理中，请耐心的等待...</button>
+<p class="comment">建议不要在比较忙碌的时刻进行此操作，以免影响用户访问。</p>
+
+<p class="ui message info" v-if="cleanResult.length > 0">{{cleanResult}}</p>

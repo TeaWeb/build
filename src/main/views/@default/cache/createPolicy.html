@@ -25,9 +25,10 @@
         <tr>
             <td>存储类型</td>
             <td>
-                <select class="ui dropdown" name="type" v-model="cacheType" style="width:10em">
+                <select class="ui dropdown" name="type" v-model="cacheType" @change="changeCacheType()" style="width:10em">
                     <option v-for="type in types" :value="type.type">{{type.name}}</option>
                 </select>
+				<p class="comment">{{selectedType.description}}</p>
             </td>
         </tr>
 

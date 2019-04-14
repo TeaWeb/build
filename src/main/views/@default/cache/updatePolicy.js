@@ -33,7 +33,7 @@ Tea.context(function () {
 	}
 
 	this.submitSuccess = function () {
-    	window.location = "/cache/policy?filename=" + this.policy.filename;
+		window.location = "/cache/policy?filename=" + this.policy.filename;
 	};
 
 	/**
@@ -92,6 +92,17 @@ Tea.context(function () {
 	 */
 	this.cacheType = this.policy.type;
 
+	this.changeCacheType = function () {
+		var that = this;
+		this.selectedType = this.types.$find(function (k, v) {
+			return v.type == that.cacheType;
+		});
+	};
+	this.changeCacheType();
+
+	/**
+	 * advanced
+	 */
 	this.showAdvanced = function (b) {
 		this.advancedVisible = b;
 	};
