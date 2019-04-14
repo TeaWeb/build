@@ -14,7 +14,7 @@
 			<th>文件名</th>
 			<th>备份时间</th>
 			<th>尺寸</th>
-			<th class="two op">操作</th>
+			<th class="three op">操作</th>
 		</tr>
 	</thead>
 	<tr v-for="file in files">
@@ -25,6 +25,7 @@
 		<td>{{file.time}}</td>
 		<td>{{file.size}}M</td>
 		<td>
+			<a :href="'/settings/backup/download?filename=' + file.name" title="下载到本地">下载</a> &nbsp;
 			<a href="" title="从此备份恢复" @click.prevent="restore(file.name)">恢复</a>
 			&nbsp;
 			<a href="" @click.prevent="deleteBackup(file.name)">删除</a>

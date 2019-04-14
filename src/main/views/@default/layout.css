@@ -86,6 +86,10 @@ p.comment em, div.comment em {
     width: 7.4em;
 }
 
+.op.three {
+    width: 9em;
+}
+
 .op.four {
     width: 10em;
 }

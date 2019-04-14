@@ -32,14 +32,14 @@
 		<td>媒介</td>
 		<td>
 			{{media.name}} <span class="ui label tiny">{{mediaType.name}}</span>
-			<p class="comment">{{mediaType.description}}</p>
+			<p class="comment" v-html="mediaType.description"></p>
 		</td>
 	</tr>
 	<tr>
 		<td>接收人标识</td>
 		<td>
 			{{receiver.user}}
-			<p class="comment">{{mediaType.user}}</p>
+			<p class="comment" v-html="mediaType.user"></p>
 		</td>
 	</tr>
 </table>
