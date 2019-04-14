@@ -8,7 +8,12 @@ Tea.context(function () {
 	 */
 	this.submitSuccess = function () {
 		alert("保存成功");
-		window.location = "/notices/level?level=" + this.level.code;
+
+		if (this.from.length == 0) {
+			window.location = "/notices/level?level=" + this.level.code;
+		} else {
+			window.location = this.from;
+		}
 	};
 
 	/**

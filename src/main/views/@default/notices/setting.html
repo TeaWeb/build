@@ -23,9 +23,12 @@
 		<td>{{level.description}}</td>
 		<td>
 			<div v-if="level.receivers.length > 0">
-				<span class="ui label small" v-for="receiver in level.receivers">[{{receiver.media}}]{{receiver.name}}</span>
+				<span class="ui label small" v-for="receiver in level.receivers">[{{receiver.media}}]{{receiver.name}}</span> &nbsp; <a :href="'/notices/addReceiver?level=' + level.code + '&from=' + from" style="font-size:12px;display:inline-block">[添加]</a>
 			</div>
-			<span class="disabled" v-if="level.receivers.length == 0">暂时还没有接收人</span>
+			<div v-if="level.receivers.length == 0">
+				<span class="disabled">暂时还没有接收人</span>
+				&nbsp; <a :href="'/notices/addReceiver?level=' + level.code + '&from=' + from" style="font-size: 12px">[添加]</a>
+			</div>
 		</td>
 		<td>
 			<a :href="'/notices/level?level=' + level.code">详情</a>
