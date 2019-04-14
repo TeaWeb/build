@@ -129,5 +129,17 @@
 			<span v-if="policy.maxSize != '0.00m'">{{policy.maxSize}}</span>
 		</td>
 	</tr>
+</table>
 
+<h3 style="padding-top:1em">使用此缓存策略的项目</h3>
+<p class="comment" v-if="configItems.length == 0" style="padding-top:0">暂时还没有使用此缓存策略的项目。</p>
+<table class="ui table selectable" v-if="configItems.length > 0">
+	<tr v-for="item in configItems">
+		<td v-if="item.type == 'server'">
+			<a :href="item.link">{{item.server}} &raquo;</a>
+		</td>
+		<td v-if="item.type == 'location'">
+			<a :href="item.link">{{item.server}} &raquo; {{item.location}} &raquo;</a>
+		</td>
+	</tr>
 </table>
