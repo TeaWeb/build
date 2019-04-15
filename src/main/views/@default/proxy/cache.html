@@ -19,14 +19,50 @@
 
     <form class="ui form">
         <p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
-        <div v-if="cachePolicyList.length > 0" class="ui segment">
-            <p v-if="cachePolicy.length == 0" class="grey">还没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
-			<p v-if="cachePolicy.length > 0" class="grey">正在使用"<a :href="'/cache/policy?filename=' + selectedCachePolicy">{{cachePolicy}}</a>"，<a href="" @click.prevent="editCache()">[修改]</a></p>
+        <div v-if="cachePolicyList.length > 0">
+			<table class="ui table selectable definition">
+				<tr>
+					<td class="title">缓存策略</td>
+					<td>
+						<p v-if="cachePolicy == null" class="grey">还没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
+						<p v-if="cachePolicy != null" class="grey"><a :href="'/cache/policy?filename=' + selectedCachePolicy">{{cachePolicy.name}}<span>({{cachePolicy.type}})</span></a> &nbsp;&nbsp; <a href="" @click.prevent="editCache()" style="font-size:12px;">[修改]</a></p>
+					</td>
+				</tr>
+
+				<!-- 缓存策略详情 -->
+				<tbody v-if="cachePolicy != null">
+					<tr>
+						<td>缓存Key</td>
+						<td><em style="font-style: italic">{{cachePolicy.key}}</em></td>
+					</tr>
+					<tr>
+						<td>清除缓存工具</td>
+						<td>
+							<div>
+								<a href="" @click.prevent="showCleanTool()" v-if="!cleanToolVisible">点此打开<i class="icon angle down"></i></a>
+								<a href="" @click.prevent="showCleanTool()" v-if="cleanToolVisible">点此收起<i class="icon angle up"></i></a>
+							</div>
+							<div v-show="cleanToolVisible" style="margin-top:1em">
+								<div class="ui fields inline">
+									<div class="ui field">
+										<input type="text" name="cacheKey" placeholder="输入要清除的Key" @keyup.enter="cleanCache()" @keypress.enter.prevent="1" size="50" maxlength="200" v-model="cacheKey"/>
+									</div>
+									<div class="ui field">
+										<button class="ui button" type="button" @click.prevent="cleanCache()">清除</button>
+									</div>
+								</div>
+								<p class="comment">注意：默认情况下${host}中是不包含scheme的，所以可能需要把URL中的http://或https://删除</p>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
         </div>
+
         <div v-if="cachePolicyList.length > 0 && cacheEditing" style="margin-top:1em">
             <table class="ui table definition width30" >
                 <tr>
-                    <td class="title">选择策略</td>
+                    <td class="title">选择缓存策略</td>
                     <td>
                         <select class="ui dropdown" v-model="selectedCachePolicy">
                             <option value="">[不使用缓存]</option>
