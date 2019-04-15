@@ -67,6 +67,7 @@ Tea.context(function () {
 			});
 		}
 	};
+	this.changeMediaType();
 
 	/**
 	 * 邮箱
