@@ -546,3 +546,7 @@ label[for] {
 .second-menu .divider {
     margin-top: 0 !important;
 }
+
+.menu a {
+    outline: none;
+}

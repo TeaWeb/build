@@ -19,7 +19,7 @@
     <span class="item">|</span>
     <a :href="'/proxy/locations/websocket?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'websocket'}">Websocket<span v-if="location.websocket!=null && location.websocket.on">(已设置)</span></a>
 	<span class="item">|</span>
-	<a :href="'/proxy/locations/access?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'access'}">访问控制</a>
+	<a :href="'/proxy/locations/access?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'access'}" id="location-access-menu">访问控制</a>
     <span class="item">|</span>
-    <a :href="'/proxy/locations/cache?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'cache'}">缓存设置<span v-if="location.cachePolicy">(已设置)</span></a>
+    <a :href="'/proxy/locations/cache?serverId=' + server.id + '&locationId=' + location.id" class="item" :class="{active:selectedSubTab == 'cache'}" id="location-cache-menu">缓存设置<span v-if="location.cachePolicy">(已设置)</span></a>
 </div>

@@ -1,4 +1,8 @@
 Tea.context(function () {
+	this.$delay(function () {
+		this.$find("#location-cache-menu").focus();
+	});
+
 	/**
 	 * 缓存策略
 	 */
