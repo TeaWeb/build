@@ -24,7 +24,12 @@
 				<tr>
 					<td class="title">缓存策略</td>
 					<td>
-						<p v-if="cachePolicy == null" class="grey">还没有设置缓存策略<span v-if="cachePolicyList.length > 0">，<a href="" @click.prevent="editCache()">设置</a></span></p>
+						<p v-if="cachePolicy == null && cachePolicyFile.length == 0" class="grey">
+							[继承父级设置] &nbsp;<span v-if="cachePolicyList.length > 0"><a href="" @click.prevent="editCache()" style="font-size:12px">[设置]</a></span>
+						</p>
+						<p v-if="cachePolicy == null && cachePolicyFile == 'none'" class="grey">
+							[不使用缓存] &nbsp;<span v-if="cachePolicyList.length > 0"><a href="" @click.prevent="editCache()" style="font-size:12px">[设置]</a></span>
+						</p>
 						<p v-if="cachePolicy != null" class="grey"><a :href="'/cache/policy?filename=' + selectedCachePolicy">{{cachePolicy.name}}<span>({{cachePolicy.type}})</span></a> &nbsp;&nbsp; <a href="" @click.prevent="editCache()" style="font-size:12px;">[修改]</a></p>
 					</td>
 				</tr>
@@ -65,7 +70,8 @@
 					<td class="title">选择策略</td>
 					<td>
 						<select class="ui dropdown" v-model="selectedCachePolicy">
-							<option value="">[不使用缓存]</option>
+							<option value="none">[不使用缓存]</option>
+							<option value="">[继承父级设置]</option>
 							<option v-for="policy in cachePolicyList" :value="policy.filename">{{policy.name}}（{{policy.type}}）</option>
 						</select>
 					</td>

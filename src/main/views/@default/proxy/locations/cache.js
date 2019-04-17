@@ -30,7 +30,8 @@ Tea.context(function () {
 				"policy": this.selectedCachePolicy
 			})
 			.success(function (resp) {
-				if (this.selectedCachePolicy.length == 0) {
+				this.cachePolicyFile = this.selectedCachePolicy;
+				if (this.selectedCachePolicy.length == 0 || this.selectedCachePolicy == "none") {
 					this.cachePolicy = null;
 				} else {
 					this.cachePolicy = resp.data.policy;
