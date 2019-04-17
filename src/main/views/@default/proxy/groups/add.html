@@ -169,7 +169,7 @@
 						</div>
 						<div class="ui field">:</div>
 						<div class="ui field">
-							<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="36" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
 						</div>
 					</div>
 					<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
@@ -198,7 +198,7 @@
 						</div>
 						<div class="ui field">:</div>
 						<div class="ui field">
-							<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="36" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
 						</div>
 					</div>
 					<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>

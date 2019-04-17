@@ -156,6 +156,64 @@
                     <p class="comment">0表示不限制</p>
                 </td>
             </tr>
+			<tr>
+				<td>请求Header</td>
+				<td>
+					<div class="request-headers-box" style="margin-bottom:1em">
+						<span class="ui label tiny" :class="{blue:requestHeadersEditingIndex == index}" v-for="(header,index) in requestHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
+							<input type="hidden" name="requestHeaderNames" :value="header.name"/>
+							<input type="hidden" name="requestHeaderValues" :value="header.value"/> &nbsp;
+							<a href="" title="修改" @click.prevent="editRequestHeader(index)"><i class="icon pencil"></i></a>
+							<a href="" title="删除" @click.prevent="removeRequestHeader(index)"><i class="icon remove"></i></a>
+						</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addRequestHeader()" v-if="!requestHeadersAdding">+</button>
+					<div v-if="requestHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="requestHeaderName" size="20" v-model="requestHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
+						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex > -1">保存</button>
+						&nbsp;  <a href="" @click.prevent="cancelRequestHeadersAdding()"><i class="icon remove"></i></a>
+					</div>
+					<p class="comment">向后端服务器转发的请求Header。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>响应Header</td>
+				<td>
+					<div class="response-headers-box" style="margin-bottom:1em">
+						<span class="ui label tiny" :class="{blue:responseHeadersEditingIndex == index}" v-for="(header,index) in responseHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
+							<input type="hidden" name="responseHeaderNames" :value="header.name"/>
+							<input type="hidden" name="responseHeaderValues" :value="header.value"/> &nbsp;
+							<a href="" title="修改" @click.prevent="editResponseHeader(index)"><i class="icon pencil"></i></a>
+							<a href="" title="删除" @click.prevent="removeResponseHeader(index)"><i class="icon remove"></i></a>
+						</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addResponseHeader()" v-if="!responseHeadersAdding">+</button>
+					<div v-if="responseHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="responseHeaderName" size="20" v-model="responseHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>
+						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex > -1">保存</button>
+						&nbsp;  <a href="" @click.prevent="cancelResponseHeadersAdding()"><i class="icon remove"></i></a>
+					</div>
+					<p class="comment">向终端发送的响应Header。</p>
+				</td>
+			</tr>
             <tr>
                 <td>是否为备用服务器</td>
                 <td>

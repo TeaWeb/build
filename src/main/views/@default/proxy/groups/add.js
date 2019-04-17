@@ -198,6 +198,8 @@ Tea.context(function () {
 
 	this.addRequestHeader = function () {
 		this.requestHeadersAdding = true;
+		this.requestHeadersAddingName = "";
+		this.requestHeadersAddingValue = "";
 		this.$delay(function () {
 			this.$find("form input[name='requestHeaderName']").focus();
 		});
@@ -248,6 +250,8 @@ Tea.context(function () {
 
 	this.addResponseHeader = function () {
 		this.responseHeadersAdding = true;
+		this.responseHeadersAddingName = "";
+		this.responseHeadersAddingValue = "";
 		this.$delay(function () {
 			this.$find("form input[name='responseHeaderName']").focus();
 		});
