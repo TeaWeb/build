@@ -38,6 +38,9 @@
 		</thead>
 	   <tr v-for="backend in normalBackends">
 		   <td>{{backend.address}}<br/>
+			   <p v-if="backend.requestURI.length > 0" style="padding:0;margin:0">
+			   	<span class="ui label tiny">{{backend.requestURI}}</span>
+			   </p>
 			   <span class="ui label tiny green" v-if="backend.on">启用</span>
 			   <span class="ui label tiny grey" v-if="!backend.on">停用</span>
 
@@ -45,7 +48,7 @@
 			   <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>
 
 			   <span class="ui label tiny" v-if="backend.scheme.length > 0">{{backend.scheme}}</span>
-
+			   <span class="ui label tiny" v-if="backend.checkURL.length > 0">健康检查</span>
 			   <br/>
 			   <a href="" class="small" v-if="backend.isDown" @click.prevent="putOnline(backend)">[重新上线]</a> </td>
 		   <td>{{backend.weight}}</td>

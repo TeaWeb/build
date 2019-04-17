@@ -29,6 +29,13 @@
 				</select>
 			</td>
 		</tr>
+		<tr>
+			<td>请求URI</td>
+			<td>
+				<input type="text" name="requestURI" v-model="backend.requestURI"/>
+				<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
+			</td>
+		</tr>
         <tr>
             <td colspan="2">
                 <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
@@ -49,16 +56,13 @@
 			</td>
 		</tr>
 		<tr>
-			<td>请求URI</td>
-			<td>
-				<input type="text" name="requestURI" v-model="backend.requestURI"/>
-				<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
-			</td>
-		</tr>
-		<tr>
 			<td>权重</td>
 			<td>
-				<input type="text" name="weight" v-model="backend.weight" maxlength="4"/>
+				<div class="ui fields inline">
+					<div class="ui field">
+						<input type="text" name="weight" v-model="backend.weight" maxlength="4" size="6"/>
+					</div>
+				</div>
 				<p class="ui comment">使用权重来计算请求分发的比例，最小为1。</p>
 			</td>
 		</tr>
@@ -79,12 +83,47 @@
                 <p class="comment">只能是英文字母、下划线、数字的组合，一个好记的代号，用于某些转发算法中的参数。</p>
             </td>
         </tr>
+		<tr>
+			<td>健康检查URL</td>
+			<td>
+				<input type="text" name="checkURL" maxlength="200" placeholder="http://..." v-model="backend.checkURL"/>
+				<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
+			</td>
+		</tr>
+		<tr>
+			<td>健康检查间隔时间</td>
+			<td>
+				<div class="ui fields inline">
+					<div class="ui field">
+						<input type="text" name="checkInterval" value="0" size="6" v-model="backend.checkInterval"/>
+					</div>
+					<div class="ui field">
+						秒
+					</div>
+				</div>
+				<p class="comment">0表示默认，默认30秒检查一次</p>
+			</td>
+		</tr>
+		<tr>
+			<td>连接最多连续失败次数</td>
+			<td>
+				<div class="ui fields inline">
+					<div class="ui field">
+						<input type="text" name="maxFails" value="1" size="6" maxlength="10" v-model="backend.maxFails"/>
+					</div>
+					<div class="ui field">
+						次
+					</div>
+				</div>
+				<p class="comment">0表示不限制，即使连接失败也不会自动下线</p>
+			</td>
+		</tr>
         <tr>
             <td>连接失败超时时间</td>
             <td>
                 <div class="ui fields inline">
                     <div class="ui field">
-                        <input type="text" name="failTimeout" value="10" size="5" v-model="backend.failTimeout"/>
+                        <input type="text" name="failTimeout" value="10" size="6" v-model="backend.failTimeout"/>
                     </div>
                     <div class="ui field">
                         秒
@@ -98,7 +137,7 @@
 			<td>
 				<div class="ui fields inline">
 					<div class="ui field">
-						<input type="text" name="readTimeout" value="10" size="5" v-model="backend.readTimeout"/>
+						<input type="text" name="readTimeout" value="10" size="6" v-model="backend.readTimeout"/>
 					</div>
 					<div class="ui field">
 						秒
@@ -108,16 +147,13 @@
 			</td>
 		</tr>
         <tr>
-            <td>连接最多失败次数</td>
-            <td>
-                <input type="text" name="maxFails" value="1" size="5" v-model="backend.maxFails"/>
-                <p class="comment">0表示不限制，即使连接失败也不会自动下线</p>
-            </td>
-        </tr>
-        <tr>
             <td>最大并发连接数</td>
             <td>
-                <input type="text" name="maxConns" value="0" v-model="backend.maxConns"/>
+                <div class="ui fields inline">
+					<div class="ui field">
+						<input type="text" name="maxConns" value="0" v-model="backend.maxConns" size="6" maxlength="10"/>
+					</div>
+				</div>
                 <p class="comment">0表示不限制</p>
             </td>
         </tr>
