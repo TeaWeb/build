@@ -199,6 +199,18 @@
 	</tr>
 	</tbody>
 
+	<!-- TeaOS云短信 -->
+	<tbody v-show="media.type == 'teaSms'">
+		<tr>
+			<td>AccessId</td>
+			<td>{{media.options.accessId}}</td>
+		</tr>
+		<tr>
+			<td>AccessSecret</td>
+			<td>{{media.options.accessSecret}}</td>
+		</tr>
+	</tbody>
+
 	<tr v-if="media.rateMinutes > 0 || media.rateCount > 0">
 		<td>发送频率</td>
 		<td>

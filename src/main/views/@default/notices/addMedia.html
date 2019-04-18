@@ -313,6 +313,24 @@
 			</tr>
 		</tbody>
 
+		<!-- TeaOS云短信 -->
+		<tbody v-show="mediaType == 'teaSms'">
+			<tr>
+				<td>AccessId *</td>
+				<td>
+					<input type="text" name="teaSmsAccessId" maxlength="100"/>
+					<p class="comment"><a href="http://cloud.teaos.cn/apps" target="_blank">在TeaOS云App</a>中获取</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessSecret *</td>
+				<td>
+					<input type="text" name="teaSmsAccessSecret" maxlength="100"/>
+					<p class="comment">在<a href="http://cloud.teaos.cn/apps" target="_blank">TeaOS云App</a>中获取</p>
+				</td>
+			</tr>
+		</tbody>
+
 		<tr>
 			<td>发送频率</td>
 			<td>

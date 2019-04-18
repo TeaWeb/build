@@ -48,6 +48,7 @@
   * [钉钉群机器人](notices/DingTalk.md)
   * [企业微信](notices/QyWeixin.md)
   * [阿里云短信](notices/AliyunSms.md)
+  * [TeaOS云短信](notices/TeaSms.md)
 * 图表API
   * 通用知识
   * 图表

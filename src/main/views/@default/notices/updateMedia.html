@@ -250,65 +250,83 @@
 
 		<!-- 阿里云短信 -->
 		<tbody v-show="mediaType == 'aliyunSms'">
-		<tr>
-			<td>签名名称 *</td>
-			<td>
-				<input type="text" name="aliyunSmsSign" maxlength="100" v-model="media.options.sign"/>
-				<p class="comment">已经审核通过的短信签名名称</p>
-			</td>
-		</tr>
-		<tr>
-			<td>模板CODE *</td>
-			<td>
-				<input type="text" name="aliyunSmsTemplateCode" maxlength="100" v-model="media.options.templateCode" placeholder="类似于SMS_12345"/>
-				<p class="comment">已经审核通过的模板CODE</p>
-			</td>
-		</tr>
-		<tr>
-			<td>模板变量 *</td>
-			<td>
-				<div class="ui field">
-                        <span class="ui label small" v-for="(var1, index) in aliyunSmsTemplateVars">
-                            <input type="hidden" name="aliyunSmsTemplateVarNames" :value="var1.name"/>
-                            <input type="hidden" name="aliyunSmsTemplateVarValues" :value="var1.value"/>
-                            <em>{{var1.name}}</em>: {{var1.value}}
-                            <a href="" @click.prevent="removeAliyunSmsTemplateVar(index)"><i class="icon remove"></i></a>
-                        </span>
-				</div>
-				<div v-if="aliyunSmsTemplateVarAdding" class="ui fields inline">
+			<tr>
+				<td>签名名称 *</td>
+				<td>
+					<input type="text" name="aliyunSmsSign" maxlength="100" v-model="media.options.sign"/>
+					<p class="comment">已经审核通过的短信签名名称</p>
+				</td>
+			</tr>
+			<tr>
+				<td>模板CODE *</td>
+				<td>
+					<input type="text" name="aliyunSmsTemplateCode" maxlength="100" v-model="media.options.templateCode" placeholder="类似于SMS_12345"/>
+					<p class="comment">已经审核通过的模板CODE</p>
+				</td>
+			</tr>
+			<tr>
+				<td>模板变量 *</td>
+				<td>
 					<div class="ui field">
-						<input type="text" name="aliyunSmsTemplateVarAddingName" v-model="aliyunSmsTemplateVarAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddAliyunSmsTemplateVar" @keypress.enter.prevent="1"/>
+							<span class="ui label small" v-for="(var1, index) in aliyunSmsTemplateVars">
+								<input type="hidden" name="aliyunSmsTemplateVarNames" :value="var1.name"/>
+								<input type="hidden" name="aliyunSmsTemplateVarValues" :value="var1.value"/>
+								<em>{{var1.name}}</em>: {{var1.value}}
+								<a href="" @click.prevent="removeAliyunSmsTemplateVar(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<div v-if="aliyunSmsTemplateVarAdding" class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="aliyunSmsTemplateVarAddingName" v-model="aliyunSmsTemplateVarAddingName" placeholder="变量名" style="width:9em" @keyup.enter="confirmAddAliyunSmsTemplateVar" @keypress.enter.prevent="1"/>
+						</div>
+						<div class="ui field">
+							<input type="text" name="aliyunSmsTemplateVarAddingValue" v-model="aliyunSmsTemplateVarAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddAliyunSmsTemplateVar" @keypress.enter.prevent="1"/>
+						</div>
+						<div class="ui field">
+							<button class="ui button" type="button" @click="confirmAddAliyunSmsTemplateVar()">添加</button>
+						</div>
+						<div class="ui field">
+							<a href="" @click.prevent="cancelAliyunSmsTemplateVar()"><i class="icon remove"></i></a>
+						</div>
 					</div>
 					<div class="ui field">
-						<input type="text" name="aliyunSmsTemplateVarAddingValue" v-model="aliyunSmsTemplateVarAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddAliyunSmsTemplateVar" @keypress.enter.prevent="1"/>
+						<button class="ui button small" type="button" @click="addAliyunSmsTemplateVar()">+</button>
 					</div>
-					<div class="ui field">
-						<button class="ui button" type="button" @click="confirmAddAliyunSmsTemplateVar()">添加</button>
-					</div>
-					<div class="ui field">
-						<a href="" @click.prevent="cancelAliyunSmsTemplateVar()"><i class="icon remove"></i></a>
-					</div>
-				</div>
-				<div class="ui field">
-					<button class="ui button small" type="button" @click="addAliyunSmsTemplateVar()">+</button>
-				</div>
-				<p class="comment">模板中使用的变量，在变量中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>来代表接收人标识、标题和内容。</p>
-			</td>
-		</tr>
-		<tr>
-			<td>AccessKey ID *</td>
-			<td>
-				<input type="text" name="aliyunSmsAccessKeyId" maxlength="100" v-model="media.options.accessKeyId"/>
-				<p class="comment">在阿里云控制台中的访问控制中某个用户的AccessKey ID</p>
-			</td>
-		</tr>
-		<tr>
-			<td>AccessKey Secret *</td>
-			<td>
-				<input type="text" name="aliyunSmsAccessKeySecret" maxlength="100" v-model="media.options.accessKeySecret"/>
-				<p class="comment">在阿里云控制台中的访问控制中某个用户的AccessKey Secret，和上面的AccessKey ID匹配</p>
-			</td>
-		</tr>
+					<p class="comment">模板中使用的变量，在变量中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>来代表接收人标识、标题和内容。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessKey ID *</td>
+				<td>
+					<input type="text" name="aliyunSmsAccessKeyId" maxlength="100" v-model="media.options.accessKeyId"/>
+					<p class="comment">在阿里云控制台中的访问控制中某个用户的AccessKey ID</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessKey Secret *</td>
+				<td>
+					<input type="text" name="aliyunSmsAccessKeySecret" maxlength="100" v-model="media.options.accessKeySecret"/>
+					<p class="comment">在阿里云控制台中的访问控制中某个用户的AccessKey Secret，和上面的AccessKey ID匹配</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<!-- TeaOS云短信 -->
+		<tbody v-show="mediaType == 'teaSms'">
+			<tr>
+				<td>AccessId *</td>
+				<td>
+					<input type="text" name="teaSmsAccessId" maxlength="100" v-model="media.options.accessId"/>
+					<p class="comment"><a href="http://cloud.teaos.cn/apps" target="_blank">在TeaOS云App</a>中获取</p>
+				</td>
+			</tr>
+			<tr>
+				<td>AccessSecret *</td>
+				<td>
+					<input type="text" name="teaSmsAccessSecret" maxlength="100" v-model="media.options.accessSecret"/>
+					<p class="comment">在<a href="http://cloud.teaos.cn/apps" target="_blank">TeaOS云App</a>中获取</p>
+				</td>
+			</tr>
 		</tbody>
 
 		<tr>

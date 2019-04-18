@@ -63,10 +63,10 @@ telnet dysmsapi.aliyuncs.com 443
 ![aliyun-sms6.png](aliyun-sms6.png)
 
 这里要注意的是：
-* `签名名称` - 你审核通过的[签名名称](#添加签名)
-* `模板CODE` - 你审核通过的[模板Code](#添加模板)，在审核通过的模板列表中会有这个Code
-* `模板变量` - 因为我们上面申请模板时填写了两个变量`${agent}`和`${event}`，所以我们可以在这里设置这两个变量的值，分别为`${NoticeSubject}`和`${NoticeBody}`，当然你可以设置成别的内容，审核可以将`${NoticeSubject}`和`${NoticeBody}`颠倒过来都可以，因为他们只是变量，发通知时会被自动替换掉；你如果申请了别的变量，也同样可以在变量内容中插入`${NoticeSubject}`和`${NoticeBody}`。
-* `AccessKey ID`和`AccessKey Secret` - (填写获取的AccessKey的ID和Secret)[#获取accesskey]
+* `签名名称` - 你审核通过的[签名名称](#添加签名)；
+* `模板CODE` - 你审核通过的[模板Code](#添加模板)，在审核通过的模板列表中会有这个Code；
+* `模板变量` - 因为我们上面申请模板时填写了两个变量`${agent}`和`${event}`，所以我们可以在这里设置这两个变量的值，分别为`${NoticeSubject}`和`${NoticeBody}`，当然你可以设置成别的内容，甚至可以将`${NoticeSubject}`和`${NoticeBody}`颠倒过来都可以，因为他们只是变量，发通知时会被自动替换掉；同样的，如果你申请的短信模板中包含的是别的变量，也同样可以在变量内容中插入`${NoticeSubject}`和`${NoticeBody}`；
+* `AccessKey ID`和`AccessKey Secret` - (填写获取的AccessKey的ID和Secret)[#获取accesskey]。
 
 以上填写完整后点击"保存"即可添加成功。
 
