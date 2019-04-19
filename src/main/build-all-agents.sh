@@ -27,3 +27,7 @@ buildAgent
 export GOOS=windows
 export GOARCH=amd64
 buildAgent
+
+export GOOS=freebsd
+export GOARCH=amd64
+buildAgent
