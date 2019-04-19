@@ -201,6 +201,16 @@
 						<p class="comment">0表示不限制，内容长度从文件尺寸或Content-Length中获取。</p>
 					</td>
 				</tr>
+				<tr>
+					<td>自动跳转到HTTPS</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="redirectToHttps" value="1" v-model="location.redirectToHttps"/>
+							<label></label>
+						</div>
+						<p class="comment">开启后，所有HTTP的请求都会自动跳转到对应的HTTPS URL上。</p>
+					</td>
+				</tr>
                 <tr>
                     <td>是否启用</td>
                     <td colspan="3">

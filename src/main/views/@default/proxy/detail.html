@@ -152,6 +152,13 @@
 					<span v-if="server.shutdownPageOn">{{server.shutdownPage}}</span>
 				</td>
 			</tr>
+			<tr>
+				<td>自动跳转到HTTPS</td>
+				<td>
+					<span class="ui label tiny green" v-if="server.redirectToHttps">已开启</span>
+					<span class="ui label tiny" v-if="!server.redirectToHttps">未开启</span>
+				</td>
+			</tr>
 		</tbody>
     </table>
 </div>

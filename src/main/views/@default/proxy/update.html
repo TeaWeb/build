@@ -252,6 +252,16 @@
 						<p class="comment">开启临时关闭页面时，所有请求的响应都会显示此页面。可用于临时升级网站使用。页面文件是相对于TeaWeb目录的页面文件比如errors/40x.html，或者一个完整的URL。</p>
 					</td>
 				</tr>
+				<tr>
+					<td>自动跳转到HTTPS</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="redirectToHttps" value="1" v-model="server.redirectToHttps"/>
+							<label></label>
+						</div>
+						<p class="comment">开启后，所有HTTP的请求都会自动跳转到对应的HTTPS URL上。</p>
+					</td>
+				</tr>
 			</tbody>
         </table>
 
