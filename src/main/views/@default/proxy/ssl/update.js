@@ -48,7 +48,7 @@ Tea.context(function () {
     this.confirmAddListen = function () {
         this.addingListenName = this.addingListenName.trim();
         if (this.addingListenName.length == 0) {
-            alert("文件名不能为空");
+            alert("网络地址不能为空");
             this.$find("form input[name='addingListenName']").focus();
             return;
         }

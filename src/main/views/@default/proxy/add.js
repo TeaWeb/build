@@ -60,7 +60,7 @@ Tea.context(function () {
 	this.confirmAddName = function () {
 		this.addingNameName = this.addingNameName.trim();
 		if (this.addingNameName.length == 0) {
-			alert("文件名不能为空");
+			alert("域名不能为空");
 			this.$find("form input[name='addingNameName']").focus();
 			return;
 		}
@@ -111,7 +111,7 @@ Tea.context(function () {
 	this.confirmAddListen = function () {
 		this.addingListenName = this.addingListenName.trim();
 		if (this.addingListenName.length == 0) {
-			alert("文件名不能为空");
+			alert("绑定地址不能为空");
 			this.$find("form input[name='addingListenName']").focus();
 			return;
 		}
@@ -185,7 +185,7 @@ Tea.context(function () {
 	this.confirmAddBackend = function () {
 		this.addingBackendName = this.addingBackendName.trim();
 		if (this.addingBackendName.length == 0) {
-			alert("文件名不能为空");
+			alert("后端服务器地址不能为空");
 			this.$find("form input[name='addingBackendName']").focus();
 			return;
 		}

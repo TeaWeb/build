@@ -1,8 +1,16 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.info-box {
+    margin-top: 0.8em;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.08);
+    line-height: 1.8;
+    font-size: 0.9em;
 }

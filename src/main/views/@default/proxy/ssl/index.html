@@ -22,7 +22,11 @@
     <!-- HTTPS 设置 -->
     <h3>HTTPS <a :href="'/proxy/ssl/update?serverId=' + server.id">修改</a></h3>
 
-    <table class="ui table selectable definition">
+	<p class="ui message error" v-if="error.length > 0">
+		发生错误：{{error}}
+	</p>
+
+	<table class="ui table selectable definition">
         <tr>
             <td class="title">是否开启HTTPS</td>
             <td>
@@ -34,14 +38,21 @@
         <tr>
             <td>证书文件<em>(Certificate)</em></td>
             <td>
-                <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
+                <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span> &nbsp; <a :href="'/proxy/ssl/downloadCert?serverId=' + server.id" style="font-size:12px;" v-if="server.ssl != null && server.ssl.certificate.length > 0">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadCert?serverId=' + server.id + '&view=1'" style="font-size:12px;" target="_blank" v-if="server.ssl != null && server.ssl.certificate.length > 0" title="新窗口打开">[查看内容]</a>
                 <a class="disabled" v-if="server.ssl == null || server.ssl.certificate.length == 0">[还没有上传密钥文件]</a>
+
+				<div class="info-box" v-if="info.length > 0">
+					<div class="ui field" v-for="(row, index) in info">
+						<span :style="{'padding-left':(index * 20) + 'px' }"></span>{{row.subject}}
+						<span v-if="index == info.length - 1"><br/>有效期：{{row.before}} - {{row.after}}</span>
+					</div>
+				</div>
             </td>
         </tr>
         <tr>
             <td>密钥文件<em>(Key)</em></td>
             <td>
-                <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
+                <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>  &nbsp; <a :href="'/proxy/ssl/downloadKey?serverId=' + server.id" style="font-size:12px;" v-if="server.ssl != null && server.ssl.certificateKey.length > 0">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadKey?serverId=' + server.id + '&view=1'" style="font-size:12px;" target="_blank" v-if="server.ssl != null && server.ssl.certificateKey.length > 0" title="新窗口打开">[查看内容]</a>
                 <a class="disabled" v-if="server.ssl == null || server.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
             </td>
         </tr>

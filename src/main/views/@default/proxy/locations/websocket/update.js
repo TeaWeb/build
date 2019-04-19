@@ -30,7 +30,7 @@ Tea.context(function () {
     this.confirmAddOrigin = function () {
         this.addingOriginName = this.addingOriginName.trim();
         if (this.addingOriginName.length == 0) {
-            alert("文件名不能为空");
+            alert("域名不能为空");
             this.$find("form input[name='addingOriginName']").focus();
             return;
         }

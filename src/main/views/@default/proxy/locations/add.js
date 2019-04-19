@@ -92,7 +92,7 @@ Tea.context(function () {
 	this.confirmAddIndex = function () {
 		this.addingIndexName = this.addingIndexName.trim();
 		if (this.addingIndexName.length == 0) {
-			alert("文件名不能为空");
+			alert("首页文件名不能为空");
 			this.$find("form input[name='addingIndexName']").focus();
 			return;
 		}
