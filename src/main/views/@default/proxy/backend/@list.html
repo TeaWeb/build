@@ -36,7 +36,7 @@
 		</thead>
 		<tbody v-for="backend in normalBackends">
 			<tr>
-				<td colspan="5" style="font-size:12px;background:#f9fafb">
+				<td colspan="5" style="font-size:12px;background:#f9fafb;color:grey">
 					ID: {{backend.id}} <span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span> &raquo;
 				</td>
 			</tr>
@@ -89,7 +89,7 @@
 		</thead>
 		<tbody v-for="backend in backupBackends">
 		<tr>
-			<td colspan="5" style="font-size:12px;background:#f9fafb">
+			<td colspan="5" style="font-size:12px;background:#f9fafb;color:grey">
 				ID: {{backend.id}} <span v-if="backend.code.length > 0" class="ui label tiny">代号：{{backend.code}}</span> &raquo;
 			</td>
 		</tr>

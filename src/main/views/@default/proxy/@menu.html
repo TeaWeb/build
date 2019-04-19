@@ -1,5 +1,6 @@
 <div class="ui text menu blue">
-    <a :href="$url('/proxy/detail', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'basic'}"><i class="ui icon info circle small"></i>基本信息</a>
+	<span class="item" style="padding-right:0">全局：</span>
+    <a :href="$url('/proxy/detail', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'basic'}" style="padding-left:0"><i class="ui icon info circle small"></i>基本信息</a>
     <a :href="$url('/proxy/ssl', { 'serverId':server.id })" class="item green" :class="{active:selectedTab == 'https'}"><i class="ui icon expeditedssl small" :class="{green:server.ssl && server.ssl.on}"></i>HTTPS</a>
     <a :href="$url('/proxy/backend', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'backend'}"><i class="ui icon server small"></i>后端服务器({{server.backends.length}})</a>
     <a :href="$url('/proxy/locations', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'location'}"><i class="ui icon folder small"></i>路径规则({{server.locations.length}})</a>
