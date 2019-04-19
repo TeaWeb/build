@@ -43,11 +43,11 @@ function build() {
     fi
 
     # build main & plugin
-    go build -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
+    go build -ldflags="-s -w" -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
 
     if [ -d ${GOPATH}/src/github.com/TeaWeb/agent ]
     then
-        go build -o ${TARGET}/plugins/agent.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-plugin.go
+        go build -ldflags="-s -w" -o ${TARGET}/plugins/agent.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-plugin.go
     fi
 
     # restore plus
@@ -151,7 +151,7 @@ function buildAgent() {
 		cp ${GOPATH}/src/main/README_AGENT_LINUX.md ${TARGET}/README.md
     fi
 
-	go build -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
+	go build -ldflags="-s -w" -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
 
 	if [ ! -d "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}" ]
 	then
@@ -195,7 +195,7 @@ function buildAgentInstaller() {
 		rm -f ${GOPATH}/src/main/installers/*
 	fi
 
-	go build -o ${GOPATH}/src/main/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
+	go build -ldflags="-s -w" -o ${GOPATH}/src/main/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
 
 	echo "[done]"
 }

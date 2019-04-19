@@ -4,4 +4,4 @@
 
 export GOPATH=`pwd`/../../
 
-go run ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
+go run -ldflags="-s -w" ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
