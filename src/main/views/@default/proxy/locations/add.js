@@ -3,7 +3,7 @@ Tea.context(function () {
 
 	this.showSpeical = false;
 	this.pattern = "";
-	this.type = 2;
+	this.type = 1;
 	this.root = "";
 	this.charset = "";
 	this.indexes = [];
