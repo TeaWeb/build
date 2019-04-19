@@ -40,7 +40,6 @@
 * `${requestURI}` - 请求URI
 * `${requestPath}` - 请求路径（不包括参数）
 * `${requestLength}` - 请求内容长度
-* `${requestTime}` - 请求花费时间
 * `${requestMethod}` - 请求方法
 * `${requestFilename}` - 请求文件路径
 * `${scheme}` - 请求协议，`http`或`https`
@@ -55,14 +54,15 @@
 * `${referer}` - 请求来源URL
 * `${userAgent}` - 客户端信息
 * `${contentType}` - 请求头部的Content-Type
-* `${cookies}` - 所有cookie
+* `${cookies}` - 所有cookie组合字符串
 * `${cookie.NAME}` - 单个cookie值
-* `${args}` - 所有参数
+* `${args}` - 所有参数组合字符串
 * `${arg.NAME}` - 单个参数值
-* `${headers}` - 所有Header信息
+* `${headers}` - 所有Header信息组合字符串
 * `${header.NAME}` - 单个Header值
 
 ## 响应相关变量
+* `${requestTime}` - 请求花费时间
 * `${bytesSent}` - 发送的内容长度，包括Header（字节）
 * `${bodyBytesSent}` - 发送的内容长度，不包括Header（字节）
 * `${status}` - 状态码，比如`200`
