@@ -304,6 +304,17 @@ body.expanded .main {
     padding-left: 0.3em;
 }
 
+@media screen and (max-width: 512px) {
+    .main .tab-menu {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .main .tab-menu::-webkit-scrollbar {
+        height: 4px;
+    }
+}
+
 .main .go-top-btn {
     position: fixed;
     right: 2.6em;
@@ -322,16 +333,26 @@ body.expanded .main {
     width: 12.5em;
     top: 4em;
     bottom: 2.8em;
-    overflow-y: auto;
 }
 
-.sub-menu::-webkit-scrollbar {
+.sub-menu .menus-box {
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-right: 0.4em!important;
+}
+
+.sub-menu .menus-box::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
 
 .sub-menu .menu {
-    max-width: 12.1em !important;
+    max-width: 12em !important;
+    border-right: 0 !important;
 }
 
 @media screen and (max-width: 512px) {
@@ -342,12 +363,16 @@ body.expanded .main {
         top: 0;
     }
 
+    .sub-menu .menus-box {
+        position: relative !important;
+    }
+
     .sub-menu .menu {
         width: 100% !important;
         max-width: 30em !important;
     }
 
-    .sub-menu .menu .item {
+    .sub-menu .menus-box .menu .item {
         width: 100% !important;
         max-width: 30em !important;
     }
@@ -382,24 +407,24 @@ body.expanded .main {
     color: grey;
 }
 
-.sub-menu .menu .item.header {
+.sub-menu .menus-box .menu .item.header {
     padding-right: 0.2em !important;
     cursor: pointer;
 }
 
-.sub-menu .menu .item.header span {
+.sub-menu .menus-box .menu .item.header span {
     font-weight: normal;
     color: grey;
     font-size: 0.8em;
 }
 
-.sub-menu .menu a {
+.sub-menu .menus-box .menu a {
     display: block;
     word-break: break-all;
     line-height: 1.6 !important;
 }
 
-.sub-menu .menu .item .menu {
+.sub-menu .menus-box .menu .item .menu {
     margin-top: 0 !important;
 }
 
@@ -409,6 +434,15 @@ body.expanded .main {
 
 .sub-menu .fourth-menu .icon, .sub-menu .third-menu .icon {
     float: left !important;
+}
+
+.sub-menu .operations-box {
+    position: absolute;
+    z-index: 100;
+    bottom: 0;
+    background: white;
+    left: 0.3em;
+    right: 0.2em;
 }
 
 /** 右侧文本子菜单 **/

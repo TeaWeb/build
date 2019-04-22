@@ -1,0 +1,17 @@
+.table .label.tiny {
+    padding: 4px;
+    font-size: 0.6em;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd!important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
+}

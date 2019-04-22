@@ -1,0 +1,26 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+	<input type="hidden" name="wafId" :value="config.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">分组名称</td>
+			<td>
+				<input type="text" name="name" maxlength="100"/>
+				<p class="comment">给分组起一个容易识别的名称</p>
+			</td>
+		</tr>
+		<tr>
+			<td>是否启用</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="on" value="1" checked="checked"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="'/proxy/waf/rules?wafId=' + config.id">返回</a>
+</form>

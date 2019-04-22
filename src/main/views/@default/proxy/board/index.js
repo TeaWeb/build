@@ -62,7 +62,7 @@ Tea.context(function () {
 	 * 左侧菜单排序
 	 */
 	this.serversSortable = function () {
-		var box = this.$find(".sub-menu div")[0];
+		var box = this.$find(".sub-menu .menus-box div")[0];
 		var that = this;
 		Sortable.create(box, {
 			draggable: "a.item.sortable",

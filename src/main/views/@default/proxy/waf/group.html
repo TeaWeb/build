@@ -1,0 +1,62 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<h3>分组</h3>
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">名称</td>
+		<td>{{group.name}}</td>
+	</tr>
+	<tr>
+		<td>启用状态</td>
+		<td>
+			<span v-if="group.on" class="ui label tiny green">启用</span>
+			<span v-if="!group.on" class="ui label tiny">停用</span>
+		</td>
+	</tr>
+</table>
+
+<h3 style="padding-top:0.8em">规则集<a :href="'/proxy/waf/group/rule/add?wafId=' + config.id + '&groupId=' + group.id">添加规则集</a> </h3>
+<p class="comment" v-if="sets.length == 0">暂时还没有规则。</p>
+<table class="ui table selectable" id="sets-table" v-if="sets.length > 0">
+	<thead>
+		<tr>
+			<th style="width:3em"></th>
+			<th>规则集名称</th>
+			<th>规则</th>
+			<th>关系</th>
+			<th>动作</th>
+			<th class="three op">操作</th>
+		</tr>
+	</thead>
+	<tbody v-for="set in sets">
+		<tr>
+			<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
+			<td>{{set.name}}
+				<p>
+					<span v-if="set.on" class="ui label tiny green" style="padding:4px;font-size:0.6em">启用</span>
+					<span v-if="!set.on" class="ui label tiny" style="padding:4px;font-size:0.6em">停用</span>
+				</p>
+			</td>
+			<td>
+				<div v-for="rule in set.rules" style="margin-top: 0.2em;margin-bottom:0.2em">
+					<span class="ui label tiny">{{rule.param}} <var>{{rule.operator}}</var> {{rule.value}}</span>
+				</div>
+				<span class="ui disabled" v-if="set.rules.length == 0">暂时还没有规则</span>
+			</td>
+			<td>{{set.connector}}</td>
+			<td>{{set.action}}</td>
+			<td>
+				<a :href="'/proxy/waf/group/rule/update?wafId=' + config.id + '&groupId=' + group.id + '&setId=' + set.id">修改</a> &nbsp; <a href="" @click.prevent="disableRule(set.id)" v-if="set.on">停用</a><a href="" @click.prevent="enableRule(set.id)" v-if="!set.on">启用</a> &nbsp; <a href="" @click.prevent="deleteRule(set.id)">删除</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="comment" v-if="sets.length > 1">所有规则匹配顺序为从上到下，可以拖动左侧的<i class="icon bars"></i>排序。</p>

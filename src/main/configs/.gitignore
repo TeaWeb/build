@@ -1,2 +1,5 @@
 notice.conf
 serverlist.conf
+waflist.conf
+waf.*
+admin.conf

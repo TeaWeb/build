@@ -1,0 +1,19 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<h3>详情 <a :href="'/proxy/waf/update?wafId=' + config.id">修改</a></h3>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td class="title">名称</td>
+		<td>{{config.name}}</td>
+	</tr>
+	<tr>
+		<td>内置规则分组</td>
+		<td>
+			<span v-for="group in groups" v-if="group.isChecked" class="ui label tiny">{{group.name}}</span>
+			<span v-if="!hasInternalGroups" class="disabled">暂时还没有选择内置的规则分组</span>
+		</td>
+	</tr>
+</table>

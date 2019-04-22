@@ -1,0 +1,27 @@
+{$layout}
+{$template "menu"}
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" style="margin-top:1em">
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">名称 *</td>
+			<td>
+				<input type="text" name="name" maxlength="100"/>
+				<p class="comment">给策略起一个容易识别的名字</p>
+			</td>
+		</tr>
+		<tr>
+			<td>内置规则分组</td>
+			<td>
+				<div class="groups-box">
+					<div class="ui checkbox" v-for="group in groups">
+						<input type="checkbox" name="groupCodes" :value="group.code" :id="'group-checkbox-' + group.code" checked="checked"/>
+						<label :for="'group-checkbox-' + group.code">{{group.name}}</label>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+</form>

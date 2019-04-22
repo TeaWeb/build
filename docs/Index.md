@@ -27,6 +27,7 @@
   * 统计
   * [缓存](cache/Index.md)
      * [清除缓存指令](cache/PurgeAPI.md)
+  * WAF
   * [内置变量](proxy/Variables.md)
   * [前端代理](proxy/Frontend.md)
      * [Nginx](proxy/Nginx.md)

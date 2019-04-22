@@ -1,0 +1,127 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<h3>修改规则集</h3>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="rule-form">
+	<input type="hidden" name="wafId" :value="config.id"/>
+	<input type="hidden" name="groupId" :value="group.id"/>
+	<input type="hidden" name="setId" :value="set.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">分组</td>
+			<td><a :href="'/proxy/waf/group?wafId=' + config.id + '&groupId=' + group.id">{{group.name}}</a></td>
+		</tr>
+		<tr>
+			<td>规则集名称</td>
+			<td>
+				<input type="text" name="name" maxlength="100" v-model="set.name"/>
+			</td>
+		</tr>
+		<tr>
+			<td>规则</td>
+			<td>
+				<div v-if="rules.length > 0" class="rules-box">
+					<div v-for="(rule, index) in rules" class="ui label small" :class="{blue:ruleIndex == index}">
+						<input type="hidden" name="rulePrefixes" :value="rule.checkpoint.prefix"/>
+						<input type="hidden" name="ruleParams" :value="rule.param"/>
+						<input type="hidden" name="ruleOperators" :value="rule.operator.code"/>
+						<input type="hidden" name="ruleValues" :value="rule.value"/>
+						{{rule.checkpoint.name}}[${<span v-if="rule.param.length > 0">{{rule.checkpoint.prefix}}.{{rule.param}}</span><span v-if="rule.param.length == 0">{{rule.checkpoint.prefix}}</span>}] <var>{{rule.operator.code}}</var> {{rule.value}}
+						&nbsp;<a href="" title="修改" @click.prevent="editRule(index)"><i class="icon pencil small"></i></a>
+						<a href="" title="删除" @click.prevent="removeRule(index)"><i class="icon remove small"></i> </a>
+					</div>
+				</div>
+				<div style="margin-bottom:1em" v-if="isAddingRule">
+					<table class="ui table">
+						<tr>
+							<td style="width:8em">参数</td>
+							<td>
+								<select class="ui dropdown" @change="changeCheckpoint()" v-model="checkpointPrefix" style="width:10em">
+									<option value="">[选择参数]</option>
+									<option v-for="cp in checkpoints" :value="cp.prefix">{{cp.name}}</option>
+								</select>
+								<p class="comment" v-if="checkpoint != null">{{checkpoint.description}}</p>
+							</td>
+						</tr>
+						<tr v-if="checkpoint != null && checkpoint.hasParams">
+							<td>参数名</td>
+							<td>
+								<input type="text" maxlength="100" v-model="checkpointParam"/>
+							</td>
+						</tr>
+						<tr>
+							<td>操作符</td>
+							<td>
+								<select class="ui dropdown" style="width:10em" v-model="operatorCode" @change="changeOperator()">
+									<option v-for="op in operators" :value="op.code">{{op.name}}</option>
+								</select>
+								<p class="comment" v-if="operator != null">{{operator.description}}</p>
+							</td>
+						</tr>
+						<tr>
+							<td>对比值</td>
+							<td>
+								<textarea rows="3" maxlength="4096" v-model="value"></textarea>
+							</td>
+						</tr>
+					</table>
+					<button class="ui button tiny" type="button" @click.prevent="confirmAdding()">保存</button> &nbsp; &nbsp;
+					<a href="" @click.prevent="cancelAdding()">取消</a>
+				</div>
+
+				<button class="ui button tiny" type="button" @click.prevent="addRule()">+</button>
+			</td>
+		</tr>
+		<tr>
+			<td>规则之间的关系</td>
+			<td>
+				<select class="ui dropdown" name="connector" style="width:10em" @change="changeConnector()" v-model="connectorValue">
+					<option v-for="connector in connectors" :value="connector.value">{{connector.name}}</option>
+				</select>
+				<p class="comment">{{connectorDescription}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td>动作</td>
+			<td>
+				<select class="ui dropdown" name="action" v-model="action" style="width:10em">
+					<option v-for="a in actions" :value="a.code">{{a.name}}</option>
+				</select>
+			</td>
+		</tr>
+		<tr v-if="testParams.length > 0">
+			<td>规则测试</td>
+			<td>
+				<a href="" @click.prevent="showTestForm()">测试表单<i class="icon angle" :class="{up:testVisible,down:!testVisible}"></i> </a>
+				<div v-if="testVisible == true" style="margin-top:0.6em">
+					<table class="ui table">
+						<tr v-for="(param, index) in testParams" :class="{error:(index == matchedIndex || index == breakIndex || (matchedIndex > -1 && connectorValue == 'and')) && action == 'block', positive:(index == matchedIndex || index == breakIndex || (matchedIndex > -1 && connectorValue == 'and')) && action != 'block'}">
+							<td class="title">{{param.name}}<em v-if="param.param.length > 0">({{param.param}})</em></td>
+							<td>
+								<input type="hidden" name="testPrefixes" :value="param.prefix"/>
+								<input type="hidden" name="testParams" :value="param.param"/>
+								<textarea rows="3" placeholder="输入被测试数据" name="testValues"></textarea>
+								<p class="comment">{{param.description}}</p>
+							</td>
+						</tr>
+					</table>
+					<p class="ui message negative" v-if="isTested && matchedIndex == -1">未通过规则测试，停止在{{breakIndex+1}}项</p>
+					<p class="ui message positive" v-if="isTested && matchedIndex > -1 && connectorValue == 'or'">通过规则测试，停止在第{{matchedIndex+1}}项</p>
+					<p class="ui message positive" v-if="isTested && matchedIndex > -1 && connectorValue == 'and'">通过规则测试，停止在第{{matchedIndex+1}}项</p>
+
+					<button class="ui button tiny" type="button" @click.prevent="test()">提交测试</button> &nbsp; <a href="" @click.prevent="showTestForm()">取消</a>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+	&nbsp; <a :href="'/proxy/waf/group?wafId=' + config.id + '&groupId=' + group.id">返回</a>
+</form>

@@ -1,0 +1,46 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<a :href="'/proxy/waf/group/add?wafId=' + config.id">[添加分组]</a>
+
+<p class="comment" v-if="groups.length == 0">暂时还没有规则分组。</p>
+
+<table class="ui table selectable" v-if="groups.length > 0" id="groups-table">
+	<thead>
+		<tr>
+			<th style="width:3em"></th>
+			<th>分组名称</th>
+			<th>规则集</th>
+			<th class="three op">操作</th>
+		</tr>
+	</thead>
+	<tbody  v-for="group in groups">
+		<tr>
+			<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
+			<td>{{group.name}}
+				<p>
+					<span v-if="group.on" class="ui label tiny green">启用</span>
+					<span v-if="!group.on" class="ui label tiny">停用</span>
+					<span v-if="group.code.length > 0" class="ui label tiny">内置</span>
+					<span v-if="group.code.length == 0" class="ui label tiny">自定义</span>
+				</p>
+			</td>
+			<td>
+				<a :href="'/proxy/waf/group?wafId=' + config.id + '&groupId=' + group.id">{{group.countRuleSets}}</a>
+			</td>
+			<td>
+				<a :href="'/proxy/waf/group?wafId=' + config.id + '&groupId=' + group.id">详情</a> &nbsp;
+				<a href="" v-if="!group.on" @click.prevent="enableGroup(group.id)">启用</a><a href="" v-if="group.on" @click.prevent="disableGroup(group.id)">停用</a> &nbsp;
+				<a href="" @click.prevent="deleteGroup(group.id)">删除</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="comment" v-if="groups.length > 1">所有规则匹配顺序为从上到下，可以拖动左侧的<i class="icon bars"></i>排序。</p>

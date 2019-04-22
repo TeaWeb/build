@@ -54,7 +54,7 @@ Tea.context(function () {
 	 */
 	this.agentsSortable = function () {
 		var that = this;
-		this.$find(".sub-menu div").each(function (k, box) {
+		this.$find(".sub-menu .menus-box div").each(function (k, box) {
 			var items = Tea.element(box).find("a.item.sortable");
 			Sortable.create(box, {
 				draggable: "a.item.sortable",
