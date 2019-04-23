@@ -1,0 +1,56 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+	<i class="exclamation circle icon large"></i>
+	代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<link rel="stylesheet" href="/_/@default/proxy/@global.css"/>
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+	{$template "/proxy/menu"}
+	{$template "menu"}
+</div>
+
+<p class="comment" v-if="wafList.length == 0">暂时还没有可以使用的WAF。</p>
+<div v-if="wafList.length > 0" style="margin-top:1em">
+	<table v-if="location.wafId.length == 0 && !formVisible" class="ui table definition selectable">
+		<tr>
+			<td class="title">WAF策略</td>
+			<td><span v-if="!location.wafOn">[不使用WAF]</span><span v-if="location.wafOn">[继承父级设置]</span>，<a href="" @click.prevent="showForm()">设置</a> </td>
+		</tr>
+	</table>
+
+	<table v-if="location.wafId.length > 0 && !formVisible" class="ui table definition selectable">
+		<tr>
+			<td class="title">WAF策略</td>
+			<td><a :href="'/proxy/waf/detail?wafId=' + waf.id">{{waf.name}}</a>
+				&nbsp; <a href="" style="font-size: 0.8em;" @click.prevent="updateWAF()">[修改]</a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<form class="ui form" style="margin-top:1em" v-show="formVisible" data-tea-action=".waf.update" data-tea-success="submitSuccess">
+	<input type="hidden" name="serverId" :value="server.id"/>
+	<input type="hidden" name="locationId" :value="location.id"/>
+	<table class="ui table definition selectable" v-if="wafList.length > 0">
+		<tr>
+			<td class="title">WAF策略</td>
+			<td>
+				<select class="ui dropdown" name="wafId" v-model="wafId" style="width:10em">
+					<option value="">[不使用WAF]</option>
+					<option value="none">[继承父级设置]</option>
+					<option v-for="waf in wafList" :value="waf.id">{{waf.name}}</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">保存</button> &nbsp;
+	<a href="" @click.prevent="cancelForm()">取消</a>
+</form>

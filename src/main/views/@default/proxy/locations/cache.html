@@ -19,7 +19,7 @@
 
 	<form class="ui form" style="margin-top: 1em">
 		<p class="grey" v-if="cachePolicyList.length == 0">暂时还没有可选的缓存策略</p>
-		<div v-if="cachePolicyList.length > 0">
+		<div v-if="cachePolicyList.length > 0 && !cacheEditing">
 			<table class="ui table selectable definition">
 				<tr>
 					<td class="title">缓存策略</td>
