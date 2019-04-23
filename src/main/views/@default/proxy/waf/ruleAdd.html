@@ -26,7 +26,7 @@
 		<tr>
 			<td>规则</td>
 			<td>
-				<div v-if="rules.length > 0" class="rules-box">
+				<div v-show="rules.length > 0" class="rules-box">
 					<div v-for="(rule, index) in rules" class="ui label small" :class="{blue:ruleIndex == index}">
 						<input type="hidden" name="rulePrefixes" :value="rule.checkpoint.prefix"/>
 						<input type="hidden" name="ruleParams" :value="rule.param"/>
@@ -76,6 +76,7 @@
 				</div>
 
 				<button class="ui button tiny" type="button" @click.prevent="addRule()">+</button>
+				<p class="comment" v-if="rules.length > 0">可以拖动排序</p>
 			</td>
 		</tr>
 		<tr>

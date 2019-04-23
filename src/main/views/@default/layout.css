@@ -342,7 +342,7 @@ body.expanded .main {
     bottom: 0;
     right: 0;
     left: 0;
-    padding-right: 0.4em!important;
+    padding-right: 0.4em !important;
 }
 
 .sub-menu .menus-box::-webkit-scrollbar {
@@ -561,6 +561,10 @@ label[for] {
     cursor: pointer !important;
 }
 
+label.blue {
+    color: #2185d0 !important;
+}
+
 /** Menu **/
 .first-menu .menu.text {
     margin-top: 0 !important;
@@ -577,10 +581,19 @@ label[for] {
     margin-bottom: 0 !important;
 }
 
+.second-menu .menu.text em {
+    font-style: normal;
+}
+
 .second-menu .divider {
     margin-top: 0 !important;
 }
 
 .menu a {
     outline: none;
+}
+
+/** var **/
+span.olive, var.olive {
+    color: #b5cc18 !important;
 }

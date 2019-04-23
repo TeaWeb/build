@@ -1,0 +1,23 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<p class="comment" v-if="groups.length == 0">暂时还没有可以导出的WAF规则集。</p>
+
+<form class="ui form" v-show="groups.length > 0">
+	<p class="comment" style="padding-top:0">导出WAF规则集：</p>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">规则分组</td>
+			<td>
+				<div class="groups-box">
+					<div class="ui checkbox" v-for="group in groups">
+						<input type="checkbox" name="groupIds" :value="group.id" :id="'group-checkbox-' + group.id" checked="checked"/>
+						<label :for="'group-checkbox-' + group.id">{{group.name}} <span>- {{group.countSets}}规则集</span></label>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="button" @click.prevent="exportWaf()">导出</button>
+</form>

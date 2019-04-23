@@ -1,0 +1,9 @@
+.groups-box .checkbox {
+    margin-bottom: 1.2em;
+    display: block;
+}
+
+.groups-box .checkbox label span {
+    font-size: 0.9em !important;
+    color: rgba(0, 0, 0, 0.45) !important;
+}

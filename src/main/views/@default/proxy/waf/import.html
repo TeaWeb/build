@@ -1,0 +1,67 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<p class="comment" style="padding-top:0">导入WAF规则集：</p>
+
+<div class="ui steps fluid tiny">
+	<div class="ui step" :class="{active:step == 'file'}">
+		<div class="content">
+			<div class="title">选择文件</div>
+		</div>
+	</div>
+	<div class="ui step" :class="{active:step == 'groups'}">
+		<div class="content">
+			<div class="title">选择分组</div>
+		</div>
+	</div>
+	<div class="ui step" :class="{active:step == 'finish'}">
+		<div class="content">
+			<div class="title">完成</div>
+		</div>
+	</div>
+</div>
+
+<!-- 选择文件 -->
+<form class="ui form" data-tea-action="$" data-tea-success="fileSuccess" v-show="step == 'file'">
+	<input type="hidden" name="step" value="file"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">选择规则集文件</td>
+			<td>
+				<label for="file" class="blue" v-if="file.length == 0">点此选择文件</label>
+				<label for="file" class="blue" v-if="file.length > 0">{{file}}</label>
+				<input type="file" name="file" id="file" @change="changeFile" style="display: none"/>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">下一步</button>
+</form>
+
+<!-- 分组 -->
+<form class="ui form" data-tea-action="$" data-tea-success="groupsSuccess" v-show="step == 'groups'">
+	<input type="hidden" name="wafId" :value="config.id"/>
+	<input type="hidden" name="step" value="groups"/>
+	<input type="hidden" name="data" :value="fileData"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">选择规则分组</td>
+			<td>
+				<div class="groups-box">
+					<div class="ui checkbox" v-for="group in groups">
+						<input type="checkbox" name="groupIds" :value="group.id" :id="'group-checkbox-' + group.id" checked="checked"/>
+						<label :for="'group-checkbox-' + group.id">{{group.name}} <span>- {{group.countSets}}规则集</span></label>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">确定导入</button> &nbsp; &nbsp; <a href="" @click.prevent="goFile()">上一步</a>
+</form>
+
+<!-- 结束 -->
+<div v-show="step == 'finish'">
+	<p class="ui message green" style="font-weight: normal;">
+		<i class="icon checkmark circle"></i> 成功导入{{countGroups}}个分组，{{countSets}}个规则集，<a :href="'/proxy/waf/rules?wafId=' + config.id">现在去查看 &raquo;</a>
+	</p>
+</div>

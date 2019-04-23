@@ -7,7 +7,7 @@
 <script type="text/javascript" src="/js/sortable.min.js"></script>
 {$end}
 
-<h3>分组</h3>
+<h3>分组<a :href="'/proxy/waf/group/update?wafId=' + config.id + '&groupId=' + group.id">修改</a></h3>
 <table class="ui table selectable definition">
 	<tr>
 		<td class="title">名称</td>
@@ -45,8 +45,8 @@
 				</p>
 			</td>
 			<td>
-				<div v-for="rule in set.rules" style="margin-top: 0.2em;margin-bottom:0.2em">
-					<span class="ui label tiny">{{rule.param}} <var>{{rule.operator}}</var> {{rule.value}}</span>
+				<div v-for="rule in set.rules" style="margin-top: 0.4em;margin-bottom:0.4em">
+					<span class="ui label tiny">{{rule.name}}[{{rule.param}}] <var>{{rule.operator}}</var> {{rule.value}}</span>
 				</div>
 				<span class="ui disabled" v-if="set.rules.length == 0">暂时还没有规则</span>
 			</td>

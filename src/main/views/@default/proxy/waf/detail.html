@@ -16,4 +16,11 @@
 			<span v-if="!hasInternalGroups" class="disabled">暂时还没有选择内置的规则分组</span>
 		</td>
 	</tr>
+	<tr>
+		<td>是否启用</td>
+		<td>
+			<span class="ui label tiny green" v-if="config.on">启用</span>
+			<span class="ui label tiny" v-if="!config.on">停用</span>
+		</td>
+	</tr>
 </table>

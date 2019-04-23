@@ -1,6 +1,7 @@
 Tea.context(function () {
 	this.$delay(function () {
 		this.$find("input[name='name']").focus();
+		this.sortable();
 	});
 
 	this.submitSuccess = function () {
@@ -91,6 +92,7 @@ Tea.context(function () {
 	this.removeRule = function (index) {
 		this.rules.$remove(index);
 		this.ruleIndex = -1;
+		this.isAddingRule = false;
 		this.refreshTestParams();
 	};
 
@@ -193,5 +195,22 @@ Tea.context(function () {
 					console.log(v);
 				});
 			});
+	};
+
+	/**
+	 * 拖动排序
+	 */
+	this.sortable = function () {
+		var box = this.$find(".rules-box")[0];
+		var that = this;
+		Sortable.create(box, {
+			draggable: ".label",
+			handle: ".label",
+			onStart: function () {
+
+			},
+			onUpdate: function (event) {
+			}
+		});
 	};
 });

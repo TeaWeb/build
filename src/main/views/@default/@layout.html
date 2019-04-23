@@ -74,7 +74,7 @@
 			<div class="operations-box">
 				<div class="ui divider"></div>
 				<div class="ui secondary menu vertical borderless blue pointing" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
-					<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
+					<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><sup v-if="item.supName.length > 0">&nbsp; {{item.supName}}</sup><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
 					</a>
 				</div>
 			</div>

@@ -1,0 +1,53 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<div class="ui steps tiny fluid">
+	<div class="ui step" :class="{active:step == 'data'}" @click.prevent="goStep('data')">
+		<div class="content">
+			<div class="title">测试数据</div>
+		</div>
+	</div>
+	<div class="ui step" :class="{active:step == 'result'}" @click.prevent="goStep('result')">
+		<div class="content">
+			<div class="title">测试结果</div>
+		</div>
+	</div>
+</div>
+
+<div v-show="step == 'data'">
+	<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="data-form">
+		<input type="hidden" name="wafId" :value="config.id"/>
+		<p class="comment" style="padding-top:0" v-if="params.length == 0">暂时还没有可以测试的数据。</p>
+		<table class="ui table definition selectable" v-if="params.length > 0">
+			<tr v-for="param in params">
+				<td class="title">{{param.checkpoint}}<br/><span v-if="param.fullParam.length > 0" style="font-weight: normal;font-size:0.9em;color:grey">{{param.fullParam}}</span></td>
+				<td>
+					<input type="hidden" name="params" :value="param.fullParam"/>
+					<textarea name="values" rows="3"></textarea>
+				</td>
+			</tr>
+		</table>
+
+		<button class="ui button primary" type="submit">下一步</button>
+	</form>
+</div>
+
+<div v-show="step == 'result'">
+	<span v-if="matched" :class="{red:action == 'BLOCK',green:action != 'BLOCK'}">匹配结果：匹配了规则集"{{setName}}" &nbsp; 动作：{{action}}</span>
+	<span v-if="!matched" class="grey">匹配结果：没有匹配的规则集</span>
+
+	<table class="ui table selectable" v-if="result.length > 0">
+		<thead>
+			<tr>
+				<th colspan="2">匹配过程</th>
+			</tr>
+		</thead>
+		<tr v-for="(row, index) in result">
+			<td><span :class="{red:index == result.length - 1 && action.length > 0 && action == 'BLOCK', green:index == result.length - 1 && action.length > 0 && action != 'BLOCK'}">{{row}}</span></td>
+			<td style="width:3em">
+				<i v-if="action.length > 0 && index == result.length - 1" class="icon circle small" :class="{red:action.length > 0 && action == 'BLOCK', green:action.length > 0 && action != 'BLOCK'}"></i>
+			</td>
+		</tr>
+	</table>
+</div>

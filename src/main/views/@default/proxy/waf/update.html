@@ -23,6 +23,15 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td>是否启用</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="on" value="1" v-model="config.on"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
 	</table>
 
 	<button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="'/proxy/waf/detail?wafId=' + config.id">返回</a>
