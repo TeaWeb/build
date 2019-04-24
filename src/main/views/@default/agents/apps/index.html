@@ -3,6 +3,7 @@
 <div class="ui text basic menu blue">
     <a :href="'/agents/apps?agentId=' + agentId" class="item active">Apps</a>
     <a :href="'/agents/apps/add?agentId=' + agentId"  class="item">添加App</a>
+	<a href="" class="item" v-if="!hasSystemApp" @click.prevent="addSystemApp()">添加系统App</a>
 </div>
 <div class="ui divider"></div>
 
@@ -40,4 +41,5 @@
         </td>
     </tr>
 </table>
+
 
