@@ -7,7 +7,7 @@
 <script type="text/javascript" src="/js/sortable.min.js"></script>
 {$end}
 
-<a :href="'/proxy/waf/group/add?wafId=' + config.id">[添加分组]</a>
+<a :href="'/proxy/waf/group/add?wafId=' + config.id + '&inbound=' + (inbound ? 1 : 0)">[添加分组]</a>
 
 <p class="comment" v-if="groups.length == 0">暂时还没有规则分组。</p>
 

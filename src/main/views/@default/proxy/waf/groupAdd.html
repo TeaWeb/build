@@ -4,6 +4,7 @@
 
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
 	<input type="hidden" name="wafId" :value="config.id"/>
+	<input type="hidden" name="inbound" :value="inbound ? 1 : 0"/>
 	<table class="ui table definition selectable">
 		<tr>
 			<td class="title">分组名称</td>

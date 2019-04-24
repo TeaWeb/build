@@ -83,6 +83,11 @@
 						<td>缓存策略：{{log.attrs['cache.policy.name']}}</td>
 						<td>缓存类型：{{log.attrs['cache.policy.type']}}</td>
 					</tr>
+					<tr v-if="log.attrs != null && log.attrs['waf.action'] != null && log.attrs['waf.action'].length > 0">
+						<td>WAF动作：{{log.attrs['waf.action']}}</td>
+						<td>WAF规则集：{{log.attrs['waf.ruleset']}}</td>
+					</tr>
+
 					<tbody v-if="log.errors != null && log.errors.length > 0">
 						<tr>
 							<td colspan="4"><strong>详细错误信息：</strong></td>

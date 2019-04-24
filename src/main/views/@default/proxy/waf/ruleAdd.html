@@ -42,17 +42,20 @@
 						<tr>
 							<td style="width:8em">参数</td>
 							<td>
-								<select class="ui dropdown" @change="changeCheckpoint()" v-model="checkpointPrefix" style="width:10em">
+								<select class="ui dropdown" @change="changeCheckpoint()" v-model="checkpointPrefix" style="width:22em">
 									<option value="">[选择参数]</option>
-									<option v-for="cp in checkpoints" :value="cp.prefix">{{cp.name}}</option>
+									<option v-for="cp in checkpoints" :value="cp.prefix">{{cp.name}} - [ {{cp.prefix}}]</option>
 								</select>
-								<p class="comment" v-if="checkpoint != null">{{checkpoint.description}}</p>
+								<p class="comment" v-if="checkpoint != null"><span class="ui label tiny">${<em style="font-style: normal;">{{checkpoint.prefix}}</em>}</span>{{checkpoint.description}}</p>
 							</td>
 						</tr>
 						<tr v-if="checkpoint != null && checkpoint.hasParams">
 							<td>参数名</td>
 							<td>
-								<input type="text" maxlength="100" v-model="checkpointParam"/>
+								<select v-model="checkpointParam" class="ui dropdown" style="width:10em" v-if="checkpoint.paramOptions != null">
+									<option v-for="o in checkpoint.paramOptions.options" :value="o.value">{{o.name}}</option>
+								</select>
+								<input type="text" maxlength="100" v-model="checkpointParam" v-if="checkpoint.paramOptions == null"/>
 							</td>
 						</tr>
 						<tr>
@@ -92,7 +95,7 @@
 			<td>动作</td>
 			<td>
 				<select class="ui dropdown" name="action" v-model="action" style="width:10em">
-					<option v-for="a in actions" :value="a.code">{{a.name}}</option>
+					<option v-for="a in actions" :value="a.code">{{a.name}}（{{a.code.toUpperCase()}}）</option>
 				</select>
 			</td>
 		</tr>

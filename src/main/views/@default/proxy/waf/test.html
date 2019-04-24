@@ -2,6 +2,11 @@
 {$template "menu"}
 {$template "detail_menu"}
 
+<div class="category-box">
+	<a :href="'/proxy/waf/test?wafId=' + config.id + '&inbound=1'" :class="{active:inbound}">[入站测试]</a> &nbsp; &nbsp;
+	<a :href="'/proxy/waf/test?wafId=' + config.id + '&inbound=0'" :class="{active:!inbound}">[出站测试]</a>
+</div>
+
 <div class="ui steps tiny fluid">
 	<div class="ui step" :class="{active:step == 'data'}" @click.prevent="goStep('data')">
 		<div class="content">
@@ -18,6 +23,7 @@
 <div v-show="step == 'data'">
 	<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="data-form">
 		<input type="hidden" name="wafId" :value="config.id"/>
+		<input type="hidden" name="inbound" :value="inbound ? 1 : 0"/>
 		<p class="comment" style="padding-top:0" v-if="params.length == 0">暂时还没有可以测试的数据。</p>
 		<table class="ui table definition selectable" v-if="params.length > 0">
 			<tr v-for="param in params">

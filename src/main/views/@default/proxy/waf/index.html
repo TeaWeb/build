@@ -9,16 +9,16 @@
 	<thead>
 		<tr>
 			<th>名称</th>
-			<th>规则分组</th>
-			<th>规则集</th>
+			<th>入站规则</th>
+			<th>出站规则</th>
 			<th>状态</th>
 			<th class="two op">操作</th>
 		</tr>
 	</thead>
 	<tr v-for="config in configs">
 		<td>{{config.name}}</td>
-		<td><a :href="'/proxy/waf/rules?wafId=' + config.id">{{config.countGroups}}</a></td>
-		<td><a :href="'/proxy/waf/rules?wafId=' + config.id">{{config.countSets}}</a></td>
+		<td><a :href="'/proxy/waf/rules?wafId=' + config.id + '&inbound=1'">{{config.countInboundSets}}</a></td>
+		<td><a :href="'/proxy/waf/rules?wafId=' + config.id + '&inbound=0'">{{config.countOutboundSets}}</a></td>
 		<td>
 			<span v-if="config.on" class="green">启用</span>
 			<span v-if="!config.on" class="disabled">停用</span>

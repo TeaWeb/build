@@ -61,6 +61,7 @@ Tea.context(function () {
 		this.operatorCode = this.rules[index].operator.code;
 		this.operator = this.rules[index].operator;
 		this.value = this.rules[index].value;
+		this.checkpointParam = this.rules[index].param;
 	};
 
 	this.confirmAdding = function () {
