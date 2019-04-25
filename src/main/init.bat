@@ -56,7 +56,7 @@ REM mysql
 call go_get "github.com/go-sql-driver/mysql"
 
 REM aliyun
-call go_get "github.com/aliyun/alibaba-cloud-sdk-go/sdk"
+call go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
 REM TeaWeb
 call go_get "github.com/TeaWeb/code"

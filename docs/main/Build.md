@@ -49,3 +49,6 @@ git clone https://github.com/TeaWeb/build.git
 如果你正在使用GoLand开发工具，则可以在下面的界面中设置GOPATH:
 ![goland.png](goland.png)
 其中画红框的部分为你的本地的项目根目录，在`src`目录的上一级。
+
+## 寻求帮助
+遇到了问题？可以在[这里](http://teaos.cn/community)找到社区的联系方式，加入社区在线咨询。

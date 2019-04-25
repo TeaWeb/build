@@ -70,7 +70,7 @@ go_get "github.com/pkg/sftp"
 go_get "github.com/go-sql-driver/mysql"
 
 # aliyun
-go_get "github.com/aliyun/alibaba-cloud-sdk-go/sdk"
+go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
 # TeaWeb
 go_get "github.com/TeaWeb/code"
