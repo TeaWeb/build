@@ -6,13 +6,18 @@ FROM=${1}
 
 if [ ${FROM} ]
 then
-	yes|cp -R ${FROM}/installers .
-	yes|cp -R ${FROM}/libs .
-	yes|cp -R ${FROM}/public .
-	yes|cp -R ${FROM}/resources .
+	if [ ! -d ./web ]
+	then
+		mkdir ./web
+	fi
+
+	yes|cp -R ${FROM}/web/installers ./web/
+	yes|cp -R ${FROM}/web/libs ./web/
+	yes|cp -R ${FROM}/web/public ./web/
+	yes|cp -R ${FROM}/web/resources ./web/
 	yes|cp -R ${FROM}/scripts .
-	yes|cp -R ${FROM}/upgrade .
-	yes|cp -R ${FROM}/views .
+	yes|cp -R ${FROM}/web/upgrade ./web/
+	yes|cp -R ${FROM}/web/views ./web/
 	yes|cp -R ${FROM}/www .
 
 	# bin & plugins

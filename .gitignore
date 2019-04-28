@@ -30,7 +30,7 @@ src/github.com/TeaWeb/uaparser
 src/github.com/vmihailenco
 src/gopkg.in
 src/main/backups
-src/main/tmp/
+src/main/web/tmp/
 src/main/logs/*
 src/main/configs/*.key
 src/main/configs/*.pem
@@ -49,12 +49,12 @@ src/main/configs/cache.*
 src/main/configs/admin.conf
 src/main/configs/avatars
 src/main/configs/*.js
-src/main/upgrade
-src/main/views/@default/plus
+src/main/web/upgrade
+src/main/web/views/@default/plus
 src/main/plugins/*.tea
 src/main/plus
 src/main/mongodb
-src/main/installers
+src/main/web/installers
 src/tests/
 bin/
 dist/

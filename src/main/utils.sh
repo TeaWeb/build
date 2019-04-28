@@ -31,7 +31,8 @@ function build() {
     mkdir ${TARGET}
     mkdir ${TARGET}/bin
     mkdir ${TARGET}/plugins
-    mkdir ${TARGET}/tmp
+    mkdir ${TARGET}/web
+    mkdir ${TARGET}/web/tmp
     mkdir ${TARGET}/configs
 
     echo "[build static file]"
@@ -64,17 +65,13 @@ function build() {
     cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/www ${TARGET}/
 
-    cp -R ${GOPATH}/src/main/public ${TARGET}/
-    cp -R ${GOPATH}/src/main/resources ${TARGET}/
-    cp -R ${GOPATH}/src/main/views ${TARGET}/
-    cp -R ${GOPATH}/src/main/libs ${TARGET}
-    cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/libs/
-    cp -R ${GOPATH}/src/main/upgrade ${TARGET}
+    cp -R ${GOPATH}/src/main/web/public ${TARGET}/web/
+    cp -R ${GOPATH}/src/main/web/resources ${TARGET}/web/
+    cp -R ${GOPATH}/src/main/web/views ${TARGET}/web/
+    cp -R ${GOPATH}/src/main/web/libs ${TARGET}/web/
+    cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/web/libs/
+    cp -R ${GOPATH}/src/main/web/upgrade ${TARGET}/web/
     cp -R ${GOPATH}/src/main/scripts ${TARGET}
-    if [ -d ${TARGET}/libs/.idea ]
-    then
-		rm -rf ${TARGET}/libs/.idea
-    fi
 
     if [ ${GOOS} = "windows" ]
     then
@@ -89,9 +86,9 @@ function build() {
     fi
 
     # installers
-	if [ -d ${GOPATH}/src/main/installers ]
+	if [ -d ${GOPATH}/src/main/web/installers ]
 	then
-		cp -R ${GOPATH}/src/main/installers ${TARGET}
+		cp -R ${GOPATH}/src/main/web/installers ${TARGET}/web/
 	fi
 
     # remove plus files
@@ -153,12 +150,12 @@ function buildAgent() {
 
 	go build -ldflags="-s -w" -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
 
-	if [ ! -d "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}" ]
+	if [ ! -d "${GOPATH}/src/main/web/upgrade/${VERSION}/${GOOS}/${GOARCH}" ]
 	then
-		mkdir -p "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"
+		mkdir -p "${GOPATH}/src/main/web/upgrade/${VERSION}/${GOOS}/${GOARCH}"
 	fi
-	rm -f "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"/*
-	cp ${TARGET}/bin/teaweb-agent${EXT} "${GOPATH}/src/main/upgrade/${VERSION}/${GOOS}/${GOARCH}"/teaweb-agent${EXT}
+	rm -f "${GOPATH}/src/main/web/upgrade/${VERSION}/${GOOS}/${GOARCH}"/*
+	cp ${TARGET}/bin/teaweb-agent${EXT} "${GOPATH}/src/main/web/upgrade/${VERSION}/${GOOS}/${GOARCH}"/teaweb-agent${EXT}
 
 	echo "[zip files]"
     cd ${TARGET}/../
@@ -185,17 +182,17 @@ function buildAgentInstaller() {
 	echo "[================ building agent installer ${GOOS}/${GOARCH}/v${VERSION}] ================]"
 
 
-	if [ ! -d ${GOPATH}/src/main/installers ]
+	if [ ! -d ${GOPATH}/src/main/web/installers ]
 	then
-		mkdir ${GOPATH}/src/main/installers
+		mkdir ${GOPATH}/src/main/web/installers
 	fi
 
-	if [ ! -d ${GOPATH}/src/main/installers ]
+	if [ ! -d ${GOPATH}/src/main/web/installers ]
 	then
-		rm -f ${GOPATH}/src/main/installers/*
+		rm -f ${GOPATH}/src/main/web/installers/*
 	fi
 
-	go build -ldflags="-s -w" -o ${GOPATH}/src/main/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
+	go build -ldflags="-s -w" -o ${GOPATH}/src/main/web/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
 
 	echo "[done]"
 }

@@ -2,7 +2,7 @@ REM initialize project
 set GOPATH=%cd%\..\..\
 
 REM mkdir
-if not exist %GOPATH%\src\main\tmp mkdir %GOPATH%\src\main\tmp
+if not exist %GOPATH%\src\main\web\tmp mkdir %GOPATH%\src\main\web\tmp
 
 REM go_get function
 REM TeaGO

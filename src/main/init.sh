@@ -4,10 +4,10 @@
 export GOPATH=`pwd`/../../
 
 # mkdir
-if [ ! -d ${GOPATH}/src/main/tmp ]
+if [ ! -d ${GOPATH}/src/main/web/tmp ]
 then
-	echo "mkdir tmp/"
-	mkdir ${GOPATH}/src/main/tmp
+	echo "mkdir web/tmp/"
+	mkdir ${GOPATH}/src/main/web/tmp
 fi
 
 # go_get function
