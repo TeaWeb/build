@@ -18,16 +18,25 @@ Tea.context(function () {
 
 	if (this.oldRules != null) {
 		var that = this;
-		this.rules = this.oldRules.$map(function (k, v) {
+		this.rules = this.oldRules.$map(function (k, rule) {
+			console.log(JSON.stringify(rule.options));
+			var checkpoint = that.checkpoints.$find(function (k1, v1) {
+				return v1.prefix == rule.prefix;
+			});
 			return {
-				"checkpoint": that.checkpoints.$find(function (k1, v1) {
-					return v1.prefix == v.prefix;
-				}),
-				"param": v.param,
+				"checkpoint": checkpoint,
+				"param": rule.param,
 				"operator": that.operators.$find(function (k1, v1) {
-					return v1.code == v.operator;
+					return v1.code == rule.operator;
 				}),
-				"value": v.value
+				"value": rule.value,
+				"case": rule.case,
+				"options": JSON.stringify(checkpoint.options.$map(function (k2, v2) {
+					if (rule.options != null && typeof(rule.options[v2.code]) == "string") {
+						v2.value = rule.options[v2.code];
+					}
+					return v2;
+				}))
 			}
 		});
 		this.$delay(function () {
@@ -62,6 +71,8 @@ Tea.context(function () {
 		this.operator = this.rules[index].operator;
 		this.value = this.rules[index].value;
 		this.checkpointParam = this.rules[index].param;
+		this.operatorCase = this.rules[index].case;
+		this.checkpoint.options = JSON.parse(this.rules[index].options);
 	};
 
 	this.confirmAdding = function () {
@@ -75,14 +86,18 @@ Tea.context(function () {
 				"checkpoint": this.checkpoint,
 				"param": this.checkpointParam,
 				"operator": this.operator,
-				"value": this.value
+				"value": this.value,
+				"case": this.operatorCase,
+				"options": JSON.stringify(this.checkpoint.options)
 			});
 		} else {
 			this.rules[this.ruleIndex] = {
 				"checkpoint": this.checkpoint,
 				"param": this.checkpointParam,
 				"operator": this.operator,
-				"value": this.value
+				"value": this.value,
+				"case": this.operatorCase,
+				"options": JSON.stringify(this.checkpoint.options)
 			};
 			this.ruleIndex = -1;
 		}
@@ -138,12 +153,13 @@ Tea.context(function () {
 	 * operator
 	 */
 	this.operatorCode = "match";
-
+	this.operatorCase = "";
 	this.changeOperator = function () {
 		var that = this;
 		this.operator = this.operators.$find(function (k, v) {
 			return v.code == that.operatorCode;
 		});
+		this.operatorCase = (this.operator.case == "yes");
 	};
 	this.changeOperator();
 

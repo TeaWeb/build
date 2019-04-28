@@ -23,7 +23,8 @@
 	<tbody  v-for="group in groups">
 		<tr>
 			<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
-			<td>{{group.name}}
+			<td><span :class="{disabled:!group.on}">{{group.name}}</span>
+				<p class="comment" v-if="group.description.length > 0" style="padding-bottom:0">{{group.description}}</p>
 				<p>
 					<span v-if="group.on" class="ui label tiny green">启用</span>
 					<span v-if="!group.on" class="ui label tiny">停用</span>
@@ -37,7 +38,7 @@
 			<td>
 				<a :href="'/proxy/waf/group?wafId=' + config.id + '&groupId=' + group.id">详情</a> &nbsp;
 				<a href="" v-if="!group.on" @click.prevent="enableGroup(group.id)">启用</a><a href="" v-if="group.on" @click.prevent="disableGroup(group.id)">停用</a> &nbsp;
-				<a href="" @click.prevent="deleteGroup(group.id)">删除</a>
+				<a href="" @click.prevent="deleteGroup(group.id)" v-if="group.canDelete">删除</a>
 			</td>
 		</tr>
 	</tbody>

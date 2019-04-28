@@ -61,7 +61,8 @@ Tea.context(function () {
 					.params({
 						"wafId": that.config.id,
 						"fromIndex": oldIndex,
-						"toIndex": newIndex
+						"toIndex": newIndex,
+						"inbound": that.inbound ? 1 : 0
 					})
 					.refresh();
 			}

@@ -11,7 +11,7 @@
 	</tr>
 	<tr>
 		<td>内置规则分组</td>
-		<td>
+		<td class="groups-box">
 			<span v-for="group in groups" v-if="group.isChecked" class="ui label tiny">{{group.name}}</span>
 			<span v-if="!hasInternalGroups" class="disabled">暂时还没有选择内置的规则分组</span>
 		</td>
@@ -21,6 +21,20 @@
 		<td>
 			<span class="ui label tiny green" v-if="config.on">启用</span>
 			<span class="ui label tiny" v-if="!config.on">停用</span>
+		</td>
+	</tr>
+	<tr>
+		<td>模版更新</td>
+		<td>
+			<span v-if="newItems == null || newItems.length == 0" class="disabled">暂时还没有模版更新。</span>
+			<a href="" v-if="newItems != null && newItems.length > 0" @click.prevent="showUpdates()">有新的模版更新<i class="icon angle" :class="{down:!updatesVisible,up:updatesVisible}"></i> </a>
+			<div v-if="newItems != null && newItems.length > 0 && updatesVisible" style="margin-top:0.4em">
+				<span v-for="item in newItems" class="ui label small">{{item}}</span>
+			</div>
+			<div style="margin-top:0.4em" v-if="newItems != null && newItems.length > 0 && updatesVisible">
+				<a href="" @click.prevent="mergeTemplate()">[立即更新]</a>
+			</div>
+			<p class="comment">此功能不会连接互联网，是直接从安装包里获取。</p>
 		</td>
 	</tr>
 </table>

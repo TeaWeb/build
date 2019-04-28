@@ -32,7 +32,10 @@
 						<input type="hidden" name="ruleParams" :value="rule.param"/>
 						<input type="hidden" name="ruleOperators" :value="rule.operator.code"/>
 						<input type="hidden" name="ruleValues" :value="rule.value"/>
-						{{rule.checkpoint.name}}[${<span v-if="rule.param.length > 0">{{rule.checkpoint.prefix}}.{{rule.param}}</span><span v-if="rule.param.length == 0">{{rule.checkpoint.prefix}}</span>}] <var>{{rule.operator.code}}</var> {{rule.value}}
+						<input type="hidden" name="ruleCases" :value="rule.case ? 1 : 0"/>
+						<input type="hidden" name="ruleOptions" :value="rule.options"/>
+
+						{{rule.checkpoint.name}}[${<span v-if="rule.param.length > 0">{{rule.checkpoint.prefix}}.{{rule.param}}</span><span v-if="rule.param.length == 0">{{rule.checkpoint.prefix}}</span>}] <var :class="{dash:rule.case}" :title="rule.case ? '大小写不敏感':''">{{rule.operator.code}}</var> {{rule.value}}
 						&nbsp;<a href="" title="修改" @click.prevent="editRule(index)"><i class="icon pencil small"></i></a>
 						<a href="" title="删除" @click.prevent="removeRule(index)"><i class="icon remove small"></i> </a>
 					</div>
@@ -58,6 +61,24 @@
 								<input type="text" maxlength="100" v-model="checkpointParam" v-if="checkpoint.paramOptions == null"/>
 							</td>
 						</tr>
+
+						<!-- 选项 -->
+						<tbody v-if="checkpoint != null && checkpoint.options != null && checkpoint.options.length > 0">
+							<tr v-for="option in checkpoint.options">
+								<td>{{option.name}}</td>
+								<td>
+									<div class="ui fields inline">
+										<div class="ui field">
+											<input type="text" name="" :placeholder="option.placeholder" :maxlength="(option.maxLength > 0)?option.maxLength:1024" :size="option.size" v-model="option.value"/>
+										</div>
+										<div class="ui field">
+											{{option.rightLabel}}
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+
 						<tr>
 							<td>操作符</td>
 							<td>
@@ -65,6 +86,16 @@
 									<option v-for="op in operators" :value="op.code">{{op.name}}</option>
 								</select>
 								<p class="comment" v-if="operator != null">{{operator.description}}</p>
+							</td>
+						</tr>
+						<tr v-if="operator.case != 'none'">
+							<td>开启大小写不敏感</td>
+							<td>
+								<div class="ui checkbox">
+									<input type="checkbox" v-model="operatorCase"/>
+									<label></label>
+								</div>
+								<p class="comment">开启后忽略英文字母大小写</p>
 							</td>
 						</tr>
 						<tr>
@@ -95,7 +126,7 @@
 			<td>动作</td>
 			<td>
 				<select class="ui dropdown" name="action" v-model="action" style="width:10em">
-					<option v-for="a in actions" :value="a.code">{{a.name}}（{{a.code.toUpperCase()}}）</option>
+					<option v-for="a in actions" :value="a.code">{{a.name}}({{a.code.toUpperCase()}})</option>
 				</select>
 			</td>
 		</tr>

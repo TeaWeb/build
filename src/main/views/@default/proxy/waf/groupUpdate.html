@@ -7,10 +7,16 @@
 	<input type="hidden" name="groupId" :value="group.id"/>
 	<table class="ui table definition selectable">
 		<tr>
-			<td class="title">分组名称</td>
+			<td class="title">分组名称 *</td>
 			<td>
 				<input type="text" name="name" maxlength="100" v-model="group.name"/>
 				<p class="comment">给分组起一个容易识别的名称</p>
+			</td>
+		</tr>
+		<tr>
+			<td>分组描述</td>
+			<td>
+				<input type="text" name="description" maxlength="200" v-model="group.description"/>
 			</td>
 		</tr>
 		<tr>

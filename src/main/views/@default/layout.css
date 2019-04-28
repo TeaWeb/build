@@ -41,7 +41,7 @@ span.red, pre.red {
     color: #db2828;
 }
 
-pre {
+pre:not(.CodeMirror-line) {
     font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
 }
 
@@ -596,4 +596,8 @@ label.blue {
 /** var **/
 span.olive, var.olive {
     color: #b5cc18 !important;
+}
+
+var.dash {
+    border-bottom: 1px dashed grey;
 }

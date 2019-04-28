@@ -48,6 +48,7 @@
                     <span class="ui label tiny" v-if="location.root.length > 0">root</span>
 					<span class="ui label tiny" v-if="location.gzipLevel > 0">gzip:{{location.gzipLevel}}</span>
                     <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
+					<span class="ui label tiny" v-if="location.hasWAF">waf</span>
                     <span class="ui label tiny" v-if="location.headers.length > 0">headers</span>
                     <span class="ui label tiny" v-if="location.websocket">websocket</span>
 					<span class="ui label tiny" v-if="location.backends.length > 0">{{location.backends.length}} backends</span>

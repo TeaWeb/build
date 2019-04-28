@@ -3,7 +3,7 @@
 
 <p class="comment">可以在这里配置WAF（Web应用防火墙）策略，然后可以在代理中使用这些WAF策略。</p>
 
-<p class="comment" v-if="configs.length == 0">暂时还没有可用的WAF策略。</p>
+<p class="comment" v-if="configs.length == 0">暂时还没有可用的WAF策略，<a href="/proxy/waf/add">现在去添加 &raquo;</a></p>
 
 <table class="ui table selectable" v-if="configs.length > 0">
 	<thead>

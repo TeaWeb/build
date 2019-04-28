@@ -15,7 +15,7 @@
 			<td>
 				<div class="groups-box">
 					<div class="ui checkbox" v-for="group in groups">
-						<input type="checkbox" name="groupCodes" :value="group.code" :id="'group-checkbox-' + group.code" checked="checked"/>
+						<input type="checkbox" name="groupCodes" :value="group.code" :id="'group-checkbox-' + group.code" v-model="group.isChecked"/>
 						<label :for="'group-checkbox-' + group.code">{{group.name}}</label>
 					</div>
 				</div>

@@ -1,6 +1,11 @@
+.rules-box {
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
 /** 排序 **/
 .sortable-ghost {
-    background: #ddd!important;
+    background: #ddd !important;
 }
 
 .sortable-drag {

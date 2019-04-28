@@ -42,6 +42,9 @@ Tea.context(function () {
 		this.operatorCode = this.rules[index].operator.code;
 		this.operator = this.rules[index].operator;
 		this.value = this.rules[index].value;
+		this.checkpointParam = this.rules[index].param;
+		this.operatorCase = this.rules[index].case;
+		this.checkpoint.options = JSON.parse(this.rules[index].options);
 	};
 
 	this.confirmAdding = function () {
@@ -55,14 +58,18 @@ Tea.context(function () {
 				"checkpoint": this.checkpoint,
 				"param": this.checkpointParam,
 				"operator": this.operator,
-				"value": this.value
+				"value": this.value,
+				"case": this.operatorCase,
+				"options": JSON.stringify(this.checkpoint.options)
 			});
 		} else {
 			this.rules[this.ruleIndex] = {
 				"checkpoint": this.checkpoint,
 				"param": this.checkpointParam,
 				"operator": this.operator,
-				"value": this.value
+				"value": this.value,
+				"case": this.operatorCase,
+				"options": JSON.stringify(this.checkpoint.options)
 			};
 			this.ruleIndex = -1;
 		}
@@ -118,12 +125,14 @@ Tea.context(function () {
 	 * operator
 	 */
 	this.operatorCode = "match";
+	this.operatorCase = "";
 
 	this.changeOperator = function () {
 		var that = this;
 		this.operator = this.operators.$find(function (k, v) {
 			return v.code == that.operatorCode;
 		});
+		this.operatorCase = (this.operator.case == "yes");
 	};
 	this.changeOperator();
 
