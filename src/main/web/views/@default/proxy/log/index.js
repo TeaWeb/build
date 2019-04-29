@@ -2,12 +2,7 @@ Tea.context(function () {
 	var that = this;
 
 	this.logs = [];
-	this.sourceLogs = [];
 	this.fromId = "";
-	this.total = 0;
-	this.countSuccess = 0;
-	this.countFail = 0;
-	this.qps = 0;
 
 	this.isPlaying = true;
 	this.isLoaded = false;
@@ -35,25 +30,6 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.loadLogs();
-
-		this.$watch("searchIp", function (value) {
-			that.filterLogs()
-		});
-		this.$watch("searchDomain", function (value) {
-			that.filterLogs()
-		});
-		this.$watch("searchOs", function (value) {
-			that.filterLogs()
-		});
-		this.$watch("searchBrowser", function (value) {
-			that.filterLogs()
-		});
-		this.$watch("searchMinCost", function (value) {
-			that.filterLogs()
-		});
-		this.$watch("searchKeyword", function (value) {
-			that.filterLogs()
-		});
 
 		this.$find(".menu").bind("click", function () {
 			window.scrollTo(0, 0);
@@ -92,6 +68,8 @@ Tea.context(function () {
 		this.location = this.server.locations.$find(function (k, v) {
 			return v.id == that.searchLocationId;
 		});
+
+		this.changeFilter();
 	};
 
 	var loadSize = 10;
@@ -108,7 +86,17 @@ Tea.context(function () {
 				"fromId": this.fromId,
 				"size": loadSize,
 				"bodyFetching": this.bodyFetching ? 1 : 0,
-				"logType": this.logType
+				"logType": this.logType,
+				"remoteAddr": this.searchIp,
+				"domain": this.searchDomain,
+				"osName": this.searchOs,
+				"browser": this.searchBrowser,
+				"cost": this.searchMinCost,
+				"keyword": this.searchKeyword,
+				"backendId": this.searchBackendId,
+				"locationId": this.searchLocationId,
+				"rewriteId": this.searchRewriteId,
+				"fastcgiId": this.searchFastcgiId
 			})
 			.success(function (response) {
 				// 日志
@@ -119,13 +107,22 @@ Tea.context(function () {
 					loadSize = 100;
 				}
 
-				this.total = Math.ceil(response.data.total * 100 / 10000) / 100;
-				this.countSuccess = Math.ceil(response.data.countSuccess * 100 / 10000) / 100;
-				this.countFail = Math.ceil(response.data.countFail * 100 / 10000) / 100;
-				this.qps = response.data.qps;
+				if (lastSize == 0) {
+					return;
+				}
 
-				this.sourceLogs = response.data.logs.concat(this.sourceLogs);
-				this.sourceLogs.$each(function (_, log) {
+				if (response.data.lastId.length > 0) {
+					this.fromId = response.data.lastId;
+				}
+
+				this.logs = response.data.logs.concat(this.logs);
+
+				var max = 100;
+				if (this.logs.length > max) {
+					this.logs = this.logs.slice(0, max);
+				}
+
+				this.logs.$each(function (_, log) {
 					if (typeof (log["isOpen"]) === "undefined") {
 						log.isOpen = false;
 					}
@@ -143,16 +140,6 @@ Tea.context(function () {
 						}
 					}
 				});
-
-				if (this.sourceLogs.length > 0) {
-					this.fromId = this.sourceLogs.$first().id;
-
-					if (this.sourceLogs.length > 100) {
-						this.sourceLogs = this.sourceLogs.slice(0, 100);
-					}
-				}
-
-				this.filterLogs();
 			})
 			.done(function () {
 				this.$delay(function () {
@@ -234,81 +221,7 @@ Tea.context(function () {
 		this.searchLocationId = "";
 		this.searchRewriteId = "";
 		this.searchFastcgiId = "";
-	};
-
-	this.filterLogs = function () {
-		this.logs = this.sourceLogs.$filter(function (_, log) {
-			if (!teaweb.match(log.remoteAddr, that.searchIp)) {
-				return false;
-			}
-
-			if (!teaweb.match(log.host, that.searchDomain)) {
-				return false;
-			}
-
-			if (log.extend != null) {
-				if (typeof (log.extend.client.os.family) != "undefined" && !teaweb.match(log.extend.client.os.family, that.searchOs)) {
-					return false;
-				}
-			}
-
-			if (log.extend != null) {
-				if (typeof (log.extend.client.browser.family) != "undefined" && !teaweb.match(log.extend.client.browser.family, that.searchBrowser)) {
-					return false;
-				}
-			}
-
-			if (that.searchMinCost.length > 0) {
-				var cost = parseFloat(that.searchMinCost);
-				if (isNaN(cost) || log.requestTime < cost * 0.001) {
-					return false;
-				}
-			}
-
-			if (that.searchBackendId.length > 0 && log.backendId != that.searchBackendId) {
-				return false;
-			}
-			if (that.searchLocationId.length > 0 && log.locationId != that.searchLocationId) {
-				return false;
-			}
-			if (that.searchRewriteId.length > 0 && log.rewriteId != that.searchRewriteId) {
-				return false;
-			}
-			if (that.searchFastcgiId.length > 0 && log.fastcgiId != that.searchFastcgiId) {
-				return false;
-			}
-
-			if (that.searchKeyword != null && that.searchKeyword.length > 0) {
-				var values = [
-					log.requestPath,
-					log.requestURI,
-					log.userAgent,
-					log.remoteAddr,
-					log.requestMethod,
-					log.statusMessage,
-					log.timeLocal,
-					log.timeISO8601,
-					log.host,
-					log.request,
-					log.contentType,
-					JSON.stringify(log.extend)
-				];
-
-				var found = false;
-				for (var i = 0; i < values.length; i++) {
-					if (teaweb.match(values[i], that.searchKeyword)) {
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
-					return false;
-				}
-			}
-
-			return true;
-		});
+		this.changeFilter();
 	};
 
 	this.showLogTab = function (log, index, tabName) {
@@ -514,5 +427,11 @@ Tea.context(function () {
 	this.bodyFetching = false;
 	this.startBodyFetching = function () {
 		this.bodyFetching = !this.bodyFetching;
+	};
+
+	this.changeFilter = function () {
+		this.fromId = "";
+		this.logs = [];
+		this.isLoaded = false;
 	};
 });

@@ -62,30 +62,30 @@
         <form class="ui form">
             <div class="ui grid three column">
                <div class="ui field column">
-                   终端IP：<input type="text" placeholder="x.x.x.x" v-model="searchIp" :class="{focus:searchIp.trim().length > 0}"/>
+                   终端IP：<input type="text" placeholder="x.x.x.x" v-model="searchIp" :class="{focus:searchIp.trim().length > 0}" @input="changeFilter()"/>
                </div>
                 <div class="ui field column">
-                    域名：<input type="text" name="domain" placeholder="比如 xxx.com" v-model="searchDomain" :class="{focus:searchDomain.trim().length > 0}"/>
+                    域名：<input type="text" name="domain" placeholder="比如 xxx.com" v-model="searchDomain" :class="{focus:searchDomain.trim().length > 0}" @input="changeFilter()"/>
                 </div>
                 <div class="ui field column">
-                    终端OS：<input type="text" name="os" placeholder="比如 windows" v-model="searchOs" :class="{focus:searchOs.trim().length > 0}"/>
+                    终端OS：<input type="text" name="os" placeholder="比如 windows" v-model="searchOs" :class="{focus:searchOs.trim().length > 0}" @input="changeFilter()"/>
                 </div>
                 <div class="ui field column">
-                    终端浏览器：<input type="text" name="browser" placeholder="比如 chrome" v-model="searchBrowser" :class="{focus:searchBrowser.trim().length > 0}"/>
+                    终端浏览器：<input type="text" name="browser" placeholder="比如 chrome" v-model="searchBrowser" :class="{focus:searchBrowser.trim().length > 0}" @input="changeFilter()"/>
                 </div>
                 <div class="ui field column">
                     耗时大于：
                     <div class="ui right labeled input">
-                        <input type="text" name="minCost" placeholder="比如 10" v-model="searchMinCost" :class="{focus:searchMinCost.trim().length > 0}"/>
+                        <input type="text" name="minCost" placeholder="比如 10" v-model="searchMinCost" :class="{focus:searchMinCost.trim().length > 0}" @input="changeFilter()"/>
                         <div class="ui label">ms</div>
                     </div>
                 </div>
                 <div class="ui field column">
-                    关键词：<input type="text" name="keyword" placeholder="比如 /user/profile" v-model="searchKeyword" :class="{focus:searchKeyword.trim().length > 0}"/>
+                    关键词：<input type="text" name="keyword" placeholder="比如 /user/profile" v-model="searchKeyword" :class="{focus:searchKeyword.trim().length > 0}" @input="changeFilter()"/>
                 </div>
 				<div class="ui field column">
 					后端服务器：
-					<select class="ui dropdown" v-if="server.backends != null && server.backends.length > 0" v-model="searchBackendId">
+					<select class="ui dropdown" v-if="server.backends != null && server.backends.length > 0" v-model="searchBackendId" @change="changeFilter()">
 						<option value="">[没有选择]</option>
 						<option v-for="backend in server.backends" :value="backend.id">{{backend.address}}</option>
 					</select>
@@ -105,7 +105,7 @@
 				</div>
 				<div class="ui field column">
 					重写规则：
-					<select class="ui dropdown" v-if="location != null && location.rewrite != null && location.rewrite.length > 0" v-model="searchRewriteId">
+					<select class="ui dropdown" v-if="location != null && location.rewrite != null && location.rewrite.length > 0" v-model="searchRewriteId" @change="changeFilter()">
 						<option value="">[没有选择]</option>
 						<option v-for="rewrite in location.rewrite" :value="rewrite.id">{{rewrite.pattern}}</option>
 					</select>
@@ -115,7 +115,7 @@
 				</div>
 				<div class="ui field column">
 					Fastcgi：
-					<select class="ui dropdown" v-if="location != null && location.fastcgi != null && location.fastcgi.length > 0" v-model="searchFastcgiId">
+					<select class="ui dropdown" v-if="location != null && location.fastcgi != null && location.fastcgi.length > 0" v-model="searchFastcgiId" @change="changeFilter()">
 						<option value="">[没有选择]</option>
 						<option v-for="fastcgi in location.fastcgi" :value="fastcgi.id">{{fastcgi.pass}}</option>
 					</select>
