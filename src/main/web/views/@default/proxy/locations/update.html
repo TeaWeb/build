@@ -34,7 +34,7 @@
                     <select class="ui dropdown" style="width:10em" name="patternType" v-model="location.type" @change="changePatternType(location.type)">
                         <option v-for="patternType in patternTypes" :value="patternType.type">{{patternType.name}}</option>
                     </select>
-                    <p class="comment">{{patternDescription}}</p>
+                    <p class="comment" v-html="patternDescription"></p>
                 </td>
             </tr>
 			<tr>
@@ -150,7 +150,7 @@
 							<input type="checkbox" name="enableAccessLog" v-model="location.enableAccessLog"/>
 							<label></label>
 						</div>
-						<p class="comment">如果不开启访问日志，那么数据统计也会停用。</p>
+						<p class="comment">关闭访问日志，并不影响统计的运行</p>
 					</td>
 				</tr>
 				<tr>

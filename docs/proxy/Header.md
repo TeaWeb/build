@@ -1,5 +1,5 @@
 # 自定义Header
-可以在TeaWeb中设置一组HTTP Header，在对客户端进行相应时，加上这些Header：
+可以在TeaWeb中设置一组HTTP Header，在对客户端进行响应时，加上这些Header：
 ~~~http
 HTTP/1.1 500 Internal Server Error
 Hello: World

@@ -21,17 +21,18 @@
   * [自定义Header](proxy/Header.md)
   * [Fastcgi](proxy/Fastcgi.md)
   * [重写规则](proxy/Rewrite.md)
-  * 匹配条件
+  * [匹配条件](proxy/RequestCond.md)
   * [Websocket](proxy/Websocket.md)
   * 访问日志
   * 统计
   * [缓存](cache/Index.md)
      * [清除缓存指令](cache/PurgeAPI.md)
   * [WAF](waf/Index.md)
-     * 配置WAF
-     * 参数
-     * 操作符
-     * 正则表达式
+     * [使用WAF](waf/Usage.md)
+     * [定制WAF](waf/Config.md)
+     * [参数](waf/Checkpoints.md)
+     * [操作符](waf/Operators.md)
+     * [正则表达式](waf/Regexp.md)
   * [内置变量](proxy/Variables.md)
   * [前端代理](proxy/Frontend.md)
      * [Nginx](proxy/Nginx.md)
@@ -79,5 +80,6 @@
   * 插件
      * [写一个插件](plugins/Write.md)
      * [安装插件](plugins/Install.md)
+* [正则表达式](regexp/Regexp.md)
 * [TeaWeb+](plus/Index.md)
 * [捐助作者](donate/Index.md)
