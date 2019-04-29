@@ -16,7 +16,7 @@
             <th class="two op">操作</th>
         </tr>
     </thead>
-    <tr v-for="item in items">
+    <tr v-for="item in items" :class="{warning:item.isWarning, error:item.isError}">
         <td>{{item.name}}
             <br/>
             <span class="ui label tiny" v-if="!item.on">未启用</span>
@@ -34,7 +34,7 @@
             </div>
         </td>
         <td>
-            <a :href="'/agents/apps/itemValues?agentId=' +  agentId + '&appId=' + app.id + '&itemId=' + item.id" v-if="item.latestTime.length > 0" style="display: block;padding:4px;" :style="{'background-color': (item.latestLevel == null) ? '' : item.latestLevel.bgcolor, 'color': (item.latestLevel == null) ? '' : item.latestLevel.color}"><span v-if="item.latestLevel != null">{{item.latestLevel.name}}: </span><pre>{{item.latestValue}}</pre></a>
+            <a :href="'/agents/apps/itemValues?agentId=' +  agentId + '&appId=' + app.id + '&itemId=' + item.id" v-if="item.latestTime.length > 0" style="display: block;padding:4px;"><pre>{{item.latestValue}}</pre></a>
             <em v-if="item.latestTime.length > 0">{{item.latestTime}}</em>
             <span v-if="item.latestTime.length == 0">-</span>
         </td>
