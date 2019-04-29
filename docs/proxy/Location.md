@@ -1,7 +1,7 @@
 # 路径规则
 路径规则（Location）可以定义一组特殊的URL路径匹配模式，匹配这些路径的，可以单独设置文档根目录、字符编码、首页文件、[Fastcgi](Fastcgi.md)、[重写规则](Rewrite.md)、[Websocket](Websocket.md)、[自定义Header](Header.md)等。
 
-比较完整的一个可设置选项为：
+比较完整的一个路径规则可设置选项为：
 * 基本选项
    * 匹配路径
    * 匹配类型

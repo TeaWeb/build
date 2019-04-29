@@ -1,4 +1,10 @@
 # 操作符
+操作符是用来对比[参数值](Checkpoints.md)和对比值的，在TeaWAF中很多时候会直接使用符号来表示，比如：
+~~~
+${requestURI} match /hello
+~~~
+中的`match`就是正则表达式操作符，`${requestURI}`就是参数，`/hello`就是对比值。
+
 在规则中可以使用的操作符如下：
 
 ## 数值大于

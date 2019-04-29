@@ -23,6 +23,7 @@
   * [重写规则](proxy/Rewrite.md)
   * [匹配条件](proxy/RequestCond.md)
   * [Websocket](proxy/Websocket.md)
+  * Gzip压缩
   * 访问日志
   * 统计
   * [缓存](cache/Index.md)
@@ -40,7 +41,7 @@
      <!-- * Varnish -->
      <!-- * Squid -->
      <!-- * HAProxy -->
-  * [性能指南](proxy/Performance.md) 
+  * [性能指南](proxy/Performance.md)
 * Agent
    * [Agent概念](agents/Index.md)
    * [安装Agent](agents/Install.md)
