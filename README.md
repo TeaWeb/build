@@ -1,5 +1,5 @@
 # TeaWeb - 可视化的Web代理服务
-TeaWeb是一款集静态资源、缓存、代理、统计、监控于一体的可视化智能WebServer。
+TeaWeb是一款集静态资源、缓存、代理、统计、日志、安全、监控于一体的可视化智能WebServer。
 
 TeaWeb使用Go语言实现，在高可定制化前提下，保证高性能、高并发。
 
@@ -7,24 +7,19 @@ TeaWeb使用Go语言实现，在高可定制化前提下，保证高性能、高
 
 # 架构 
 ~~~
-		  |----------------------|
-		  |  Agent1, Agent2, ... |
-		  |----------------------|
-			       |
-				   |
              |--------------|        |----------------------------| 
 Client  <->  | TeaWeb:7777  |   <->  | Nginx, Apache, Tomcat,     |
              |--------------|        | Fastcgi, Static Files, ... |
                    |                 |----------------------------|
                    |
                    |
-             |-------------|        |-------------|
-             |  Web        |        | [Plugins]   | 
-             |  Proxy      |  <--   |  Apps       |
-             |  Log        |        |  Widgets    |
-             |  Monitor    |        |  Filters    |
-             |  Statistics |        |-------------|
-             |  Security   |
+             |-------------|
+             |  Web        |     
+             |  Proxy      |  
+             |  Log        |  
+             |  Monitor    |      
+             |  Statistics |     
+             |  WAF		   |
              |  Cache      |
              |  ...        |
              |-------------|

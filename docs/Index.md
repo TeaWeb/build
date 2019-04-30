@@ -42,7 +42,7 @@
      <!-- * Squid -->
      <!-- * HAProxy -->
   * [性能指南](proxy/Performance.md)
-* Agent
+* 监控
    * [Agent概念](agents/Index.md)
    * [安装Agent](agents/Install.md)
    * [应用（App）](agents/App.md)

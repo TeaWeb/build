@@ -24,3 +24,14 @@
 ![waf-usage-5.png](waf-usage-5.png)
 
 设置时，需要看清楚界面，记得不要和代理服务的WAF弄混了。
+
+## 测试WAF
+设置WAF后，在浏览器上访问：
+~~~
+http://你的代理服务地址/?id=<script src="">
+~~~
+就会提示：
+~~~
+The request is blocked by TeaWAF
+~~~
+说明WAF生效了。

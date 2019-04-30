@@ -1,19 +1,19 @@
 # 原理
 如果下图所示，TeaWeb通过启动一个网络端口（默认为7777）用来提供管理界面，然后可以在管理界面中配置一组Web服务和代理服务，其中，通过代理服务，TeaWeb自动将客户端请求转发到后端服务中（比如nginx, Apache，Fastcgi等）。
 ~~~
-             |--------------|       |----------------------------| 
-Client  <->  | TeaWeb:7777  |  <->  | Nginx, Apache, Tomcat,     |
-             |--------------|       | Fastcgi, Static Files, ... |
-                  |                 |----------------------------|
-                  |
-                  |
-             |-------------|        |-------------|
-             |  Web        |        | [Plugins]   | 
-             |  Proxy      |  <--   |  Apps       |
-             |  Log        |        |  Widgets    |
-             |  Monitor    |        |  Filters    |
-             |  Statistics |        |-------------|
-             |  Security   |
+             |--------------|        |----------------------------| 
+Client  <->  | TeaWeb:7777  |   <->  | Nginx, Apache, Tomcat,     |
+             |--------------|        | Fastcgi, Static Files, ... |
+                   |                 |----------------------------|
+                   |
+                   |
+             |-------------|
+             |  Web        |     
+             |  Proxy      |  
+             |  Log        |  
+             |  Monitor    |      
+             |  Statistics |     
+             |  WAF		   |
              |  Cache      |
              |  ...        |
              |-------------|
