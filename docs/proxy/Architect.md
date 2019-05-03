@@ -13,7 +13,7 @@ Client  <->  | TeaWeb:7777  |   <->  | Nginx, Apache, Tomcat,     |
              |  Log        |  
              |  Monitor    |      
              |  Statistics |     
-             |  WAF		   |
+             |  WAF        |
              |  Cache      |
              |  ...        |
              |-------------|
