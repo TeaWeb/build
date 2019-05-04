@@ -32,3 +32,68 @@ ps ax|grep mongo
 ~~~
 
 在Windows上，直接运行下载的可执行文件进行安装，注意过程中可以选择 **不安装** MongoDB Compass。
+
+## 认证
+如果你需要使用认证模式连接MongoDB，需要确保用户对`teaweb`数据库有`dbOwner`权限。
+
+* [查看已有用户](#查看已有用户)
+* [给用户增加teaweb权限](#给用户增加teaweb权限)
+* [创建新用户](#创建新用户)
+* [使用认证方式启动MongoDB](#使用认证方式启动mongodb)
+
+### 查看已有用户
+使用`show users`来查看查看已有用户、相关权限及认证机制：
+~~~
+show users
+~~~
+返回结果：
+~~~json
+{
+	"_id" : "teaweb.用户名",
+	"user" : "用户名",
+	"db" : "teaweb",
+	"roles" : [
+		{
+			"role" : "dbOwner", // 角色
+			"db" : "teaweb" // 数据库固定为teaweb
+		}
+	],
+	"mechanisms" : [
+		"SCRAM-SHA-1" // 认证机制
+	]
+}
+~~~
+
+### 给用户增加teaweb权限
+给已有用户增加权限（基于角色）：
+~~~javascript
+db.grantRolesToUser("用户名", [
+	{ 
+		"role": "dbOwner", 
+		"db": "teaweb" 
+	}
+])
+~~~
+其中，`db`固定为`teaweb`。
+
+### 创建新用户
+如果还没有创建用户，可以使用以下命令创建：
+~~~javascript
+db.createUser({
+	user: "用户名", 
+	pwd: "明文密码", 
+	roles: [
+		{
+			role: "dbOwner", 
+			db: "teaweb"
+		}
+	]
+})
+~~~
+其中`用户名`、`明文密码`换成你自己的用户名、密码；`db`固定为`teaweb`。
+
+### 使用认证方式启动MongoDB
+通常可以使用`--auth`参数来指定MongoDB的启动方式为启动认证：
+~~~
+bin/mongod --dbpath=./data/ --fork --logpath=./data/fork.log --auth
+~~~
