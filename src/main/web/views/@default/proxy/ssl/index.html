@@ -66,6 +66,13 @@
                 <a class="disabled" v-if="server.ssl == null || server.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
             </td>
         </tr>
+		<tr>
+			<td>TLS最低版本</td>
+			<td>
+				<span v-if="server.ssl == null" class="disabled">还没有设置</span>
+				<span v-if="server.ssl != null">{{minVersion}}</span>
+			</td>
+		</tr>
         <tr>
             <td>绑定地址<em>(listen)</em></td>
             <td colspan="2">

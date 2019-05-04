@@ -44,6 +44,14 @@
 					<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
                 </td>
             </tr>
+			<tr>
+				<td>TLS最低版本</td>
+				<td>
+					<select name="minVersion" v-model="minVersion" class="ui dropdown" style="width:6em">
+						<option v-for="version in versions" :value="version">{{version}}</option>
+					</select>
+				</td>
+			</tr>
             <tr>
                 <td>绑定地址<em>(listen)</em></td>
                 <td colspan="2">
