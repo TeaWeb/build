@@ -38,6 +38,7 @@ Client  <->  | TeaWeb:7777  |   <->  | Nginx, Apache, Tomcat,     |
 * [安装](http://teaos.cn/doc/main/Install.md)
 * [升级](http://teaos.cn/doc/main/Upgrade.md)
 * [从源码启动或编译](http://teaos.cn/doc/main/Build.md)
+* [Docker Composer](https://github.com/tossp/teaweb-build)
 * [文档](http://teaos.cn/doc)
 * QQ群：199435611
 

@@ -4,4 +4,5 @@
 ./run.sh - run a new container 
 ~~~
 
-由于TeaWeb官网带宽限制，可能下载较慢，如果有意愿赞助带宽或费用，请和我们联系 `root@teaos.cn`。
+## Docker Composer
+[点击查看Docker Composer示例](https://github.com/tossp/teaweb-build)
