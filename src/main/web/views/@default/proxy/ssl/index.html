@@ -26,6 +26,10 @@
 		发生错误：{{error}}
 	</p>
 
+	<p class="ui message warning" v-if="warning.length > 0">
+		提醒：<span v-html="warning"></span>
+	</p>
+
 	<table class="ui table selectable definition">
         <tr>
             <td class="title">是否开启HTTPS</td>

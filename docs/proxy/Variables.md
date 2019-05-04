@@ -34,7 +34,8 @@
 
 ## 请求相关变量
 * `${teaVersion}` - TeaWeb版本
-* `${remoteAddr}` - 客户端地址（IP）
+* `${remoteAddr}` - 客户端地址（IP），会依次根据X-Forwarded-For、X-Real-IP、RemoteAddr获取
+* `${rawRemoteAddr}` - 客户端地址（IP），返回直接连接服务的客户端原始IP地址，从v0.1.3.1版本加入
 * `${remotePort}` - 客户端端口
 * `${remoteUser}` - 客户端用户名
 * `${requestURI}` - 请求URI
