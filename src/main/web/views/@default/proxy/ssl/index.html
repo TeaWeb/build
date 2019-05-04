@@ -85,8 +85,8 @@
 		<tr>
 			<td>加密算法套件<em>(CipherSuites)</em></td>
 			<td>
-				<span v-if="server.ssl.cipherSuites == null || server.ssl.cipherSuites.length == 0" class="disabled">使用默认的算法套件。</span>
-				<div v-if="server.ssl.cipherSuites != null && server.ssl.cipherSuites.length > 0">
+				<span v-if="server.ssl == null || server.ssl.cipherSuites == null || server.ssl.cipherSuites.length == 0" class="disabled">使用默认的算法套件。</span>
+				<div v-if="server.ssl != null && server.ssl.cipherSuites != null && server.ssl.cipherSuites.length > 0">
 					<span class="ui label tiny" v-for="cipherSuite in server.ssl.cipherSuites" v-html="formatCipherSuite(cipherSuite)"></span>
 				</div>
 			</td>
