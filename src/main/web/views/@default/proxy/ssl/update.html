@@ -11,6 +11,11 @@
 {$end}
 <!--  检测配置是否有更新 end -->
 
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <div>
     {$template "/proxy/menu"}
 
@@ -44,16 +49,8 @@
 					<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
                 </td>
             </tr>
-			<tr>
-				<td>TLS最低版本</td>
-				<td>
-					<select name="minVersion" v-model="minVersion" class="ui dropdown" style="width:6em">
-						<option v-for="version in versions" :value="version">{{version}}</option>
-					</select>
-				</td>
-			</tr>
             <tr>
-                <td>绑定地址<em>(listen)</em></td>
+                <td>绑定网络地址<em>(listen)</em></td>
                 <td colspan="2">
                     <span class="ui label small" v-for="(listen, arrayIndex) in server.ssl.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
                         <input type="hidden" name="listen" :value="listen"/> &nbsp;
@@ -72,10 +69,51 @@
                     <div class="ui field" style="margin-top: 1em">
                         <button class="ui button" type="button" @click="addListen()">+</button>
                     </div>
-                    <p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址，多个地址之间使用空格隔开，比如"0.0.0.0:443 192.168.1.100:443"。</p>
                     <p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
                 </td>
             </tr>
+			<tr>
+				<td colspan="2">
+					<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+					<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+				</td>
+			</tr>
+			<tbody v-show="advancedOptionsVisible">
+				<tr>
+					<td>TLS最低版本</td>
+					<td>
+						<select name="minVersion" v-model="minVersion" class="ui dropdown" style="width:6em">
+							<option v-for="version in versions" :value="version">{{version}}</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>加密算法套件<em>(CipherSuites)</em></td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="cipherSuitesOn" value="1" v-model="cipherSuitesOn" />
+							<label>是否要自定义</label>
+						</div>
+
+						<div  v-show="cipherSuitesOn">
+							<div class="cipher-suites-box">
+								已添加套件({{selectedCipherSuites.length}})：
+								<div v-for="cipherSuite in selectedCipherSuites" class="ui label tiny">
+									<input type="hidden" name="cipherSuites" :value="cipherSuite"/>
+									<span v-html="formatCipherSuite(cipherSuite)"></span> &nbsp; <a href="" title="删除套件" @click.prevent="removeCipherSuite(cipherSuite)"><i class="icon remove"></i></a>
+									<a href="" title="拖动改变顺序"><i class="icon bars handle"></i></a>
+								</div>
+							</div>
+
+							<div class="cipher-all-suites-box">
+								可选套件({{cipherSuites.length}})：
+								<a href="" v-for="cipherSuite in cipherSuites" class="ui label tiny" title="点击添加到自定义套件中" @click.prevent="addCipherSuite(cipherSuite)" v-html="formatCipherSuite(cipherSuite)"></a>
+							</div>
+							<p class="comment">点击可选套件添加。</p>
+						</div>
+					</td>
+				</tr>
+			</tbody>
         </table>
 
         <button class="ui button primary" type="submit">保存</button>

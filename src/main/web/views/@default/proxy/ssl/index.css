@@ -13,3 +13,7 @@
     line-height: 1.8;
     font-size: 0.9em;
 }
+
+.cipher-all-suites-box .label var {
+    font-weight: bold;
+}

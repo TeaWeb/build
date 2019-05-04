@@ -66,15 +66,8 @@
                 <a class="disabled" v-if="server.ssl == null || server.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
             </td>
         </tr>
-		<tr>
-			<td>TLS最低版本</td>
-			<td>
-				<span v-if="server.ssl == null" class="disabled">还没有设置</span>
-				<span v-if="server.ssl != null">{{minVersion}}</span>
-			</td>
-		</tr>
         <tr>
-            <td>绑定地址<em>(listen)</em></td>
+            <td>绑定网络地址<em>(listen)</em></td>
             <td colspan="2">
                 <a class="disabled" v-if="server.ssl == null || server.ssl.listen == null || server.ssl.listen.length == 0">[还没有绑定网络地址]</a>
                 <div v-if="server.ssl != null && server.ssl.listen != null">
@@ -82,5 +75,21 @@
                 </div>
             </td>
         </tr>
+		<tr>
+			<td>TLS最低版本</td>
+			<td>
+				<span v-if="server.ssl == null" class="disabled">还没有设置</span>
+				<span v-if="server.ssl != null">{{minVersion}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>加密算法套件<em>(CipherSuites)</em></td>
+			<td>
+				<span v-if="server.ssl.cipherSuites == null || server.ssl.cipherSuites.length == 0" class="disabled">使用默认的算法套件。</span>
+				<div v-if="server.ssl.cipherSuites != null && server.ssl.cipherSuites.length > 0">
+					<span class="ui label tiny" v-for="cipherSuite in server.ssl.cipherSuites" v-html="formatCipherSuite(cipherSuite)"></span>
+				</div>
+			</td>
+		</tr>
     </table>
 </div>

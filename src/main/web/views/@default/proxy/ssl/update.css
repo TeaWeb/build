@@ -1,8 +1,39 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.cipher-suites-box, .cipher-all-suites-box {
+    margin-top: 1em;
+}
+
+.cipher-suites-box .label, .cipher-all-suites-box .label {
+    margin-top: 0.4em !important;
+    margin-bottom: 0.4em !important;
+}
+
+.cipher-all-suites-box .label {
+    color: #4183c4 !important;
+    font-weight: normal;
+}
+
+.cipher-all-suites-box .label var {
+    font-weight: bold;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd !important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
 }
