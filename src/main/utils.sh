@@ -110,7 +110,7 @@ function build() {
 }
 
 function buildAgent() {
-	VERSION_DATA=`cat ${GOPATH}/src/github.com/TeaWeb/code/teaconst/const.go`
+	VERSION_DATA=`cat ${GOPATH}/src/github.com/TeaWeb/agent/teaconst/const.go`
 	VERSION_DATA=${VERSION_DATA#*"Version = \""}
 	VERSION=${VERSION_DATA%%[!0-9.]*}
 	TARGET=${GOPATH}/dist/teaweb-agent-v${VERSION}
