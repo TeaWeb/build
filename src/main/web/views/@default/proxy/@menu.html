@@ -6,7 +6,7 @@
     <a :href="$url('/proxy/locations', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'location'}"><i class="ui icon folder small"></i>路径规则({{server.locations.length}})</a>
 
     <a :href="$url('/proxy/headers', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'header'}"><i class="ui icon file alternate small"></i>自定义Header({{server.headers.length}})</a>
-	<a :href="$url('/proxy/servers/waf', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'waf'}"><i class="ui icon filter small"></i>WAF<span v-if="server.wafId.length > 0">(已设置)</span></a>
+	<a :href="$url('/proxy/servers/waf', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'waf'}"><i class="ui icon filter small"></i>WAF<span v-if="server.wafId != null && server.wafId.length > 0">(已设置)</span></a>
     <a :href="$url('/proxy/cache', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'cache'}"><i class="ui icon save small"></i>缓存<span v-if="server.cachePolicy.length > 0">(已设置)</span></a>
     <a :href="$url('/proxy/frontend', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'frontend'}"><i class="ui icon paper plane small"></i>前端代理</a>
 </div>
