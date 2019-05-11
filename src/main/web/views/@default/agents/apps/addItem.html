@@ -2,6 +2,10 @@
 {$template "/code_editor"}
 {$template "menu"}
 
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <!-- 数据源CSS -->
 <div v-html="formCSS"></div>
 
@@ -89,7 +93,7 @@
                 <td>阈值设置<em>（触发条件）</em></td>
                 <td>
 					<p class="threshold-box">
-						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a>
+						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a> <a href="" title="拖动改变顺序" v-show="conds.length > 1"><i class="icon bars handle"></i></a>
 						<input type="hidden" name="condParams" v-model="cond.param"/>
 						<input type="hidden" name="condOps" v-model="cond.op"/>
 						<input type="hidden" name="condValues" v-model="cond.value"/>

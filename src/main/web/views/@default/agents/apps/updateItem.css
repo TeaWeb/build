@@ -1,24 +1,24 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .text.menu {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-.without-definition thead tr:first-child>th:first-child {
-    -webkit-box-shadow: none!important;
-    -moz-box-shadow: none!important;
-    box-shadow: none!important;
-    color: rgba(0,0,0,.87)!important;
-    font-weight: bold!important;
-    background: #f9fafb!important;
+.without-definition thead tr:first-child > th:first-child {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    color: rgba(0, 0, 0, .87) !important;
+    font-weight: bold !important;
+    background: #f9fafb !important;
 }
 
 .table .label.tiny {
@@ -47,14 +47,23 @@
 /** codemirror **/
 .CodeMirror {
     border: 1px solid #eee;
-    height: auto!important;
+    height: auto !important;
 }
 
 .CodeMirror-vscrollbar {
     width: 6px;
-    border-radius: 3px!important;
+    border-radius: 3px !important;
 }
 
 .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
     border-radius: 2px;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd !important;
+}
+
+.sortable-drag {
+    opacity: 0.1;
 }

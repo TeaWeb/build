@@ -6,6 +6,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.$find("form input[name='name']").focus();
+		this.sortable();
 	});
 
 	/**
@@ -250,6 +251,17 @@ Tea.context(function () {
 		var that = this;
 		this.defaultThresholds.$each(function (k, v) {
 			that.addThreshold(v);
+		});
+	};
+
+	/**
+	 * 阈值拖动
+	 */
+	this.sortable = function () {
+		var box = this.$find(".threshold-box")[0];
+		Sortable.create(box, {
+			draggable: "span.label",
+			handle: ".handle.icon"
 		});
 	};
 });

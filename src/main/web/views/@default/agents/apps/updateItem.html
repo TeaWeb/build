@@ -2,6 +2,10 @@
 {$template "/code_editor"}
 {$template "menu"}
 
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <div class="ui text menu small blue">
     <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item active">{{item.name}} &raquo; 详情</a>
     <span class="item">|</span>
@@ -99,7 +103,7 @@
                 <td>阈值设置<em>（触发条件）</em></td>
                 <td>
 					<p class="threshold-box">
-						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a>
+						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a> <a href="" title="拖动改变顺序" v-show="conds.length > 1"><i class="icon bars handle"></i></a>
 						<input type="hidden" name="condParams" v-model="cond.param"/>
 						<input type="hidden" name="condOps" v-model="cond.op"/>
 						<input type="hidden" name="condValues" v-model="cond.value"/>
@@ -183,7 +187,7 @@
 
 					<div v-if="addingCond == null">
 						<button type="button" class="ui button tiny" @click="addCond()" title="添加新阈值">+</button>
-						&nbsp; <a href="" @click.prevent="addDefaultThresholds()" v-if="defaultThresholds.length > 0">添加当前数据源内置阈值模板</a>
+						<p class="comment"><a href="" @click.prevent="addDefaultThresholds()" v-if="defaultThresholds.length > 0" style="font-size:0.9em">添加当前数据源内置阈值模板</a></p>
 					</div>
 
 					<p class="comment" style="margin-bottom:0.3em">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>；使用<span class="ui label tiny">${OLD}</span>表示上一条数据。支持加(+)减(-)乘(*)除(/)取余(%)运算符<span v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0">，</span><a href="" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" @click.prevent="showSourceVariables(2)">当前数据源提供的数据变量<i class="icon angle" :class="{down:!sourceVariablesVisible2,up:sourceVariablesVisible2}"></i></a></p>

@@ -57,3 +57,12 @@
 .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
     border-radius: 2px;
 }
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd !important;
+}
+
+.sortable-drag {
+    opacity: 0.1;
+}
