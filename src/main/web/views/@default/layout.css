@@ -177,6 +177,12 @@ body.expanded .main {
     margin-right: 0.5em !important;
 }
 
+.top-nav em {
+    font-style: normal;
+    font-size: 0.9em;
+    padding-left: 0.2em;
+}
+
 /** 右侧主操作区 **/
 .main {
     position: absolute;

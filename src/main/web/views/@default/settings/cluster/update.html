@@ -1,0 +1,61 @@
+{$layout}
+{$template "menu"}
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" style="margin-top:0.8em">
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">当前节点ID</td>
+			<td>
+				<span v-if="node.id.length > 0">{{node.id}}</span>
+				<span v-if="node.id.length == 0">保存后自动生成</span>
+			</td>
+		</tr>
+		<tr>
+			<td>当前节点名称 *</td>
+			<td>
+				<input type="text" name="name" v-model="node.name" maxlength="100"/>
+			</td>
+		</tr>
+		<tr>
+			<td>当前节点角色 *</td>
+			<td>
+				<select name="role" v-model="node.role" class="ui dropdown" style="width: 10em">
+					<option v-for="role in roles" :value="role">{{role}}</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>集群ID *</td>
+			<td>
+				<input type="text" name="clusterId" v-model="node.clusterId" maxlength="100"/>
+				<p class="comment">可在集群控制台中查询此信息</p>
+			</td>
+		</tr>
+		<tr>
+			<td>集群密钥 *</td>
+			<td>
+				<input type="text" name="clusterSecret" v-model="node.clusterSecret" maxlength="100"/>
+				<p class="comment">可在集群控制台中查询此信息</p>
+			</td>
+		</tr>
+		<tr>
+			<td>集群通讯地址 *</td>
+			<td>
+				<input type="text" name="clusterAddr" v-model="node.clusterAddr" maxlength="100"/>
+				<p class="comment">可在集群控制台中查询此信息，类似于192.168.1.100:7781</p>
+			</td>
+		</tr>
+		<tr>
+			<td>是否启用</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="on" value="1" v-model="node.on"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+	&nbsp; <a href="/settings/cluster">返回</a>
+</form>

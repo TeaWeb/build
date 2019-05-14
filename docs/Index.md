@@ -75,7 +75,7 @@
 * 高级
   * [外部监控API](advanced/APIMonitor.md)
   * [主机监控项API](advanced/APIMonitorAgentItem.md)
-  * 集群
+  * [集群](advanced/cluster/Index.md)
 * 开发者
   * [从源码启动或编译](main/Build.md)
   * 插件

@@ -88,4 +88,17 @@ Tea.context(function () {
 			activeItem.focus();
 		}
 	}, 0);
+
+	/**
+	 * 菜单辅助函数
+	 */
+	this.urlPrefix = function () {
+		for (var i = 0; i < arguments.length; i++) {
+			var b = window.location.pathname.startsWith(arguments[i]);
+			if (b) {
+				return true;
+			}
+		}
+		return false;
+	};
 });

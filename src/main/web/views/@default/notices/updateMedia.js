@@ -78,6 +78,8 @@ Tea.context(function () {
 		this.emailUsernameHelp = "";
 		if (this.media.options.username.indexOf("qq.com") > 0) {
 			this.emailUsernameHelp = "，<a href=\"https://service.mail.qq.com/cgi-bin/help?id=28\" target='_blank'>QQ邮箱相关设置帮助</a>";
+		} else if (this.media.options.username.indexOf("163.com") > 0) {
+			this.emailUsernameHelp = "，<a href=\"https://help.mail.163.com/faqDetail.do?code=d7a5dc8471cd0c0e8b4b8f4f8e49998b374173cfe9171305fa1ce630d7f67ac22dc0e9af8168582a\" target='_blank'>网易邮箱相关设置帮助</a>";
 		}
 	};
 

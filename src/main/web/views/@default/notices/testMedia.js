@@ -31,12 +31,14 @@ Tea.context(function () {
 		this.isFinished = true;
 		this.response = "";
 		this.error = resp.errors[0].messages[0];
+		this.errorLines = [];
 	};
 
 	this.submitError = function () {
 		this.isRunning = false;
 		this.isFinished = true;
 		this.response = "";
+		this.errorLines = [];
 		this.error = "请求超时";
 	};
 });

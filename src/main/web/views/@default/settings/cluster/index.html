@@ -1,0 +1,47 @@
+{$layout}
+{$template "menu"}
+
+<p v-if="node == null" class="comment">暂时还没有配置集群。</p>
+<table class="ui table definition selectable" v-if="node != null">
+	<tr>
+		<td class="title">当前节点ID</td>
+		<td>{{node.id}}</td>
+	</tr>
+	<tr>
+		<td>当前节点名称</td>
+		<td>{{node.name}}</td>
+	</tr>
+	<tr>
+		<td>当前节点角色</td>
+		<td>
+			<strong v-if="node.role == 'MASTER'">{{node.role}}</strong>
+			<span style="font-style: italic" v-if="node.role != 'MASTER'">{{node.role}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>集群ID</td>
+		<td>{{node.clusterId}}</td>
+	</tr>
+	<tr>
+		<td>集群密钥</td>
+		<td>{{node.clusterSecret}}</td>
+	</tr>
+	<tr>
+		<td>集群通讯地址</td>
+		<td>{{node.clusterAddr}}</td>
+	</tr>
+	<tr>
+		<td>状态</td>
+		<td>
+			<div v-if="!node.on">
+				<span class="disabled">尚未启用此节点</span>
+			</div>
+			<div v-if="node.on">
+				<span class="green" v-if="isActive && error.length == 0">已连接</span>
+				<span class="red" v-if="isActive && error.length > 0">发生错误 &nbsp; <a href="" @click.prevent="connect()" style="font-size:0.9em">[重新连接]</a>  &nbsp; {{error}}</span>
+				<span class="red" v-if="!isActive">已断开 &nbsp; <a href="" @click.prevent="connect()" style="font-size:0.9em">[重新连接]</a> <var v-if="error.length > 0" style="font-style: normal;"> （原因：{{error}}）</var></span>
+				<p class="comment" v-if="!isActive">自动在30秒内重新尝试连接</p>
+			</div>
+		</td>
+	</tr>
+</table>
