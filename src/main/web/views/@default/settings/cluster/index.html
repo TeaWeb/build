@@ -1,7 +1,7 @@
 {$layout}
 {$template "menu"}
 
-<p v-if="node == null" class="comment">暂时还没有配置集群。</p>
+<p v-if="node == null" class="comment">暂时还没有设置集群，<a href="/settings/cluster/update">点此设置</a>。</p>
 <table class="ui table definition selectable" v-if="node != null">
 	<tr>
 		<td class="title">当前节点ID</td>
@@ -31,7 +31,7 @@
 		<td>{{node.clusterAddr}}</td>
 	</tr>
 	<tr>
-		<td>状态</td>
+		<td>连接状态</td>
 		<td>
 			<div v-if="!node.on">
 				<span class="disabled">尚未启用此节点</span>
@@ -41,6 +41,21 @@
 				<span class="red" v-if="isActive && error.length > 0">发生错误 &nbsp; <a href="" @click.prevent="connect()" style="font-size:0.9em">[重新连接]</a>  &nbsp; {{error}}</span>
 				<span class="red" v-if="!isActive">已断开 &nbsp; <a href="" @click.prevent="connect()" style="font-size:0.9em">[重新连接]</a> <var v-if="error.length > 0" style="font-style: normal;"> （原因：{{error}}）</var></span>
 				<p class="comment" v-if="!isActive">自动在30秒内重新尝试连接</p>
+			</div>
+		</td>
+	</tr>
+	<tr v-if="node.on">
+		<td>同步状态</td>
+		<td>
+			<div v-if="!isActive">
+				等待连接到集群
+			</div>
+			<div v-if="isActive">
+				<span v-if="!isChanged" class="green">已同步</span>
+
+				<a href="" v-if="node.role == 'MASTER' && isChanged && !isSyncing" @click.prevent="sync()"><i class="icon circle tiny red"></i><span v-if="node.role == 'MASTER'">本地</span>配置已发生变更，点此同步到集群</a>
+				<a href="" v-if="node.role != 'MASTER' && isChanged && !isSyncing" @click.prevent="sync()"><i class="icon circle tiny red"></i>配置已发生变更，点此从集群中同步</a>
+				<span v-if="isSyncing">正在同步中...</span>
 			</div>
 		</td>
 	</tr>

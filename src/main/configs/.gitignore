@@ -5,3 +5,4 @@ waf.*
 admin.conf
 node.conf
 node.sum
+cluster.sum
