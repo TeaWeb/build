@@ -1,8 +1,26 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.names-box .label {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd !important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
 }

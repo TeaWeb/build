@@ -1,7 +1,13 @@
 {$layout}
 
+<!-- 自动补全 -->
 {$var "header"}
 <script src="/js/autocomplete.vue.js" type="text/javascript"></script>
+{$end}
+
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
 {$end}
 
 <div>
@@ -29,11 +35,14 @@
             <tr>
                 <td>域名<em>(name)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(name, arrayIndex) in server.name" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
-                        <input type="hidden" name="name" :value="name"/> &nbsp;
-						<a href="" @click.prevent="editName(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
-                        <a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
-                    </span>
+					<div class="names-box">
+						<span class="ui label tiny" v-for="(name, arrayIndex) in server.name" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
+							<input type="hidden" name="name" :value="name"/> &nbsp;
+							<a href="" @click.prevent="editName(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+							<a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+							<a title="拖动改变顺序" v-if="server.name.length > 1"><i class="icon bars handle"></i></a>
+						</span>
+					</div>
                     <div class="ui fields inline" v-if="nameAdding" style="margin-top:0.8em">
                         <div class="ui field">
                             <input type="text" name="addingNameName" style="width:16em" maxlength="100" placeholder="域名，比如example.com" @keyup.enter="confirmAddName()" @keypress.enter.prevent="1" v-model="addingNameName" />
@@ -52,11 +61,14 @@
             <tr>
                 <td>绑定地址<em>(listen)</em></td>
                 <td colspan="2">
-                    <span class="ui label small" v-for="(listen, arrayIndex) in server.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
-                        <input type="hidden" name="listen" :value="listen"/> &nbsp;
-						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
-                        <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
-                    </span>
+					<div class="listens-box">
+						<span class="ui label tiny" v-for="(listen, arrayIndex) in server.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+							<input type="hidden" name="listen" :value="listen"/> &nbsp;
+							<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+							<a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+							<a title="拖动改变顺序" v-if="server.listen.length > 1"><i class="icon bars handle"></i></a>
+						</span>
+					</div>
                     <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
                         <div class="ui field">
                             <input type="text" name="addingListenName" style="width:18em" maxlength="100" placeholder="绑定的网络地址，比如 0.0.0.0:80" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
@@ -109,10 +121,13 @@
 				<tr>
 					<td>首页文件<em>(index)</em></td>
 					<td>
-						<span class="ui label small" v-for="(index, arrayIndex) in server.index">{{index}}
+						<div class="indexes-box">
+							<span class="ui label tiny" v-for="(index, arrayIndex) in server.index">{{index}}
 							<input type="hidden" name="index" :value="index"/>
 							<a href="" @click.prevent="removeIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+								<a title="拖动改变顺序" v-if="server.index.length > 1"><i class="icon bars handle"></i></a>
 						</span>
+						</div>
 
 						<div class="ui fields inline" v-if="indexAdding" style="margin-top:0.8em">
 							<div class="ui field">

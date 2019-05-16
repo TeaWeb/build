@@ -46,6 +46,7 @@
                     <span class="ui label tiny" v-if="location.isCaseInsensitive">不区分大小写</span>
                     <span class="ui label tiny" v-if="location.isReverse">反向匹配</span>
                     <span class="ui label tiny" v-if="location.root.length > 0">root</span>
+					<span class="ui label tiny" v-if="location.index != null && location.index.length > 0">index</span>
 					<span class="ui label tiny" v-if="location.gzipLevel > 0">gzip:{{location.gzipLevel}}</span>
                     <span class="ui label tiny" v-if="location.cachePolicy != null">cache</span>
 					<span class="ui label tiny" v-if="location.hasWAF">waf</span>

@@ -69,6 +69,16 @@
 				<a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
 			</td>
 		</tr>
+		<!-- 首页文件 -->
+		<tr>
+			<td>首页文件<em>(index)</em></td>
+			<td>
+				<a class="disabled" v-if="location.index == null || location.index.length == 0">还没有设置。</a>
+				<div v-if="location.index != null">
+					<span class="ui label small" v-for="index in location.index">{{index}}</span>
+				</div>
+			</td>
+		</tr>
 		<tr>
 			<td>请求Body最大尺寸</td>
 			<td>

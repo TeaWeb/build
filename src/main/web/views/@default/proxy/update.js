@@ -1,4 +1,8 @@
 Tea.context(function () {
+	this.$delay(function () {
+		this.sortable();
+	});
+
 	this.submitSuccess = function () {
 		alert("保存成功");
 		window.location = "/proxy/detail?serverId=" + this.server.id;
@@ -285,5 +289,27 @@ Tea.context(function () {
 	this.removePage = function (index) {
 		this.server.pages.$remove(index);
 		this.cancelPageAdding();
+	};
+
+	/**
+	 * 拖动排序
+	 */
+	this.sortable = function () {
+		var that = this;
+		[".names-box", ".indexes-box", ".listens-box"].$each(function (k, box) {
+			var box = that.$find(box)[0];
+			if (!box) {
+				return;
+			}
+			Sortable.create(box, {
+				draggable: ".label",
+				handle: ".handle",
+				onStart: function () {
+
+				},
+				onUpdate: function (event) {
+				}
+			});
+		});
 	};
 });

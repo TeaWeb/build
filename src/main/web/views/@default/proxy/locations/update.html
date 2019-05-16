@@ -1,5 +1,10 @@
 {$layout}
 
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <!-- 检测配置是否有更新 begins -->
 <div class="ui icon message warning" v-if="statusChanged">
     <i class="exclamation circle icon large"></i>
@@ -106,11 +111,14 @@
                 <tr>
                     <td>首页文件<em>(index)</em></td>
                     <td>
-                        <span class="ui label" v-for="(index, arrayIndex) in location.index" :key="arrayIndex">
-                            {{index}}
-                            <input type="hidden" name="index" :value="index"/>
-                            <a href="" @click.prevent="removeLocationIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
-                        </span>
+						<div class="indexes-box">
+							<span class="ui label tiny" v-for="(index, arrayIndex) in location.index" :key="arrayIndex">
+								{{index}}
+								<input type="hidden" name="index" :value="index"/>
+								<a href="" @click.prevent="removeLocationIndex(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+								<a title="拖动改变顺序" v-if="location.index.length > 1"><i class="icon bars handle"></i></a>
+							</span>
+						</div>
 
                         <div class="ui fields inline" v-if="indexAdding" style="margin-top:0.8em">
                             <div class="ui field">

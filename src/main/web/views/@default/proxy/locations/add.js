@@ -18,6 +18,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.$find("form input[name='pattern']").focus();
+		this.sortable();
 	});
 
 	/**
@@ -188,4 +189,26 @@ Tea.context(function () {
 	 * 访问日志相关
 	 */
 	this.enableAccessLog = true;
+
+	/**
+	 * 拖动排序
+	 */
+	this.sortable = function () {
+		var that = this;
+		[".indexes-box"].$each(function (k, box) {
+			var box = that.$find(box)[0];
+			if (!box) {
+				return;
+			}
+			Sortable.create(box, {
+				draggable: ".label",
+				handle: ".handle",
+				onStart: function () {
+
+				},
+				onUpdate: function (event) {
+				}
+			});
+		});
+	};
 });

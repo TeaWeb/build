@@ -1,6 +1,7 @@
 Tea.context(function () {
 	this.$delay(function () {
 		this.$find("form input[name='pattern']").focus();
+		this.sortable();
 	});
 
 	this.submitSuccess = function () {
@@ -193,4 +194,26 @@ Tea.context(function () {
 		this.gzipMinUnit = this.location.gzipMinLength[this.location.gzipMinLength.length - 1];
 		this.location.gzipMinLength = this.location.gzipMinLength.substring(0, this.location.gzipMinLength.length - 1);
 	}
+
+	/**
+	 * 拖动排序
+	 */
+	this.sortable = function () {
+		var that = this;
+		[".indexes-box"].$each(function (k, box) {
+			var box = that.$find(box)[0];
+			if (!box) {
+				return;
+			}
+			Sortable.create(box, {
+				draggable: ".label",
+				handle: ".handle",
+				onStart: function () {
+
+				},
+				onUpdate: function (event) {
+				}
+			});
+		});
+	};
 });

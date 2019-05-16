@@ -1,10 +1,10 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text span.item {
@@ -13,25 +13,25 @@
 }
 
 .divider {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 
-.without-definition thead tr:first-child>th:first-child {
-    -webkit-box-shadow: none!important;
-    -moz-box-shadow: none!important;
-    box-shadow: none!important;
-    color: rgba(0,0,0,.87)!important;
-    font-weight: bold!important;
-    background: #f9fafb!important;
+.without-definition thead tr:first-child > th:first-child {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    color: rgba(0, 0, 0, .87) !important;
+    font-weight: bold !important;
+    background: #f9fafb !important;
 }
 
-.without-definition thead tr:first-child>th {
-    border-left: 1px solid rgba(34,36,38,.15);
+.without-definition thead tr:first-child > th {
+    border-left: 1px solid rgba(34, 36, 38, .15);
 }
 
 .without-definition thead tr th {
-    vertical-align: top!important;
+    vertical-align: top !important;
 }
 
 .without-definition tr td:first-child {
@@ -39,12 +39,12 @@
 }
 
 .without-definition tr td.value-td {
-    border-left: 1px solid rgba(34,36,38,.15);
+    border-left: 1px solid rgba(34, 36, 38, .15);
     width: 40%;
 }
 
 .without-definition tr td:last-child {
-    border-left: 1px solid rgba(34,36,38,.15);
+    border-left: 1px solid rgba(34, 36, 38, .15);
 }
 
 .without-definition p {
@@ -57,3 +57,15 @@
     font-weight: normal;
 }
 
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd !important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
+}
