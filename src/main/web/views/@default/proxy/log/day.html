@@ -5,6 +5,8 @@
 <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=DF6fe2b62ea3a7b2cd7a30694b79069f" ></script>
 {$end}
 
+{$template "/code_editor"}
+
 <div class="ui menu text blue">
 	<a :href="'/proxy/log?serverId=' + server.id" class="item">实时</a>
 	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=today'" class="item" :class="{active:day == 'today'}">今天</a>

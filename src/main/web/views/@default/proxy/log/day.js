@@ -49,6 +49,7 @@ Tea.context(function () {
 		}
 	};
 
+
 	this.showLogTab = function (log, index, tabName) {
 		// 综合信息
 		if (tabName == "summary") {
@@ -57,33 +58,137 @@ Tea.context(function () {
 
 		// 响应信息
 		else if (tabName == "responseHeader") {
-			if (typeof (log.responseHeaders) == "undefined") {
-				this.$get(".responseHeader." + log.id + "." + log.day)
-					.success(function (response) {
-						log.responseHeaders = response.data.headers;
-						log.responseBody = response.data.body;
-						this.$set(this.logs, index, log);
-					});
-			}
+			this.$get(".responseHeader." + log.id + "." + log.day)
+				.success(function (response) {
+					log.responseHeaders = response.data.headers;
+					log.responseBody = response.data.body;
+
+					if (log.responseHeaders == null) {
+						log.responseHeaders = {};
+					}
+
+					log.shouldHighlightResponse = false;
+					var contentType = "";
+					if (log.responseHeaders != null && log.responseBody != null) {
+						contentType = log.responseHeaders["Content-Type"];
+						if (contentType != null) {
+							log.shouldHighlightResponse = [
+								"application/json",
+								"text/json"
+							].$exist(function (k, v) {
+								return contentType.toString().indexOf(v) > -1;
+							});
+						}
+					}
+
+					this.$set(this.logs, index, log);
+
+					if (log.shouldHighlightResponse) {
+						this.$delay(function () {
+							var box = this.$find(".response-body-box")[0];
+							if (box != null) {
+								box.innerHTML = "";
+							}
+							var codeEditor = CodeMirror(box, {
+								theme: "idea",
+								lineNumbers: true,
+								styleActiveLine: true,
+								matchBrackets: true,
+								value: "",
+								readOnly: true,
+								height: "auto",
+								viewportMargin: Infinity,
+								lineWrapping: true,
+								highlightFormatting: true,
+								indentUnit: 4,
+								mode: "",
+								indentWithTabs: true
+							});
+
+							var mimeType = "application/json";
+							var info = CodeMirror.findModeByMIME(mimeType);
+							if (info != null) {
+								codeEditor.setOption("mode", info.mode);
+								CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+								CodeMirror.autoLoadMode(codeEditor, info.mode);
+							}
+
+							codeEditor.setValue(log.responseBody);
+						});
+					}
+				});
 		}
 
 		// 请求信息
 		else if (tabName == "request") {
-			if (typeof (log.requestHeaders) == "undefined") {
-				this.$get(".requestHeader." + log.id + "." + log.day)
-					.success(function (response) {
-						log.requestHeaders = response.data.headers;
-						log.requestBody = response.data.body;
-						log.hasRequestHeaders = false;
-						for (var k in log.requestHeaders) {
-							if (log.requestHeaders.hasOwnProperty(k)) {
-								log.hasRequestHeaders = true;
-								break;
-							}
+			this.$get(".requestHeader." + log.id + "." + log.day)
+				.success(function (response) {
+					log.requestHeaders = response.data.headers;
+					if (log.requestHeaders == null) {
+						log.requestHeaders = {};
+					}
+
+					log.requestBody = response.data.body;
+					log.hasRequestHeaders = false;
+					for (var k in log.requestHeaders) {
+						if (log.requestHeaders.hasOwnProperty(k)) {
+							log.hasRequestHeaders = true;
+							break;
 						}
-						this.$set(this.logs, index, log);
-					});
-			}
+					}
+
+					log.shouldHighlightRequest = false;
+					var contentType = "";
+					if (log.requestHeaders != null && log.requestBody != null) {
+						contentType = log.requestHeaders["Content-Type"];
+						if (contentType != null) {
+							log.shouldHighlightRequest = [
+								"application/json",
+								"text/json"
+							].$exist(function (k, v) {
+								return contentType.toString().indexOf(v) > -1;
+							});
+						}
+					}
+
+					this.$set(this.logs, index, log);
+
+					if (log.shouldHighlightRequest) {
+						this.$delay(function () {
+							var box = this.$find(".request-body-box")[0];
+							if (box != null) {
+								box.innerHTML = "";
+							}
+
+							var codeEditor = CodeMirror(box, {
+								theme: "idea",
+								lineNumbers: true,
+								styleActiveLine: true,
+								matchBrackets: true,
+								value: "",
+								readOnly: true,
+								height: "auto",
+								viewportMargin: Infinity,
+								lineWrapping: true,
+								highlightFormatting: true,
+								indentUnit: 4,
+								mode: "",
+								indentWithTabs: true
+							});
+
+							var mimeType = "application/json";
+							var info = CodeMirror.findModeByMIME(mimeType);
+							if (info != null) {
+								codeEditor.setOption("mode", info.mode);
+								CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+								CodeMirror.autoLoadMode(codeEditor, info.mode);
+							}
+
+							codeEditor.setValue(log.requestBody);
+						});
+					}
+				});
+
 		}
 
 		// 预览

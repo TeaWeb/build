@@ -113,8 +113,9 @@
 					</tr>
 					</tbody>
 					<tr v-if="log.responseBody.length > 0">
-						<td colspan="2">
-							<pre>{{log.responseBody}}</pre>
+						<td colspan="2" :class="{padding0:log.shouldHighlightResponse}">
+							<pre v-if="!log.shouldHighlightResponse">{{log.responseBody}}</pre>
+							<pre class="response-body-box" v-if="log.shouldHighlightResponse"></pre>
 						</td>
 					</tr>
 				</table>
@@ -133,8 +134,9 @@
 					</tr>
 					</tbody>
 					<tr v-if="log.requestBody.length > 0">
-						<td colspan="2">
-							<pre>{{log.requestBody}}</pre>
+						<td colspan="2" :class="{padding0:log.shouldHighlightRequest}">
+							<pre v-if="!log.shouldHighlightRequest">{{log.requestBody}}</pre>
+							<pre class="request-body-box" v-if="log.shouldHighlightRequest"></pre>
 						</td>
 					</tr>
 				</table>

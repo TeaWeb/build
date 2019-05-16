@@ -188,3 +188,28 @@
 .log-table .map-box .BMap_cpyCtrl.anchorBL {
     display: none;
 }
+
+.log-table td.padding0 {
+    margin: 0;
+    padding: 0;
+}
+
+.log-table td.padding0 pre {
+    margin: 0;
+    padding: 0;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto !important;
+}
+
+.CodeMirror-vscrollbar {
+    width: 6px;
+    border-radius: 3px !important;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}

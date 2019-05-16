@@ -1,16 +1,16 @@
 /** 菜单 **/
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 /** 日志表 **/
@@ -34,7 +34,7 @@
 }
 
 .log-table .log-row .menu .item {
-    padding: 0.4em 0.7em!important;
+    padding: 0.4em 0.7em !important;
 }
 
 .log-table .log-row .browser span {
@@ -76,7 +76,7 @@
     -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
 
-    border-bottom: 1px solid rgba(34,36,38,.1);
+    border-bottom: 1px solid rgba(34, 36, 38, .1);
 
     position: absolute;
     overflow: hidden;
@@ -88,7 +88,7 @@
 .log-table .log-td {
     position: relative;
     overflow: hidden;
-    border: 0!important;
+    border: 0 !important;
     -ms-word-break: break-all;
     word-break: break-all;
 }
@@ -114,10 +114,35 @@
 }
 
 .log-table .map-box .anchorBL {
-    left: auto!important;
-    right: 1em!important;
+    left: auto !important;
+    right: 1em !important;
 }
 
 .log-table .map-box .BMap_cpyCtrl.anchorBL {
     display: none;
+}
+
+.log-table td.padding0 {
+    margin: 0;
+    padding: 0;
+}
+
+.log-table td.padding0 pre {
+    margin: 0;
+    padding: 0;
+}
+
+/** codemirror **/
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto !important;
+}
+
+.CodeMirror-vscrollbar {
+    width: 6px;
+    border-radius: 3px !important;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    border-radius: 2px;
 }
