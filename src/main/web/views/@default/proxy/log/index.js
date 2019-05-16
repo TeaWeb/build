@@ -259,7 +259,11 @@ Tea.context(function () {
 
 					if (log.shouldHighlightResponse) {
 						this.$delay(function () {
-							var editor = CodeMirror(this.$find(".response-body-box")[0], {
+							var box = this.$find(".response-body-box")[0];
+							if (box != null) {
+								box.innerHTML = "";
+							}
+							var codeEditor = CodeMirror(box, {
 								theme: "idea",
 								lineNumbers: true,
 								styleActiveLine: true,
@@ -278,16 +282,15 @@ Tea.context(function () {
 							var mimeType = "application/json";
 							var info = CodeMirror.findModeByMIME(mimeType);
 							if (info != null) {
-								editor.setOption("mode", info.mode);
+								codeEditor.setOption("mode", info.mode);
 								CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
-								CodeMirror.autoLoadMode(editor, info.mode);
+								CodeMirror.autoLoadMode(codeEditor, info.mode);
 							}
 
-							editor.setValue(log.responseBody);
+							codeEditor.setValue(log.responseBody);
 						});
 					}
 				});
-
 		}
 
 		// 请求信息
@@ -326,7 +329,12 @@ Tea.context(function () {
 
 					if (log.shouldHighlightRequest) {
 						this.$delay(function () {
-							var editor = CodeMirror(this.$find(".request-body-box")[0], {
+							var box = this.$find(".request-body-box")[0];
+							if (box != null) {
+								box.innerHTML = "";
+							}
+
+							var codeEditor = CodeMirror(box, {
 								theme: "idea",
 								lineNumbers: true,
 								styleActiveLine: true,
@@ -345,16 +353,16 @@ Tea.context(function () {
 							var mimeType = "application/json";
 							var info = CodeMirror.findModeByMIME(mimeType);
 							if (info != null) {
-								editor.setOption("mode", info.mode);
+								codeEditor.setOption("mode", info.mode);
 								CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
-								CodeMirror.autoLoadMode(editor, info.mode);
+								CodeMirror.autoLoadMode(codeEditor, info.mode);
 							}
 
-							editor.setValue(log.requestBody);
+							codeEditor.setValue(log.requestBody);
 						});
 					}
 				});
-			
+
 		}
 
 		// 预览
