@@ -7,15 +7,30 @@ function build() {
     VERSION_DATA=${VERSION_DATA#*"Version = \""}
     VERSION=${VERSION_DATA%%[!0-9.]*}
     TARGET=${GOPATH}/dist/teaweb-v${VERSION}
+    GO_CMD="go"
+
     EXT=""
     if [ ${GOOS} = "windows" ]
     then
         EXT=".exe"
+
+		# we use go 1.11 to build 386 binary
+        if [ ${GOARCH} = "386" ]
+		then
+			echo "check go 1.11 for old windows"
+			result=`go.1.11 version|wc -c`
+			if [ ${result} -gt 0 ]
+			then
+				GO_CMD="go.1.11"
+			else
+				GO_CMD="go"
+			fi
+        fi
     fi
 
     echo "[================ building ${GOOS}/${GOARCH}/v${VERSION}] ================]"
 
-    echo "[goversion]using" `go version`
+    echo "[goversion]using" `${GO_CMD} version`
     echo "[create target directory]"
 
     if [ ! -d ${GOPATH}/dist ]
@@ -44,11 +59,11 @@ function build() {
     fi
 
     # build main & plugin
-    go build -ldflags="-s -w" -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
+    ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/teaweb${EXT} ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
 
     if [ -d ${GOPATH}/src/github.com/TeaWeb/agent ]
     then
-        go build -ldflags="-s -w" -o ${TARGET}/plugins/agent.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-plugin.go
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/plugins/agent.tea${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-plugin.go
     fi
 
     # restore plus
@@ -114,11 +129,26 @@ function buildAgent() {
 	VERSION_DATA=${VERSION_DATA#*"Version = \""}
 	VERSION=${VERSION_DATA%%[!0-9.]*}
 	TARGET=${GOPATH}/dist/teaweb-agent-v${VERSION}
+    GO_CMD="go"
+
     EXT=""
-	if [ ${GOOS} = "windows" ]
-	then
-    	EXT=".exe"
-	fi
+    if [ ${GOOS} = "windows" ]
+    then
+        EXT=".exe"
+
+		# we use go 1.11 to build 386 binary
+        if [ ${GOARCH} = "386" ]
+		then
+			echo "check go 1.11 for old windows"
+			result=`go.1.11 version|wc -c`
+			if [ ${result} -gt 0 ]
+			then
+				GO_CMD="go.1.11"
+			else
+				GO_CMD="go"
+			fi
+        fi
+    fi
 
 	echo "[================ building agent ${GOOS}/${GOARCH}/v${VERSION}] ================]"
 
@@ -148,7 +178,7 @@ function buildAgent() {
 		cp ${GOPATH}/src/main/README_AGENT_LINUX.md ${TARGET}/README.md
     fi
 
-	go build -ldflags="-s -w" -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
+	${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/teaweb-agent${EXT} ${GOPATH}/src/github.com/TeaWeb/agent/main/main-agent.go
 
 	if [ ! -d "${GOPATH}/src/main/web/upgrade/${VERSION}/${GOOS}/${GOARCH}" ]
 	then
@@ -173,11 +203,26 @@ function buildAgent() {
 }
 
 function buildAgentInstaller() {
+    GO_CMD="go"
+
     EXT=""
-	if [ ${GOOS} = "windows" ]
-	then
-    	EXT=".exe"
-	fi
+    if [ ${GOOS} = "windows" ]
+    then
+        EXT=".exe"
+
+		# we use go 1.11 to build 386 binary
+        if [ ${GOARCH} = "386" ]
+		then
+			echo "check go 1.11 for old windows"
+			result=`go.1.11 version|wc -c`
+			if [ ${result} -gt 0 ]
+			then
+				GO_CMD="go.1.11"
+			else
+				GO_CMD="go"
+			fi
+        fi
+    fi
 
 	echo "[================ building agent installer ${GOOS}/${GOARCH}/v${VERSION}] ================]"
 
@@ -192,7 +237,7 @@ function buildAgentInstaller() {
 		rm -f ${GOPATH}/src/main/web/installers/*
 	fi
 
-	go build -ldflags="-s -w" -o ${GOPATH}/src/main/web/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
+	${GO_CMD} build -ldflags="-s -w" -o ${GOPATH}/src/main/web/installers/agentinstaller_${GOOS}_${GOARCH}${EXT} ${GOPATH}/src/github.com/TeaWeb/agentinstaller/main/main.go
 
 	echo "[done]"
 }
