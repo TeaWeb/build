@@ -1,5 +1,8 @@
 Tea.context(function () {
 	this.$delay(function () {
+		if (this.certs.length == 0) {
+			this.addCert();
+		}
 		this.sortable();
 	});
 
@@ -32,7 +35,8 @@ Tea.context(function () {
 		this.certs.push({
 			"description": "",
 			"certFile": "",
-			"keyFile": ""
+			"keyFile": "",
+			"isLocal": false
 		});
 		this.$delay(function () {
 			this.$find("#cert-descriptions-input-" + (this.certs.length - 1)).focus();
