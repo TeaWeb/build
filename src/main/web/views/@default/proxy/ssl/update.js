@@ -26,6 +26,28 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 证书
+	 */
+	this.addCert = function () {
+		this.certs.push({
+			"description": "",
+			"certFile": "",
+			"keyFile": ""
+		});
+		this.$delay(function () {
+			this.$find("#cert-descriptions-input-" + (this.certs.length - 1)).focus();
+		});
+	};
+
+	this.removeCert = function (index) {
+		if (!window.confirm("确定要移除此证书吗？")) {
+			return;
+		}
+
+		this.certs.$remove(index);
+	};
+
+	/**
 	 * 绑定的网络地址
 	 */
 	this.listenAdding = false;

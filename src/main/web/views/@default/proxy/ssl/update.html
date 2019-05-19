@@ -32,46 +32,67 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>证书文件<em>(Certificate)</em></td>
-                <td>
-                    <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
-
-                    <input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert" style="margin-top:0.8em"/>
-					<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
-                </td>
-            </tr>
-            <tr>
-                <td>密钥文件<em>(Key)</em></td>
-                <td>
-                    <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
-                    <input type="file" name="keyFile" accept="application/pkcs8" style="margin-top:0.8em"/>
-					<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
-                </td>
-            </tr>
-            <tr>
-                <td>绑定网络地址<em>(listen)</em></td>
-                <td colspan="2">
+			<tr>
+				<td>绑定网络地址<em>(listen)</em></td>
+				<td colspan="2">
                     <span class="ui label small" v-for="(listen, arrayIndex) in server.ssl.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
                         <input type="hidden" name="listen" :value="listen"/> &nbsp;
 						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>
-                    <div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
-                        <div class="ui field">
-                            <input type="text" name="addingListenName" style="width:18em" maxlength="30" placeholder="绑定的网络地址，比如 0.0.0.0:443" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
-                        </div>
-                        <div class="ui field">
-                            <button class="ui button" type="button" @click="confirmAddListen()">确定</button>
-                            &nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
-                        </div>
-                    </div>
-                    <div class="ui field" style="margin-top: 1em">
-                        <button class="ui button" type="button" @click="addListen()">+</button>
-                    </div>
-                    <p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
-                </td>
-            </tr>
+					<div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
+						<div class="ui field">
+							<input type="text" name="addingListenName" style="width:18em" maxlength="30" placeholder="绑定的网络地址，比如 0.0.0.0:443" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
+						</div>
+						<div class="ui field">
+							<button class="ui button" type="button" @click="confirmAddListen()">确定</button>
+							&nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
+						</div>
+					</div>
+					<div class="ui field" style="margin-top: 1em">
+						<button class="ui button tiny" type="button" @click="addListen()">+</button>
+					</div>
+					<p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
+				</td>
+			</tr>
+
+			<tbody v-for="(cert, index) in certs">
+				<tr>
+					<td colspan="2" style="font-weight: normal;">证书#{{index+1}}：
+						<a href="" title="移除此证书" class="op-link" @click.prevent="removeCert(index)"><i class="icon remove small"></i></a>
+						<input type="hidden" name="certIds" :value="cert.id"/>
+					</td>
+				</tr>
+				<tr>
+					<td>证书#{{index+1}}说明</td>
+					<td>
+						<input type="text" name="certDescriptions" maxlength="200" v-model="cert.description" :id="'cert-descriptions-input-' + index"/>
+					</td>
+				</tr>
+				<tr>
+					<td>证书#{{index+1}}文件<em>(Certificate)</em></td>
+					<td>
+						<span v-if="cert.certFile.length > 0">{{cert.certFile}}</span>
+
+						<input type="file" :name="'certFiles' + index" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert" style="margin-top:0.8em"/>
+						<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>证书#{{index+1}}密钥文件<em>(Key)</em></td>
+					<td>
+						<span v-if="cert.keyFile.length > 0">{{cert.keyFile}}</span>
+						<input type="file" :name="'keyFiles' + index" accept="application/pkcs8" style="margin-top:0.8em"/>
+						<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
+					</td>
+				</tr>
+			</tbody>
+			<tr>
+				<td>添加新证书</td>
+				<td>
+					<button class="ui button tiny" type="button" @click.prevent="addCert()">+</button>
+				</td>
+			</tr>
 			<tr>
 				<td colspan="2">
 					<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>

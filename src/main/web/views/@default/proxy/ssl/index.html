@@ -22,11 +22,11 @@
     <!-- HTTPS 设置 -->
     <h3>HTTPS <a :href="'/proxy/ssl/update?serverId=' + server.id">修改</a></h3>
 
-	<p class="ui message error" v-if="error.length > 0">
+	<p class="ui message error" v-if="errorMessages.length > 0" v-for="error in errorMessages">
 		发生错误：{{error}}
 	</p>
 
-	<p class="ui message warning" v-if="warning.length > 0">
+	<p class="ui message warning" v-if="warningMessages.length > 0" v-for="warning in warningMessages">
 		提醒：<span v-html="warning"></span>
 	</p>
 
@@ -39,42 +39,51 @@
 				&nbsp; <a href="" style="font-size: 12px" v-if="server.ssl != null && (!server.on || !server.ssl.on)" @click.prevent="startHttps()">快速启动</a><a href="" style="font-size: 12px" v-if="server.ssl != null && (server.on && server.ssl.on)" @click.prevent="shutdownHttps()">快速关闭</a>
             </td>
         </tr>
-        <tr>
-            <td>证书文件<em>(Certificate)</em></td>
-            <td>
-                <span v-if="server.ssl != null && server.ssl.certificate.length > 0">{{server.ssl.certificate}}</span>
-				<p style="margin-top:0.4em;margin-bottom:0.5em" v-if="server.ssl != null && server.ssl.certificate.length > 0">
-					<a :href="'/proxy/ssl/downloadCert?serverId=' + server.id" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadCert?serverId=' + server.id + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
-				</p>
-                <a class="disabled" v-if="server.ssl == null || server.ssl.certificate.length == 0">[还没有上传密钥文件]</a>
-
-				<div class="info-box" v-if="info.length > 0">
-					<div class="ui field" v-for="(row, index) in info" :style="{'font-style':(index == info.length - 1) ? 'italic':''}">
-						<span :style="{'padding-left':(index * 20) + 'px' }"></span>{{row.subject}}
-						<span v-if="index == info.length - 1" style="font-style: normal;"><br/>有效期：{{row.before}} - {{row.after}}</span>
-					</div>
+		<tr>
+			<td>绑定网络地址<em>(listen)</em></td>
+			<td colspan="2">
+				<a class="disabled" v-if="server.ssl == null || server.ssl.listen == null || server.ssl.listen.length == 0">[还没有绑定网络地址]</a>
+				<div v-if="server.ssl != null && server.ssl.listen != null">
+					<span class="ui label small" v-for="listen in server.ssl.listen">{{listen}}</span>
 				</div>
-            </td>
-        </tr>
-        <tr>
-            <td>密钥文件<em>(Key)</em></td>
-            <td>
-                <span v-if="server.ssl != null && server.ssl.certificateKey.length > 0">{{server.ssl.certificateKey}}</span>
-				<p style="margin-top:0.4em" v-if="server.ssl != null && server.ssl.certificateKey.length > 0">
-				<a :href="'/proxy/ssl/downloadKey?serverId=' + server.id" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadKey?serverId=' + server.id + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
-				</p>
-                <a class="disabled" v-if="server.ssl == null || server.ssl.certificateKey.length == 0">[还没有上传密钥文件]</a>
-            </td>
-        </tr>
-        <tr>
-            <td>绑定网络地址<em>(listen)</em></td>
-            <td colspan="2">
-                <a class="disabled" v-if="server.ssl == null || server.ssl.listen == null || server.ssl.listen.length == 0">[还没有绑定网络地址]</a>
-                <div v-if="server.ssl != null && server.ssl.listen != null">
-                    <span class="ui label small" v-for="listen in server.ssl.listen">{{listen}}</span>
-                </div>
-            </td>
-        </tr>
+			</td>
+		</tr>
+		<tbody v-for="(cert,index) in certs">
+			<tr>
+				<td colspan="2" style="font-weight: normal;">证书#{{index+1}}<span v-if="cert.config.description.length > 0" class="grey">（{{cert.config.description}}）</span>：</td>
+			</tr>
+			<tr>
+				<td>证书文件<em>(Certificate)</em></td>
+				<td>
+					<span v-if="cert.config.certFile.length > 0">{{cert.config.certFile}}</span>
+					<p style="margin-top:0.4em;margin-bottom:0.5em" v-if="cert.config.certFile.length > 0">
+						<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.certFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.certFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
+					</p>
+					<a class="disabled" v-if="cert.config.certFile.length == 0">[还没有上传证书文件]</a>
+
+					<div class="info-box" v-if="cert.info.length > 0">
+						<div class="ui field" v-for="(row, index) in cert.info" :style="{'font-style':(index == cert.info.length - 1) ? 'italic':''}">
+							<span :style="{'padding-left':(index * 20) + 'px' }"></span>{{row.subject}}
+							<span v-if="index == cert.info.length - 1" style="font-style: normal;"><br/>有效期：{{row.before}} - {{row.after}}</span>
+						</div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>密钥文件<em>(Key)</em></td>
+				<td>
+					<span v-if="cert.config.keyFile.length > 0">{{cert.config.keyFile}}</span>
+					<p style="margin-top:0.4em" v-if="cert.config.keyFile.length > 0">
+						<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
+					</p>
+					<a class="disabled" v-if="cert.config.keyFile.length == 0">[还没有上传密钥文件]</a>
+				</td>
+			</tr>
+		</tbody>
+		<tr v-if="certs.length == 0">
+			<td>证书和密钥</td>
+			<td>还没有上传证书和密钥</td>
+		</tr>
 		<tr>
 			<td>TLS最低版本</td>
 			<td>

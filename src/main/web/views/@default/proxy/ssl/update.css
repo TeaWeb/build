@@ -7,6 +7,12 @@
     margin-bottom: 0 !important;
 }
 
+td .op-link {
+    position: absolute;
+    right: 1em;
+}
+
+/** 加密套件相关 **/
 .cipher-suites-box, .cipher-all-suites-box {
     margin-top: 1em;
 }
