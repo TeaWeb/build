@@ -70,6 +70,16 @@
 					</td>
 				</tr>
 				<tr>
+					<td>证书#{{index+1}}文件位置</td>
+					<td>
+						<div class="ui menu tabular">
+							<a href="" class="item" :class="{active:!cert.isLocal}" @click.prevent="cert.isLocal = false">从本地上传</a>
+							<a href="" class="item" :class="{active:cert.isLocal}" @click.prevent="cert.isLocal = true">指定证书文件路径</a>
+						</div>
+						<input type="hidden" name="certIsLocal" :value="cert.isLocal ? 1 : 0" />
+					</td>
+				</tr>
+				<tr v-show="!cert.isLocal">
 					<td>证书#{{index+1}}文件<em>(Certificate)</em></td>
 					<td>
 						<span v-if="cert.certFile.length > 0">{{cert.certFile}}</span>
@@ -78,12 +88,26 @@
 						<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
 					</td>
 				</tr>
-				<tr>
-					<td>证书#{{index+1}}密钥文件<em>(Key)</em></td>
+				<tr v-show="!cert.isLocal">
+					<td>证书#{{index+1}}密钥文件<em>(Private Key)</em></td>
 					<td>
 						<span v-if="cert.keyFile.length > 0">{{cert.keyFile}}</span>
 						<input type="file" :name="'keyFiles' + index" accept="application/pkcs8" style="margin-top:0.8em"/>
-						<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息</p>
+						<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
+					</td>
+				</tr>
+				<tr v-show="cert.isLocal">
+					<td>证书#{{index+1}}文件<em>(Certificate)</em></td>
+					<td>
+						<input type="text" name="certFilesPaths" v-model="cert.certFile"/>
+						<p class="comment">指定TeaWeb所在服务器上的证书文件路径，内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+					</td>
+				</tr>
+				<tr v-show="cert.isLocal">
+					<td>证书#{{index+1}}密钥文件<em>(Private Key)</em></td>
+					<td>
+						<input type="text" name="keyFilesPaths" v-model="cert.keyFile"/>
+						<p class="comment">指定TeaWeb所在服务器上的证书密钥文件路径，内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
 					</td>
 				</tr>
 			</tbody>
