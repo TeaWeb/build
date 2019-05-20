@@ -9,6 +9,8 @@
 
 . build-linux-32.sh
 . build-linux-64.sh
+. build-linux-arm-64.sh
+. build-linux-arm.sh
 . build-darwin.sh
 . build-windows-32.sh
 . build-windows-64.sh

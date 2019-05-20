@@ -16,6 +16,14 @@ export GOOS=linux
 export GOARCH=amd64
 buildAgentInstaller
 
+export GOOS=linux
+export GOARCH=arm64
+buildAgentInstaller
+
+export GOOS=linux
+export GOARCH=arm
+buildAgentInstaller
+
 export GOOS=darwin
 export GOARCH=amd64
 buildAgentInstaller
