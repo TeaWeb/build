@@ -55,6 +55,9 @@ call go_get "github.com/pkg/sftp"
 REM mysql
 call go_get "github.com/go-sql-driver/mysql"
 
+REM pqsql
+call go_get "github.com/lib/pq"
+
 REM aliyun
 call go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 

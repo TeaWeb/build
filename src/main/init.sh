@@ -69,6 +69,9 @@ go_get "github.com/pkg/sftp"
 # mysql
 go_get "github.com/go-sql-driver/mysql"
 
+# pqsql
+go_get "github.com/lib/pq"
+
 # aliyun
 go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
