@@ -394,13 +394,13 @@ function ChartRender(charts, eventCallback) {
 				type: "category",
 				data: chart.labels
 			},
-			series: chart.labels.$map(function (labelIndex, v) {
+			series: [0, 1].$map(function (index, _) {
 				return {
 					name: "",
 					type: 'bar',
-					stack: '总量',
+					stack: "总量",
 					data: chart.values.$map(function (k, v) {
-						return v[labelIndex];
+						return v[index];
 					}),
 					barWidth: 10,
 					itemStyle: {
