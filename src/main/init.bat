@@ -58,6 +58,9 @@ call go_get "github.com/go-sql-driver/mysql"
 REM pqsql
 call go_get "github.com/lib/pq"
 
+REM siphash
+github.com/dchest/siphash
+
 REM aliyun
 call go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 

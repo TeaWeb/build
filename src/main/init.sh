@@ -72,6 +72,9 @@ go_get "github.com/go-sql-driver/mysql"
 # pqsql
 go_get "github.com/lib/pq"
 
+# siphash
+github.com/dchest/siphash
+
 # aliyun
 go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
