@@ -1,5 +1,5 @@
 <p class="grey">这里设置的服务器响应的HTTP Header，在响应请求时会带有这些自定义的信息。</p>
-<h3>自定义Header <a :href="'/proxy/headers/add?' + query + '&from=' + from">添加</a> </h3>
+<h3>自定义响应Header <a :href="'/proxy/headers/add?' + query + '&from=' + from">添加</a> </h3>
 <p class="grey" v-if="headers.length == 0 && loaded">暂时还没有自定义Header。</p>
 <table class="ui table selectable" v-if="headers.length > 0">
     <thead>
@@ -32,7 +32,7 @@
 
 <div class="ui divider margin"></div>
 
-<h3>屏蔽的Header <a :href="'/proxy/headers/addIgnore?' + query + '&from=' + from">添加</a></h3>
+<h3>屏蔽的响应Header <a :href="'/proxy/headers/addIgnore?' + query + '&from=' + from">添加</a></h3>
 <p class="grey" v-if="ignoreHeaders.length == 0 && loaded">暂时还没有自定义Header。</p>
 <table class="ui table selectable" v-if="ignoreHeaders.length > 0">
     <thead>
