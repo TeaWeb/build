@@ -383,6 +383,10 @@ function ChartRender(charts, eventCallback) {
 		}
 
 		var c = echarts.init(chartBox);
+		var seriesIndexes = [0, 1];
+		if (chart.values.length > 0) {
+			seriesIndexes = Array.$range(0, chart.values[0].length - 1);
+		}
 		var option = {
 			textStyle: {
 				fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
@@ -394,7 +398,7 @@ function ChartRender(charts, eventCallback) {
 				type: "category",
 				data: chart.labels
 			},
-			series: [0, 1].$map(function (index, _) {
+			series: seriesIndexes.$map(function (index, _) {
 				return {
 					name: "",
 					type: 'bar',
