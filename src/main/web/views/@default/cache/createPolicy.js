@@ -81,4 +81,36 @@ Tea.context(function () {
 	 * Redis
 	 */
 	this.redisNetwork = "tcp";
+
+	/**
+	 * cache control
+	 */
+	this.addingCacheControl = "";
+	this.cacheControlIsAdding = false;
+
+	this.removeCacheControl = function (cacheControl) {
+		this.skippedCacheControlValues.$removeValue(cacheControl);
+	};
+
+	this.addCacheControl = function () {
+		this.cacheControlIsAdding = true;
+		this.$delay(function () {
+			this.$find("input[name='addingCacheControl']").focus();
+		});
+	};
+
+	this.addCacheControlConfirm = function () {
+		if (this.addingCacheControl.length == 0) {
+			alert("请输入一个非空值");
+			this.$find("input[name='addingCacheControl']").focus();
+			return;
+		}
+		this.skippedCacheControlValues.push(this.addingCacheControl);
+		this.addingCacheControl = "";
+		this.cacheControlIsAdding = false;
+	};
+
+	this.cancelCacheControlAdding = function () {
+		this.cacheControlIsAdding = false;
+	};
 });

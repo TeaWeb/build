@@ -150,12 +150,12 @@
         <tr v-show="advancedVisible">
             <td>支持的状态码</td>
             <td>
-                <label class="ui label" v-for="(status, index) in statusList" :key="index">{{status}}
+                <label class="ui label tiny" v-for="(status, index) in statusList" :key="index">{{status}}
                     <input type="hidden" name="statusList" :value="status"/>
                     <a href="" @click.prevent="deleteStatus(index)"><i class="ui icon remove"></i></a>
                 </label>
                 <div style="margin-top:1em" v-if="!statusAdding">
-                    <button class="ui button small" type="button" @click.prevent="addStatus()">+</button>
+                    <button class="ui button tiny" type="button" @click.prevent="addStatus()">+</button>
                 </div>
                 <div style="margin-top:1em" v-if="statusAdding">
                     <div class="ui fields inline">
@@ -163,13 +163,47 @@
                             <input type="number" name="addingStatus" @keyup.enter="addStatusConfirm" v-model="addingStatus" style="width:5em" maxlength="3" @keypress.enter.prevent="1"/>
                         </div>
                         <div class="ui field">
-                            <button class="ui button" type="button" @click.prevent="addStatusConfirm()">添加</button> &nbsp; <a href="" @click.prevent="cancelAdding()">取消</a>
+                            <button class="ui button tiny" type="button" @click.prevent="addStatusConfirm()">添加</button> &nbsp; <a href="" @click.prevent="cancelAdding()">取消</a>
                         </div>
                     </div>
                 </div>
                 <p class="comment">支持的HTTP状态码，必须是3位数字</p>
             </td>
         </tr>
+		<tr v-show="advancedVisible">
+			<td>跳过的Cache-Control值</td>
+			<td>
+				<div>
+					<span class="ui label tiny" v-for="cacheControl in skippedCacheControlValues">{{cacheControl}} <a href="" title="删除" @click.prevent="removeCacheControl(cacheControl)"><i class="icon remove"></i></a>
+						<input type="hidden" name="skippedCacheControlValues" :value="cacheControl" />
+					</span>
+				</div>
+				<div style="margin-top:1em" v-if="cacheControlIsAdding">
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="addingCacheControl"  @keyup.enter="addCacheControlConfirm" v-model="addingCacheControl" style="width:10em" @keypress.enter.prevent="1" />
+						</div>
+						<div class="ui field">
+							<button class="ui button tiny" type="button" @click.prevent="addCacheControlConfirm()">添加</button> &nbsp; <a href="" @click.prevent="cancelCacheControlAdding()">取消</a>
+						</div>
+					</div>
+				</div>
+				<div style="margin-top:1em">
+					<button class="ui button tiny" type="button" @click.prevent="addCacheControl()">+</button>
+				</div>
+				<p class="comment">当响应的Cache-Control为这些值时不缓存响应内容，而且不区分大小写。</p>
+			</td>
+		</tr>
+		<tr v-show="advancedVisible">
+			<td>跳过Set-Cookie</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="skipSetCookie" value="1" v-model="policy.skipSetCookie"/>
+					<label></label>
+				</div>
+				<p class="comment">选中后，当响应的Header中有Set-Cookie时不缓存响应内容。</p>
+			</td>
+		</tr>
         <tr v-show="advancedVisible">
             <td>最大内容长度</td>
             <td>

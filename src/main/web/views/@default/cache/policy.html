@@ -123,6 +123,22 @@
 		</td>
 	</tr>
 	<tr>
+		<td>跳过的Cache-Control值</td>
+		<td>
+			<span v-if="policy.skipCacheControlValues == null || policy.skipCacheControlValues.length == 0" class="disabled">没有设置</span>
+			<div v-if="policy.skipCacheControlValues != null && policy.skipCacheControlValues.length > 0">
+				<span class="ui label tiny" v-for="cacheControl in policy.skipCacheControlValues">{{cacheControl}}</span>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>跳过Set-Cookie</td>
+		<td>
+			<span v-if="policy.skipSetCookie">跳过</span>
+			<span v-if="!policy.skipSetCookie">不跳过</span>
+		</td>
+	</tr>
+	<tr>
 		<td>最大内容长度</td>
 		<td>
 			<span v-if="policy.maxSize == '0.00m'" class="disabled">默认</span>
