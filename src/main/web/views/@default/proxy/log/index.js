@@ -235,61 +235,13 @@ Tea.context(function () {
 			this.$get(".responseHeader." + log.id + "." + log.day)
 				.success(function (response) {
 					log.responseHeaders = response.data.headers;
-					log.responseBody = response.data.body;
+					log.responseHasBody = response.data.hasBody;
 
 					if (log.responseHeaders == null) {
 						log.responseHeaders = {};
 					}
 
-					log.shouldHighlightResponse = false;
-					var contentType = "";
-					if (log.responseHeaders != null && log.responseBody != null) {
-						contentType = log.responseHeaders["Content-Type"];
-						if (contentType != null) {
-							log.shouldHighlightResponse = [
-								"application/json",
-								"text/json"
-							].$exist(function (k, v) {
-								return contentType.toString().indexOf(v) > -1;
-							});
-						}
-					}
-
 					this.$set(this.logs, index, log);
-
-					if (log.shouldHighlightResponse) {
-						this.$delay(function () {
-							var box = this.$find(".response-body-box")[0];
-							if (box != null) {
-								box.innerHTML = "";
-							}
-							var codeEditor = CodeMirror(box, {
-								theme: "idea",
-								lineNumbers: true,
-								styleActiveLine: true,
-								matchBrackets: true,
-								value: "",
-								readOnly: true,
-								height: "auto",
-								viewportMargin: Infinity,
-								lineWrapping: true,
-								highlightFormatting: true,
-								indentUnit: 4,
-								mode: "",
-								indentWithTabs: true
-							});
-
-							var mimeType = "application/json";
-							var info = CodeMirror.findModeByMIME(mimeType);
-							if (info != null) {
-								codeEditor.setOption("mode", info.mode);
-								CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
-								CodeMirror.autoLoadMode(codeEditor, info.mode);
-							}
-
-							codeEditor.setValue(log.responseBody);
-						});
-					}
 				});
 		}
 
@@ -367,37 +319,74 @@ Tea.context(function () {
 
 		// 预览
 		else if (tabName == "preview") {
-			if (typeof (log.responseHeaders) == "undefined") {
-				log.previewImageLoaded = false;
-				this.$get(".responseHeader." + log.id + "." + log.day)
-					.success(function (response) {
-						log.responseHeaders = response.data.headers;
-						log.responseBody = response.data.body;
+			this.previewTab = "preview";
 
-						if (log.responseHeaders == null) {
-							log.responseHeaders = {};
-						}
+			log.responseBodyLoaded = false;
+			log.responseRawBody = "";
+			this.$set(this.logs, index, log);
 
-						if (typeof (log.responseHeaders["Content-Type"]) != "undefined" && log.responseHeaders["Content-Type"].length > 0 && log.responseHeaders["Content-Type"][0].match(/image\//)) {
-							log.previewImageURL = log.requestScheme + "://" + log.host + log.requestURI;
-						}
+			this.$get(".responseBody." + log.id + "." + log.day)
+				.success(function (response) {
+					log.responseRawBody = response.data.rawBody;
+					log.responseIsImage = response.data.isImage;
+					log.responseIsText = response.data.isText;
+					log.responseBody = response.data.body;
+					log.responseBodyContentType = response.data.contentType;
+					log.responseBodyEncoding = response.data.encoding;
 
-						this.$set(this.logs, index, log);
-					})
-					.done(function () {
-						log.previewImageLoaded = true;
-					});
-			} else {
-				if (typeof (log.responseHeaders["Content-Type"]) != "undefined" && log.responseHeaders["Content-Type"].length > 0 && log.responseHeaders["Content-Type"][0].match(/image\//)) {
-					log.previewImageURL = log.requestScheme + "://" + log.host + log.requestURI;
-				}
-				log.previewImageLoaded = true;
-			}
-		}
+					var contentType = response.data.contentType;
+					this.$set(this.logs, index, log);
 
-		// 响应内容
-		else if (tabName == "responseBody") {
-			// @TODO
+					if (contentType == "text/plain") {
+						log.responseIsText = false;
+					}
+
+					if (log.responseIsImage) {
+						log.responseImageNatureSize = "";
+						this.$delay(function () {
+							var image = document.getElementById("log-response-image");
+							if (image != null && image.naturalWidth != null && image.naturalWidth > 0 && image.naturalHeight != null && image.naturalHeight > 0) {
+								log.responseImageNatureSize = image.naturalWidth + "x" + image.naturalHeight;
+								this.$set(this.logs, index, log);
+							}
+						});
+					}
+
+					if (log.responseIsText && !log.responseBodyLoaded) {
+						this.$delay(function () {
+							var box = document.getElementById("log-response-text-editor");
+							if (box != null) {
+								box.innerHTML = "";
+								var codeEditor = CodeMirror(box, {
+									theme: "idea",
+									lineNumbers: true,
+									styleActiveLine: true,
+									matchBrackets: true,
+									value: "",
+									readOnly: true,
+									//height: "auto",
+									viewportMargin: Infinity,
+									lineWrapping: true,
+									highlightFormatting: true,
+									indentUnit: 4,
+									mode: "",
+									indentWithTabs: true
+								});
+
+								var info = CodeMirror.findModeByMIME(contentType);
+								if (info != null) {
+									codeEditor.setOption("mode", info.mode);
+									CodeMirror.modeURL = "/codemirror/mode/%N/%N.js";
+									CodeMirror.autoLoadMode(codeEditor, info.mode);
+								}
+
+								codeEditor.setValue(log.responseBody);
+							}
+						}, 100);
+					}
+
+					log.responseBodyLoaded = true;
+				});
 		}
 
 		// Cookie
@@ -531,5 +520,14 @@ Tea.context(function () {
 		this.fromId = "";
 		this.logs = [];
 		this.isLoaded = false;
+	};
+
+	/**
+	 * 预览相关
+	 */
+	this.previewTab = "preview";
+
+	this.selectPreviewTab = function (tab) {
+		this.previewTab = tab;
 	};
 });

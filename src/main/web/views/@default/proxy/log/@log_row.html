@@ -112,10 +112,11 @@
 						<td>{{subValue}}</td>
 					</tr>
 					</tbody>
-					<tr v-if="log.responseBody.length > 0">
-						<td colspan="2" :class="{padding0:log.shouldHighlightResponse}">
-							<pre v-if="!log.shouldHighlightResponse">{{log.responseBody}}</pre>
-							<pre class="response-body-box" v-if="log.shouldHighlightResponse"></pre>
+					<tr>
+						<td>响应内容</td>
+						<td>
+							<span v-if="!log.responseHasBody">没有响应内容，或者没有在设置中"存储的访问日志"中选中"响应Body"。</span>
+							<a href="" v-if="log.responseHasBody" @click.prevent="showLogTab(log, index, 'preview')">点此预览响应内容</a>
 						</td>
 					</tr>
 				</table>
@@ -143,20 +144,44 @@
 
 				<!-- 预览 -->
 				<table cellpadding="0" cellspacing="0" class="ui table selectable" v-if="log.isOpen && log.tabName == 'preview'">
-					<tbody v-if="log.previewImageLoaded && (log.previewImageURL == null || log.previewImageURL.length == 0)">
-					<tr>
-						<td>目前只能预览图片资源</td>
-					</tr>
+					<tbody v-if="!log.responseBodyLoaded">
+						<tr>
+							<td>加载中...</td>
+						</tr>
 					</tbody>
-					<tbody v-if="log.previewImageURL != null && log.previewImageURL.length > 0">
-					<tr>
-						<td>每次预览可能会产生新的请求日志</td>
-					</tr>
-					<tr>
-						<td class="preview-box">
-							<a :href="log.previewImageURL" target="_blank" title="点击打开"><img :src="log.previewImageURL"/></a>
-						</td>
-					</tr>
+					<tbody v-if="log.responseBodyLoaded">
+						<tr v-if="log.responseRawBody.length > 0">
+							<td>
+								<div class="ui menu tabular small attached">
+									<a href="" class="item" :class="{active:previewTab == 'preview'}" @click.prevent="selectPreviewTab('preview')">预览 <span v-if="log.responseBodyContentType != null && log.responseBodyContentType.length > 0">({{log.responseBodyContentType}})</span></a>
+									<a href="" class="item" :class="{active:previewTab == 'raw'}" @click.prevent="selectPreviewTab('raw')">原始响应内容 <span v-if="log.responseBodyEncoding != null && log.responseBodyEncoding.length > 0">({{log.responseBodyEncoding}})</span></a>
+								</div>
+								<div class="ui segment attached" v-show="previewTab == 'preview'">
+									<div v-if="log.responseIsImage">
+										<p v-if="log.responseImageNatureSize != null && log.responseImageNatureSize.length > 0">原始尺寸：{{log.responseImageNatureSize}}</p>
+										<a :href="log.requestScheme + '://' + log.host + log.requestURI" target="_blank" title="点击在新浏览器窗口打开"><img :src="log.responseBody" style="max-width: 20em;max-height: 20em;" id="log-response-image"></a>
+									</div>
+									<div v-if="log.responseIsText" id="log-response-text-editor">
+										<!-- 预览内容 -->
+									</div>
+									<div v-if="!log.responseIsImage && !log.responseIsText">
+										<div class="pre-box">
+											<pre>{{log.responseBody}}</pre>
+										</div>
+									</div>
+								</div>
+								<div class="ui segment attached" v-show="previewTab == 'raw'">
+									<div class="pre-box">
+										<pre>{{log.responseRawBody}}</pre>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr v-if="log.responseRawBody.length == 0">
+							<td>
+								<span>没有响应内容，或者没有设置中"存储的访问日志"中选中"响应Body"。</span>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 

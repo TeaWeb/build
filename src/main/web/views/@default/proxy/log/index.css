@@ -194,15 +194,27 @@
     padding: 0;
 }
 
-.log-table td.padding0 pre {
+.log-table td pre {
+    line-height: 2;
+    font-size: 0.9em;
     margin: 0;
     padding: 0;
 }
 
+.log-table td .pre-box {
+    max-height: 16em;
+    overflow-y: auto;
+}
+
+.log-table td .pre-box::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
 /** codemirror **/
 .CodeMirror {
-    border: 1px solid #eee;
-    height: auto !important;
+    /**border: 1px solid #eee;**/
+    max-height: 20em !important;
 }
 
 .CodeMirror-vscrollbar {
@@ -212,4 +224,9 @@
 
 .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
     border-radius: 2px;
+}
+
+.CodeMirror-wrap pre {
+    -ms-word-break: break-all !important;
+    word-break: break-all !important;
 }
