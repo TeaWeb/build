@@ -100,5 +100,12 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td>开启HSTS</td>
+			<td>
+				<span v-if="server.ssl != null && server.ssl.hsts" class="green">已开启</span>
+				<span v-if="server.ssl == null || !server.ssl.hsts" class="disabled">未开启</span>
+			</td>
+		</tr>
     </table>
 </div>

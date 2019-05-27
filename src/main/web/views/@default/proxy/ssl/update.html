@@ -158,6 +158,16 @@
 						</div>
 					</td>
 				</tr>
+				<tr>
+					<td>开启HSTS</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="hsts" v-model="hsts" value="1"/>
+							<label></label>
+						</div>
+						<p class="comment">开启后，会自动在响应Header中加入<span class="ui label small">Strict-Transport-Security: ...</span></p>
+					</td>
+				</tr>
 			</tbody>
         </table>
 
