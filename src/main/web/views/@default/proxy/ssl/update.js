@@ -145,6 +145,24 @@ Tea.context(function () {
 		return cipherSuite.replace(/(AES|3DES)/, "<var>$1</var>");
 	};
 
+	this.addBatchCipherSuites = function (suites) {
+		var that = this;
+		suites.$each(function (k, v) {
+			if (that.selectedCipherSuites.$contains(v)) {
+				return;
+			}
+			that.selectedCipherSuites.push(v);
+		});
+	};
+
+	this.clearCipherSuites = function () {
+		this.selectedCipherSuites = [];
+		var that = this;
+		this.cipherSuites = allCipherSuites.$findAll(function (k, v) {
+			return !that.selectedCipherSuites.$contains(v);
+		});
+	};
+
 	/**
 	 * 拖动排序
 	 */

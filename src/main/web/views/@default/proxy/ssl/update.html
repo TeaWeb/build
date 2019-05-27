@@ -150,8 +150,16 @@
 								</div>
 							</div>
 
+							<div style="font-size:0.9em">
+								<div class="ui divider"></div>
+								<span v-if="selectedCipherSuites.length > 0"><a href="" @click.prevent="clearCipherSuites()">[清除所有已选套件]</a> &nbsp; </span>
+								<a href="" @click.prevent="addBatchCipherSuites(modernCipherSuites)">[添加推荐套件]</a> &nbsp;
+								<a href="" @click.prevent="addBatchCipherSuites(intermediateCipherSuites)">[添加兼容套件]</a>
+								<div class="ui divider"></div>
+							</div>
+
 							<div class="cipher-all-suites-box">
-								可选套件({{cipherSuites.length}})：
+								<span v-if="selectedCipherSuites.length == 0">所有</span>可选套件({{cipherSuites.length}})：
 								<a href="" v-for="cipherSuite in cipherSuites" class="ui label tiny" title="点击添加到自定义套件中" @click.prevent="addCipherSuite(cipherSuite)" v-html="formatCipherSuite(cipherSuite)"></a>
 							</div>
 							<p class="comment">点击可选套件添加。</p>
