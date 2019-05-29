@@ -20,11 +20,14 @@
 <div>
     {$template "/proxy/menu"}
 
-    <div class="ui text menu blue small">
-        <a :href="'/proxy/locations?serverId=' + server.id" class="ui item">所有路径规则</a>
-        <span class="item">|</span>
-        <a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item active">添加新路径规则</a>
-    </div>
+	<div class="second-menu">
+		<div class="ui text menu blue small">
+			<a :href="'/proxy/locations?serverId=' + server.id" class="ui item">所有路径规则</a>
+			<span class="item">|</span>
+			<a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item active">添加新路径规则</a>
+		</div>
+		<div class="ui divider"></div>
+	</div>
 
     <form class="ui form" data-tea-action="/proxy/locations/add" data-tea-success="submitSuccess" id="location-form">
         <input type="hidden" name="serverId" :value="server.id"/>

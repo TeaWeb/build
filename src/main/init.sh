@@ -73,7 +73,10 @@ go_get "github.com/go-sql-driver/mysql"
 go_get "github.com/lib/pq"
 
 # siphash
-github.com/dchest/siphash
+go_get "github.com/dchest/siphash"
+
+# lego - let's encrypt
+go_get "github.com/go-acme/lego"
 
 # aliyun
 go_get "github.com/aliyun/alibaba-cloud-sdk-go"

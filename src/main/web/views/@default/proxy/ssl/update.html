@@ -55,16 +55,18 @@
 					<p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
 				</td>
 			</tr>
+		</table>
 
-			<tbody v-for="(cert, index) in certs">
+		<table class="ui table selectable" v-for="(cert, index) in certs">
+			<tbody>
 				<tr>
-					<td colspan="2" style="font-weight: normal;">证书#{{index+1}}：
+					<td colspan="2" style="font-weight: normal;background: rgba(0,0,0,.05)">证书#{{index+1}}：
 						<a href="" title="移除此证书" class="op-link" @click.prevent="removeCert(index)"><i class="icon remove small"></i></a>
 						<input type="hidden" name="certIds" :value="cert.id"/>
 					</td>
 				</tr>
 				<tr>
-					<td>证书#{{index+1}}说明</td>
+					<td class="title">证书#{{index+1}}说明</td>
 					<td>
 						<input type="text" name="certDescriptions" maxlength="200" v-model="cert.description" :id="'cert-descriptions-input-' + index"/>
 					</td>
@@ -111,8 +113,11 @@
 					</td>
 				</tr>
 			</tbody>
+		</table>
+
+		<table class="ui table selectable">
 			<tr>
-				<td>添加新证书</td>
+				<td class="title">添加新证书</td>
 				<td>
 					<button class="ui button tiny" type="button" @click.prevent="addCert()">+</button>
 				</td>

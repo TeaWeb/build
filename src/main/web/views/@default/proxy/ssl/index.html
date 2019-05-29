@@ -18,9 +18,10 @@
 
 <div>
     {$template "/proxy/menu"}
+	{$template "menu"}
 
     <!-- HTTPS 设置 -->
-    <h3>HTTPS <a :href="'/proxy/ssl/update?serverId=' + server.id">修改</a></h3>
+    <h3>配置信息 <a :href="'/proxy/ssl/update?serverId=' + server.id">修改</a></h3>
 
 	<p class="ui message error" v-if="errorMessages.length > 0" v-for="error in errorMessages">
 		发生错误：{{error}}
@@ -48,42 +49,6 @@
 				</div>
 			</td>
 		</tr>
-		<tbody v-for="(cert,index) in certs">
-			<tr>
-				<td colspan="2" style="font-weight: normal;">证书#{{index+1}}<span v-if="cert.config.description.length > 0" class="grey">（{{cert.config.description}}）</span>：</td>
-			</tr>
-			<tr>
-				<td>证书文件<em>(Certificate)</em></td>
-				<td>
-					<span v-if="cert.config.certFile.length > 0">{{cert.config.certFile}}</span>
-					<p style="margin-top:0.4em;margin-bottom:0.5em" v-if="cert.config.certFile.length > 0">
-						<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.certFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.certFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
-					</p>
-					<a class="disabled" v-if="cert.config.certFile.length == 0">[还没有上传证书文件]</a>
-
-					<div class="info-box" v-if="cert.info.length > 0">
-						<div class="ui field" v-for="(row, index) in cert.info" :style="{'font-style':(index == cert.info.length - 1) ? 'italic':''}">
-							<span :style="{'padding-left':(index * 20) + 'px' }"></span>{{row.subject}}
-							<span v-if="index == cert.info.length - 1" style="font-style: normal;"><br/>有效期：{{row.before}} - {{row.after}}</span>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>密钥文件<em>(Private Key)</em></td>
-				<td>
-					<span v-if="cert.config.keyFile.length > 0">{{cert.config.keyFile}}</span>
-					<p style="margin-top:0.4em" v-if="cert.config.keyFile.length > 0">
-						<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
-					</p>
-					<a class="disabled" v-if="cert.config.keyFile.length == 0">[还没有上传密钥文件]</a>
-				</td>
-			</tr>
-		</tbody>
-		<tr v-if="certs.length == 0">
-			<td>证书和密钥</td>
-			<td>还没有上传证书和密钥</td>
-		</tr>
 		<tr>
 			<td>TLS最低版本</td>
 			<td>
@@ -95,7 +60,7 @@
 			<td>加密算法套件<em>(CipherSuites)</em></td>
 			<td>
 				<span v-if="server.ssl == null || server.ssl.cipherSuites == null || server.ssl.cipherSuites.length == 0" class="disabled">使用默认的算法套件。</span>
-				<div v-if="server.ssl != null && server.ssl.cipherSuites != null && server.ssl.cipherSuites.length > 0">
+				<div v-if="server.ssl != null && server.ssl.cipherSuites != null && server.ssl.cipherSuites.length > 0" class="cipher-all-suites-box">
 					<span class="ui label tiny" v-for="cipherSuite in server.ssl.cipherSuites" v-html="formatCipherSuite(cipherSuite)"></span>
 				</div>
 			</td>
@@ -107,5 +72,40 @@
 				<span v-if="server.ssl == null || !server.ssl.hsts" class="disabled">未开启</span>
 			</td>
 		</tr>
-    </table>
+	</table>
+
+	<h3>证书<span>（{{certs.length}}个）</span></h3>
+	<table class="ui table selectable" v-for="(cert, index) in certs">
+		<!-- 证书列表 -->
+		<tr>
+			<td colspan="2" style="font-weight: normal;;background: rgba(0,0,0,.05)">证书#{{index+1}}<span v-if="cert.config.description.length > 0" class="grey">（{{cert.config.description}}）</span><span v-if="cert.config.taskId.length > 0" class="grey">（ACME）</span>：</td>
+		</tr>
+		<tr>
+			<td class="title">证书文件<em>(Certificate)</em></td>
+			<td>
+				<span v-if="cert.config.certFile.length > 0">{{cert.config.certFile}}</span>
+				<p style="margin-top:0.4em;margin-bottom:0.5em" v-if="cert.config.certFile.length > 0">
+					<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.certFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.certFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
+				</p>
+				<a class="disabled" v-if="cert.config.certFile.length == 0">[还没有上传证书文件]</a>
+
+				<div class="info-box" v-if="cert.info.length > 0">
+					<div class="ui field" v-for="(row, index) in cert.info" :style="{'font-style':(index == cert.info.length - 1) ? 'italic':''}">
+						<span :style="{'padding-left':(index * 20) + 'px' }"></span>{{row.subject}}
+						<span v-if="index == cert.info.length - 1" style="font-style: normal;"><br/>有效期：{{row.before}} - {{row.after}}</span>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>密钥文件<em>(Private Key)</em></td>
+			<td>
+				<span v-if="cert.config.keyFile.length > 0">{{cert.config.keyFile}}</span>
+				<p style="margin-top:0.4em" v-if="cert.config.keyFile.length > 0">
+					<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
+				</p>
+				<a class="disabled" v-if="cert.config.keyFile.length == 0">[还没有上传密钥文件]</a>
+			</td>
+		</tr>
+	</table>
 </div>

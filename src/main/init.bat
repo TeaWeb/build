@@ -59,7 +59,10 @@ REM pqsql
 call go_get "github.com/lib/pq"
 
 REM siphash
-github.com/dchest/siphash
+call go_get "github.com/dchest/siphash"
+
+REM lego - let's encrypt
+call go_get "github.com/go-acme/lego"
 
 REM aliyun
 call go_get "github.com/aliyun/alibaba-cloud-sdk-go"

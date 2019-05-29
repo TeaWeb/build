@@ -19,11 +19,14 @@
 <div>
     {$template "/proxy/menu"}
 
-    <div class="ui text menu blue small">
-        <a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则</a>
-        <span class="item">|</span>
-        <a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item">添加新路径规则</a>
-    </div>
+	<div class="second-menu">
+		<div class="ui text menu blue small">
+			<a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则</a>
+			<span class="item">|</span>
+			<a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item">添加新路径规则</a>
+		</div>
+		<div class="ui divider"></div>
+	</div>
 
     <p class="comment" v-if="locations.length == 0">暂时还没有路径规则配置。</p>
 

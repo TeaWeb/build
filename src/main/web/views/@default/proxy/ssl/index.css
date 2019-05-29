@@ -7,6 +7,10 @@
     margin-bottom: 0 !important;
 }
 
+.divider {
+    margin-bottom: 0 !important;
+}
+
 .info-box {
     padding: 6px 10px;
     background: rgba(0, 0, 0, 0.08);
@@ -14,6 +18,11 @@
     font-size: 0.9em;
 }
 
+.cipher-all-suites-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
 .cipher-all-suites-box .label var {
-    font-weight: bold;
+    font-weight: bold !important;
 }
