@@ -12,6 +12,11 @@
 </div>
 
 <div class="ui steps fluid small">
+	<div class="ui step" :class="{active:step == 'prepare'}">
+		<div class="content">
+			<div class="title">开始前准备</div>
+		</div>
+	</div>
 	<div class="ui step" :class="{active:step == 'config'}">
 		<div class="content">
 			<div class="title">用户/域名信息</div>
@@ -26,6 +31,16 @@
 		<div class="content">
 			<div class="title">完成</div>
 		</div>
+	</div>
+</div>
+
+<!-- 准备 -->
+<div v-show="step == 'prepare'">
+	<div class="ui segment">
+		在为某个或某些域名申请证书之前，请确认你拥有这些域名的<strong>DNS设置权限</strong>，并打开了DNS运营商提供的设置界面，因为接下来我们需要为域名设置<strong>TXT记录</strong>。
+	</div>
+	<div style="margin-top: 1em">
+		<button class="ui button primary" @click.prevent="confirmPrepared()" type="button">我准备好了</button>
 	</div>
 </div>
 
@@ -108,5 +123,7 @@
 
 <!-- 完成 -->
 <div v-show="step == 'finish'">
-	证书已成功生成，并已自动添加到HTTPS配置中，<a :href="'/proxy/ssl?serverId=' + server.id">点此查看</a>。
+	<div class="ui segment green">
+		恭喜你，证书已成功生成，并已自动添加到HTTPS配置中，<a :href="'/proxy/ssl?serverId=' + server.id">点此查看</a>。
+	</div>
 </div>

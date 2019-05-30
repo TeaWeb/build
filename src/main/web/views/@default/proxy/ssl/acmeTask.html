@@ -1,0 +1,81 @@
+{$layout}
+{$template "/proxy/menu"}
+{$template "menu"}
+
+<div class="second-menu">
+	<div class="ui menu text small blue" style="margin-top:0">
+		<a :href="'/proxy/ssl/generate?serverId=' + server.id" class="item active">证书列表</a>
+		<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item">申请证书</a>
+		<a :href="'/proxy/ssl/acmeUsers?serverId=' + server.id" class="item">ACME用户</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td class="title">用户邮箱</td>
+		<td>{{task.request.user.email}}</td>
+	</tr>
+	<tr>
+		<td>用户URI</td>
+		<td>{{task.request.user.uri}}</td>
+	</tr>
+	<tr>
+		<td>域名</td>
+		<td>
+			<span class="ui label small" v-for="domain in task.request.domains">{{domain}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>有效期</td>
+		<td><span :class="{red:isExpired, green:!isExpired}">{{dayFrom}} - {{dayTo}}</span></td>
+	</tr>
+	<tr>
+		<td>更新时间</td>
+		<td>{{runTime}}
+			<p class="comment" v-if="runError.length > 0"><span class="red">{{runError}}</span></p>
+		</td>
+	</tr>
+	<tr>
+		<td>DNS认证记录</td>
+		<td>
+			<table class="ui table selectable without-definition">
+				<thead>
+				<tr>
+					<th>记录类型</th>
+					<th>主机记录</th>
+					<th>记录值</th>
+				</tr>
+				</thead>
+				<tr v-for="record in task.request.dnsRecords">
+					<td><strong>TXT</strong></td>
+					<td>{{record.fqdn}}</td>
+					<td>{{record.value}}</td>
+				</tr>
+			</table>
+			<p class="comment">用来认证域名的所有权。</p>
+		</td>
+	</tr>
+	<tr v-if="task.request.cert.length > 0">
+		<td>证书文件下载</td>
+		<td>
+			<a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=key'">密钥下载</a>
+		</td>
+	</tr>
+	<tr v-if="task.request.cert.length > 0">
+		<td>证书预览</td>
+		<td>
+			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{task.request.cert}}</pre>
+			<p class="comment">
+				<a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=viewCert'" target="_blank">[浏览器新窗口打开]</a>
+			</p>
+		</td>
+	</tr>
+	<tr v-if="task.request.key.length > 0">
+		<td>密钥预览</td>
+		<td>
+			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{task.request.key}}</pre>
+			<a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=viewKey'" target="_blank">[浏览器新窗口打开]</a>
+		</td>
+	</tr>
+</table>

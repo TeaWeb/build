@@ -21,11 +21,11 @@
 	<table class="ui table selectable" v-if="tasks.length > 0">
 		<thead>
 			<tr>
-				<th>邮箱</th>
+				<th>用户</th>
 				<th>域名</th>
 				<th>有效期</th>
 				<th>更新时间</th>
-				<th class="two op">操作</th>
+				<th class="three op">操作</th>
 			</tr>
 		</thead>
 		<tr v-for="task in tasks">
@@ -38,6 +38,7 @@
 				<span class="red" v-if="task.runError != null && task.runError.length > 0">{{task.runError}}</span>
 			</td>
 			<td>
+				<a :href="'/proxy/ssl/acmeTask?serverId=' + server.id + '&taskId=' + task.id">详情</a> &nbsp;
 				<a href="" @click.prevent="renewTask(task.id)" v-if="!isRenewing">更新</a>
 				<span v-if="isRenewing">更新中...</span> &nbsp;
 				<a href="" @click.prevent="deleteTask(task.id)" v-if="!isRenewing">删除</a>

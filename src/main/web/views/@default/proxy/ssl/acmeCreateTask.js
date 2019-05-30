@@ -1,5 +1,12 @@
 Tea.context(function () {
-	this.step = "config";
+	this.step = "prepare";
+
+	/**
+	 * 准备
+	 */
+	this.confirmPrepared = function () {
+		this.step = "config";
+	};
 
 	/**
 	 * 配置
