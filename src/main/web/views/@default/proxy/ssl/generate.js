@@ -2,7 +2,7 @@ Tea.context(function () {
 	this.isRenewing = false;
 
 	this.deleteTask = function (taskId) {
-		if (!window.confirm("确定要删除此证书请求吗？已经生成的证书仍然会被保留")) {
+		if (!window.confirm("确定要删除此证书请求吗？正在使用的证书仍然会被保留")) {
 			return;
 		}
 		this.$post(".acmeDeleteTask")

@@ -24,7 +24,7 @@
 				<th>用户</th>
 				<th>域名</th>
 				<th>有效期</th>
-				<th>更新时间</th>
+				<th class="four wide">更新时间</th>
 				<th class="three op">操作</th>
 			</tr>
 		</thead>
@@ -35,7 +35,9 @@
 				<span v-if="task.dayFrom.length > 0" :class="{red:task.isExpired, green:!task.isExpired}">{{task.dayFrom}} - {{task.dayTo}}</span>
 			</td>
 			<td>{{task.runTime}}
-				<span class="red" v-if="task.runError != null && task.runError.length > 0">{{task.runError}}</span>
+				<p class="comment" v-if="task.runError != null && task.runError.length > 0">
+					<span class="red">发生错误，点击<a :href="'/proxy/ssl/acmeTask?serverId=' + server.id + '&taskId=' + task.id">"详情"</a>查看具体错误内容</span>
+				</p>
 			</td>
 			<td>
 				<a :href="'/proxy/ssl/acmeTask?serverId=' + server.id + '&taskId=' + task.id">详情</a> &nbsp;
