@@ -413,6 +413,10 @@ body.expanded .main {
     color: grey;
 }
 
+.sub-menu .menu .item span.red {
+    color: #db2828 !important;
+}
+
 .sub-menu .menus-box .menu .item.header {
     padding-right: 0.2em !important;
     cursor: pointer;
