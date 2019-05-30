@@ -1,6 +1,10 @@
 Tea.context(function () {
 	this.hasSystemApp = false;
 
+	this.$delay(function () {
+		this.sortable();
+	});
+
 	if (this.apps != null) {
 		this.hasSystemApp = this.apps.$exist(function (k, v) {
 			return v.id == "system";
@@ -28,5 +32,33 @@ Tea.context(function () {
 				"agentId": this.agentId
 			})
 			.refresh();
+	};
+
+	/**
+	 * 拖动排序
+	 */
+	this.sortable = function () {
+		if (this.apps.length == 0) {
+			return;
+		}
+		var box = this.$find("#apps-table")[0];
+		var that = this;
+		Sortable.create(box, {
+			draggable: "tbody",
+			handle: ".icon.handle",
+			onStart: function () {
+
+			},
+			onUpdate: function (event) {
+				var newIndex = event.newIndex;
+				var oldIndex = event.oldIndex;
+				that.$post("/agents/apps/move")
+					.params({
+						"agentId": that.agentId,
+						"fromIndex": oldIndex,
+						"toIndex": newIndex
+					});
+			}
+		});
 	};
 });

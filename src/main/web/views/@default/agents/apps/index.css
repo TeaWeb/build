@@ -1,22 +1,22 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .text.menu {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
+    margin-top: 0 !important;
 }
 
 h3.margin {
-    margin-top: 2em!important;
+    margin-top: 2em !important;
 }
 
 .comment {
-    padding-top: 0!important;
+    padding-top: 0 !important;
 }
 
 .table .label.tiny {
@@ -24,4 +24,17 @@ h3.margin {
     padding: 4px;
     margin-top: 0.6em;
     font-size: 0.6em;
+}
+
+/** 排序 **/
+.sortable-ghost {
+    background: #ddd !important;
+}
+
+.sortable-drag {
+    opacity: 1.0;
+}
+
+.icon.handle {
+    cursor: pointer;
 }

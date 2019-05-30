@@ -1,5 +1,10 @@
 {$layout}
 
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
 <div class="ui text basic menu blue">
     <a :href="'/agents/apps?agentId=' + agentId" class="item active">Apps</a>
     <a :href="'/agents/apps/add?agentId=' + agentId"  class="item">添加App</a>
@@ -8,9 +13,10 @@
 <div class="ui divider"></div>
 
 <p class="comment" v-if="apps.length == 0">暂时还没有App。</p>
-<table class="ui table selectable" v-if="apps.length > 0">
+<table class="ui table selectable" id="apps-table" v-if="apps.length > 0">
     <thead>
         <tr>
+			<th style="width:3em"></th>
             <th>应用名称</th>
             <th>监控项</th>
             <th>定时任务</th>
@@ -19,28 +25,33 @@
             <th class="two op">操作</th>
         </tr>
     </thead>
-    <tr v-for="app in apps" :class="{warning:app.isWarning, error:app.isError}">
-        <td>{{app.name}}<br/>
-			<span v-if="app.isSharedWithGroup" class="ui label tiny olive">共享</span>
-			<span v-if="!app.isSharedWithGroup && app.id == 'system'" class="ui label tiny olive">系统</span>
-            <span v-if="!app.on" class="ui label tiny">未启用</span>
-        </td>
-        <td>
-            <a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id">{{app.items.length}}</a>
-        </td>
-        <td>
-            <a :href="'/agents/apps/schedule?agentId=' + agentId + '&appId=' + app.id">{{app.schedulingTasks.length}}</a>
-        </td>
-        <td>
-            <a :href="'/agents/apps/boot?agentId=' + agentId + '&appId=' + app.id">{{app.bootingTasks.length}}</a>
-        </td>
-        <td>
-            <a :href="'/agents/apps/manual?agentId=' + agentId + '&appId=' + app.id">{{app.manualTasks.length}}</a>
-        </td>
-        <td>
-            <a :href="'/agents/apps/detail?agentId=' + agentId + '&appId=' + app.id">详情</a> &nbsp; <a href="" @click.prevent="deleteApp(app.id)">删除</a>
-        </td>
-    </tr>
+	<tbody v-for="app in apps">
+		<tr :class="{warning:app.isWarning, error:app.isError}">
+			<td style="text-align: center;"><i class="icon bars handle grey"></i> </td>
+			<td>{{app.name}}<br/>
+				<span v-if="app.isSharedWithGroup" class="ui label tiny olive">共享</span>
+				<span v-if="!app.isSharedWithGroup && app.id == 'system'" class="ui label tiny olive">系统</span>
+				<span v-if="!app.on" class="ui label tiny">未启用</span>
+			</td>
+			<td>
+				<a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id">{{app.items.length}}</a>
+			</td>
+			<td>
+				<a :href="'/agents/apps/schedule?agentId=' + agentId + '&appId=' + app.id">{{app.schedulingTasks.length}}</a>
+			</td>
+			<td>
+				<a :href="'/agents/apps/boot?agentId=' + agentId + '&appId=' + app.id">{{app.bootingTasks.length}}</a>
+			</td>
+			<td>
+				<a :href="'/agents/apps/manual?agentId=' + agentId + '&appId=' + app.id">{{app.manualTasks.length}}</a>
+			</td>
+			<td>
+				<a :href="'/agents/apps/detail?agentId=' + agentId + '&appId=' + app.id">详情</a> &nbsp; <a href="" @click.prevent="deleteApp(app.id)">删除</a>
+			</td>
+		</tr>
+	</tbody>
 </table>
+
+<p class="comment" v-if="apps.length > 1">可以拖动左侧的<i class="icon bars"></i>排序。</p>
 
 
