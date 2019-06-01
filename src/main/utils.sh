@@ -45,9 +45,11 @@ function build() {
 
     mkdir ${TARGET}
     mkdir ${TARGET}/bin
+    mkdir ${TARGET}/logs
     mkdir ${TARGET}/plugins
     mkdir ${TARGET}/web
     mkdir ${TARGET}/web/tmp
+    mkdir ${TARGET}/web/upgrade
     mkdir ${TARGET}/configs
 
     echo "[build static file]"
@@ -85,7 +87,12 @@ function build() {
     cp -R ${GOPATH}/src/main/web/views ${TARGET}/web/
     cp -R ${GOPATH}/src/main/web/libs ${TARGET}/web/
     cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/web/libs/
-    cp -R ${GOPATH}/src/main/web/upgrade ${TARGET}/web/
+
+    if [ -d ${GOPATH}/src/main/web/upgrade ]
+    then
+    	cp -R ${GOPATH}/src/main/web/upgrade ${TARGET}/web/
+    fi
+
     cp -R ${GOPATH}/src/main/scripts ${TARGET}
 
     if [ ${GOOS} = "windows" ]
