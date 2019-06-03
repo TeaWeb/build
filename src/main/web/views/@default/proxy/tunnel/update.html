@@ -1,0 +1,53 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+{$template "/proxy/menu"}
+
+<div class="second-menu">
+	<div class="ui menu text blue small">
+		<a :href="'/proxy/tunnel?serverId=' + server.id" class="item">详情</a>
+		<a :href="'/proxy/tunnel/update?serverId=' + server.id" class="item active">
+			<span v-if="hasTunnel">修改</span>
+			<span v-if="!hasTunnel">启用</span>
+		</a>
+		<a href="http://teaos.cn/doc/proxy/Tunnel.md" target="_blank" class="item">文档</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+
+<div class="margin"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+	<input type="hidden" name="serverId" :value="server.id"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">服务器终端地址</td>
+			<td>
+				<input type="text" name="endpoint" placeholder="比如0.0.0.0:9001" maxlength="200" v-model="tunnel.endpoint"/>
+				<p class="comment">此地址为TeaWeb所在服务器监听的地址，本地客户端通过连接此地址为HTTP请求提供内容。需要设置防火墙确保此地址能被客户端所能连接。</p>
+			</td>
+		</tr>
+		<tr>
+			<td>是否启用</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="on" v-model="tunnel.on" value="1"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+</form>

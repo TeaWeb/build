@@ -77,6 +77,10 @@ p.comment em, div.comment em {
     text-overflow: ellipsis;
 }
 
+div.margin, p.margin {
+    margin-top: 1em;
+}
+
 /** 操作按钮容器 **/
 .op.one {
     width: 4em;

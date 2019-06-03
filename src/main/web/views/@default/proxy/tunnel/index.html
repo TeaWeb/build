@@ -1,0 +1,55 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+{$template "/proxy/menu"}
+
+<div class="second-menu">
+	<div class="ui menu text blue small">
+		<a :href="'/proxy/tunnel?serverId=' + server.id" class="item active">详情</a>
+		<a :href="'/proxy/tunnel/update?serverId=' + server.id" class="item">
+			<span v-if="tunnel != null">修改</span>
+			<span v-if="tunnel == null">启用</span>
+		</a>
+		<a href="http://teaos.cn/doc/proxy/Tunnel.md" target="_blank" class="item">文档</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<p class="comment">通过网络隧道，可以将一个远端的HTTP/HTTPS请求发送到本地的一个Web服务上<span v-if="tunnel != null">，启用后后端服务器设置、路径规则设置将失效</span>。</p>
+
+<p class="comment" v-if="tunnel == null">暂时还没有启用网络隧道，启用后后端服务器设置、路径规则设置将失效，<a :href="'/proxy/tunnel/update?serverId=' + server.id">[启用]</a> 。</p>
+
+<p class="ui message error" v-for="error in errors">
+	错误：{{error}}
+</p>
+
+<table class="ui table definition selectable" v-if="tunnel != null">
+	<tr>
+		<td>状态</td>
+		<td>
+			<span class="ui label green tiny" v-if="isActive">已启动</span>
+			<span class="ui label tiny" v-if="!isActive">未启动</span>
+		</td>
+	</tr>
+	<tr>
+		<td>是否启用</td>
+		<td>
+			<span class="ui label green tiny" v-if="tunnel.on">已启用</span>
+			<span class="ui label tiny" v-if="!tunnel.on">未启用</span>
+		</td>
+	</tr>
+	<tr>
+		<td class="title">服务器终端地址</td>
+		<td>{{tunnel.endpoint}}</td>
+	</tr>
+</table>
