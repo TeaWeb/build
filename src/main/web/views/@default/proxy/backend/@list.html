@@ -4,6 +4,10 @@
 {$end}
 <!--  检测配置是否有更新 end -->
 
+<div class="ui message warning" v-if="server.tunnel != null && server.tunnel.on">
+	由于开启了网络隧道，在这里设置的后端服务器将不会起作用。
+</div>
+
 <div class="ui menu text blue small" v-if="location == null">
 	<a :href="currentLocation" class="item active">服务器列表</a>
 	<a :href="'/proxy/groups?serverId=' + server.id" class="item">分组管理</a>

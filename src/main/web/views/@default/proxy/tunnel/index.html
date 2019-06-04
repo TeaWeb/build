@@ -39,6 +39,7 @@
 		<td>
 			<span class="ui label green tiny" v-if="isActive">已启动</span>
 			<span class="ui label tiny" v-if="!isActive">未启动</span>
+			<span v-if="isActive">&nbsp; 当前客户端有{{countConnections}}个连接</span>
 		</td>
 	</tr>
 	<tr>
