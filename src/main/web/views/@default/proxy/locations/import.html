@@ -1,0 +1,54 @@
+{$layout}
+
+<!-- 拖动排序 -->
+{$var "header"}
+<script type="text/javascript" src="/js/sortable.min.js"></script>
+{$end}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
+<script src="/js/autocomplete.vue.js" type="text/javascript"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div>
+    {$template "/proxy/menu"}
+
+	<div class="second-menu">
+		<div class="ui text menu blue small">
+			<a :href="'/proxy/locations?serverId=' + server.id" class="ui item">所有路径规则</a>
+			<span class="item">|</span>
+			<a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item">添加新路径规则</a>
+			<span class="item">|</span>
+			<a :href="'/proxy/locations/import?serverId=' + server.id"  class="ui item active">导入新路径规则</a>
+		</div>
+		<div class="ui divider"></div>
+	</div>
+
+    <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="location-form">
+        <input type="hidden" name="serverId" :value="server.id"/>
+
+		<table class="ui table definition selectable">
+			<tr>
+				<td class="title">选择导出的路径规则文件</td>
+				<td>
+					<label for="file" class="blue" v-if="file.length == 0">点此选择文件</label>
+					<label for="file" class="blue" v-if="file.length > 0">{{file}}</label>
+					<input type="file" name="file" id="file" @change="changeFile" accept=".conf" style="display: none"/>
+				</td>
+			</tr>
+			<tr v-if="locationPattern.length > 0">
+				<td>路径规则</td>
+				<td>{{locationPattern}}</td>
+			</tr>
+		</table>
+
+        <button class="ui button primary" type="submit">保存</button>
+    </form>
+</div>

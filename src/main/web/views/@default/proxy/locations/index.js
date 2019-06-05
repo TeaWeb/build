@@ -60,4 +60,29 @@ Tea.context(function () {
 			}
 		});
 	};
+
+	/**
+	 * 复制
+	 */
+	this.duplicateLocation = function (locationId) {
+		if (!window.confirm("确定要复制此路径规则吗？复制后，当前的路径规则列表下会多一个复制的路径规则")) {
+			return;
+		}
+		this.$post(".duplicate")
+			.params({
+				"serverId": this.server.id,
+				"locationId": locationId
+			})
+			.success(function () {
+				alert("复制成功");
+				window.location.reload();
+			});
+	};
+
+	/**
+	 * 导出
+	 */
+	this.exportLocation = function (locationId) {
+		window.location = "/proxy/locations/export?serverId=" + this.server.id + "&locationId=" + locationId;
+	};
 });

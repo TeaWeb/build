@@ -3,7 +3,7 @@
 <!-- 检测配置是否有更新 begins -->
 <div class="ui icon message warning" v-if="statusChanged">
     <i class="exclamation circle icon large"></i>
-    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+    代理服务已被修改，<a href="" @click.prevent="restart()">点此重启后生效</a>
 </div>
 
 {$var "header"}
@@ -23,7 +23,9 @@
 		<div class="ui text menu blue small">
 			<a :href="'/proxy/locations?serverId=' + server.id" class="ui item active">所有路径规则</a>
 			<span class="item">|</span>
-			<a :href="'/proxy/locations/add?serverId=' + server.id"  class="u item">添加新路径规则</a>
+			<a :href="'/proxy/locations/add?serverId=' + server.id"  class="ui item">添加新路径规则</a>
+			<span class="item">|</span>
+			<a :href="'/proxy/locations/import?serverId=' + server.id"  class="ui item">导入新路径规则</a>
 		</div>
 		<div class="ui divider"></div>
 	</div>
@@ -35,7 +37,7 @@
             <tr>
 				<th style="width:3em"></th>
                 <th>匹配规则</th>
-                <th class="two op">操作</th>
+                <th class="four op">操作</th>
             </tr>
         </thead>
         <tbody v-for="(location, index) in locations">
@@ -66,7 +68,9 @@
                 </td>
                 <td>
                     <a :href="$url('/proxy/locations/detail', { 'serverId':server.id,'locationId':location.id })">详情</a> &nbsp;
-                    <a href="" v-on:click.prevent="deleteLocation(location.id)">删除</a> &nbsp;
+					<a href="" @click.prevent="duplicateLocation(location.id)">复制</a> &nbsp;
+					<a href="" @click.prevent="exportLocation(location.id)">导出</a> &nbsp;
+                    <a href="" @click.prevent="deleteLocation(location.id)">删除</a>
                 </td>
             </tr>
         </tbody>

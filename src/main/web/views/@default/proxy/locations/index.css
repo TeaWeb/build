@@ -1,19 +1,19 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text span {
-    padding-left: 0!important;
-    padding-right: 0!important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .divider {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 table .label.tiny {
@@ -35,7 +35,7 @@ table tr a {
 
 /** 排序 **/
 .sortable-ghost {
-    background: #ddd!important;
+    background: #ddd !important;
 }
 
 .sortable-drag {
@@ -44,4 +44,8 @@ table tr a {
 
 .icon.handle {
     cursor: pointer;
+}
+
+.four.op {
+    width: 12em;
 }

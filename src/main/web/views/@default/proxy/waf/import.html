@@ -31,7 +31,7 @@
 			<td>
 				<label for="file" class="blue" v-if="file.length == 0">点此选择文件</label>
 				<label for="file" class="blue" v-if="file.length > 0">{{file}}</label>
-				<input type="file" name="file" id="file" @change="changeFile" style="display: none"/>
+				<input type="file" name="file" id="file" @change="changeFile" accept=".conf" style="display: none"/>
 			</td>
 		</tr>
 	</table>
