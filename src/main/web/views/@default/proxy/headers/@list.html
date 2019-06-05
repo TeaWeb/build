@@ -1,6 +1,35 @@
-<p class="grey">这里设置的服务器响应的HTTP Header，在响应请求时会带有这些自定义的信息。</p>
+<h3>自定义请求Header<a :href="'/proxy/headers/addRequestHeader?' + query + '&from=' + from">添加</a></h3>
+<p class="grey" v-if="requestHeaders.length > 0">这里设置的服务器请求的HTTP Header，在转发请求到后端服务器时会带有这些自定义的信息。</p>
+<p class="grey" v-if="requestHeaders.length == 0 && loaded">暂时还没有自定义请求Header。</p>
+<table class="ui table selectable" v-if="requestHeaders.length > 0">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>值</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="header in requestHeaders">
+		<td>{{header.name}}
+			<br/>
+			<span class="ui label tiny" v-if="!header.on">未启用</span>
+		</td>
+		<td>
+			<span v-if="header.value.length > 0">{{header.value}}</span>
+			<span v-if="header.value.length == 0" class="disabled">没有设置</span>
+		</td>
+		<td>
+			<a :href="'/proxy/headers/updateRequestHeader?' + query + '&headerId=' + header.id + '&from=' + from">修改</a> &nbsp;
+			<a href="" @click.prevent="deleteRequestHeader(header)">删除</a>
+		</td>
+	</tr>
+</table>
+
+<div class="ui divider margin"></div>
+
 <h3>自定义响应Header <a :href="'/proxy/headers/add?' + query + '&from=' + from">添加</a> </h3>
-<p class="grey" v-if="headers.length == 0 && loaded">暂时还没有自定义Header。</p>
+<p class="grey" v-if="headers.length > 0">这里设置的服务器响应的HTTP Header，在响应请求时会带有这些自定义的信息。</p>
+<p class="grey" v-if="headers.length == 0 && loaded">暂时还没有自定义响应Header。</p>
 <table class="ui table selectable" v-if="headers.length > 0">
     <thead>
         <tr>

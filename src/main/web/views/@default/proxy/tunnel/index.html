@@ -25,9 +25,9 @@
 	<div class="ui divider"></div>
 </div>
 
-<p class="comment">通过网络隧道，可以将一个远端的HTTP/HTTPS请求发送到本地的一个Web服务上<span v-if="tunnel != null">，启用后后端服务器设置、路径规则设置将失效</span>。</p>
+<p class="comment">通过HTTP隧道，可以将一个远端的HTTP/HTTPS请求发送到本地的一个Web服务上<span v-if="tunnel != null">，启用后后端服务器设置、路径规则设置将失效</span>。</p>
 
-<p class="comment" v-if="tunnel == null">暂时还没有启用网络隧道，启用后后端服务器设置、路径规则设置将失效，<a :href="'/proxy/tunnel/update?serverId=' + server.id">[启用]</a> 。</p>
+<p class="comment" v-if="tunnel == null">暂时还没有启用HTTP隧道，启用后后端服务器设置、路径规则设置将失效，<a :href="'/proxy/tunnel/update?serverId=' + server.id">[启用]</a> 。</p>
 
 <p class="ui message error" v-for="error in errors">
 	错误：{{error}}

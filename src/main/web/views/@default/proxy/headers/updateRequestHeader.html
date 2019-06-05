@@ -1,0 +1,46 @@
+{$layout}
+
+<h3>修改请求Header</h3>
+<p class="comment" style="padding-top: 0">添加的Header在转发请求到后端服务器时会加上这些信息。</p>
+
+<form  class="ui form" data-tea-action="$" data-tea-success="updateSuccess">
+    <input type="hidden" name="serverId" :value="server.id"/>
+    <input type="hidden" name="locationId" :value="locationId"/>
+    <input type="hidden" name="rewriteId" :value="rewriteId"/>
+    <input type="hidden" name="backendId" :value="backendId"/>
+    <input type="hidden" name="fastcgiId" :value="fastcgiId"/>
+    <input type="hidden" name="headerId" :value="header.id"/>
+    <table class="ui table definition">
+        <tr>
+            <td class="title">名称<em>（Name）</em></td>
+            <td>
+                <input type="text" name="name" v-model="header.name" placeholder="类似于 Server、Content-Type之类" maxlength="100"/>
+            </td>
+        </tr>
+        <tr>
+            <td>值<em>（Value）</em></td>
+            <td>
+                <input type="text" name="value" v-model="header.value" placeholder="" maxlength="100"/>
+                <p class="comment"><a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">在这里查看支持的内置变量</a>。</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
+                <a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+            </td>
+        </tr>
+        <tbody v-show="advancedOptionsVisible">
+            <tr>
+                <td>是否启用</td>
+                <td>
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="on" value="1" v-model="header.on"/>
+                        <label></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
+</form>
