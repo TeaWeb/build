@@ -75,9 +75,6 @@ go_get "github.com/lib/pq"
 # siphash
 go_get "github.com/dchest/siphash"
 
-# lego - let's encrypt
-go_get "github.com/go-acme/lego"
-
 # aliyun
 go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
