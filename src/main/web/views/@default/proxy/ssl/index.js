@@ -108,4 +108,9 @@ Tea.context(function () {
 	this.formatCipherSuite = function (cipherSuite) {
 		return cipherSuite.replace(/(AES|3DES)/, "<var>$1</var>");
 	};
+
+	/**
+	 * 证书
+	 */
+	this.certIndex = 0;
 });

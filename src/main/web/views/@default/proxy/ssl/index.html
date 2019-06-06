@@ -68,14 +68,27 @@
 		<tr>
 			<td>开启HSTS</td>
 			<td>
-				<span v-if="server.ssl != null && server.ssl.hsts" class="green">已开启</span>
-				<span v-if="server.ssl == null || !server.ssl.hsts" class="disabled">未开启</span>
+				<div v-if="server.ssl != null && server.ssl.hsts != null">
+					<span v-if="server.ssl.hsts.on" class="green">已开启</span>
+					<div v-if="server.ssl.hsts.on" class="hsts-box">
+						<span class="ui label tiny">Strict-Transport-Security: max-age={{server.ssl.hsts.maxAge}}<var v-if="server.ssl.hsts.on && server.ssl.hsts.includeSubDomains">; includeSubDomains</var><var v-if="server.ssl.hsts.on && server.ssl.hsts.preload">; preload</var></span>
+						<span v-if="server.ssl.hsts.domains != null" v-for="domain in server.ssl.hsts.domains" class="ui label tiny">{{domain}}</span>
+					</div>
+					<span v-if="!server.ssl.hsts.on" class="disabled">未开启</span>
+				</div>
+				<span v-if="server.ssl == null || server.ssl.hsts == null" class="disabled">未开启</span>
 			</td>
 		</tr>
 	</table>
 
+	<div class="ui divider margin"></div>
 	<h3>证书<span>（{{certs.length}}个）</span></h3>
-	<table class="ui table selectable" v-for="(cert, index) in certs">
+
+	<div class="ui tabular menu attached small">
+		<a href="" class="item" :class="{active:index == certIndex}" v-for="(cert, index) in certs" @click.prevent="certIndex = index">证书#{{index+1}}</a>
+	</div>
+
+	<table class="ui table selectable attached definition" v-for="(cert, index) in certs" v-show="index == certIndex">
 		<!-- 证书列表 -->
 		<tr>
 			<td colspan="2" style="font-weight: normal;;background: rgba(0,0,0,.05)">证书#{{index+1}}<span v-if="cert.config.description.length > 0" class="grey">（{{cert.config.description}}）</span><span v-if="cert.config.taskId.length > 0" class="grey">（ACME）</span>：</td>

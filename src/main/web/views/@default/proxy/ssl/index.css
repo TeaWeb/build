@@ -18,6 +18,7 @@
     font-size: 0.9em;
 }
 
+/** cipher suite **/
 .cipher-all-suites-box .label {
     margin-top: 0.2em;
     margin-bottom: 0.2em;
@@ -25,4 +26,14 @@
 
 .cipher-all-suites-box .label var {
     font-weight: bold !important;
+}
+
+/** hsts **/
+.hsts-box {
+    margin-top: 0.5em;
+}
+
+.hsts-box .label {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
 }

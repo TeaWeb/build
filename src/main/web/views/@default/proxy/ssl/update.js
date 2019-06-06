@@ -31,6 +31,8 @@ Tea.context(function () {
 	/**
 	 * 证书
 	 */
+	this.certIndex = 0;
+
 	this.addCert = function () {
 		this.certs.push({
 			"description": "",
@@ -38,6 +40,7 @@ Tea.context(function () {
 			"keyFile": "",
 			"isLocal": false
 		});
+		this.certIndex = this.certs.length - 1;
 		this.$delay(function () {
 			this.$find("#cert-descriptions-input-" + (this.certs.length - 1)).focus();
 		});
@@ -179,5 +182,92 @@ Tea.context(function () {
 
 			}
 		});
+	};
+
+	/**
+	 * hsts
+	 */
+	this.hstsOptionsVisible = false;
+	if (this.hsts.domains == null) {
+		this.hsts.domains = [];
+	}
+
+	this.showMoreHSTS = function () {
+		this.hstsOptionsVisible = !this.hstsOptionsVisible;
+		if (this.hstsOptionsVisible) {
+			this.changeHSTSMaxAge();
+			this.$delay(function () {
+				window.scroll(0, 10000);
+			});
+		}
+	};
+
+	this.changeHSTSMaxAge = function () {
+		var v = this.hsts.maxAge;
+		if (isNaN(v)) {
+			this.hsts.days = "-";
+			return;
+		}
+		this.hsts.days = parseInt(v / 86400);
+		if (isNaN(this.hsts.days)) {
+			this.hsts.days = "-";
+		} else if (this.hsts.days < 0) {
+			this.hsts.days = "-";
+		}
+	};
+
+	this.setHSTSMaxAge = function (maxAge) {
+		this.hsts.maxAge = maxAge;
+		this.changeHSTSMaxAge();
+	};
+
+	/**
+	 * 域名
+	 */
+	this.hstsDomainAdding = false;
+	this.addingHstsDomain = "";
+	this.hstsDomainEditingIndex = -1;
+
+	this.addHstsDomain = function () {
+		this.hstsDomainAdding = true;
+		this.hstsDomainEditingIndex = -1;
+		this.$delay(function () {
+			this.$find("form input[name='addingHstsDomain']").focus();
+		});
+	};
+
+	this.editHstsDomain = function (index) {
+		this.hstsDomainEditingIndex = index;
+		this.addingHstsDomain = this.hsts.domains[index];
+		this.hstsDomainAdding = true;
+		this.$delay(function () {
+			this.$find("form input[name='addingHstsDomain']").focus();
+		});
+	};
+
+	this.confirmAddHstsDomain = function () {
+		this.addingHstsDomain = this.addingHstsDomain.trim();
+		if (this.addingHstsDomain.length == 0) {
+			alert("域名不能为空");
+			this.$find("form input[name='addingHstsDomain']").focus();
+			return;
+		}
+		if (this.hstsDomainEditingIndex > -1) {
+			this.hsts.domains[this.hstsDomainEditingIndex] = this.addingHstsDomain;
+		} else {
+			this.hsts.domains.push(this.addingHstsDomain);
+		}
+		this.cancelHstsDomainAdding();
+	};
+
+	this.cancelHstsDomainAdding = function () {
+		this.hstsDomainAdding = false;
+		this.addingHstsDomain = "";
+		this.hstsDomainEditingIndex = -1;
+	};
+
+	this.removeHstsDomain = function (index) {
+		this.cancelHstsDomainAdding();
+		this.hsts.domains.$remove(index);
 	};
 });

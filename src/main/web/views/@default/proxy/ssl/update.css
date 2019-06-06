@@ -43,3 +43,8 @@ td .op-link {
 .icon.handle {
     cursor: pointer;
 }
+
+/** hsts **/
+.comment a.active {
+    font-weight: bold;
+}

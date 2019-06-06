@@ -57,7 +57,11 @@
 			</tr>
 		</table>
 
-		<table class="ui table selectable" v-for="(cert, index) in certs">
+		<div class="ui tabular menu attached small">
+			<a href="" class="item" :class="{active:index == certIndex}" v-for="(cert, index) in certs" @click.prevent="certIndex = index">证书#{{index+1}}</a>
+		</div>
+
+		<table class="ui table selectable definition attached" v-for="(cert, index) in certs" v-show="certIndex == index">
 			<tbody>
 				<tr>
 					<td colspan="2" style="font-weight: normal;background: rgba(0,0,0,.05)">证书#{{index+1}}：
@@ -74,7 +78,7 @@
 				<tr>
 					<td>证书#{{index+1}}文件位置</td>
 					<td>
-						<div class="ui menu tabular">
+						<div class="ui menu text blue">
 							<a href="" class="item" :class="{active:!cert.isLocal}" @click.prevent="cert.isLocal = false">从本地上传</a>
 							<a href="" class="item" :class="{active:cert.isLocal}" @click.prevent="cert.isLocal = true">指定证书文件路径</a>
 						</div>
@@ -115,13 +119,16 @@
 			</tbody>
 		</table>
 
-		<table class="ui table selectable">
+		<table class="ui table definition selectable">
 			<tr>
 				<td class="title">添加新证书</td>
 				<td>
 					<button class="ui button tiny" type="button" @click.prevent="addCert()">+</button>
 				</td>
 			</tr>
+		</table>
+
+		<table class="ui table selectable definition">
 			<tr>
 				<td colspan="2">
 					<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
@@ -130,7 +137,7 @@
 			</tr>
 			<tbody v-show="advancedOptionsVisible">
 				<tr>
-					<td>TLS最低版本</td>
+					<td class="title">TLS最低版本</td>
 					<td>
 						<select name="minVersion" v-model="minVersion" class="ui dropdown" style="width:6em">
 							<option v-for="version in versions" :value="version">{{version}}</option>
@@ -175,10 +182,72 @@
 					<td>开启HSTS</td>
 					<td>
 						<div class="ui checkbox">
-							<input type="checkbox" name="hsts" v-model="hsts" value="1"/>
+							<input type="checkbox" name="hstsOn" v-model="hsts.on" value="1"/>
 							<label></label>
 						</div>
-						<p class="comment">开启后，会自动在响应Header中加入<span class="ui label small">Strict-Transport-Security: ...</span></p>
+						<p class="comment">开启后，会自动在响应Header中加入<span class="ui label small">Strict-Transport-Security: <var v-if="!hsts.on">...</var><var v-if="hsts.on">max-age={{hsts.maxAge}}</var><var v-if="hsts.on && hsts.includeSubDomains">; includeSubDomains</var><var v-if="hsts.on && hsts.preload">; preload</var></span>。<span v-if="hsts.on"><a href="" @click.prevent="showMoreHSTS()">修改<i class="icon angle" :class="{down:!hstsOptionsVisible, up:hstsOptionsVisible}"></i> </a></span></p>
+					</td>
+				</tr>
+				<tr v-show="hsts.on && hstsOptionsVisible">
+					<td>HSTS有效时间<em>（max-age）</em></td>
+					<td>
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="hstsMaxAge" v-model="hsts.maxAge" maxlength="10" size="10" @input="changeHSTSMaxAge()"/>
+							</div>
+							<div class="ui field">
+								秒
+							</div>
+							<div class="ui field">{{hsts.days}}天</div>
+						</div>
+						<p class="comment">
+							<a href="" @click.prevent="setHSTSMaxAge(31536000)" :class="{active:hsts.maxAge == 31536000}">[1年/365天]</a> &nbsp; &nbsp;
+							<a href="" @click.prevent="setHSTSMaxAge(15768000)" :class="{active:hsts.maxAge == 15768000}">[6个月/182.5天]</a> &nbsp;  &nbsp;
+							<a href="" @click.prevent="setHSTSMaxAge(2592000)"  :class="{active:hsts.maxAge == 2592000}">[1个月/30天]</a>
+						</p>
+					</td>
+				</tr>
+				<tr v-show="hsts.on && hstsOptionsVisible">
+					<td>HSTS包含子域名<em>（includeSubDomains）</em></td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="hstsIncludeSubDomains" value="1" v-model="hsts.includeSubDomains"/>
+							<label></label>
+						</div>
+					</td>
+				</tr>
+				<tr v-show="hsts.on && hstsOptionsVisible">
+					<td>HSTS预加载<em>（preload）</em></td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="hstsPreload" value="1" v-model="hsts.preload"/>
+							<label></label>
+						</div>
+					</td>
+				</tr>
+				<tr v-show="hsts.on && hstsOptionsVisible">
+					<td>HSTS生效的域名</td>
+					<td colspan="2">
+						<div class="names-box">
+						<span class="ui label tiny" v-for="(domain, arrayIndex) in hsts.domains" :class="{blue:hstsDomainEditingIndex == arrayIndex}">{{domain}}
+							<input type="hidden" name="hstsDomains" :value="domain"/> &nbsp;
+							<a href="" @click.prevent="editHstsDomain(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+							<a href="" @click.prevent="removeHstsDomain(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+						</span>
+						</div>
+						<div class="ui fields inline" v-if="hstsDomainAdding" style="margin-top:0.8em">
+							<div class="ui field">
+								<input type="text" name="addingHstsDomain" style="width:16em" maxlength="100" placeholder="域名，比如example.com" @keyup.enter="confirmAddHstsDomain()" @keypress.enter.prevent="1" v-model="addingHstsDomain" />
+							</div>
+							<div class="ui field">
+								<button class="ui button tiny" type="button" @click="confirmAddHstsDomain()">确定</button>
+								&nbsp; <a href="" @click.prevent="cancelHstsDomainAdding()">取消</a>
+							</div>
+						</div>
+						<div class="ui field" style="margin-top: 1em">
+							<button class="ui button tiny" type="button" @click="addHstsDomain()">+</button>
+						</div>
+						<p class="comment">如果没有设置域名的话，则默认支持所有的域名。</p>
 					</td>
 				</tr>
 			</tbody>
