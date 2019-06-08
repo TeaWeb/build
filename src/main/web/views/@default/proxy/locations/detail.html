@@ -19,117 +19,140 @@
 	<!-- 基本信息 -->
 	<h3>基本信息 <a :href="'/proxy/locations/update?serverId=' + server.id + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
 	<table class="ui table selectable definition ">
-		<tr>
-			<td>是否启用</td>
-			<td>
-				<span v-if="location.on" class="ui label green tiny">启用中</span>
-				<span v-if="!location.on" class="ui label tiny">未启用</span>
-			</td>
-		</tr>
-		<tr>
-			<td class="title">规则<em>(Pattern)</em></td>
-			<td>{{location.pattern}}</td>
-		</tr>
-		<tr>
-			<td>规则类型</td>
-			<td>
-				<span v-if="location.type == 1">匹配前缀</span>
-				<span v-if="location.type == 2">精准匹配</span>
-				<span v-if="location.type == 3">正则表达式匹配</span>
+		<tbody>
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<span v-if="location.on" class="ui label green tiny">启用中</span>
+					<span v-if="!location.on" class="ui label tiny">未启用</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="title">规则<em>(Pattern)</em></td>
+				<td>{{location.pattern}}</td>
+			</tr>
+			<tr>
+				<td>规则类型</td>
+				<td>
+					<span v-if="location.type == 1">匹配前缀</span>
+					<span v-if="location.type == 2">精准匹配</span>
+					<span v-if="location.type == 3">正则表达式匹配</span>
 
-				&nbsp; <span class="ui label tiny" v-if="location.caseInsensitive">不区分大小写</span>
-				<span class="ui label tiny" v-if="location.reverse">反向匹配</span>
-			</td>
-		</tr>
-		<tr>
-			<td>说明</td>
-			<td>
-				<span v-if="location.name.length > 0">{{location.name}}</span>
-				<span v-if="location.name.length == 0">-</span>
-			</td>
-		</tr>
-		<tr>
-			<td>匹配条件</td>
-			<td>
-				<span v-if="location.conds == null || location.conds.length == 0" class="disabled">无匹配条件</span>
-				<div class="ui field" v-if="location.conds != null" v-for="cond in location.conds" style="margin-bottom:0.4em"><span class="ui label small">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
-			</td>
-		</tr>
-		<tr>
-			<td>文档根目录<em>(Root)</em></td>
-			<td>
-				<span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>
-				<a class="disabled" v-if="location.root.length == 0">还没有设置。</a>
-			</td>
-		</tr>
-		<tr>
-			<td>字符编码<em>(Charset)</em></td>
-			<td>
-				<span v-if="location.charset.length > 0">{{location.charset}}</span>
-				<a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
-			</td>
-		</tr>
-		<!-- 首页文件 -->
-		<tr>
-			<td>首页文件<em>(index)</em></td>
-			<td>
-				<a class="disabled" v-if="location.index == null || location.index.length == 0">还没有设置。</a>
-				<div v-if="location.index != null">
-					<span class="ui label small" v-for="index in location.index">{{index}}</span>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>请求Body最大尺寸</td>
-			<td>
-				<span v-if="location.maxBodySize.length == 0" class="disabled">还没有设置</span>
-				<span v-if="location.maxBodySize.length > 0">{{location.maxBodySize}}</span>
-				<p class="ui comment" v-if="location.maxBodySize.length > 0">0及以下表示不限制</p>
-			</td>
-		</tr>
-		<tr>
-			<td>访问日志</td>
-			<td>
-				<span class="ui label green tiny" v-if="location.enableAccessLog">已开启</span>
-				<span class="ui label tiny" v-if="!location.enableAccessLog">未开启</span>
-			</td>
-		</tr>
-		<tr>
-			<td>存储的访问日志</td>
-			<td>
-				<p v-if="!location.enableAccessLog" class="disabled">访问日志未开启</p>
-				<span v-if="location.enableAccessLog" v-for="field in accessLogFields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
-			</td>
-		</tr>
-		<tr>
-			<td>统计</td>
-			<td>
-				<span class="ui label green tiny" v-if="location.enableStat">已开启</span>
-				<span class="ui label tiny" v-if="!location.enableStat">未开启</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Gzip压缩级别</td>
-			<td>
-				<span v-if="location.gzipLevel < 0">不设置</span>
-				<span v-if="location.gzipLevel == 0">不压缩</span>
-				<span v-if="location.gzipLevel > 0">{{location.gzipLevel}}</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Gzip内容最小长度</td>
-			<td>
-				<span v-if="location.gzipMinLength.length == 0" class="disabled">-</span>
-				<span v-if="location.gzipMinLength.length > 0">{{location.gzipMinLength}}</span>
-			</td>
-		</tr>
-		<tr>
-			<td>自动跳转到HTTPS</td>
-			<td>
-				<span class="ui label tiny green" v-if="location.redirectToHttps">已开启</span>
-				<span class="ui label tiny" v-if="!location.redirectToHttps">未开启</span>
-			</td>
-		</tr>
+					&nbsp; <span class="ui label tiny" v-if="location.caseInsensitive">不区分大小写</span>
+					<span class="ui label tiny" v-if="location.reverse">反向匹配</span>
+				</td>
+			</tr>
+			<tr>
+				<td>说明</td>
+				<td>
+					<span v-if="location.name.length > 0">{{location.name}}</span>
+					<span v-if="location.name.length == 0">-</span>
+				</td>
+			</tr>
+			<tr>
+				<td>匹配条件</td>
+				<td>
+					<span v-if="location.conds == null || location.conds.length == 0" class="disabled">无匹配条件</span>
+					<div class="ui field" v-if="location.conds != null" v-for="cond in location.conds" style="margin-bottom:0.4em"><span class="ui label small">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
+				</td>
+			</tr>
+			<tr>
+				<td>文档根目录<em>(Root)</em></td>
+				<td>
+					<span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>
+					<a class="disabled" v-if="location.root.length == 0">还没有设置。</a>
+				</td>
+			</tr>
+			<tr>
+				<td>字符编码<em>(Charset)</em></td>
+				<td>
+					<span v-if="location.charset.length > 0">{{location.charset}}</span>
+					<a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
+				</td>
+			</tr>
+			<!-- 首页文件 -->
+			<tr>
+				<td>首页文件<em>(index)</em></td>
+				<td>
+					<a class="disabled" v-if="location.index == null || location.index.length == 0">还没有设置。</a>
+					<div v-if="location.index != null">
+						<span class="ui label small" v-for="index in location.index">{{index}}</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>请求Body最大尺寸</td>
+				<td>
+					<span v-if="location.maxBodySize.length == 0" class="disabled">还没有设置</span>
+					<span v-if="location.maxBodySize.length > 0">{{location.maxBodySize}}</span>
+					<p class="ui comment" v-if="location.maxBodySize.length > 0">0及以下表示不限制</p>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-if="accessLogs.length == 0">
+			<tr>
+				<td>访问日志</td>
+				<td>
+					继承上一级设置
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-for="accessLog in accessLogs">
+			<tr>
+				<td>访问日志</td>
+				<td>
+					<span class="ui label green tiny" v-if="accessLog.on">已开启</span>
+					<span class="ui label tiny" v-if="!accessLog.on">未开启</span>
+				</td>
+			</tr>
+			<tr v-if="accessLog.on">
+				<td>存储的访问日志字段</td>
+				<td>
+					<span v-for="field in accessLog.fields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
+				</td>
+			</tr>
+			<tr v-if="accessLog.on">
+				<td>要存储的访问日志状态码</td>
+				<td>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status1}">1xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status2}">2xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status3}">3xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status4}">4xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status5}">5xx</span>
+				</td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr>
+				<td>统计</td>
+				<td>
+					<span class="ui label green tiny" v-if="location.enableStat">已开启</span>
+					<span class="ui label tiny" v-if="!location.enableStat">未开启</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Gzip压缩级别</td>
+				<td>
+					<span v-if="location.gzipLevel < 0">不设置</span>
+					<span v-if="location.gzipLevel == 0">不压缩</span>
+					<span v-if="location.gzipLevel > 0">{{location.gzipLevel}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Gzip内容最小长度</td>
+				<td>
+					<span v-if="location.gzipMinLength.length == 0" class="disabled">-</span>
+					<span v-if="location.gzipMinLength.length > 0">{{location.gzipMinLength}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td>自动跳转到HTTPS</td>
+				<td>
+					<span class="ui label tiny green" v-if="location.redirectToHttps">已开启</span>
+					<span class="ui label tiny" v-if="!location.redirectToHttps">未开启</span>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<h3>特殊匹配设置 <a :href="'/proxy/locations/update?serverId=' + server.id + '&locationId=' + location.id + '&showSpecial=1&from=' + from">修改</a></h3>

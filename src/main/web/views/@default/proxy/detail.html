@@ -82,7 +82,7 @@
         </tr>
 		<tr>
 			<td colspan="2">
-				<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项（字符编码、首页文件、日志、gzip压缩等） <i class="icon angle down"></i> </a>
+				<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项<span style="font-size: 0.8em;color:grey!important;">（字符编码、首页文件、日志、gzip压缩等）</span> <i class="icon angle down"></i> </a>
 				<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
 			</td>
 		</tr>
@@ -95,20 +95,33 @@
 					<p class="ui comment" v-if="server.maxBodySize.length > 0">0及以下表示不限制</p>
 				</td>
 			</tr>
+		</tbody>
+		<tbody v-show="advancedOptionsVisible" v-for="accessLog in accessLogs">
 			<tr>
 				<td>访问日志</td>
 				<td>
-					<span class="ui label green tiny" v-if="!server.disableAccessLog">已开启</span>
-					<span class="ui label tiny" v-if="server.disableAccessLog">未开启</span>
+					<span class="ui label green tiny" v-if="accessLog.on">已开启</span>
+					<span class="ui label tiny" v-if="!accessLog.on">未开启</span>
 				</td>
 			</tr>
-			<tr>
-				<td>存储的访问日志</td>
+			<tr v-if="accessLog.on">
+				<td>存储的访问日志字段</td>
 				<td>
-					<p v-if="server.disableAccessLog" class="disabled">访问日志未开启</p>
-					<span v-if="!server.disableAccessLog" v-for="field in accessLogFields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
+					<span v-for="field in accessLog.fields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
 				</td>
 			</tr>
+			<tr v-if="accessLog.on">
+				<td>要存储的访问日志状态码</td>
+				<td>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status1}">1xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status2}">2xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status3}">3xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status4}">4xx</span>
+					<span class="ui label tiny" :class="{'disabled':!accessLog.status5}">5xx</span>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-show="advancedOptionsVisible">
 			<tr>
 				<td>统计</td>
 				<td>
