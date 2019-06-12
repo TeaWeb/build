@@ -139,6 +139,13 @@
 		</td>
 	</tr>
 	<tr>
+		<td>支持请求no-cache刷新</td>
+		<td>
+			<span v-if="policy.enableRequestCachePragma">已开启</span>
+			<span v-if="!policy.enableRequestCachePragma">未开启</span>
+		</td>
+	</tr>
+	<tr>
 		<td>最大内容长度</td>
 		<td>
 			<span v-if="policy.maxSize == '0.00m'" class="disabled">默认</span>

@@ -191,6 +191,16 @@
 				<p class="comment">选中后，当响应的Header中有Set-Cookie时不缓存响应内容。</p>
 			</td>
 		</tr>
+		<tr v-show="advancedVisible">
+			<td>支持请求no-cache刷新</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="enableRequestCachePragma" value="1"/>
+					<label></label>
+				</div>
+				<p class="comment">选中后，当请求的Header中含有<span class="ui label tiny">Pragma: no-cache</span>或<span class="ui label tiny">Cache-Control: no-cache</span>时，会跳过缓存直接读取源内容</p>
+			</td>
+		</tr>
         <tr v-show="advancedVisible">
             <td>最大内容长度</td>
             <td>
