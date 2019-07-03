@@ -65,6 +65,10 @@ Tea.context(function () {
 			this.$delay(function () {
 				this.$find("form input[name='qyWeixinCorporateId']").focus();
 			});
+		} else if (this.mediaType == "qyWeixinRobot") {
+			this.$delay(function () {
+				this.$find("form textarea[name='qyWeixinRobotWebhookURL']").focus();
+			});
 		}
 	};
 	this.changeMediaType();

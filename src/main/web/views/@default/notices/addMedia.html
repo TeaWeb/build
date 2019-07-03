@@ -260,6 +260,27 @@
 			</tr>
 		</tbody>
 
+		<!-- 企业微信群机器人 -->
+		<tbody v-show="mediaType == 'qyWeixinRobot'">
+			<tr>
+				<td>Webhook地址 *</td>
+				<td>
+					<textarea name="qyWeixinRobotWebhookURL" maxlength="200" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx" rows="2"></textarea>
+					<p class="comment">填入自定义群机器人的Webhook地址</p>
+				</td>
+			</tr>
+			<tr>
+				<td>内容文本格式</td>
+				<td>
+					<select name="qyWeixinRobotTextFormat" v-model="qyWeixinRobotTextFormat" class="ui dropdown" style="width:10em">
+						<option value="text">普通文本</option>
+						<option value="markdown">Markdown</option>
+					</select>
+					<p class="comment" v-if="qyWeixinRobotTextFormat == 'markdown'">企业微信目前只支持少数的Markdown语法，<a href="https://work.weixin.qq.com/api/doc#90000/90135/91760/markdown%E7%B1%BB%E5%9E%8B" target="_blank">点击这里了解&raquo;</a> </p>
+				</td>
+			</tr>
+		</tbody>
+
 		<!-- 阿里云短信 -->
 		<tbody v-show="mediaType == 'aliyunSms'">
 			<tr>
