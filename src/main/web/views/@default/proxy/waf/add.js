@@ -7,4 +7,13 @@ Tea.context(function () {
 		alert("添加成功");
 		window.location = "/proxy/waf";
 	};
+
+	/**
+	 * 高级选项
+	 */
+	this.advancedOptionsVisible = false;
+
+	this.showAdvancedOptions = function () {
+		this.advancedOptionsVisible = !this.advancedOptionsVisible;
+	};
 });

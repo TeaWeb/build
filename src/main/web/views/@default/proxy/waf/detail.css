@@ -7,3 +7,17 @@
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
+
+.block-body {
+    border: 1px #eee solid;
+    padding: 0.4em;
+    background: rgba(0, 0, 0, 0.01);
+    font-size: 0.8em;
+    max-height: 10em;
+    overflow-y: auto;
+    margin: 0;
+}
+
+.block-body::-webkit-scrollbar {
+    width: 4px;
+}

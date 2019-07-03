@@ -24,14 +24,49 @@
 			</td>
 		</tr>
 		<tr>
-			<td>是否启用</td>
-			<td>
-				<div class="ui checkbox">
-					<input type="checkbox" name="on" value="1" v-model="config.on"/>
-					<label></label>
-				</div>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
 			</td>
 		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>阻止动作配置<em>（Block）</em></td>
+				<td>
+					<table class="ui table selectable">
+						<tr>
+							<td class="title">HTTP状态码</td>
+							<td>
+								<input type="text" name="blockStatusCode" v-model="config.actionBlock.statusCode" value="" size="3" maxlength="3" style="width:4em" />
+							</td>
+						</tr>
+						<tr>
+							<td>响应内容</td>
+							<td>
+								<textarea name="blockBody" rows="6" v-model="config.actionBlock.body"></textarea>
+								<p class="comment">支持HTML，为空表示使用默认的响应内容</p>
+							</td>
+						</tr>
+						<tr>
+							<td>URL或文件</td>
+							<td>
+								<input type="text" name="blockURL" v-model="config.actionBlock.url"/>
+								<p class="comment">可以从URL或者一个本地文件中读取响应的内容。如果是本地文件，可以是绝对路径或者相对于TeaWeb安装目录。和响应内容二选一即可。</p>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="config.on"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="'/proxy/waf/detail?wafId=' + config.id">返回</a>

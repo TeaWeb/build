@@ -16,6 +16,34 @@
 			<span v-if="!hasInternalGroups" class="disabled">暂时还没有选择内置的规则分组</span>
 		</td>
 	</tr>
+	<tr v-if="config.actionBlock != null">
+		<td>阻止动作配置<em>（Block）</em></td>
+		<td>
+			<table class="ui table selectable">
+				<tr>
+					<td class="title">HTTP状态码</td>
+					<td>
+						<span v-if="config.actionBlock.statusCode == null || config.actionBlock.statusCode.length == 0">-</span>
+						<span v-if="config.actionBlock.statusCode != null && config.actionBlock.statusCode.toString().length > 0">{{config.actionBlock.statusCode}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td>响应内容</td>
+					<td>
+						<span v-if="config.actionBlock.body == null || config.actionBlock.body.length == 0">-</span>
+						<pre class="block-body"  v-if="config.actionBlock.body != null && config.actionBlock.body.length > 0">{{config.actionBlock.body}}</pre>
+					</td>
+				</tr>
+				<tr>
+					<td>URL或文件</td>
+					<td>
+						<span v-if="config.actionBlock.url == null || config.actionBlock.url.length == 0">-</span>
+						<span v-if="config.actionBlock.url != null && config.actionBlock.url.length > 0">{{config.actionBlock.url}}</span>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
 	<tr>
 		<td>是否启用</td>
 		<td>
@@ -34,7 +62,7 @@
 			<div style="margin-top:0.4em" v-if="newItems != null && newItems.length > 0 && updatesVisible">
 				<a href="" @click.prevent="mergeTemplate()">[立即更新]</a>
 			</div>
-			<p class="comment">此功能不会连接互联网，是直接从安装包里获取。</p>
+			<p class="comment">此功能不会连接互联网，而是直接从安装包里获取。</p>
 		</td>
 	</tr>
 </table>

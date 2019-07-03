@@ -1,15 +1,18 @@
 .rules-box {
     margin-bottom: 1em;
+    -ms-word-break: break-all;
+    word-break: break-all;
 }
 
 .rules-box .label {
     margin-top: 0.2em;
     margin-bottom: 0.2em;
+    line-height: 1.4;
 }
 
 /** 排序 **/
 .sortable-ghost {
-    background: #ddd!important;
+    background: #ddd !important;
 }
 
 .sortable-drag {
