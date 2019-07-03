@@ -248,6 +248,16 @@
 					<p class="comment"><a href="http://teaos.cn/doc/notices/QyWeixin.md#appsecret" target="_blank">如何查看应用的Secret？</a> </p>
 				</td>
 			</tr>
+			<tr>
+				<td>内容文本格式</td>
+				<td>
+					<select name="qyWeixinTextFormat" v-model="qyWeixinTextFormat" class="ui dropdown" style="width:10em">
+						<option value="text">普通文本</option>
+						<option value="markdown">Markdown</option>
+					</select>
+					<p class="comment" v-if="qyWeixinTextFormat == 'markdown'">企业微信目前只支持少数的Markdown语法，<a href="https://work.weixin.qq.com/api/doc#90000/90135/90236/%E6%94%AF%E6%8C%81%E7%9A%84markdown%E8%AF%AD%E6%B3%95" target="_blank">点击这里了解&raquo;</a> </p>
+				</td>
+			</tr>
 		</tbody>
 
 		<!-- 阿里云短信 -->

@@ -378,6 +378,11 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 企业微信
+	 */
+	this.qyWeixinTextFormat = "text";
+
+	/**
 	 * 更多选项
 	 */
 	this.advancedOptionsVisible = false;

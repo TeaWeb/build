@@ -159,6 +159,13 @@
 				{{media.options.appSecret}}
 			</td>
 		</tr>
+		<tr>
+			<td>内容文本格式</td>
+			<td>
+				<span v-if="media.options.textFormat == null">text</span>
+				{{media.options.textFormat}}
+			</td>
+		</tr>
 	</tbody>
 
 	<!-- 阿里云短信 -->
