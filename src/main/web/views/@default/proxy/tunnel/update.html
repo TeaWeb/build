@@ -39,6 +39,13 @@
 			</td>
 		</tr>
 		<tr>
+			<td>客户端密钥</td>
+			<td>
+				<input type="text" name="secret" v-model="tunnel.secret" maxlength="100"/>
+				<p class="comment">是一个类似于密码作用的字符串，用来客户端连接认证。<a href="" @click.prevent="generateSecret()">[随机生成]</a> </p>
+			</td>
+		</tr>
+		<tr>
 			<td>是否启用</td>
 			<td>
 				<div class="ui checkbox">

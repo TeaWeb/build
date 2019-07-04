@@ -53,4 +53,11 @@
 		<td class="title">服务器终端地址</td>
 		<td>{{tunnel.endpoint}}</td>
 	</tr>
+	<tr>
+		<td>客户端密钥</td>
+		<td>
+			<span v-if="tunnel.secret != null && tunnel.secret.length > 0">{{tunnel.secret}}</span>
+			<span v-if="tunnel.secret == null || tunnel.secret.length == 0" class="disabled">没有设置</span>
+		</td>
+	</tr>
 </table>
