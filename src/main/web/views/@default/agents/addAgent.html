@@ -27,7 +27,7 @@
 				<td>分组</td>
 				<td>
 					<select class="ui dropdown" name="groupId" style="width:10em">
-						<option value="">[默认分组]</option>
+						<option value="">[{{defaultGroupName}}]</option>
 						<option v-for="group in groups" :value="group.id">{{group.name}}</option>
 					</select>
 					<p class="comment"><a :href="'/agents/groups/add?from=' + from">添加分组</a> </p>

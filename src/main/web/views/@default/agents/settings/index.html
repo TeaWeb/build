@@ -62,7 +62,7 @@
 		<tr>
 			<td>分组</td>
 			<td>
-				<span v-if="groupNames.length == 0" class="disabled">默认分组</span>
+				<span v-if="groupNames.length == 0" class="disabled">{{defaultGroupName}}</span>
 				<span v-for="groupName in groupNames">{{groupName}}</span>
 			</td>
 		</tr>
