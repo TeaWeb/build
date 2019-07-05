@@ -1,18 +1,38 @@
 Tea.context(function () {
-    this.advancedOptionsVisible = false;
+	this.advancedOptionsVisible = false;
 
-    this.$delay(function () {
-        this.$find("form input[name='address']").focus();
-    });
+	this.$delay(function () {
+		this.$find("form input[name='address']").focus();
+	});
 
-    this.showAdvancedOptions = function () {
-        this.advancedOptionsVisible = !this.advancedOptionsVisible;
-    };
+	this.showAdvancedOptions = function () {
+		this.advancedOptionsVisible = !this.advancedOptionsVisible;
+	};
 
-    this.submitSuccess = function () {
-        alert("保存成功");
-        window.location = this.from;
-    };
+	this.submitSuccess = function () {
+		alert("保存成功");
+		window.location = this.from;
+	};
+
+	/**
+	 * 地址
+	 */
+	this.address = "";
+
+	this.changeAddress = function () {
+		if (this.address == null) {
+			return;
+		}
+		if (/^(http|https):\/\//i.test(this.address)) {
+			var pieces = this.address.split("://");
+			this.$find("select[name='scheme']").val(pieces[0].toLocaleLowerCase());
+			this.address = pieces[1];
+		}
+		var index = this.address.indexOf("/");
+		if (index > -1) {
+			this.address = this.address.substring(0, index);
+		}
+	};
 
 	/**
 	 * request headers

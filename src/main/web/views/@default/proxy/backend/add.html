@@ -15,7 +15,7 @@
         <tr>
             <td>地址 *</td>
             <td>
-                <input type="text" name="address" placeholder="比如 192.168.1.100:8800"/>
+                <input type="text" name="address" v-model="address" @blur="changeAddress()" placeholder="比如 192.168.1.100:8800"/>
                 <p class="ui comment">服务器地址，可以是一个IP加端口，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em> 。</p>
             </td>
         </tr>

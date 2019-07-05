@@ -1,21 +1,39 @@
 Tea.context(function () {
-    this.advancedOptionsVisible = false;
+	this.advancedOptionsVisible = false;
 
-    if (this.server.requestGroups != null) {
-    	var selectedRequestGroupIds = (this.backend.requestGroupIds == null) ? [] : this.backend.requestGroupIds;
+	if (this.server.requestGroups != null) {
+		var selectedRequestGroupIds = (this.backend.requestGroupIds == null) ? [] : this.backend.requestGroupIds;
 		this.server.requestGroups.$each(function (k, v) {
 			v.isChecked = selectedRequestGroupIds.$contains(v.id);
 		});
 	}
 
-    this.showAdvancedOptions = function () {
-        this.advancedOptionsVisible = !this.advancedOptionsVisible;
-    };
+	this.showAdvancedOptions = function () {
+		this.advancedOptionsVisible = !this.advancedOptionsVisible;
+	};
 
-    this.updateSuccess = function () {
-        alert("保存成功");
-        window.location = this.from;
-    };
+	this.updateSuccess = function () {
+		alert("保存成功");
+		window.location = this.from;
+	};
+
+	/**
+	 * 地址
+	 */
+	this.changeAddress = function () {
+		if (this.backend.address == null) {
+			return;
+		}
+		if (/^(http|https):\/\//i.test(this.backend.address)) {
+			var pieces = this.backend.address.split("://");
+			this.backend.scheme = pieces[0].toLocaleLowerCase();
+			this.backend.address = pieces[1];
+		}
+		var index = this.backend.address.indexOf("/");
+		if (index > -1) {
+			this.backend.address = this.backend.address.substring(0, index);
+		}
+	};
 
 	/**
 	 * request headers
