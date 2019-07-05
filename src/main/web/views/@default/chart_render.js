@@ -216,12 +216,13 @@ function ChartRender(charts, eventCallback) {
 				bottom: bottomHeight,
 				top: 16
 			},
-			axisPointer: {
-				show: false
-			},
 			tooltip: {
 				formatter: 'X:{b0} Y:{c0}',
-				show: false
+				show: true,
+				trigger: "axis",
+				axisPointer: {
+					type: "cross"
+				}
 			},
 			animation: false
 		};
@@ -299,13 +300,9 @@ function ChartRender(charts, eventCallback) {
 				bottom: 0,
 				top: -10
 			},
-			axisPointer: {
-				show: false
-			},
-
 			tooltip: {
 				formatter: 'X:{b0} Y:{c0}',
-				show: false
+				show: true
 			},
 			animation: false,
 			color: chart.colors
@@ -425,7 +422,11 @@ function ChartRender(charts, eventCallback) {
 
 			tooltip: {
 				formatter: 'X:{b0} Y:{c0}',
-				show: false
+				show: true,
+				trigger: "item",
+				axisPointer: {
+					type: "cross"
+				}
 			},
 			animation: false,
 			color: chart.colors
