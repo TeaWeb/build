@@ -99,6 +99,9 @@ function build() {
     then
         cp ${GOPATH}/src/main/start.bat ${TARGET}
         cp ${GOPATH}/src/main/README_WINDOWS.txt ${TARGET}/README.txt
+
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-install.exe ${GOPATH}/src/github.com/TeaWeb/code/main/service_install.go
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-uninstall.exe ${GOPATH}/src/github.com/TeaWeb/code/main/service_uninstall.go
     fi
 
     if [ ${GOOS} != "windows" ]
