@@ -8,8 +8,6 @@
 # teaweb agent install dir
 INSTALL_DIR=/opt/teaweb/agent
 
-export TEAROOT=${INSTALL_DIR}
-
 case "$1" in
 start)
     ${INSTALL_DIR}/bin/teaweb-agent start

@@ -95,15 +95,26 @@ function build() {
 
     cp -R ${GOPATH}/src/main/scripts ${TARGET}
 
+	# windows
     if [ ${GOOS} = "windows" ]
     then
         cp ${GOPATH}/src/main/start.bat ${TARGET}
         cp ${GOPATH}/src/main/README_WINDOWS.txt ${TARGET}/README.txt
 
+		# service manager
         ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-install.exe ${GOPATH}/src/github.com/TeaWeb/code/main/service_install.go
         ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-uninstall.exe ${GOPATH}/src/github.com/TeaWeb/code/main/service_uninstall.go
     fi
 
+    # linux
+    if [ ${GOOS} = "linux" ]
+    then
+    	# service manager
+		${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-install ${GOPATH}/src/github.com/TeaWeb/code/main/service_install.go
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-uninstall ${GOPATH}/src/github.com/TeaWeb/code/main/service_uninstall.go
+    fi
+
+	# not windows
     if [ ${GOOS} != "windows" ]
     then
 		cp ${GOPATH}/src/main/README_LINUX.md ${TARGET}/README.md
