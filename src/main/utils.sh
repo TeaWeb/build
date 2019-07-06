@@ -185,13 +185,28 @@ function buildAgent() {
     mkdir ${TARGET}/logs
     mkdir ${TARGET}/plugins
 
-	# agent
+	# config
     cp ${GOPATH}/src/main/configs/agent.sample.conf ${TARGET}/configs/agent.conf
 
     if [ ${GOOS} = "windows" ]
     then
 		cp ${GOPATH}/src/main/start-agent.bat ${TARGET}/start.bat
 		cp ${GOPATH}/src/main/README_AGENT_WINDOWS.txt ${TARGET}/README.txt
+
+		# service manager
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-install.exe ${GOPATH}/src/github.com/TeaWeb/agent/main/service_install.go
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-uninstall.exe ${GOPATH}/src/github.com/TeaWeb/agent/main/service_uninstall.go
+    fi
+
+    # linux
+    if [ ${GOOS} = "linux" ]
+    then
+    	mkdir ${TARGET}/scripts
+    	cp ${GOPATH}/src/main/scripts/teaweb-agent ${TARGET}/scripts/
+
+    	# service manager
+		${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-install ${GOPATH}/src/github.com/TeaWeb/agent/main/service_install.go
+        ${GO_CMD} build -ldflags="-s -w" -o ${TARGET}/bin/service-uninstall ${GOPATH}/src/github.com/TeaWeb/agent/main/service_uninstall.go
     fi
 
     if [ ${GOOS} != "windows" ]
