@@ -1,58 +1,42 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .main .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 div.margin {
-    margin-top: 2em!important;
+    margin-top: 2em !important;
 }
 
 .divider {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-/** 表格 **/
-.without-definition thead tr:first-child>th:first-child {
-    -webkit-box-shadow: none!important;
-    -moz-box-shadow: none!important;
-    box-shadow: none!important;
-    color: rgba(0,0,0,.87)!important;
-    font-weight: bold!important;
-    background: #f9fafb!important;
-}
-
-.without-definition thead tr:first-child>th {
-    border-left: 1px solid rgba(34,36,38,.15);
-}
-
-.without-definition thead tr th {
-    vertical-align: top!important;
-}
-
-.without-definition tr td:first-child {
-    width: 40%;
-}
-
-.without-definition tr td.value-td {
-    border-left: 1px solid rgba(34,36,38,.15);
-    width: 40%;
-}
-
-.without-definition tr td:last-child {
-    border-left: 1px solid rgba(34,36,38,.15);
-}
-
-.without-definition p {
-    margin-top: 0.6em;
+/** 请求变量 **/
+.variables-box {
     font-weight: normal;
+    margin-top: 0.6em;
+}
+
+.variables-box a:not(.label) {
     font-size: 0.9em;
 }
 
-.without-definition a {
-    font-weight: normal;
+.variables-box .labels-box {
+    max-height: 10em;
+    overflow-y: auto;
+}
+
+.variables-box .labels-box::-webkit-scrollbar {
+    width: 4px;
+}
+
+.variables-box .labels-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    line-height: 1.5;
 }

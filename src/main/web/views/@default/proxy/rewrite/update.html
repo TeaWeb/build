@@ -6,7 +6,7 @@
     <input type="hidden" name="serverId" :value="server.id"/>
     <input type="hidden" name="locationId" :value="locationId"/>
     <input type="hidden" name="rewriteId" :value="rewrite.id"/>
-    <table class="ui table definition">
+    <table class="ui table definition selectable">
         <tr>
             <td class="title">匹配规则</td>
             <td>
@@ -61,10 +61,10 @@
             <tr>
                 <td>匹配条件</td>
                 <td>
-                    <table class="ui table without-definition" v-if="conds.length > 0">
-                        <thead>
+                    <table class="ui table" v-if="conds.length > 0">
+                        <thead class="full-width">
                             <tr>
-                                <th>参数</th>
+                                <th style="width:30%">参数</th>
                                 <th>运算符</th>
                                 <th>对比值</th>
                                 <th></th>
@@ -73,6 +73,13 @@
                         <tr v-for="(cond, index) in conds" :key="index">
                             <td>
                                 <input type="text" name="condParams" v-model="cond.param"/>
+
+								<div class="variables-box">
+									<a href="" @click.prevent="showCondVariables(index, cond)">内置变量 <i class="icon angle" :class="{down:!cond.showVariables,up:cond.showVariables}"></i> </a>
+									<div class="labels-box" v-show="cond.showVariables">
+										<a href="" @click.prevent="selectCondVariable(cond, variable)" class="ui label tiny" v-for="variable in variables" :title="variable.description">{{variable.code}} <br/> {{variable.name}}</a>
+									</div>
+								</div>
                             </td>
                             <td>
                                 <select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">

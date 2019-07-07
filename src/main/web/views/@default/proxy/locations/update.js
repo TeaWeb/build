@@ -78,6 +78,16 @@ Tea.context(function () {
 		this.conds.$remove(index);
 	};
 
+	this.showCondVariables = function (index, cond) {
+		cond.showVariables = !cond.showVariables;
+		Vue.set(this.conds, index, cond);
+	};
+
+	this.selectCondVariable = function (cond, variable) {
+		cond.param = variable.code;
+		cond.showVariables = false;
+	};
+
 	/**
 	 * index
 	 */
