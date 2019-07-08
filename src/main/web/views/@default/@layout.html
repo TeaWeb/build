@@ -57,7 +57,7 @@
     <div class="main" :class="{'without-menu':teaSubMenus.menus == null || teaSubMenus.menus.length == 0}" v-cloak="">
 		<!-- 左侧子菜单 -->
 		<div class="sub-menu" v-if="teaSubMenus.menus != null && teaSubMenus.menus.length > 0">
-			<div class="menus-box">
+			<div class="menus-box" :style="{'bottom':(teaSubMenus.alwaysMenu == null) ? 0 : (teaSubMenus.alwaysMenu.items.length * 3) + 'em'}">
 				<div class="ui secondary menu vertical borderless blue pointing" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="!menu.alwaysActive">
 					<p class="item header" v-if="menu.name.length > 0 && !menu.alwaysActive" @click.prevent="showSubMenu(menu)">
 						<var v-html="menu.name"></var> <span v-if="!menu.alwaysActive">({{menu.countNormalItems}})</span><i class="icon angle" :class="{up:menu.isActive,down:!menu.isActive}" v-if="!menu.alwaysActive"></i>
@@ -67,9 +67,9 @@
 				</div>
 
 				<!-- bottom padding -->
-				<div class="ui secondary menu vertical" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
+				<!--<div class="ui secondary menu vertical" v-cloak="" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
 					<span v-for="item in menu.items" class="item">&nbsp;</span>
-				</div>
+				</div>-->
 			</div>
 
 			<div class="operations-box">
