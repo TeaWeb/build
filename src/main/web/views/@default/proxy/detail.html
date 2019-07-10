@@ -120,6 +120,19 @@
 					<span class="ui label tiny" :class="{'disabled':!accessLog.status5}">5xx</span>
 				</td>
 			</tr>
+			<tr v-if="accessLog.hasSelectedStoragePolicies">
+				<td>输出的日志策略</td>
+				<td>
+					<span class="ui label tiny" v-for="policy in accessLog.storagePolicies" v-if="policy.isChecked">{{policy.name}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td>是否只输出到日志策略</td>
+				<td>
+					<span v-if="accessLog.storageOnly" class="ui label tiny green">已开启</span>
+					<span v-if="!accessLog.storageOnly" class="ui label tiny">未开启</span>
+				</td>
+			</tr>
 		</tbody>
 		<tbody v-show="advancedOptionsVisible">
 			<tr>

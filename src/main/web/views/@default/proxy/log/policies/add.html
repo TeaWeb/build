@@ -1,0 +1,219 @@
+{$layout}
+{$template "menu"}
+
+<div class="margin"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">名称</td>
+			<td>
+				<input type="text" name="name"/>
+			</td>
+		</tr>
+		<tr>
+			<td>存储类型</td>
+			<td>
+				<select name="storageType" class="ui dropdown" v-model="storageType" @change="changeStorageType()" style="width:10em">
+					<option value="">[选择存储类型]</option>
+					<option v-for="storage in storages" :value="storage.type">{{storage.name}}</option>
+				</select>
+				<p class="comment" v-if="selectedStorage != null">{{selectedStorage.description}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td>存储格式</td>
+			<td>
+				<select name="storageFormat" v-model="storageFormat" @change="changeStorageFormat()" class="ui dropdown" style="width:10em">
+					<option v-for="format in formats" :value="format.code">{{format.name}}</option>
+				</select>
+				<p class="comment" v-if="selectedFormat != null">{{selectedFormat.description}}</p>
+			</td>
+		</tr>
+		<tr v-if="selectedFormat != null && selectedFormat.code == 'template'">
+			<td>日志内容模板</td>
+			<td>
+				<textarea name="storageTemplate" v-model="storageTemplate" rows="4" spellcheck="false"></textarea>
+				<p class="comment">在<a href="http://teaos.cn/doc/log/Index.md#%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F" target="_blank">这里查看</a>可以在模板中使用的变量</p>
+			</td>
+		</tr>
+
+
+		<!-- 文件 -->
+		<tbody v-show="selectedStorage != null && selectedStorage.type == 'file'">
+			<tr>
+				<td>日志文件路径 *</td>
+				<td>
+					<input type="text" name="filePath"/>
+					<p class="comment">
+						存储日志的文件路径，文件名中支持变量：
+						<span class="ui label tiny">年：${year}</span>
+						<span class="ui label tiny">月：${month}</span>
+						<span class="ui label tiny">周：${week}</span>
+						<span class="ui label tiny">日：${day}</span>
+						<span class="ui label tiny">时：${hour}</span>
+						<span class="ui label tiny">分：${minute}</span>
+						<span class="ui label tiny">秒：${second}</span>
+						<span class="ui label tiny">年月日：${date}</span>，比如<span class="ui label tiny">/var/log/web-access-${date}.log</span>。
+					</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<!-- Elastic Search -->
+		<tbody v-show="selectedStorage != null && selectedStorage.type == 'es'">
+			<tr>
+				<td>Endpoint *</td>
+				<td>
+					<input type="text" name="esEndpoint"/>
+					<p class="comment">ES HTTP接口地址，类似于192.168.1.100:9200</p>
+				</td>
+			</tr>
+			<tr>
+				<td>Index *</td>
+				<td>
+					<input type="text" name="esIndex"/>
+					<p class="comment">Index名称，支持变量：
+						<span class="ui label tiny">年：${year}</span>
+						<span class="ui label tiny">月：${month}</span>
+						<span class="ui label tiny">周：${week}</span>
+						<span class="ui label tiny">日：${day}</span>
+						<span class="ui label tiny">时：${hour}</span>
+						<span class="ui label tiny">分：${minute}</span>
+						<span class="ui label tiny">秒：${second}</span>
+						<span class="ui label tiny">年月日：${date}</span></p>
+				</td>
+			</tr>
+			<tr>
+				<td>Mapping Type *</td>
+				<td>
+					<input type="text" name="esMappingType"/>
+					<p class="comment">Mapping名称，支持变量：
+						<span class="ui label tiny">年：${year}</span>
+						<span class="ui label tiny">月：${month}</span>
+						<span class="ui label tiny">周：${week}</span>
+						<span class="ui label tiny">日：${day}</span>
+						<span class="ui label tiny">时：${hour}</span>
+						<span class="ui label tiny">分：${minute}</span>
+						<span class="ui label tiny">秒：${second}</span>
+						<span class="ui label tiny">年月日：${date}</span></p>
+				</td>
+			</tr>
+		</tbody>
+
+		<!-- MySQL -->
+		<tbody v-show="selectedStorage != null && selectedStorage.type == 'mysql'">
+			<tr>
+				<td>主机地址 *</td>
+				<td>
+					<input type="text" name="mysqlHost"/>
+				</td>
+			</tr>
+			<tr>
+				<td>端口 *</td>
+				<td>
+					<input type="text" name="mysqlPort" value="3306"/>
+				</td>
+			</tr>
+			<tr>
+				<td>用户名</td>
+				<td>
+					<input type="text" name="mysqlUsername"/>
+					<p class="comment">连接数据库用的用户名</p>
+				</td>
+			</tr>
+			<tr>
+				<td>密码</td>
+				<td>
+					<input type="text" name="mysqlPassword"/>
+					<p class="comment">连接数据库用的密码</p>
+				</td>
+			</tr>
+			<tr>
+				<td>数据库名称 *</td>
+				<td>
+					<input type="text" name="mysqlDatabase"/>
+					<p class="comment">日志表所在数据库</p>
+				</td>
+			</tr>
+			<tr>
+				<td>数据表名称 *</td>
+				<td>
+					<input type="text" name="mysqlTable"/>
+					<p class="comment">存储日志的数据表名，比如叫access_logs，支持使用<span class="ui label tiny">年：${year}</span>
+						<span class="ui label tiny">月：${month}</span>
+						<span class="ui label tiny">周：${week}</span>
+						<span class="ui label tiny">日：${day}</span>
+						<span class="ui label tiny">时：${hour}</span>
+						<span class="ui label tiny">分：${minute}</span>
+						<span class="ui label tiny">秒：${second}</span>
+						<span class="ui label tiny">年月日：${date}</span>等变量。如不存在，则系统会自动尝试创建。 </p>
+				</td>
+			</tr>
+			<tr>
+				<td>日志存储字段名 *</td>
+				<td>
+					<input type="text" name="mysqlLogField"/>
+					<p class="comment">需要是text或者longtext类型的字段，用来存储日志内容</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<!-- TCP Socket -->
+		<tbody v-show="selectedStorage != null && selectedStorage.type == 'tcp'">
+			<tr>
+				<td>网络协议 *</td>
+				<td>
+					<select name="tcpNetwork" class="ui dropdown" style="width:10em">
+						<option value="tcp">TCP</option>
+						<option value="unix">Unix Socket</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>网络地址 *</td>
+				<td>
+					<input type="text" name="tcpAddr"/>
+					<p class="comment">接收日志的网络地址</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<!-- 命令行输入流 -->
+		<tbody v-show="selectedStorage != null && selectedStorage.type == 'command'">
+			<tr>
+				<td>可执行命令 *</td>
+				<td>
+					<input type="text" name="commandCommand"/>
+					<p class="comment">不带参数的可执行命令地址</p>
+				</td>
+			</tr>
+			<tr>
+				<td>参数</td>
+				<td>
+					<input type="text" name="commandArgs"/>
+					<p class="comment">执行命令需要的参数</p>
+				</td>
+			</tr>
+			<tr>
+				<td>工作目录</td>
+				<td>
+					<input type="text" name="commandDir"/>
+					<p class="comment">命令执行所在的工作目录</p>
+				</td>
+			</tr>
+		</tbody>
+
+		<tr>
+			<td>是否启用</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="on" value="1" checked="checked"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+</form>

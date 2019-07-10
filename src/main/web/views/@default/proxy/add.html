@@ -48,7 +48,7 @@
 	<form class="ui form" data-tea-action="$">
 		<!-- 名称 -->
 		<div v-show="currentStep == 'name'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">服务名称</td>
 					<td>
@@ -62,7 +62,7 @@
 
 		<!-- 绑定域名 -->
 		<div v-show="currentStep == 'domain'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">绑定的域名</td>
 					<td>
@@ -94,7 +94,7 @@
 
 		<!-- 网络地址 -->
 		<div v-show="currentStep == 'listen'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">绑定的网络地址</td>
 					<td>
@@ -127,7 +127,7 @@
 
 		<!-- 类型 -->
 		<div v-show="currentStep == 'type'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">服务类型</td>
 					<td>
@@ -148,7 +148,7 @@
 
 		<!-- 后端服务器 -->
 		<div v-show="currentStep == 'backend'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">后端服务器地址</td>
 					<td>
@@ -181,7 +181,7 @@
 
 		<!-- 网站根目录 -->
 		<div v-show="currentStep == 'root'">
-			<table class="ui table definition">
+			<table class="ui table definition selectable">
 				<tr>
 					<td class="title">网站根目录</td>
 					<td>

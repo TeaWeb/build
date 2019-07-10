@@ -1,0 +1,165 @@
+{$layout}
+{$template "menu"}
+
+
+<h3>策略详情 <a :href="'/proxy/log/policies/update?policyId=' + policy.id">修改</a> </h3>
+
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">名称</td>
+		<td>{{policy.name}}</td>
+	</tr>
+	<tr>
+		<td>状态</td>
+		<td>
+			<span v-if="policy.on" class="green">启用</span>
+			<span v-if="!policy.on" class="disabled">停用</span>
+		</td>
+	</tr>
+	<tr>
+		<td>存储类型</td>
+		<td>{{policy.typeName}}</td>
+	</tr>
+	<tr>
+		<td>存储格式</td>
+		<td>{{policy.formatName}}</td>
+	</tr>
+	<tr v-if="policy.format == 'template'">
+		<td>日志内容模板</td>
+		<td>
+			<div class="code-block" v-html="formatVariables(policy.templateCode)"></div>
+			<p class="comment">在<a href="http://teaos.cn/doc/log/Index.md#%E6%A8%A1%E6%9D%BF%E5%8F%98%E9%87%8F" target="_blank">这里查看</a>可以在模板中使用的变量</p>
+		</td>
+	</tr>
+
+	<!-- 文件 -->
+	<tbody v-if="policy.type == 'file'">
+		<tr>
+			<td>日志文件路径</td>
+			<td><span v-html="formatVariables(policy.options.path)"></span></td>
+		</tr>
+	</tbody>
+
+	<!-- Elastic Search -->
+	<tbody v-if="policy.type == 'es'">
+		<tr>
+			<td>Endpoint</td>
+			<td>
+				{{policy.options.endpoint}}
+			</td>
+		</tr>
+		<tr>
+			<td>Index</td>
+			<td>
+				<span v-html="formatVariables(policy.options.index)"></span>
+			</td>
+		</tr>
+		<tr>
+			<td>Mapping Type</td>
+			<td>
+				<span v-html="formatVariables(policy.options.mappingType)"></span>
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- MySQL -->
+	<tbody v-if="policy.type == 'mysql'">
+		<tr>
+			<td>主机地址</td>
+			<td>
+				{{policy.options.host}}
+			</td>
+		</tr>
+		<tr>
+			<td>端口</td>
+			<td>
+                {{policy.options.port}}
+			</td>
+		</tr>
+		<tr>
+			<td>用户名</td>
+			<td>
+				<span v-if="policy.options.username == null || policy.options.username.length == 0 " class="disabled">没有设置</span>
+                {{policy.options.username}}
+			</td>
+		</tr>
+		<tr>
+			<td>密码</td>
+			<td>
+				<span v-if="policy.options.password == null || policy.options.password.length == 0 " class="disabled">没有设置</span>
+                {{policy.options.password}}
+			</td>
+		</tr>
+		<tr>
+			<td>数据库名称</td>
+			<td>
+                {{policy.options.database}}
+			</td>
+		</tr>
+		<tr>
+			<td>数据表名称</td>
+			<td>
+                <span v-html="formatVariables(policy.options.table)"></span>
+			</td>
+		</tr>
+		<tr>
+			<td>日志存储字段名</td>
+			<td>
+                {{policy.options.logField}}
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- TCP Socket -->
+	<tbody v-if="policy.type == 'tcp'">
+		<tr>
+			<td>网络协议</td>
+			<td>
+				{{policy.options.network}}
+			</td>
+		</tr>
+		<tr>
+			<td>网络地址</td>
+			<td>
+				{{policy.options.addr}}
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- 命令行输入流 -->
+	<tbody v-if="policy.type == 'command'">
+		<tr>
+			<td>可执行命令</td>
+			<td>
+				{{policy.options.command}}
+			</td>
+		</tr>
+		<tr>
+			<td>参数</td>
+			<td>
+				<span v-if="policy.options.args == null || policy.options.args.length == 0" class="disabled">没有设置</span>
+				<span v-if="policy.options.args != null">{{policy.options.args.join(" ")}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>工作目录</td>
+			<td>
+				<span v-if="policy.options.dir == null || policy.options.dir.length == 0" class="disabled">没有设置</span>
+				{{policy.options.dir}}
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<h3 style="padding-top:1em">使用此日志策略的项目</h3>
+<p class="comment" v-if="configItems.length == 0" style="padding-top:0">暂时还没有使用此日志策略的项目。</p>
+<table class="ui table selectable" v-if="configItems.length > 0">
+	<tr v-for="item in configItems">
+		<td v-if="item.type == 'server'">
+			<a :href="item.link">{{item.server}} &raquo;</a>
+		</td>
+		<td v-if="item.type == 'location'">
+			<a :href="item.link">{{item.server}} &raquo; {{item.location}} &raquo;</a>
+		</td>
+	</tr>
+</table>

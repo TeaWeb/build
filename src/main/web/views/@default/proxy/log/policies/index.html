@@ -1,0 +1,29 @@
+{$layout}
+{$template "menu"}
+
+<p class="comment">可以在这里配置日志存储策略，然后可以在代理中使用这些策略。</p>
+
+<table class="ui table selectable" v-if="policyList.length > 0">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>存储类型</th>
+			<th>存储格式</th>
+			<th>状态</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="policy in policyList">
+		<td>{{policy.name}}</td>
+		<td>{{policy.typeName}}</td>
+		<td>{{policy.formatName}}</td>
+		<td>
+			<span v-if="policy.on" class="green">启用</span>
+			<span v-if="!policy.on" class="disabled">停用</span>
+		</td>
+		<td>
+			<a :href="'/proxy/log/policies/policy?policyId=' + policy.id">详情</a> &nbsp;
+			<a href="" @click.prevent="deletePolicy(policy.id)">删除</a>
+		</td>
+	</tr>
+</table>

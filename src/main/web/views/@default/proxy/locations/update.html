@@ -217,6 +217,25 @@
 						</div>
 					</td>
 				</tr>
+				<tr v-if="accessLog.storagePolicies.length > 0">
+					<td>选择输出的日志策略</td>
+					<td>
+						<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'StoragePolicyIds'" :value="policy.id" :id="'access-log-storage-policy-' + policy.id" v-model="policy.isChecked"/>
+							<label :for="'access-log-storage-policy-' + policy.id">{{policy.name}}<em style="font-size:0.8em;color:grey">（{{policy.type}}）</em></label>
+						</div>
+					</td>
+				</tr>
+				<tr v-if="accessLog.storagePolicies.length > 0">
+					<td>是否只输出到日志策略</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" :name="'accessLog' + index + 'StorageOnly'" v-model="accessLog.storageOnly" value="1"/>
+							<label></label>
+						</div>
+						<p class="comment">选中表示只输出日志到日志策略，而停止默认的日志存储。</p>
+					</td>
+				</tr>
 			</tbody>
 			<tbody v-show="advancedOptionsVisible">
 				<tr>

@@ -161,52 +161,71 @@
 				</tr>
 			</tbody>
 			<tbody v-show="advancedOptionsVisible" v-for="(accessLog, index) in accessLogs">
-			<tr>
-				<td>是否开启访问日志存储</td>
-				<td>
-					<input type="hidden" name="accessLogIndexes" :value="index"/>
-					<input type="hidden" :name="'accessLog' + index + 'Id'" :value="accessLog.id"/>
-					<div class="ui checkbox">
-						<input type="checkbox" :name="'accessLog' + index + 'On'" v-model="accessLog.on" value="1"/>
-						<label></label>
-					</div>
-					<p class="comment">关闭访问日志，并不影响统计的运行</p>
-				</td>
-			</tr>
-			<tr v-show="accessLog.on">
-				<td>要存储的访问日志字段</td>
-				<td>
-					<div class="ui checkbox" v-for="field in accessLog.fields"  style="width:11em;padding:0.4em">
-						<input type="checkbox" :name="'accessLog' + index + 'Fields'" :value="field.code" :id="'access-log-' + index + '-field-' + field.code" v-model="field.isChecked"/>
-						<label :for="'access-log-' + index + '-field-' + field.code">{{field.name}}</label>
-					</div>
-				</td>
-			</tr>
-			<tr v-show="accessLog.on">
-				<td>要存储的访问日志状态码</td>
-				<td>
-					<div class="ui checkbox" style="width:5em;padding:0.4em">
-						<input type="checkbox" :name="'accessLog' + index + 'Status1'" v-model="accessLog.status1" value="1" :id="'access-log-' + index + '-status1'"/>
-						<label :for="'access-log-' + index + '-status1'">1xx</label>
-					</div>
-					<div class="ui checkbox" style="width:5em;padding:0.4em">
-						<input type="checkbox" :name="'accessLog' + index + 'Status2'" v-model="accessLog.status2" value="1" :id="'access-log-' + index + '-status2'"/>
-						<label :for="'access-log-' + index + '-status2'">2xx</label>
-					</div>
-					<div class="ui checkbox" style="width:5em;padding:0.4em">
-						<input type="checkbox" :name="'accessLog' + index + 'Status3'" v-model="accessLog.status3" value="1" :id="'access-log-' + index + '-status3'"/>
-						<label :for="'access-log-' + index + '-status3'">3xx</label>
-					</div>
-					<div class="ui checkbox" style="width:5em;padding:0.4em">
-						<input type="checkbox" :name="'accessLog' + index + 'Status4'" v-model="accessLog.status4" value="1" :id="'access-log-' + index + '-status4'"/>
-						<label :for="'access-log-' + index + '-status4'">4xx</label>
-					</div>
-					<div class="ui checkbox" style="width:5em;padding:0.4em">
-						<input type="checkbox" :name="'accessLog' + index + 'Status5'" v-model="accessLog.status5" value="1" :id="'access-log-' + index + '-status5'"/>
-						<label :for="'access-log-' + index + '-status5'">5xx</label>
-					</div>
-				</td>
-			</tr>
+				<tr>
+					<td>是否开启访问日志存储</td>
+					<td>
+						<input type="hidden" name="accessLogIndexes" :value="index"/>
+						<input type="hidden" :name="'accessLog' + index + 'Id'" :value="accessLog.id"/>
+						<div class="ui checkbox">
+							<input type="checkbox" :name="'accessLog' + index + 'On'" v-model="accessLog.on" value="1"/>
+							<label></label>
+						</div>
+						<p class="comment">关闭访问日志，并不影响统计的运行</p>
+					</td>
+				</tr>
+				<tr v-show="accessLog.on">
+					<td>要存储的访问日志字段</td>
+					<td>
+						<div class="ui checkbox" v-for="field in accessLog.fields"  style="width:11em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'Fields'" :value="field.code" :id="'access-log-' + index + '-field-' + field.code" v-model="field.isChecked"/>
+							<label :for="'access-log-' + index + '-field-' + field.code">{{field.name}}</label>
+						</div>
+					</td>
+				</tr>
+				<tr v-show="accessLog.on">
+					<td>要存储的访问日志状态码</td>
+					<td>
+						<div class="ui checkbox" style="width:5em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'Status1'" v-model="accessLog.status1" value="1" :id="'access-log-' + index + '-status1'"/>
+							<label :for="'access-log-' + index + '-status1'">1xx</label>
+						</div>
+						<div class="ui checkbox" style="width:5em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'Status2'" v-model="accessLog.status2" value="1" :id="'access-log-' + index + '-status2'"/>
+							<label :for="'access-log-' + index + '-status2'">2xx</label>
+						</div>
+						<div class="ui checkbox" style="width:5em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'Status3'" v-model="accessLog.status3" value="1" :id="'access-log-' + index + '-status3'"/>
+							<label :for="'access-log-' + index + '-status3'">3xx</label>
+						</div>
+						<div class="ui checkbox" style="width:5em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'Status4'" v-model="accessLog.status4" value="1" :id="'access-log-' + index + '-status4'"/>
+							<label :for="'access-log-' + index + '-status4'">4xx</label>
+						</div>
+						<div class="ui checkbox" style="width:5em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'Status5'" v-model="accessLog.status5" value="1" :id="'access-log-' + index + '-status5'"/>
+							<label :for="'access-log-' + index + '-status5'">5xx</label>
+						</div>
+					</td>
+				</tr>
+				<tr v-if="accessLog.storagePolicies.length > 0">
+					<td>选择输出的日志策略</td>
+					<td>
+						<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em">
+							<input type="checkbox" :name="'accessLog' + index + 'StoragePolicyIds'" :value="policy.id" :id="'access-log-storage-policy-' + policy.id" v-model="policy.isChecked"/>
+							<label :for="'access-log-storage-policy-' + policy.id">{{policy.name}}<em style="font-size:0.8em;color:grey">（{{policy.type}}）</em></label>
+						</div>
+					</td>
+				</tr>
+				<tr v-if="accessLog.storagePolicies.length > 0">
+					<td>是否只输出到日志策略</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" :name="'accessLog' + index + 'StorageOnly'" v-model="accessLog.storageOnly" value="1"/>
+							<label></label>
+						</div>
+						<p class="comment">选中表示只输出日志到日志策略，而停止默认的日志存储。</p>
+					</td>
+				</tr>
 			</tbody>
 			<tbody v-show="advancedOptionsVisible">
 				<tr>

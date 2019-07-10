@@ -1,0 +1,15 @@
+.code-block {
+    border: 1px #eee solid;
+    background: rgba(0, 0, 0, 0.01);
+    padding: 0.4em;
+    line-height: 1.5;
+    font-size: 0.9em;
+}
+
+.code-block em {
+
+}
+
+.code-block em a {
+    font-style: italic !important;
+}
