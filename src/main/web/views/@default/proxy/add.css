@@ -1,0 +1,17 @@
+.labels-box {
+    max-height: 5em;
+    overflow-y: auto;
+}
+
+.labels-box::-webkit-scrollbar {
+    width: 4px;
+}
+
+.labels-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.label.normal {
+    font-weight: normal;
+}

@@ -30,6 +30,10 @@ Tea.context(function () {
 	 */
 	this.nextDomain = function () {
 		this.currentStep = "listen";
+
+		if (this.listens.length == 0) {
+			this.addListen();
+		}
 	};
 
 	/**
@@ -86,10 +90,18 @@ Tea.context(function () {
 	/**
 	 * 监听地址
 	 */
+	this.localAddrs = [];
 	this.listens = [];
 	this.listenAdding = false;
 	this.addingListenName = "";
 	this.editingListenIndex = -1;
+
+	this.$delay(function () {
+		this.$post(".localAddrs")
+			.success(function (resp) {
+				this.localAddrs = resp.data.result;
+			});
+	});
 
 	this.addListen = function () {
 		this.listenAdding = true;
@@ -135,12 +147,27 @@ Tea.context(function () {
 	};
 
 	this.nextListen = function () {
+		if (this.listenAdding) {
+			this.confirmAddListen();
+			return;
+		}
 		if (this.listens.length == 0) {
 			alert("必须添加一个绑定的网络地址");
 			this.addListen();
 			return;
 		}
 		this.go("type");
+	};
+
+	this.highlightAddr = function (s, start) {
+		return "<strong>" + s.addr.substring(0, start.length) + "</strong>" + s.addr.substring(start.length) + " (" + s.name + ")";
+	};
+
+	this.selectLocalAddr = function (localAddr) {
+		this.addingListenName = localAddr + ":";
+		this.$delay(function () {
+			this.$find("form input[name='addingListenName']").focus();
+		});
 	};
 
 	/**
@@ -164,6 +191,14 @@ Tea.context(function () {
 	this.backendAdding = false;
 	this.addingBackendName = "";
 	this.editingBackendIndex = -1;
+	this.localListens = [];
+
+	this.$delay(function () {
+		this.$post(".localListens")
+			.success(function (resp) {
+				this.localListens = resp.data.result;
+			});
+	});
 
 	this.addBackend = function () {
 		this.backendAdding = true;
@@ -210,6 +245,13 @@ Tea.context(function () {
 
 	this.nextBackend = function () {
 		this.go("finish");
+	};
+
+	this.selectLocalBackend = function (backend) {
+		this.addingBackendName = backend.addr;
+		this.$delay(function () {
+			this.$find("form input[name='addingBackendName']").focus();
+		});
 	};
 
 	/**
