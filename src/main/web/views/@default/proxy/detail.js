@@ -9,7 +9,7 @@ Tea.context(function () {
 	};
 
 	/**
-	 * 启动
+	 * 启动HTTP
 	 */
 	this.startHttp = function () {
 		if (!window.confirm("确定要启动此HTTP服务吗？")) {
@@ -24,11 +24,46 @@ Tea.context(function () {
 			});
 	};
 
+	/**
+	 * 关闭HTTP
+	 */
 	this.shutdownHttp = function () {
 		if (!window.confirm("确定要关闭此HTTP服务吗？")) {
 			return;
 		}
 		this.$post(".shutdownHttp")
+			.params({
+				"serverId": this.server.id,
+			})
+			.success(function () {
+				window.location.reload();
+			});
+	};
+
+	/**
+	 * 启动TCP
+	 */
+	this.startTcp = function () {
+		if (!window.confirm("确定要启动此TCP服务吗？")) {
+			return;
+		}
+		this.$post(".startTcp")
+			.params({
+				"serverId": this.server.id,
+			})
+			.success(function () {
+				window.location.reload();
+			});
+	};
+
+	/**
+	 * 关闭TCP
+	 */
+	this.shutdownTcp = function () {
+		if (!window.confirm("确定要关闭此TCP服务吗？")) {
+			return;
+		}
+		this.$post(".shutdownTcp")
 			.params({
 				"serverId": this.server.id,
 			})

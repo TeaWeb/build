@@ -1,0 +1,34 @@
+<h3>基本信息<a :href="'/proxy/update?serverId=' + server.id">修改</a></h3>
+
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">代理服务名称</td>
+		<td>{{server.description}}</td>
+	</tr>
+	<tr>
+		<td class="title">是否开启TCP</td>
+		<td>
+			<span class="ui label tiny green" v-if="server.tcp.tcpOn">已开启</span>
+			<span class="ui label tiny" v-if="!server.tcp.tcpOn">未开启</span>
+			&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.tcp.tcpOn" @click.prevent="startTcp()">快速启动</a><a href="" style="font-size: 12px" v-if="server.on && server.tcp.tcpOn" @click.prevent="shutdownTcp()">快速关闭</a>
+		</td>
+	</tr>
+	<tr>
+		<td>ID</td>
+		<td>{{server.id}}</td>
+	</tr>
+	<tr>
+		<td>域名<em>(name)</em></td>
+		<td colspan="2">
+			<a class="disabled" v-if="server.name.length == 0">[还没有绑定域名]</a>
+			<span class="ui label small" v-for="name in server.name">{{name}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>绑定地址<em>(listen)</em></td>
+		<td colspan="2">
+			<a class="disabled" v-if="server.listen.length == 0">[还没有绑定网络地址]</a>
+			<span class="ui label small" v-for="listen in server.listen">{{listen}}</span>
+		</td>
+	</tr>
+</table>

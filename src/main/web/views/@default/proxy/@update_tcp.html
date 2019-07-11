@@ -1,0 +1,76 @@
+<form class="ui form" data-tea-action="/proxy/update" data-tea-success="submitSuccess">
+	<input type="hidden" name="serverId" :value="server.id"/>
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">代理服务名称</td>
+			<td>
+				<input type="text" name="description" v-model="server.description" maxlength="100"/>
+				<p class="comment">给此服务起一个易懂的名称</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="title">是否开启TCP</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="tcpOn" value="1" v-model="server.tcp.tcpOn"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>域名<em>(name)</em></td>
+			<td colspan="2">
+				<div class="names-box">
+					<span class="ui label tiny" v-for="(name, arrayIndex) in server.name" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
+						<input type="hidden" name="name" :value="name"/> &nbsp;
+						<a href="" @click.prevent="editName(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+						<a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+						<a title="拖动改变顺序" v-if="server.name.length > 1"><i class="icon bars handle"></i></a>
+					</span>
+				</div>
+				<div class="ui fields inline" v-if="nameAdding" style="margin-top:0.8em">
+					<div class="ui field">
+						<input type="text" name="addingNameName" style="width:16em" maxlength="100" placeholder="域名，比如example.com" @keyup.enter="confirmAddName()" @keypress.enter.prevent="1" v-model="addingNameName" />
+					</div>
+					<div class="ui field">
+						<button class="ui button tiny" type="button" @click="confirmAddName()">确定</button>
+						&nbsp; <a href="" @click.prevent="cancelNameAdding()">取消</a>
+					</div>
+				</div>
+				<div class="ui field" style="margin-top: 1em">
+					<button class="ui button tiny" type="button" @click="addName()">+</button>
+				</div>
+				<p class="comment">用户可以访问的域名，可以使用星号通配符（*）来表示匹配一组域名，比如www.example.com *.google.com。<a href="https://wanwang.aliyun.com/domain/com/?spm=5176.10695662.1158081.1.59854234sBN4rF" target="_blank">去阿里云注册域名 &raquo;</a> </p>
+			</td>
+		</tr>
+		<tr>
+			<td>绑定地址<em>(listen)</em></td>
+			<td colspan="2">
+				<div class="listens-box">
+					<span class="ui label tiny" v-for="(listen, arrayIndex) in server.listen" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+						<input type="hidden" name="listen" :value="listen"/> &nbsp;
+						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
+						<a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
+						<a title="拖动改变顺序" v-if="server.listen.length > 1"><i class="icon bars handle"></i></a>
+					</span>
+				</div>
+				<div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
+					<div class="ui field">
+						<input type="text" name="addingListenName" style="width:18em" maxlength="100" placeholder="绑定的网络地址，比如 0.0.0.0:80" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
+					</div>
+					<div class="ui field">
+						<button class="ui button tiny" type="button" @click="confirmAddListen()">确定</button>
+						&nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
+					</div>
+				</div>
+				<div class="ui field" style="margin-top: 1em">
+					<button class="ui button tiny" type="button" @click="addListen()">+</button>
+				</div>
+				<p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址。</p>
+				<p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+</form>

@@ -174,7 +174,7 @@ Tea.context(function () {
 	 * 服务类型
 	 */
 	this.nextType = function () {
-		if (this.serverType == "proxy") {
+		if (this.serverType == "proxy" || this.serverType == "tcp") {
 			this.go("backend");
 		} else if (this.serverType == "static") {
 			this.go("root");
@@ -244,6 +244,10 @@ Tea.context(function () {
 	};
 
 	this.nextBackend = function () {
+		if (this.backendAdding) {
+			this.confirmAddBackend();
+			return;
+		}
 		this.go("finish");
 	};
 

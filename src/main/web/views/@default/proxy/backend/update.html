@@ -17,221 +17,228 @@
             <td>地址 *</td>
             <td>
                 <input type="text" name="address" v-model="backend.address" @blur="changeAddress()" placeholder="比如 192.168.1.100:8800"/>
-                <p class="ui comment">服务器地址，可以是一个IP加端口，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em>。</p>
+				<p class="ui comment">服务器地址，可以是一个IP加端口，也可以是一个Unix Socket<span v-if="isHTTP">，不需要加 <em>http://</em> 或 <em>https://</em></span>。</p>
             </td>
         </tr>
 		<tr>
 			<td>协议</td>
 			<td>
 				<select class="ui dropdown" name="scheme" v-model="backend.scheme" style="width:10em">
-					<option value="http" :selected="backend.scheme == 'http'">http</option>
-					<option value="https" :selected="backend.scheme == 'https'">https</option>
+					<!-- HTTP -->
+					<option value="http" :selected="backend.scheme == 'http'" v-if="isHTTP">http</option>
+					<option value="https" :selected="backend.scheme == 'https'" v-if="isHTTP">https</option>
+
+					<!-- TCP -->
+					<option value="tcp" :selected="backend.scheme == 'tcp'" v-if="isTCP">tcp</option>
+					<option value="tcp+tls" :selected="backend.scheme == 'tcp+tls'" v-if="isTCP">tls</option>
 				</select>
 			</td>
 		</tr>
+		<tbody v-if="isHTTP">
+			<tr>
+				<td>请求URI</td>
+				<td>
+					<input type="text" name="requestURI" v-model="backend.requestURI"/>
+					<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
+				</td>
+			</tr>
+			<tr>
+				<td>主机名<em>（Host）</em></td>
+				<td>
+					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="100"/>
+					<p class="comment">请求后端服务器时的Host，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
+				</td>
+			</tr>
+		</tbody>
 		<tr>
-			<td>请求URI</td>
-			<td>
-				<input type="text" name="requestURI" v-model="backend.requestURI"/>
-				<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
+			<td colspan="2">
+				<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
+				<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
 			</td>
 		</tr>
-		<tr>
-			<td>主机名<em>（Host）</em></td>
-			<td>
-				<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="100"/>
-				<p class="comment">请求后端服务器时的Host，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
-			</td>
-		</tr>
-        <tr>
-            <td colspan="2">
-                <a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle down"></i> </a>
-                <a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
-            </td>
-        </tr>
         <tbody v-show="advancedOptionsVisible">
-		<tr>
-			<td>所属分组</td>
-			<td>
-				<span class="disabled" v-if="server.requestGroups == null || server.requestGroups.length == 0">暂时还没有分组。</span>
-				<div v-if="server.requestGroups != null && server.requestGroups.length > 0">
-					<div class="ui checkbox" v-for="group in server.requestGroups" style="width:10em;margin-top:0.4em;margin-bottom:0.4em">
-						<input type="checkbox" name="requestGroupIds" :value="group.id" :id="'request-group-' + group.id" v-model="group.isChecked"/>
-						<label :for="'request-group-' + group.id">{{group.name}}</label>
+			<tr>
+				<td>所属分组</td>
+				<td>
+					<span class="disabled" v-if="server.requestGroups == null || server.requestGroups.length == 0">暂时还没有分组。</span>
+					<div v-if="server.requestGroups != null && server.requestGroups.length > 0">
+						<div class="ui checkbox" v-for="group in server.requestGroups" style="width:10em;margin-top:0.4em;margin-bottom:0.4em">
+							<input type="checkbox" name="requestGroupIds" :value="group.id" :id="'request-group-' + group.id" v-model="group.isChecked"/>
+							<label :for="'request-group-' + group.id">{{group.name}}</label>
+						</div>
 					</div>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>权重</td>
-			<td>
-				<div class="ui fields inline">
-					<div class="ui field">
-						<input type="text" name="weight" v-model="backend.weight" maxlength="4" size="6"/>
-					</div>
-				</div>
-				<p class="ui comment">使用权重来计算请求分发的比例，最小为1。</p>
-			</td>
-		</tr>
-        <tr>
-            <td>是否启用</td>
-            <td>
-                <div class="ui checkbox">
-                    <input type="checkbox" name="on" value="1" v-model="backend.on"/>
-                    <label></label>
-                </div>
-                <p class="comment">启用后才会被分发请求。</p>
-            </td>
-        </tr>
-        <tr>
-            <td>代号</td>
-            <td>
-                <input type="text" name="code" maxlength="100" v-model="backend.code" placeholder="比如 server001"/>
-                <p class="comment">只能是英文字母、下划线、数字的组合，一个好记的代号，用于某些转发算法中的参数。</p>
-            </td>
-        </tr>
-		<tr>
-			<td>健康检查URL</td>
-			<td>
-				<input type="text" name="checkURL" maxlength="200" placeholder="http://..." v-model="backend.checkURL"/>
-				<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
-			</td>
-		</tr>
-		<tr>
-			<td>健康检查间隔时间</td>
-			<td>
-				<div class="ui fields inline">
-					<div class="ui field">
-						<input type="text" name="checkInterval" value="0" size="6" v-model="backend.checkInterval"/>
-					</div>
-					<div class="ui field">
-						秒
-					</div>
-				</div>
-				<p class="comment">0表示默认，默认30秒检查一次</p>
-			</td>
-		</tr>
-		<tr>
-			<td>连接最多连续失败次数</td>
-			<td>
-				<div class="ui fields inline">
-					<div class="ui field">
-						<input type="text" name="maxFails" value="1" size="6" maxlength="10" v-model="backend.maxFails"/>
-					</div>
-					<div class="ui field">
-						次
-					</div>
-				</div>
-				<p class="comment">0表示不限制，即使连接失败也不会自动下线</p>
-			</td>
-		</tr>
-        <tr>
-            <td>连接失败超时时间</td>
-            <td>
-                <div class="ui fields inline">
-                    <div class="ui field">
-                        <input type="text" name="failTimeout" value="10" size="6" v-model="backend.failTimeout"/>
-                    </div>
-                    <div class="ui field">
-                        秒
-                    </div>
-                </div>
-                <p class="comment">0表示不限制</p>
-            </td>
-        </tr>
-		<tr>
-			<td>读取超时时间</td>
-			<td>
-				<div class="ui fields inline">
-					<div class="ui field">
-						<input type="text" name="readTimeout" value="10" size="6" v-model="backend.readTimeout"/>
-					</div>
-					<div class="ui field">
-						秒
-					</div>
-				</div>
-				<p class="comment">0表示不限制</p>
-			</td>
-		</tr>
-        <tr>
-            <td>最大并发连接数</td>
-            <td>
-                <div class="ui fields inline">
-					<div class="ui field">
-						<input type="text" name="maxConns" value="0" v-model="backend.maxConns" size="6" maxlength="10"/>
-					</div>
-				</div>
-                <p class="comment">0表示不限制</p>
-            </td>
-        </tr>
-		<tr>
-			<td>请求Header</td>
-			<td>
-				<div class="request-headers-box" style="margin-bottom:1em">
-						<span class="ui label tiny" :class="{blue:requestHeadersEditingIndex == index}" v-for="(header,index) in requestHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
-							<input type="hidden" name="requestHeaderNames" :value="header.name"/>
-							<input type="hidden" name="requestHeaderValues" :value="header.value"/> &nbsp;
-							<a href="" title="修改" @click.prevent="editRequestHeader(index)"><i class="icon pencil"></i></a>
-							<a href="" title="删除" @click.prevent="removeRequestHeader(index)"><i class="icon remove"></i></a>
-						</span>
-				</div>
-				<button class="ui button tiny" type="button" @click.prevent="addRequestHeader()" v-if="!requestHeadersAdding">+</button>
-				<div v-if="requestHeadersAdding">
+				</td>
+			</tr>
+			<tr>
+				<td>权重</td>
+				<td>
 					<div class="ui fields inline">
 						<div class="ui field">
-							<input type="text" name="requestHeaderName" size="20" v-model="requestHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
-						</div>
-						<div class="ui field">:</div>
-						<div class="ui field">
-							<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							<input type="text" name="weight" v-model="backend.weight" maxlength="4" size="6"/>
 						</div>
 					</div>
-					<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
-					<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex > -1">保存</button>
-					&nbsp;  <a href="" @click.prevent="cancelRequestHeadersAdding()"><i class="icon remove"></i></a>
-				</div>
-				<p class="comment">向后端服务器转发的请求Header，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
-			</td>
-		</tr>
-		<tr>
-			<td>响应Header</td>
-			<td>
-				<div class="response-headers-box" style="margin-bottom:1em">
-						<span class="ui label tiny" :class="{blue:responseHeadersEditingIndex == index}" v-for="(header,index) in responseHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
-							<input type="hidden" name="responseHeaderNames" :value="header.name"/>
-							<input type="hidden" name="responseHeaderValues" :value="header.value"/> &nbsp;
-							<a href="" title="修改" @click.prevent="editResponseHeader(index)"><i class="icon pencil"></i></a>
-							<a href="" title="删除" @click.prevent="removeResponseHeader(index)"><i class="icon remove"></i></a>
-						</span>
-				</div>
-				<button class="ui button tiny" type="button" @click.prevent="addResponseHeader()" v-if="!responseHeadersAdding">+</button>
-				<div v-if="responseHeadersAdding">
+					<p class="ui comment">使用权重来计算请求分发的比例，最小为1。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="backend.on"/>
+						<label></label>
+					</div>
+					<p class="comment">启用后才会被分发请求。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>代号</td>
+				<td>
+					<input type="text" name="code" maxlength="100" v-model="backend.code" placeholder="比如 server001"/>
+					<p class="comment">只能是英文字母、下划线、数字的组合，一个好记的代号，用于某些转发算法中的参数。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>健康检查URL</td>
+				<td>
+					<input type="text" name="checkURL" maxlength="200" placeholder="http://..." v-model="backend.checkURL"/>
+					<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>健康检查间隔时间</td>
+				<td>
 					<div class="ui fields inline">
 						<div class="ui field">
-							<input type="text" name="responseHeaderName" size="20" v-model="responseHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							<input type="text" name="checkInterval" value="0" size="6" v-model="backend.checkInterval"/>
 						</div>
-						<div class="ui field">:</div>
 						<div class="ui field">
-							<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							秒
 						</div>
 					</div>
-					<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>
-					<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex > -1">保存</button>
-					&nbsp;  <a href="" @click.prevent="cancelResponseHeadersAdding()"><i class="icon remove"></i></a>
-				</div>
-				<p class="comment">向终端发送的响应Header。</p>
-			</td>
-		</tr>
-        <tr>
-            <td>是否为备用服务器</td>
-            <td>
-                <div class="ui checkbox">
-                    <input type="checkbox" name="isBackup" value="1" v-model="backend.isBackup"/>
-                    <label></label>
-                </div>
-                <p class="comment">当普通服务器全部不可用时，会自动将请求转发到备用服务器</p>
-            </td>
-        </tr>
+					<p class="comment">0表示默认，默认30秒检查一次</p>
+				</td>
+			</tr>
+			<tr>
+				<td>连接最多连续失败次数</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="maxFails" value="1" size="6" maxlength="10" v-model="backend.maxFails"/>
+						</div>
+						<div class="ui field">
+							次
+						</div>
+					</div>
+					<p class="comment">0表示不限制，即使连接失败也不会自动下线</p>
+				</td>
+			</tr>
+			<tr>
+				<td>连接失败超时时间</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="failTimeout" value="10" size="6" v-model="backend.failTimeout"/>
+						</div>
+						<div class="ui field">
+							秒
+						</div>
+					</div>
+					<p class="comment">0表示不限制</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>读取超时时间</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="readTimeout" value="10" size="6" v-model="backend.readTimeout"/>
+						</div>
+						<div class="ui field">
+							秒
+						</div>
+					</div>
+					<p class="comment">0表示不限制</p>
+				</td>
+			</tr>
+			<tr>
+				<td>最大并发连接数</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="maxConns" value="0" v-model="backend.maxConns" size="6" maxlength="10"/>
+						</div>
+					</div>
+					<p class="comment">0表示不限制</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>请求Header</td>
+				<td>
+					<div class="request-headers-box" style="margin-bottom:1em">
+							<span class="ui label tiny" :class="{blue:requestHeadersEditingIndex == index}" v-for="(header,index) in requestHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
+								<input type="hidden" name="requestHeaderNames" :value="header.name"/>
+								<input type="hidden" name="requestHeaderValues" :value="header.value"/> &nbsp;
+								<a href="" title="修改" @click.prevent="editRequestHeader(index)"><i class="icon pencil"></i></a>
+								<a href="" title="删除" @click.prevent="removeRequestHeader(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addRequestHeader()" v-if="!requestHeadersAdding">+</button>
+					<div v-if="requestHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="requestHeaderName" size="20" v-model="requestHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
+						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex > -1">保存</button>
+						&nbsp;  <a href="" @click.prevent="cancelRequestHeadersAdding()"><i class="icon remove"></i></a>
+					</div>
+					<p class="comment">向后端服务器转发的请求Header，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>响应Header</td>
+				<td>
+					<div class="response-headers-box" style="margin-bottom:1em">
+							<span class="ui label tiny" :class="{blue:responseHeadersEditingIndex == index}" v-for="(header,index) in responseHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
+								<input type="hidden" name="responseHeaderNames" :value="header.name"/>
+								<input type="hidden" name="responseHeaderValues" :value="header.value"/> &nbsp;
+								<a href="" title="修改" @click.prevent="editResponseHeader(index)"><i class="icon pencil"></i></a>
+								<a href="" title="删除" @click.prevent="removeResponseHeader(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addResponseHeader()" v-if="!responseHeadersAdding">+</button>
+					<div v-if="responseHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="responseHeaderName" size="20" v-model="responseHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>
+						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex > -1">保存</button>
+						&nbsp;  <a href="" @click.prevent="cancelResponseHeadersAdding()"><i class="icon remove"></i></a>
+					</div>
+					<p class="comment">向终端发送的响应Header。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>是否为备用服务器</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="isBackup" value="1" v-model="backend.isBackup"/>
+						<label></label>
+					</div>
+					<p class="comment">当普通服务器全部不可用时，会自动将请求转发到备用服务器</p>
+				</td>
+			</tr>
         </tbody>
     </table>
 

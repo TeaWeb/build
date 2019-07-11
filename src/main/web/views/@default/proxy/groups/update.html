@@ -31,7 +31,7 @@
 				<input type="text" name="name" maxlength="100" v-model="group.name"/>
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="isHTTP">
 			<td>匹配条件</td>
 			<td>
 				<table class="ui table" v-if="conds.length > 0">
@@ -152,7 +152,7 @@
 				<p class="comment">目前只支持IPv4，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">IP地址可以使用的变量</a>。
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="isHTTP">
 			<td>请求Header</td>
 			<td>
 				<div class="request-headers-box" style="margin-bottom:1em">
@@ -181,7 +181,7 @@
 				<p class="comment">向后端服务器转发的请求Header，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="isHTTP">
 			<td>响应Header</td>
 			<td>
 				<div class="response-headers-box" style="margin-bottom:1em">

@@ -1,0 +1,167 @@
+<h3>基本信息<a :href="'/proxy/update?serverId=' + server.id">修改</a></h3>
+
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">代理服务名称</td>
+		<td>{{server.description}}</td>
+	</tr>
+	<tr>
+		<td class="title">是否开启HTTP</td>
+		<td>
+			<span class="ui label tiny green" v-if="server.http">已开启</span>
+			<span class="ui label tiny" v-if="!server.http">未开启</span>
+			&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.http" @click.prevent="startHttp()">快速启动</a><a href="" style="font-size: 12px" v-if="server.on && server.http" @click.prevent="shutdownHttp()">快速关闭</a>
+		</td>
+	</tr>
+	<tr>
+		<td>ID</td>
+		<td>{{server.id}}</td>
+	</tr>
+	<tr>
+		<td>域名<em>(name)</em></td>
+		<td colspan="2">
+			<a class="disabled" v-if="server.name.length == 0">[还没有绑定域名]</a>
+			<span class="ui label small" v-for="name in server.name">{{name}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>绑定地址<em>(listen)</em></td>
+		<td colspan="2">
+			<a class="disabled" v-if="server.listen.length == 0">[还没有绑定网络地址]</a>
+			<span class="ui label small" v-for="listen in server.listen">{{listen}}</span>
+		</td>
+	</tr>
+
+	<!-- 文档根目录 -->
+	<tr>
+		<td>文档根目录<em>(root)</em></td>
+		<td>
+			<span style="word-break: break-all;" v-if="server.root.length > 0">{{server.root}}</span>
+			<a class="disabled" v-if="server.root.length == 0">还没有设置。</a>
+		</td>
+	</tr>
+
+	<!-- 字符编码 -->
+	<tr>
+		<td>字符编码<em>(charset)</em></td>
+		<td>
+			<span v-if="server.charset.length > 0">{{server.charset}}</span>
+			<a class="disabled" v-if="server.charset.length == 0">还没有设置。</a>
+		</td>
+	</tr>
+
+	<!-- 首页文件 -->
+	<tr>
+		<td>首页文件<em>(index)</em></td>
+		<td>
+			<a class="disabled" v-if="server.index.length == 0">还没有设置。</a>
+			<span class="ui label small" v-for="index in server.index">{{index}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项<span style="font-size: 0.8em;color:grey!important;">（字符编码、首页文件、日志、gzip压缩等）</span> <i class="icon angle down"></i> </a>
+			<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+		</td>
+	</tr>
+	<tbody v-show="advancedOptionsVisible">
+		<tr>
+			<td>请求Body最大尺寸</td>
+			<td>
+				<span v-if="server.maxBodySize.length == 0" class="disabled">还没有设置</span>
+				<span v-if="server.maxBodySize.length > 0">{{server.maxBodySize}}</span>
+				<p class="ui comment" v-if="server.maxBodySize.length > 0">0及以下表示不限制</p>
+			</td>
+		</tr>
+	</tbody>
+	<tbody v-show="advancedOptionsVisible" v-for="accessLog in accessLogs">
+		<tr>
+			<td>访问日志</td>
+			<td>
+				<span class="ui label green tiny" v-if="accessLog.on">已开启</span>
+				<span class="ui label tiny" v-if="!accessLog.on">未开启</span>
+			</td>
+		</tr>
+		<tr v-if="accessLog.on">
+			<td>存储的访问日志字段</td>
+			<td>
+				<span v-for="field in accessLog.fields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
+			</td>
+		</tr>
+		<tr v-if="accessLog.on">
+			<td>要存储的访问日志状态码</td>
+			<td>
+				<span class="ui label tiny" :class="{'disabled':!accessLog.status1}">1xx</span>
+				<span class="ui label tiny" :class="{'disabled':!accessLog.status2}">2xx</span>
+				<span class="ui label tiny" :class="{'disabled':!accessLog.status3}">3xx</span>
+				<span class="ui label tiny" :class="{'disabled':!accessLog.status4}">4xx</span>
+				<span class="ui label tiny" :class="{'disabled':!accessLog.status5}">5xx</span>
+			</td>
+		</tr>
+		<tr v-if="accessLog.hasSelectedStoragePolicies">
+			<td>输出的日志策略</td>
+			<td>
+				<span class="ui label tiny" v-for="policy in accessLog.storagePolicies" v-if="policy.isChecked">{{policy.name}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>是否只输出到日志策略</td>
+			<td>
+				<span v-if="accessLog.storageOnly" class="ui label tiny green">已开启</span>
+				<span v-if="!accessLog.storageOnly" class="ui label tiny">未开启</span>
+			</td>
+		</tr>
+	</tbody>
+	<tbody v-show="advancedOptionsVisible">
+		<tr>
+			<td>统计</td>
+			<td>
+				<span class="ui label green tiny" v-if="!server.disableStat">已开启</span>
+				<span class="ui label tiny" v-if="server.disableStat">未开启</span>
+			</td>
+		</tr>
+		<tr>
+			<td>小静态文件加速</td>
+			<td>
+				<span class="ui label green tiny" v-if="server.cacheStatic">已开启</span>
+				<span class="ui label tiny" v-if="!server.cacheStatic">未开启</span>
+			</td>
+		</tr>
+		<tr>
+			<td>Gzip压缩级别</td>
+			<td>
+				<span v-if="server.gzipLevel == 0">不压缩</span>
+				<span v-if="server.gzipLevel > 0">{{server.gzipLevel}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>Gzip内容最小长度</td>
+			<td>
+				<span v-if="server.gzipMinLength == 0" class="disabled">-</span>
+				<span v-if="server.gzipMinLength.length > 0">{{server.gzipMinLength}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>特殊页面</td>
+			<td>
+				<span v-if="server.pages == null || server.pages.length == 0" class="disabled">还没有设置。</span>
+				<span v-if="server.pages != null" class="ui label tiny" v-for="(page, arrayIndex) in server.pages" style="margin-top:0.2em;margin-bottom:0.2em">{{page.status[0]}} -&gt; {{page.url}}
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td>临时关闭页面</td>
+			<td>
+				<span v-if="!server.shutdownPageOn" class="disabled">还没有设置。</span>
+				<span v-if="server.shutdownPageOn">{{server.shutdownPage}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td>自动跳转到HTTPS</td>
+			<td>
+				<span class="ui label tiny green" v-if="server.redirectToHttps">已开启</span>
+				<span class="ui label tiny" v-if="!server.redirectToHttps">未开启</span>
+			</td>
+		</tr>
+	</tbody>
+</table>

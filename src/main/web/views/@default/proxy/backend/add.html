@@ -23,19 +23,24 @@
 			<td>协议</td>
 			<td>
 				<select class="ui dropdown" name="scheme" style="width:10em">
-					<option value="http">http</option>
-					<option value="https">https</option>
+					<!-- HTTP -->
+					<option value="http" v-if="isHTTP">http</option>
+					<option value="https" v-if="isHTTP">https</option>
+
+					<!-- TCP -->
+					<option value="tcp" v-if="isTCP">tcp</option>
+					<option value="tcp+tls" v-if="isTCP">tls</option>
 				</select>
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="isHTTP">
 			<td>请求URI</td>
 			<td>
 				<input type="text" name="requestURI" value="${requestURI}"/>
 				<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="isHTTP">
 			<td>主机名<em>（Host）</em></td>
 			<td>
 				<input type="text" name="host" placeholder="比如 teaos.cn" maxlength="100"/>
@@ -89,14 +94,14 @@
                     <p class="comment">只能是英文字母、下划线、数字的组合，一个好记的代号，用于某些转发算法中的参数。</p>
                 </td>
             </tr>
-			<tr>
+			<tr v-if="isHTTP">
 				<td>健康检查URL</td>
 				<td>
 					<input type="text" name="checkURL" maxlength="200" placeholder="http://..."/>
 					<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="isHTTP">
 				<td>健康检查间隔时间</td>
 				<td>
 					<div class="ui fields inline">
@@ -138,7 +143,7 @@
                     <p class="comment">0表示不限制</p>
                 </td>
             </tr>
-			<tr>
+			<tr v-if="isHTTP">
 				<td>读取超时时间</td>
 				<td>
 					<div class="ui fields inline">
@@ -163,7 +168,7 @@
                     <p class="comment">0表示不限制</p>
                 </td>
             </tr>
-			<tr>
+			<tr v-if="isHTTP">
 				<td>请求Header</td>
 				<td>
 					<div class="request-headers-box" style="margin-bottom:1em">
@@ -192,7 +197,7 @@
 					<p class="comment">向后端服务器转发的请求Header，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="isHTTP">
 				<td>响应Header</td>
 				<td>
 					<div class="response-headers-box" style="margin-bottom:1em">

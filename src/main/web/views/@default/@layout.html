@@ -62,7 +62,7 @@
 					<p class="item header" v-if="menu.name.length > 0 && !menu.alwaysActive" @click.prevent="showSubMenu(menu)">
 						<var v-html="menu.name"></var> <span v-if="!menu.alwaysActive">({{menu.countNormalItems}})</span><i class="icon angle" :class="{up:menu.isActive,down:!menu.isActive}" v-if="!menu.alwaysActive"></i>
 					</p>
-					<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
+					<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><sup v-if="item.supName.length > 0">&nbsp; {{item.supName}}</sup><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
 					</a>
 				</div>
 

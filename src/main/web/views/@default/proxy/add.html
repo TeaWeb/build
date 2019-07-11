@@ -66,7 +66,7 @@
 				<tr>
 					<td class="title">绑定的域名</td>
 					<td>
-<span class="ui label small" v-for="(name, arrayIndex) in names" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
+<span class="ui label tiny" v-for="(name, arrayIndex) in names" :class="{blue:nameEditingIndex == arrayIndex}">{{name}}
                         <input type="hidden" name="names" :value="name"/> &nbsp;
 						<a href="" @click.prevent="editName(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeName(arrayIndex)" title="删除"><i class="icon remove"></i></a>
@@ -98,7 +98,7 @@
 				<tr>
 					<td class="title">绑定的网络地址 *</td>
 					<td>
-						<span class="ui label small" v-for="(listen, arrayIndex) in listens" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
+						<span class="ui label tiny" v-for="(listen, arrayIndex) in listens" :class="{blue:arrayIndex == editingListenIndex}">{{listen}}
                         <input type="hidden" name="listens" :value="listen"/> &nbsp;
 						<a href="" @click.prevent="editListen(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeListen(arrayIndex)" title="删除"><i class="icon remove"></i></a>
@@ -137,7 +137,7 @@
 						<select class="ui dropdown" name="serverType" v-model="serverType" style="width:10em">
 							<option value="proxy">HTTP代理服务</option>
 							<option value="static">普通的Web服务</option>
-							<!--<option value="tcp">TCP代理服务</option>-->
+							<option value="tcp">TCP代理服务</option>
 						</select>
 						<p class="comment" v-if="serverType == 'proxy'">通过TeaWeb将用户请求转发到一个或一组后端服务器中，通常可以实现负载均衡和反向代理服务。</p>
 						<p class="comment" v-if="serverType == 'static'">通过TeaWeb分发服务上的静态文件，之后也可以通过配置路径规则来实现动态内容的分发，比如Fastcgi。</p>
@@ -156,7 +156,7 @@
 				<tr>
 					<td class="title">后端服务器地址</td>
 					<td>
-						<span class="ui label small" v-for="(backend, arrayIndex) in backends" :class="{blue:arrayIndex == editingBackendIndex}">{{backend}}
+						<span class="ui label tiny" v-for="(backend, arrayIndex) in backends" :class="{blue:arrayIndex == editingBackendIndex}">{{backend}}
                         <input type="hidden" name="backends" :value="backend"/> &nbsp;
 						<a href="" @click.prevent="editBackend(arrayIndex)" title="修改"><i class="icon pencil"></i></a>
                         <a href="" @click.prevent="removeBackend(arrayIndex)" title="删除"><i class="icon remove"></i></a>
@@ -213,21 +213,22 @@
 					<td>绑定的域名</td>
 					<td>
 						<span v-if="names.length == 0" class="disabled">暂时还没有设置绑定的域名</span>
-						<span v-for="name in names" class="ui label">{{name}}</span>
+						<span v-for="name in names" class="ui label tiny">{{name}}</span>
 					</td>
 				</tr>
 				<tr>
 					<td>绑定的网络地址</td>
 					<td>
 						<span v-if="listens.length == 0" class="disabled">暂时还没有设置绑定的网络地址</span>
-						<span v-for="listen in listens" class="ui label">{{listen}}</span>
+						<span v-for="listen in listens" class="ui label tiny">{{listen}}</span>
 					</td>
 				</tr>
 				<tr>
 					<td>服务类型</td>
 					<td>
-						<span v-if="serverType == 'proxy'">代理服务</span>
+						<span v-if="serverType == 'proxy'">HTTP代理服务</span>
 						<span v-if="serverType == 'static'">普通的Web服务</span>
+						<span v-if="serverType == 'tcp'">TCP代理服务</span>
 					</td>
 				</tr>
 				<tr v-if="serverType == 'static'">
@@ -237,11 +238,11 @@
 						<span v-if="root.length > 0">{{root}}</span>
 					</td>
 				</tr>
-				<tr v-if="serverType == 'proxy'">
+				<tr v-if="serverType == 'proxy' || serverType == 'tcp'">
 					<td>后端服务器地址</td>
 					<td>
 						<span v-if="backends.length == 0" class="disabled">暂时还没有设置后端服务器地址</span>
-						<span v-for="backend in backends" class="ui label">{{backend}}</span>
+						<span v-for="backend in backends" class="ui label tiny">{{backend}}</span>
 					</td>
 				</tr>
 			</table>
