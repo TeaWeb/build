@@ -1,0 +1,51 @@
+{$layout}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+    <i class="exclamation circle icon large"></i>
+    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<link rel="stylesheet" href="/_/@default/proxy/@global.css"/>
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+{$template "menu"}
+
+<div v-if="clients.length > 0">
+	<p class="comment" style="padding-top:0">每个服务器地址只显示前100个连接。</p>
+
+	<table class="ui table selectable">
+		<thead>
+			<tr>
+				<th>客户端地址</th>
+				<th>服务器端地址</th>
+				<th>后端服务器地址</th>
+				<th>瞬时写入速度<i class="icon long arrow up small grey"></i></th>
+				<th>瞬时读取速度<i class="icon long arrow down small grey"></i></th>
+				<th class="two op">操作</th>
+			</tr>
+		</thead>
+		<tr v-for="client in clients">
+			<td>{{client.clientAddr}}
+				<div>
+					<span v-if="client.clientLocation.length > 0" class="ui label tiny">{{client.clientLocation}}</span>
+				</div>
+			</td>
+			<td>{{client.serverAddr}}</td>
+			<td>{{client.backendAddr}}</td>
+			<td>{{client.writeSpeed}}</td>
+			<td>{{client.readSpeed}}</td>
+			<td>
+				<a href="" title="断开客户端与服务器端之间的连接" @click.prevent="disconnect(client)">断开</a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div v-if="clients.length == 0 && isLoaded">
+	<p class="comment" style="padding-top:0">暂时还没有任何客户端连接。</p>
+</div>
+

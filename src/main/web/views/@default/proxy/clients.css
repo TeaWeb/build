@@ -1,0 +1,17 @@
+.tab-menu {
+    margin-bottom: 0 !important;
+}
+
+.main .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.table .label.disabled {
+    color: #666 !important;
+}
+
+.table .label.tiny {
+    padding: 3px;
+    font-size: 0.6em;
+}
