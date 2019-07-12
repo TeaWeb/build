@@ -15,8 +15,6 @@
 {$template "menu"}
 
 <div v-if="clients.length > 0">
-	<p class="comment" style="padding-top:0">每个服务器地址只显示前100个连接。</p>
-
 	<table class="ui table selectable">
 		<thead>
 			<tr>
@@ -43,6 +41,8 @@
 			</td>
 		</tr>
 	</table>
+
+	<p class="comment" style="padding-top:0">每个服务器地址最多只显示前100个连接。</p>
 </div>
 
 <div v-if="clients.length == 0 && isLoaded">

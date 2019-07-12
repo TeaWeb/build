@@ -136,8 +136,8 @@
 					<td>
 						<select class="ui dropdown" name="serverType" v-model="serverType" style="width:10em">
 							<option value="proxy">HTTP代理服务</option>
-							<option value="static">普通的Web服务</option>
 							<option value="tcp">TCP代理服务</option>
+							<option value="static">普通的Web服务</option>
 						</select>
 						<p class="comment" v-if="serverType == 'proxy'">通过TeaWeb将用户请求转发到一个或一组后端服务器中，通常可以实现负载均衡和反向代理服务。</p>
 						<p class="comment" v-if="serverType == 'static'">通过TeaWeb分发服务上的静态文件，之后也可以通过配置路径规则来实现动态内容的分发，比如Fastcgi。</p>
