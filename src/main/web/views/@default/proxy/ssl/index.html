@@ -33,7 +33,10 @@
 
 	<table class="ui table selectable definition">
         <tr>
-            <td class="title">是否开启HTTPS</td>
+            <td class="title">
+				<span v-if="isHTTP">是否开启HTTPS</span>
+				<span v-if="isTCP">是否开启TLS</span>
+			</td>
             <td>
                 <span class="ui label tiny green" v-if="server.ssl != null && server.ssl.on">已开启</span>
                 <span class="ui label tiny" v-if="server.ssl == null || !server.ssl.on">未开启</span>
@@ -65,7 +68,7 @@
 				</div>
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="isHTTP">
 			<td>开启HSTS</td>
 			<td>
 				<div v-if="server.ssl != null && server.ssl.hsts != null">

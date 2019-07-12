@@ -24,7 +24,10 @@
         <input type="hidden" name="serverId" :value="server.id"/>
         <table class="ui table definition selectable">
             <tr>
-                <td class="title">是否开启HTTPS</td>
+                <td class="title">
+					<span v-if="isHTTP">是否开启HTTPS</span>
+					<span v-if="isTCP">是否开启TLS</span>
+				</td>
                 <td>
                     <div class="ui checkbox">
                         <input type="checkbox" name="httpsOn" v-model="httpsOn"/>
@@ -45,7 +48,7 @@
 							<input type="text" name="addingListenName" style="width:18em" maxlength="30" placeholder="绑定的网络地址，比如 0.0.0.0:443" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
 						</div>
 						<div class="ui field">
-							<button class="ui button" type="button" @click="confirmAddListen()">确定</button>
+							<button class="ui button tiny" type="button" @click="confirmAddListen()">确定</button>
 							&nbsp; <a href="" @click.prevent="cancelListenAdding()">取消</a>
 						</div>
 					</div>
@@ -178,7 +181,7 @@
 						</div>
 					</td>
 				</tr>
-				<tr>
+				<tr v-if="isHTTP">
 					<td>开启HSTS</td>
 					<td>
 						<div class="ui checkbox">
