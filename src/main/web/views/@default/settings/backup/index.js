@@ -18,10 +18,14 @@ Tea.context(function () {
 			.refresh();
 	};
 
+	this.isRestoring = false;
+
 	this.restore = function (file) {
 		if (!window.confirm("确定要从此备份中恢复吗？")) {
 			return
 		}
+		this.isRestoring = true;
+
 		this.$post(".restore")
 			.params({
 				"file": file

@@ -23,8 +23,8 @@
 	<tr>
 		<td>是否启用</td>
 		<td>
-			<span class="ui label small green" v-if="media.on">启用中</span>
-			<span class="ui label small" v-if="!media.on">未启用</span>
+			<span class="ui label tiny green" v-if="media.on">启用中</span>
+			<span class="ui label tiny" v-if="!media.on">未启用</span>
 		</td>
 	</tr>
 	<tr>
@@ -32,6 +32,10 @@
 		<td>
 			{{media.name}}
 		</td>
+	</tr>
+	<tr>
+		<td>媒介ID</td>
+		<td>{{media.id}}</td>
 	</tr>
 	<tr>
 		<td>类型</td>

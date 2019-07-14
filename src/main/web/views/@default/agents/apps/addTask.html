@@ -44,7 +44,7 @@
                 <td>环境变量<em>（ENV）</em></td>
                 <td>
                     <div class="ui field">
-                        <span class="ui label small" v-for="(var1, index) in env">
+                        <span class="ui label tiny" v-for="(var1, index) in env">
                             <input type="hidden" name="envNames" :value="var1.name"/>
                             <input type="hidden" name="envValues" :value="var1.value"/>
                             <em>{{var1.name}}</em>: {{var1.value}}
@@ -59,14 +59,14 @@
                             <input type="text" name="envAddingValue" v-model="envAddingValue" placeholder="变量值" style="width:15em" @keyup.enter="confirmAddEnv" @keypress.enter.prevent="1"/>
                         </div>
                         <div class="ui field">
-                            <button class="ui button" type="button" @click="confirmAddEnv()">添加</button>
+                            <button class="ui button tiny" type="button" @click="confirmAddEnv()">添加</button>
                         </div>
                         <div class="ui field">
                             <a href="" @click.prevent="cancelEnv()"><i class="icon remove"></i></a>
                         </div>
                     </div>
                     <div class="ui field">
-                        <button class="ui button small" type="button" @click="addEnv()">+</button>
+                        <button class="ui button tiny" type="button" @click="addEnv()">+</button>
                     </div>
                 </td>
             </tr>
@@ -74,7 +74,7 @@
                 <td>定时任务</td>
                 <td>
                     <div class="ui field">
-                        <span v-for="(schedule, index) in schedules" class="ui label small">
+                        <span v-for="(schedule, index) in schedules" class="ui label tiny">
                             {{schedule.summary}} <a href="" @click.prevent="removeSchedule(index)"><i class="icon remove"></i></a>
                         </span>
                     </div>
@@ -97,7 +97,7 @@
                                     <strong>秒</strong>执行一次
                                 </div>
                                 <div class="ui field">
-                                    <button class="ui button" type="button" @click.prevent="addQuickTime('second', quickSecond, 1, 59)">确定</button>
+                                    <button class="ui button tiny" type="button" @click.prevent="addQuickTime('second', quickSecond, 1, 59)">确定</button>
                                 </div>
                             </div>
                             <div class="ui fields inline segment">
@@ -111,7 +111,7 @@
                                     <strong>分钟</strong>执行一次
                                 </div>
                                 <div class="ui field">
-                                    <button class="ui button" type="button" @click.prevent="addQuickTime('minute', quickMinute, 1, 59)">确定</button>
+                                    <button class="ui button tiny" type="button" @click.prevent="addQuickTime('minute', quickMinute, 1, 59)">确定</button>
                                 </div>
                             </div>
                             <div class="ui fields inline segment">
@@ -125,7 +125,7 @@
                                     <strong>小时</strong>执行一次
                                 </div>
                                 <div class="ui field">
-                                    <button class="ui button" type="button" @click.prevent="addQuickTime('hour', quickHour, 1, 23)">确定</button>
+                                    <button class="ui button tiny" type="button" @click.prevent="addQuickTime('hour', quickHour, 1, 23)">确定</button>
                                 </div>
                             </div>
 
@@ -153,7 +153,7 @@
                                     秒钟
                                 </div>
                                 <div class="ui field">
-                                    <button class="ui button" type="button" @click.prevent="addQuickDayTime()">确定</button>
+                                    <button class="ui button tiny" type="button" @click.prevent="addQuickDayTime()">确定</button>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                                                 <!-- 定点 -->
                                                 <div class="ui bottom attached segment" v-show="secondTab == 'point'">
                                                     <div class="ui field">
-                                                <span v-for="(point, index) in secondPoints" class="ui label small">
+                                                <span v-for="(point, index) in secondPoints" class="ui label tiny">
                                                     <input type="hidden" :name="'second' + 'Points'" :value="point"/>
                                                 {{point}}秒
                                                     <a href="" @click.prevent="removePoint('second', index)"><i class="icon remove"></i></a>
@@ -278,7 +278,7 @@
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="minuteTab == 'point'">
                                                     <div class="ui field">
-                                                <span v-for="(point, index) in minutePoints" class="ui label small">
+                                                <span v-for="(point, index) in minutePoints" class="ui label tiny">
                                                     <input type="hidden" :name="'minute' + 'Points'" :value="point"/>
                                                 {{point}}分
                                                     <a href="" @click.prevent="removePoint('minute', index)"><i class="icon remove"></i></a>
@@ -365,7 +365,7 @@
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="hourTab == 'point'">
                                                     <div class="ui field">
-                                                <span v-for="(point, index) in hourPoints" class="ui label small">
+                                                <span v-for="(point, index) in hourPoints" class="ui label tiny">
                                                     <input type="hidden" :name="'hour' + 'Points'" :value="point"/>
                                                 {{point}}小时
                                                     <a href="" @click.prevent="removePoint('hour', index)"><i class="icon remove"></i></a>
@@ -452,7 +452,7 @@
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="dayTab == 'point'">
                                                     <div class="ui field">
-                                                    <span v-for="(point, index) in dayPoints" class="ui label small">
+                                                    <span v-for="(point, index) in dayPoints" class="ui label tiny">
                                                         <input type="hidden" :name="'day' + 'Points'" :value="point"/>
                                                     {{point}}日
                                                         <a href="" @click.prevent="removePoint('day', index)"><i class="icon remove"></i></a>
@@ -532,7 +532,7 @@
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="monthTab == 'point'">
                                                     <div class="ui field">
-                                                    <span v-for="(point, index) in monthPoints" class="ui label small">
+                                                    <span v-for="(point, index) in monthPoints" class="ui label tiny">
                                                         <input type="hidden" :name="'month' + 'Points'" :value="point"/>
                                                     {{point}}月
                                                         <a href="" @click.prevent="removePoint('month', index)"><i class="icon remove"></i></a>
@@ -612,7 +612,7 @@
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="yearTab == 'point'">
                                                     <div class="ui field">
-                                                    <span v-for="(point, index) in yearPoints" class="ui label small">
+                                                    <span v-for="(point, index) in yearPoints" class="ui label tiny">
                                                         <input type="hidden" :name="'year' + 'Points'" :value="point"/>
                                                     {{point}}年
                                                         <a href="" @click.prevent="removePoint('year', index)"><i class="icon remove"></i></a>
@@ -692,7 +692,7 @@
                                                 </div>
                                                 <div class="ui bottom attached segment" v-show="weekDayTab == 'point'">
                                                     <div class="ui field">
-                                                    <span v-for="(point, index) in weekDayPoints" class="ui label small">
+                                                    <span v-for="(point, index) in weekDayPoints" class="ui label tiny">
                                                         <input type="hidden" :name="'weekDay' + 'Points'" :value="point"/>
                                                     周{{point}}
                                                         <a href="" @click.prevent="removePoint('weekDay', index)"><i class="icon remove"></i></a>
@@ -761,13 +761,13 @@
                                 </table>
                             </div>
                             <div class="ui field">
-                                <button class="ui button small" type="button" @click.prevent="confirmAddSchedule()">确定</button> &nbsp; <a href="" @click.prevent="addSchedule()"><i class="icon remove"></i></a>
+                                <button class="ui button tiny" type="button" @click.prevent="confirmAddSchedule()">确定</button> &nbsp; <a href="" @click.prevent="addSchedule()"><i class="icon remove"></i></a>
                             </div>
                         </div>
                     </div>
 
                     <div class="ui field">
-                        <button class="ui button small" type="button" @click="addSchedule()">+</button>
+                        <button class="ui button tiny" type="button" @click="addSchedule()">+</button>
                     </div>
                     <p class="comment">定时执行的任务，以上小时设置都是24小时制，取值范围为0-23。</p>
                 </td>

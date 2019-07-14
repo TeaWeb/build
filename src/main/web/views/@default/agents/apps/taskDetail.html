@@ -16,8 +16,8 @@
     <tr>
         <td>是否启用</td>
         <td>
-            <span class="ui label small green" v-if="task.on">已启用</span>
-            <span class="ui label small" v-if="!task.on">未启用</span>
+            <span class="ui label tiny green" v-if="task.on">已启用</span>
+            <span class="ui label tiny" v-if="!task.on">未启用</span>
         </td>
     </tr>
     <tr>
@@ -26,8 +26,16 @@
             {{task.name}}
         </td>
     </tr>
+	<tr>
+		<td>AgentID</td>
+		<td>{{agentId}}</td>
+	</tr>
+	<tr>
+		<td>AppID</td>
+		<td>{{app.id}}</td>
+	</tr>
     <tr>
-        <td>ID</td>
+        <td>任务ID</td>
         <td>{{task.id}}
 			<p class="comment">可以在Agent主机上通过运行 <em>bin/teaweb-agent run {{task.id}}</em> 来测试这个任务</p>
 		</td>

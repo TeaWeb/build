@@ -22,8 +22,8 @@
 	<tr>
 		<td>是否启用</td>
 		<td>
-			<span class="ui label small green" v-if="item.on">启用中</span>
-			<span class="ui label small" v-if="!item.on">未启用</span>
+			<span class="ui label tiny green" v-if="item.on">启用中</span>
+			<span class="ui label tiny" v-if="!item.on">未启用</span>
 
 			&nbsp;
 			<a href="" style="font-size:12px" @click.prevent="putOn()" v-if="!item.on">快速启用</a>
@@ -36,6 +36,14 @@
             {{item.name}}
         </td>
     </tr>
+	<tr>
+		<td>AgentID</td>
+		<td>{{agentId}}</td>
+	</tr>
+	<tr>
+		<td>AppID</td>
+		<td>{{app.id}}</td>
+	</tr>
 	<tr>
 		<td>监控项ID</td>
 		<td>{{item.id}}

@@ -26,7 +26,7 @@
 		<td>{{file.size}}M</td>
 		<td>
 			<a :href="'/settings/backup/download?filename=' + file.name" title="下载到本地">下载</a> &nbsp;
-			<a href="" title="从此备份恢复" @click.prevent="restore(file.name)">恢复</a>
+			<a href="" title="从此备份恢复" @click.prevent="restore(file.name)" v-if="!isRestoring">恢复</a><span v-if="isRestoring" class="disabled">恢复中</span>
 			&nbsp;
 			<a href="" @click.prevent="deleteBackup(file.name)">删除</a>
 		</td>
