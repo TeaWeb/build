@@ -12,7 +12,7 @@
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
     <input type="hidden" name="agentId" :value="agentId"/>
     <input type="hidden" name="appId" :value="app.id"/>
-    <table class="ui table definition">
+    <table class="ui table definition selectable">
 		<tbody>
 			<tr>
 				<td class="title">监控项名称 *</td>
@@ -93,7 +93,7 @@
                 <td>阈值设置<em>（触发条件）</em></td>
                 <td>
 					<p class="threshold-box">
-						<span class="ui label small" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a> <a href="" title="拖动改变顺序" v-show="conds.length > 1"><i class="icon bars handle"></i></a>
+						<span class="ui label tiny" v-for="(cond, index) in conds" :class="{blue:addingCond != null && cond.id == addingCond.id}">{{cond.param}} <em>{{cond.op}}</em> {{cond.value}} [<var>{{cond.noticeLevelName}}</var><var v-if="cond.noticeMessage != null && cond.noticeMessage.length > 0">:{{cond.noticeMessage}}</var>] <var v-if="cond.actions.length > 0">[{{cond.actions.length}}动作]</var> <var v-if="cond.maxFails > 1">[连续{{cond.maxFails}}次]</var>&nbsp; <a href="" title="修改" @click.prevent="editCond(cond)"><i class="icon pencil small"></i></a> <a href="" title="删除" @click.prevent="removeCond(index)"><i class="icon remove small"></i></a> <a href="" title="拖动改变顺序" v-show="conds.length > 1"><i class="icon bars handle"></i></a>
 						<input type="hidden" name="condParams" v-model="cond.param"/>
 						<input type="hidden" name="condOps" v-model="cond.op"/>
 						<input type="hidden" name="condValues" v-model="cond.value"/>
@@ -144,13 +144,13 @@
 									<td style="font-weight: normal; background:white" colspan="3">
 										<div class="ui fields inline">
 											<div class="ui field">
-												连续
+												连续触发
 											</div>
 											<div class="ui field">
 												<input type="text" placeholder="次数" v-model="addingCond.maxFails" size="4" value="" maxlength="4" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
 											</div>
 											<div class="ui field">
-												次
+												次后发通知
 											</div>
 										</div>
 									</td>

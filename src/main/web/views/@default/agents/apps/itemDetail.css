@@ -1,29 +1,33 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .text.menu {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
+    margin-top: 0 !important;
 }
 
 .divider:not(.margin) {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
+}
+
+em var {
+    border-bottom: 1px #ccc dashed;
 }
 
 /** codemirror **/
 .CodeMirror {
     border: 1px solid #eee;
-    height: auto!important;
+    height: auto !important;
 }
 
 .CodeMirror-vscrollbar {
     width: 6px;
-    border-radius: 3px!important;
+    border-radius: 3px !important;
 }
 
 .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
