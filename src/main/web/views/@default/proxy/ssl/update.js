@@ -52,6 +52,13 @@ Tea.context(function () {
 		}
 
 		this.certs.$remove(index);
+		if (this.certs.length > 0) {
+			if (index >= 1) {
+				this.certIndex = index - 1;
+			} else {
+				this.certIndex = 0;
+			}
+		}
 	};
 
 	/**

@@ -60,12 +60,12 @@
 			</tr>
 		</table>
 
-		<div class="ui tabular menu attached small">
+		<div class="ui tabular menu attached small" v-show="certs.length > 0">
 			<a href="" class="item" :class="{active:index == certIndex}" v-for="(cert, index) in certs" @click.prevent="certIndex = index">证书#{{index+1}}</a>
 		</div>
-
-		<table class="ui table selectable definition attached" v-for="(cert, index) in certs" v-show="certIndex == index">
-			<tbody>
+		<div class="ui segment attached" v-for="(cert, index) in certs" v-show="certIndex == index">
+			<table class="ui table selectable definition">
+				<tbody>
 				<tr>
 					<td colspan="2" style="font-weight: normal;background: rgba(0,0,0,.05)">证书#{{index+1}}：
 						<a href="" title="移除此证书" class="op-link" @click.prevent="removeCert(index)"><i class="icon remove small"></i></a>
@@ -119,8 +119,9 @@
 						<p class="comment">指定TeaWeb所在服务器上的证书密钥文件路径，内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
 					</td>
 				</tr>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 
 		<table class="ui table definition selectable">
 			<tr>

@@ -7,6 +7,7 @@
 <h3>添加新代理</h3>
 
 <div>
+	<!-- 导航 -->
 	<div class="ui steps small grey fluid">
 		<div class="step" :class="{active:currentStep == 'name'}">
 			<div class="content">
@@ -45,6 +46,7 @@
 		</div>
 	</div>
 
+	<!-- 步骤 -->
 	<form class="ui form" data-tea-action="$">
 		<!-- 名称 -->
 		<div v-show="currentStep == 'name'">

@@ -36,8 +36,8 @@
 
 <!-- 准备 -->
 <div v-show="step == 'prepare'">
-	<div class="ui segment">
-		在为某个或某些域名申请证书之前，请确认你拥有这些域名的<strong>DNS设置权限</strong>，并打开了DNS运营商提供的设置界面，因为接下来我们需要为域名设置<strong>TXT记录</strong>。
+	<div class="ui segment dns-notice">
+		在为某个或某些域名申请证书之前，请确认你拥有这些域名的<strong>DNS设置权限</strong>，并打开了DNS运营商提供的设置界面，因为接下来我们需要<strong>为域名设置TXT记录</strong>。
 	</div>
 	<div style="margin-top: 1em">
 		<button class="ui button primary" @click.prevent="confirmPrepared()" type="button">我准备好了</button>

@@ -15,3 +15,8 @@
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
+
+/** DNS设置提醒 **/
+.dns-notice {
+    line-height: 1.7;
+}
