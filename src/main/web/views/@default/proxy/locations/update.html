@@ -217,7 +217,7 @@
 						</div>
 					</td>
 				</tr>
-				<tr v-if="accessLog.storagePolicies.length > 0">
+				<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
 					<td>选择输出的日志策略</td>
 					<td>
 						<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em">
@@ -226,7 +226,7 @@
 						</div>
 					</td>
 				</tr>
-				<tr v-if="accessLog.storagePolicies.length > 0">
+				<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
 					<td>是否只输出到日志策略</td>
 					<td>
 						<div class="ui checkbox">
