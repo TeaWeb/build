@@ -70,6 +70,34 @@
 				<p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>失败自动重连</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="tcpFailReconnect" value="1" v-model="server.tcp.failReconnect"/>
+						<label></label>
+					</div>
+					<p class="comment"><span class="red">请谨慎选择：</span>当前后端服务器无法连接时，重新自动切换到别的后端服务器。只有在不需要上下文（比如认证）的数据才可以开启此项。</p>
+				</td>
+			</tr>
+			<tr v-if="server.tcp.failReconnect">
+				<td>数据自动重发</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="tcpFailResend" value="1" v-model="server.tcp.failResend"/>
+						<label></label>
+					</div>
+					<p class="comment"><span class="red">请谨慎选择：</span>当切换到别的后端服务器后是否重新发送数据最近一次数据。</p>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<button class="ui button primary" type="submit">保存</button>

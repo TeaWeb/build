@@ -31,4 +31,16 @@
 			<span class="ui label small" v-for="listen in server.listen">{{listen}}</span>
 		</td>
 	</tr>
+	<tr v-if="server.tcp.failReconnect">
+		<td>失败自动重连</td>
+		<td>
+			<span class="green">Y</span>
+		</td>
+	</tr>
+	<tr v-if="server.tcp.failReconnect && server.tcp.failResend">
+		<td>数据自动重发</td>
+		<td>
+			<span class="green">Y</span>
+		</td>
+	</tr>
 </table>

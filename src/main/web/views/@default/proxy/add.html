@@ -183,6 +183,26 @@
 
 					</td>
 				</tr>
+				<tr v-if="serverType == 'tcp'">
+					<td>失败自动重连</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="failReconnect" value="1" v-model="failReconnect"/>
+							<label></label>
+						</div>
+						<p class="comment"><span class="red">请谨慎选择：</span>当前后端服务器无法连接时，重新自动切换到别的后端服务器。只有在不需要上下文（比如认证）的数据才可以开启此项。</p>
+					</td>
+				</tr>
+				<tr v-if="serverType == 'tcp' && failReconnect">
+					<td>数据自动重发</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="failResend" value="1"/>
+							<label></label>
+						</div>
+						<p class="comment"><span class="red">请谨慎选择：</span>当切换到别的后端服务器后是否重新发送数据最近一次数据。</p>
+					</td>
+				</tr>
 			</table>
 			<button class="ui button primary" type="button" @click.prevent="nextBackend()">下一步</button> &nbsp;&nbsp;
 			<a href="" @click.prevent="go('type')">上一步</a>
@@ -250,7 +270,7 @@
 			</table>
 			<button class="ui button primary" type="submit">确认保存</button> &nbsp;&nbsp;
 			<a href="" @click.prevent="go('root')" v-if="serverType == 'static'">上一步</a>
-			<a href="" @click.prevent="go('backend')" v-if="serverType == 'proxy'">上一步</a>
+			<a href="" @click.prevent="go('backend')" v-if="serverType == 'proxy' || serverType == 'tcp'">上一步</a>
 		</div>
 	</form>
 </div>

@@ -95,6 +95,7 @@ Tea.context(function () {
 	this.listenAdding = false;
 	this.addingListenName = "";
 	this.editingListenIndex = -1;
+	this.failReconnect = false;
 
 	this.$delay(function () {
 		this.$post(".localAddrs")
@@ -124,6 +125,11 @@ Tea.context(function () {
 		this.addingListenName = this.addingListenName.trim();
 		if (this.addingListenName.length == 0) {
 			alert("绑定地址不能为空");
+			this.$find("form input[name='addingListenName']").focus();
+			return;
+		}
+		if (this.addingListenName.endsWith(":")) {
+			alert("请输入网络地址的端口号");
 			this.$find("form input[name='addingListenName']").focus();
 			return;
 		}
