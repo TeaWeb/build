@@ -24,7 +24,7 @@ Tea.context(function () {
 				this.clients = [];
 			})
 			.done(function () {
-				this.$delay(this.loadClients, 5000);
+				this.$delay(this.loadClients, 3000);
 				this.isLoaded = true;
 			});
 	};

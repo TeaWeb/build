@@ -114,7 +114,7 @@
 			<a href="" @click.prevent="showAgentItemAPI()">点此查看 <i class="icon angle" :class="{down:!agentItemAPIVisible, up:agentItemAPIVisible}"></i> </a>
 			<div v-if="agentItemAPIVisible" style="margin-top:0.4em">
 				<em style="font-style:italic">/api/v1/agent/<var title="Agent ID">{{agent.id}}</var>/app/<var title="App ID">{{app.id}}</var>/item/<strong>{{item.id}}</strong>/latest?TeaKey=<var title="在登录设置中查看">当前登录用户密钥</var></em>
-			<p class="comment">可以通过此API获取该监控项的最新的一条数值记录，<a href="http://teaos.cn/doc/advanced/APIMonitorAgentItem.md" target="_blank">点这里查看帮助</a>。</p>
+			<p class="comment">可以通过此API获取该监控项的最新的一条数值记录，<a href="http://teaos.cn/doc/api/v1/agent/app/item/Latest.md" target="_blank">点这里查看帮助</a>。</p>
 			</div>
 		</td>
 	</tr>
