@@ -94,7 +94,7 @@
                     <p class="comment">只能是英文字母、下划线、数字的组合，一个好记的代号，用于某些转发算法中的参数。</p>
                 </td>
             </tr>
-			<tr v-if="isHTTP">
+			<tr>
 				<td class="color-border">是否开启健康检查</td>
 				<td>
 					<div class="ui checkbox">
@@ -111,7 +111,7 @@
 					<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
 				</td>
 			</tr>
-			<tr v-if="checkOn && isHTTP">
+			<tr v-if="checkOn">
 				<td class="color-border">健康检查间隔时间</td>
 				<td>
 					<div class="ui fields inline">
@@ -125,7 +125,7 @@
 					<p class="comment">每N秒检查一次，0表示默认，默认30秒检查一次。</p>
 				</td>
 			</tr>
-			<tr v-if="checkOn && isHTTP">
+			<tr v-if="checkOn">
 				<td class="color-border">健康检查超时时间</td>
 				<td>
 					<div class="ui fields inline">
