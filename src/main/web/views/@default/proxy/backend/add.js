@@ -137,4 +137,9 @@ Tea.context(function () {
 		this.responseHeadersAddingName = this.responseHeaders[index].name;
 		this.responseHeadersAddingValue = this.responseHeaders[index].value;
 	};
+
+	/**
+	 * 健康检查
+	 */
+	this.checkOn = false;
 });

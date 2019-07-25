@@ -225,6 +225,10 @@ body.expanded .main {
     vertical-align: top;
 }
 
+.main table td.color-border {
+    border-left: 1px #276ac6 solid !important;
+}
+
 .main table td.vertical-top {
     vertical-align: top;
 }

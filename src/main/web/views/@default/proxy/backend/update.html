@@ -98,14 +98,24 @@
 				</td>
 			</tr>
 			<tr v-if="isHTTP">
-				<td>健康检查URL</td>
+				<td class="color-border">是否开启健康检查</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="checkOn" value="1" v-model="checkOn"/>
+						<label></label>
+					</div>
+					<p class="comment">选中表示开启健康检查。</p>
+				</td>
+			</tr>
+			<tr v-if="checkOn && isHTTP">
+				<td class="color-border">健康检查URL *</td>
 				<td>
 					<input type="text" name="checkURL" maxlength="200" placeholder="http://..." v-model="backend.checkURL"/>
 					<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
 				</td>
 			</tr>
-			<tr v-if="isHTTP">
-				<td>健康检查间隔时间</td>
+			<tr v-if="checkOn && isHTTP">
+				<td class="color-border">健康检查间隔时间</td>
 				<td>
 					<div class="ui fields inline">
 						<div class="ui field">
@@ -118,8 +128,8 @@
 					<p class="comment">每N秒检查一次，0表示默认，默认30秒检查一次。</p>
 				</td>
 			</tr>
-			<tr v-if="isHTTP">
-				<td>健康检查超时时间</td>
+			<tr v-if="checkOn && isHTTP">
+				<td class="color-border">健康检查超时时间</td>
 				<td>
 					<div class="ui fields inline">
 						<div class="ui field">

@@ -154,4 +154,9 @@ Tea.context(function () {
 		this.responseHeadersAddingName = this.responseHeaders[index].name;
 		this.responseHeadersAddingValue = this.responseHeaders[index].value;
 	};
+
+	/**
+	 * 健康检查URL
+	 */
+	this.checkOn = this.backend.checkOn;
 });
