@@ -272,7 +272,7 @@
 							<input type="text" name="addingPageStatus" maxlength="3" placeholder="状态码" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.status" size="5" />
 						</div>
 						<div class="ui field">
-							<input type="text" name="addingPageURL" maxlength="200" placeholder="页面文件路径或一个完整URL" size="30" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.url"/>
+							<input type="text" name="addingPageURL" maxlength="200" placeholder="页面文件路径或一个完整URL" size="25" @keyup.enter="confirmAddPage()" @keypress.enter.prevent="1" v-model="addingPage.url"/>
 						</div>
 						<div class="ui field">
 							<button class="ui button tiny" type="button" @click="confirmAddPage()">确定</button>

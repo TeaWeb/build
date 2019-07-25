@@ -159,6 +159,21 @@
 				</td>
 			</tr>
 			<tr>
+				<td>特殊页面</td>
+				<td>
+					<span v-if="location.pages == null || location.pages.length == 0" class="disabled">还没有设置。</span>
+					<span v-if="location.pages != null" class="ui label tiny" v-for="(page, arrayIndex) in location.pages" style="margin-top:0.2em;margin-bottom:0.2em">{{page.status[0]}} -&gt; {{page.url}}
+				</span>
+				</td>
+			</tr>
+			<tr>
+				<td>临时关闭页面</td>
+				<td>
+					<span v-if="!location.shutdownPageOn" class="disabled">还没有设置。</span>
+					<span v-if="location.shutdownPageOn">{{location.shutdownPage}}</span>
+				</td>
+			</tr>
+			<tr>
 				<td>自动跳转到HTTPS</td>
 				<td>
 					<span class="ui label tiny green" v-if="location.redirectToHttps">已开启</span>

@@ -201,6 +201,97 @@ Tea.context(function () {
 	this.enableAccessLog = true;
 
 	/**
+	 * 状态页
+	 */
+	this.pageAdding = false;
+	this.addingPage = {
+		"status": "",
+		"url": ""
+	};
+	this.editingPageIndex = -1;
+	this.shutdownPageOn = false;
+	this.shutdownPage = "";
+
+	if (this.pages == null) {
+		this.pages = [];
+	} else {
+		this.pages = this.pages.$map(function (k, v) {
+			return {
+				"status": v.status[0],
+				"url": v.url
+			};
+		});
+	}
+
+	this.addPage = function () {
+		this.pageAdding = true;
+		this.addingPage = {
+			"status": "",
+			"url": ""
+		};
+		this.editingPageIndex = -1;
+		this.$delay(function () {
+			this.$find("form input[name='addingPageStatus']").focus();
+		});
+	};
+
+	this.editPage = function (index) {
+		this.pageAdding = true;
+		this.editingPageIndex = index;
+		this.$delay(function () {
+			this.$find("form input[name='addingPageName']").focus();
+		});
+		var page = this.pages[index];
+		this.addingPage = {
+			"status": page.status,
+			"url": page.url
+		};
+	};
+
+	this.confirmAddPage = function () {
+		if (this.addingPage.status.length == 0) {
+			alert("请输入状态码");
+			this.$find("form input[name='addingPageStatus']").focus();
+			return;
+		}
+		if (this.addingPage.status.length != 3) {
+			alert("状态码必须是3位");
+			this.$find("form input[name='addingPageStatus']").focus();
+			return;
+		}
+		if (!this.addingPage.status.match(/^[0-9x]+$/)) {
+			alert("状态码中只能包含数字或者小写字母x");
+			this.$find("form input[name='addingPageStatus']").focus();
+			return;
+		}
+		if (this.addingPage.url.length == 0) {
+			alert("请输入URL地址");
+			this.$find("form input[name='addingPageURL']").focus();
+			return;
+		}
+		if (this.editingPageIndex > -1) {
+			this.pages[this.editingPageIndex] = {
+				"status": this.addingPage.status,
+				"url": this.addingPage.url
+			};
+		} else {
+			this.pages.push(this.addingPage);
+		}
+		this.cancelPageAdding();
+	};
+
+	this.cancelPageAdding = function () {
+		this.pageAdding = false;
+		this.addingPageName = "";
+		this.editingPageIndex = -1;
+	};
+
+	this.removePage = function (index) {
+		this.pages.$remove(index);
+		this.cancelPageAdding();
+	};
+
+	/**
 	 * 拖动排序
 	 */
 	this.sortable = function () {
