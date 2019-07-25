@@ -16,7 +16,7 @@
             <td>地址 *</td>
             <td>
                 <input type="text" name="address" v-model="address" @blur="changeAddress()" placeholder="比如 192.168.1.100:8800"/>
-                <p class="ui comment">服务器地址，可以是一个IP加端口，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em> 。</p>
+                <p class="ui comment">服务器地址，可以是一个IP（或域名）加端口，也可以是一个Unix Socket，不需要加 <em>http://</em> 或 <em>https://</em> 。</p>
             </td>
         </tr>
 		<tr>
@@ -112,7 +112,21 @@
 							秒
 						</div>
 					</div>
-					<p class="comment">0表示默认，默认30秒检查一次</p>
+					<p class="comment">每N秒检查一次，0表示默认，默认30秒检查一次。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>健康检查超时时间</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="checkTimeout" value="0" size="6"/>
+						</div>
+						<div class="ui field">
+							秒
+						</div>
+					</div>
+					<p class="comment">超过N秒则认为超时，默认使用连接失败超时时间，可以使用小数。</p>
 				</td>
 			</tr>
 			<tr>
@@ -168,6 +182,31 @@
                     <p class="comment">0表示不限制</p>
                 </td>
             </tr>
+			<tr v-if="isHTTP">
+				<td>最大空闲连接数</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="idleConns" value="0" size="6" maxlength="10"/>
+						</div>
+					</div>
+					<p class="comment">0表示默认</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>最大空闲超时时间</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="idleTimeout" value="0" size="6"/>
+						</div>
+						<div class="ui field">
+							秒
+						</div>
+					</div>
+					<p class="comment">0表示使用默认时间</p>
+				</td>
+			</tr>
 			<tr v-if="isHTTP">
 				<td>请求Header</td>
 				<td>
