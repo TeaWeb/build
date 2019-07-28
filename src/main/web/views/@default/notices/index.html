@@ -33,14 +33,14 @@
 <table class="ui table selectable small" v-for="notice in notices">
     <thead>
         <tr>
-            <th v-if="notice.isAgent" :style="{'background':(notice.level == null) ? '' : notice.level.bgcolor, 'color':(notice.level == null) ? '' : notice.level.color}">
+            <th v-if="notice.isAgent || notice.isProxy" :style="{'background':(notice.level == null) ? '' : notice.level.bgcolor, 'color':(notice.level == null) ? '' : notice.level.color}">
                 <span v-if="notice.level != null">[{{notice.level.name}}] - </span>{{notice.datetime}} <span v-if="notice.links.length > 0">&nbsp;|&nbsp; <var v-for="(link,index) in notice.links"><a :href="link.url">{{link.name}}</a><em v-if="index < notice.links.length - 1">&nbsp; &raquo; &nbsp;</em></var></span>
 
                 <span class="ops">
                     <a href="" title="标为已读" v-if="!notice.isRead" @click.prevent="setRead('page', [notice.id])"><i class="icon minus"></i></a>
                 </span>
             </th>
-            <th v-if="!notice.isAgent">
+            <th v-if="!notice.isAgent && !notice.isProxy">
                 {{notice.datetime}}
 
                 <span class="ops">
