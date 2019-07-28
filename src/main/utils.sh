@@ -8,6 +8,7 @@ function build() {
     VERSION=${VERSION_DATA%%[!0-9.]*}
     TARGET=${GOPATH}/dist/teaweb-v${VERSION}
     GO_CMD="go"
+    GOROOT=""
 
     EXT=""
     if [ ${GOOS} = "windows" ]
@@ -151,6 +152,7 @@ function buildAgent() {
 	VERSION=${VERSION_DATA%%[!0-9.]*}
 	TARGET=${GOPATH}/dist/teaweb-agent-v${VERSION}
     GO_CMD="go"
+    GOROOT=""
 
     EXT=""
     if [ ${GOOS} = "windows" ]
@@ -240,6 +242,7 @@ function buildAgent() {
 
 function buildAgentInstaller() {
     GO_CMD="go"
+    GOROOT=""
 
     EXT=""
     if [ ${GOOS} = "windows" ]
