@@ -5,6 +5,7 @@
 . utils.sh
 
 export GOPATH=`pwd`/../../
+export GO111MODULE=off
 
 rm -rf ${GOPATH}/installers/*
 

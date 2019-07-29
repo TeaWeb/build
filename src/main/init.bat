@@ -1,5 +1,6 @@
 REM initialize project
 set GOPATH=%cd%\..\..\
+set GO111MODULE=off
 
 REM mkdir
 if not exist %GOPATH%\src\main\web\tmp mkdir %GOPATH%\src\main\web\tmp

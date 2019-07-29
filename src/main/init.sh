@@ -2,6 +2,7 @@
 
 # initialize project
 export GOPATH=`pwd`/../../
+export GO111MODULE=off
 
 # mkdir
 if [ ! -d ${GOPATH}/src/main/web/tmp ]
