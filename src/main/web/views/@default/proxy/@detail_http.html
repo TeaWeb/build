@@ -76,20 +76,20 @@
 	</tbody>
 	<tbody v-show="advancedOptionsVisible" v-for="accessLog in accessLogs">
 		<tr>
-			<td>访问日志</td>
+			<td class="color-border">访问日志</td>
 			<td>
 				<span class="ui label green tiny" v-if="accessLog.on">已开启</span>
 				<span class="ui label tiny" v-if="!accessLog.on">未开启</span>
 			</td>
 		</tr>
 		<tr v-if="accessLog.on">
-			<td>存储的访问日志字段</td>
+			<td class="color-border">存储的访问日志字段</td>
 			<td>
 				<span v-for="field in accessLog.fields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
 			</td>
 		</tr>
 		<tr v-if="accessLog.on">
-			<td>要存储的访问日志状态码</td>
+			<td class="color-border">要存储的访问日志状态码</td>
 			<td>
 				<span class="ui label tiny" :class="{'disabled':!accessLog.status1}">1xx</span>
 				<span class="ui label tiny" :class="{'disabled':!accessLog.status2}">2xx</span>
@@ -99,13 +99,13 @@
 			</td>
 		</tr>
 		<tr v-if="accessLog.on && accessLog.hasSelectedStoragePolicies">
-			<td>输出的日志策略</td>
+			<td class="color-border">输出的日志策略</td>
 			<td>
 				<span class="ui label tiny" v-for="policy in accessLog.storagePolicies" v-if="policy.isChecked">{{policy.name}}</span>
 			</td>
 		</tr>
 		<tr v-if="accessLog.on">
-			<td>是否只输出到日志策略</td>
+			<td class="color-border">是否只输出到日志策略</td>
 			<td>
 				<span v-if="accessLog.storageOnly" class="ui label tiny green">已开启</span>
 				<span v-if="!accessLog.storageOnly" class="ui label tiny">未开启</span>
@@ -128,14 +128,14 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Gzip压缩级别</td>
+			<td class="color-border">Gzip压缩级别</td>
 			<td>
 				<span v-if="server.gzipLevel == 0">不压缩</span>
 				<span v-if="server.gzipLevel > 0">{{server.gzipLevel}}</span>
 			</td>
 		</tr>
 		<tr>
-			<td>Gzip内容最小长度</td>
+			<td class="color-border">Gzip内容最小长度</td>
 			<td>
 				<span v-if="server.gzipMinLength == 0" class="disabled">-</span>
 				<span v-if="server.gzipMinLength.length > 0">{{server.gzipMinLength}}</span>

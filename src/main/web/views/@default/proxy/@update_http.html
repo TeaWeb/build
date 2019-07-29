@@ -147,7 +147,7 @@
 		</tbody>
 		<tbody v-show="advancedOptionsVisible" v-for="(accessLog, index) in accessLogs">
 			<tr>
-				<td>是否开启访问日志存储</td>
+				<td class="color-border">是否开启访问日志存储</td>
 				<td>
 					<input type="hidden" name="accessLogIndexes" :value="index"/>
 					<input type="hidden" :name="'accessLog' + index + 'Id'" :value="accessLog.id"/>
@@ -159,7 +159,7 @@
 				</td>
 			</tr>
 			<tr v-show="accessLog.on">
-				<td>要存储的访问日志字段</td>
+				<td class="color-border">要存储的访问日志字段</td>
 				<td>
 					<div class="ui checkbox" v-for="field in accessLog.fields"  style="width:11em;padding:0.4em">
 						<input type="checkbox" :name="'accessLog' + index + 'Fields'" :value="field.code" :id="'access-log-' + index + '-field-' + field.code" v-model="field.isChecked"/>
@@ -168,7 +168,7 @@
 				</td>
 			</tr>
 			<tr v-show="accessLog.on">
-				<td>要存储的访问日志状态码</td>
+				<td class="color-border">要存储的访问日志状态码</td>
 				<td>
 					<div class="ui checkbox" style="width:5em;padding:0.4em">
 						<input type="checkbox" :name="'accessLog' + index + 'Status1'" v-model="accessLog.status1" value="1" :id="'access-log-' + index + '-status1'"/>
@@ -193,7 +193,7 @@
 				</td>
 			</tr>
 			<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
-				<td>选择输出的日志策略</td>
+				<td class="color-border">选择输出的日志策略</td>
 				<td>
 					<div class="ui checkbox" v-for="policy in accessLog.storagePolicies" style="width:13em;padding:0.4em">
 						<input type="checkbox" :name="'accessLog' + index + 'StoragePolicyIds'" :value="policy.id" :id="'access-log-storage-policy-' + policy.id" v-model="policy.isChecked"/>
@@ -202,7 +202,7 @@
 				</td>
 			</tr>
 			<tr v-if="accessLog.on && accessLog.storagePolicies.length > 0">
-				<td>是否只输出到日志策略</td>
+				<td class="color-border">是否只输出到日志策略</td>
 				<td>
 					<div class="ui checkbox">
 						<input type="checkbox" :name="'accessLog' + index + 'StorageOnly'" v-model="accessLog.storageOnly" value="1"/>
@@ -233,7 +233,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Gzip压缩级别</td>
+				<td class="color-border">Gzip压缩级别</td>
 				<td>
 					<select name="gzipLevel" v-model="server.gzipLevel" class="ui dropdown" style="width:10em">
 						<option value="0">不压缩</option>
@@ -243,7 +243,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Gzip内容最小长度</td>
+				<td class="color-border">Gzip内容最小长度</td>
 				<td>
 					<div class="ui fields inline">
 						<div class="ui field">
