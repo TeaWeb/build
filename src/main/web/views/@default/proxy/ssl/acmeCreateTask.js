@@ -77,6 +77,7 @@ Tea.context(function () {
 	this.dnsError = "";
 	this.dnsIsChecking = false;
 	this.dnsCheckingError = "";
+	this.dnsHelpVisible = false;
 
 	this.checkDNS = function () {
 		this.dnsIsChecking = true;
@@ -98,5 +99,9 @@ Tea.context(function () {
 			.done(function () {
 				this.dnsIsChecking = false;
 			});
+	};
+
+	this.showDnsHelp = function () {
+		this.dnsHelpVisible = !this.dnsHelpVisible;
 	};
 });

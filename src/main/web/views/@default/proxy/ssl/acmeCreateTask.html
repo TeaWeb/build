@@ -109,7 +109,7 @@
 		</table>
 
 		<p class="margin">
-			如果你已设置好DNS记录，请点击：
+			如果你已设置好DNS记录，请点击继续：
 		</p>
 		<button class="ui button primary" type="button" @click.prevent="checkDNS()" v-if="!dnsIsChecking && dnsCheckingError.length == 0">已完成设置</button>
 		<button class="ui button primary" type="button" @click.prevent="checkDNS()" v-if="!dnsIsChecking && dnsCheckingError.length > 0">重试</button>
@@ -118,6 +118,25 @@
 		<p class="ui error message" v-if="dnsCheckingError.length > 0">
 			{{dnsCheckingError}}
 		</p>
+
+		<div style="margin-top:2em">
+			<a href="" @click.prevent="showDnsHelp()">常见清除服务器DNS缓存的方法 <i class="icon angle" :class="{up:dnsHelpVisible,down:!dnsHelpVisible}"></i> </a>
+		</div>
+		<div class="ui segment dns-help-box" v-if="dnsHelpVisible">
+			<div>
+				<strong>Windows：</strong>在命令行窗口运行<span class="ui label tiny">ipconfig /flushdns</span>，如果是Win7以上的话，需要"以管理员身份运行"命令行，然后再运行上述命令。
+			</div>
+			<div class="ui divider"></div>
+			<div>
+				<strong>CentOS：</strong>如果没有安装dnsmasq，可以先安装<span class="ui label tiny">yum install dnsmasq</span>，安装后命令行中运行：<span class="ui label tiny">systemctl restart dnsmasq.service</span>
+			</div>
+			<div class="ui divider"></div>
+			<div><strong>Ubuntu：</strong>命令行中运行<span class="ui label tiny">sudo systemd-resolve --flush-caches</span> </div>
+			<div class="ui divider"></div>
+			<div>
+				<strong>Mac OS X：</strong>命令行中运行<span class="ui label tiny">dscacheutil -flushcache</span>
+			</div>
+		</div>
 	</div>
 </div>
 

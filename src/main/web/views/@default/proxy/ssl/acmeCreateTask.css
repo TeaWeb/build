@@ -20,3 +20,12 @@
 .dns-notice {
     line-height: 1.7;
 }
+
+.dns-help-box {
+    line-height: 1.6;
+}
+
+.dns-help-box .divider {
+    margin-top: 0.6em !important;
+    margin-bottom: 0.6em !important;
+}
