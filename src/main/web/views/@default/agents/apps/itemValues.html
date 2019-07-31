@@ -3,7 +3,7 @@
 {$template "menu"}
 
 <!-- 子菜单 -->
-<div class="ui text menu small blue">
+<div class="ui text menu tiny blue">
     <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item">{{item.name}} &raquo; 详情</a>
     <span class="item">|</span>
     <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item active">数值记录</a>
@@ -12,7 +12,7 @@
 </div>
 <div class="ui divider"></div>
 
-<div class="ui text menu small blue">
+<div class="ui text menu tiny blue">
 	<span class="item" style="padding-right:0">级别：</span>
 	<a style="padding-left:0" :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id" class="item" :class="{active:selectedLevel == 0}">所有级别</a>
 	<a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&level=' + level.code" class="item" v-for="level in levels" :class="{active:selectedLevel==level.code}">{{level.name}}</a>

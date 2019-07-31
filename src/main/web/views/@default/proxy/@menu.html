@@ -1,5 +1,5 @@
 <!-- HTTP -->
-<div class="ui text menu blue" v-if="server.tcp == null">
+<div class="ui text menu blue small" v-if="server.tcp == null">
 	<span class="item" style="padding-right:0">全局：</span>
     <a :href="$url('/proxy/detail', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'basic'}" style="padding-left:0"><i class="ui icon info circle small"></i>基本信息</a>
     <a :href="$url('/proxy/ssl', { 'serverId':server.id })" class="item green" :class="{active:selectedTab == 'https'}"><i class="ui icon expeditedssl small" :class="{green:server.ssl && server.ssl.on}"></i>HTTPS</a>
@@ -14,7 +14,7 @@
 </div>
 
 <!-- TCP -->
-<div class="ui text menu blue" v-if="server.tcp != null">
+<div class="ui text menu small blue" v-if="server.tcp != null">
 	<a :href="$url('/proxy/detail', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'basic'}" style="padding-left:0"><i class="ui icon info circle small"></i>基本信息</a>
 	<a :href="$url('/proxy/ssl', { 'serverId':server.id })" class="item green" :class="{active:selectedTab == 'https'}"><i class="ui icon expeditedssl small" :class="{green:server.ssl && server.ssl.on}"></i>TLS</a>
 	<a :href="$url('/proxy/backend', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'backend'}"><i class="ui icon server small"></i>后端服务器({{server.backends.length}})</a>

@@ -24,7 +24,7 @@
 	发生错误：{{err}}
 </p>
 
-<div class="ui menu text blue">
+<div class="ui menu text small blue">
 	<a :href="'/proxy/log?serverId=' + server.id" class="item active">实时</a>
 	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=today'" class="item">今天</a>
 	<a :href="'/proxy/log/day?serverId=' + server.id + '&day=yesterday'" class="item">昨天</a>
@@ -33,7 +33,7 @@
 
 <div class="ui divider"></div>
 
-<div class="ui menu text blue small">
+<div class="ui menu text blue tiny">
 	<a :href="'/proxy/log?serverId=' + server.id" class="item" :class="{active:logType == ''}">访问日志</a>
 	<a :href="'/proxy/log?serverId=' + server.id + '&logType=errorLog'" class="item small" :class="{active:logType == 'errorLog'}">错误日志</a>
 </div>

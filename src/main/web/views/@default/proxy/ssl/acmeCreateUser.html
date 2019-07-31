@@ -3,7 +3,7 @@
 {$template "menu"}
 
 <div class="second-menu">
-	<div class="ui menu text small blue" style="margin-top:0">
+	<div class="ui menu text tiny blue" style="margin-top:0">
 		<a :href="'/proxy/ssl/generate?serverId=' + server.id" class="item">证书列表</a>
 		<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item">申请证书</a>
 		<a :href="'/proxy/ssl/acmeUsers?serverId=' + server.id" class="item active">ACME用户</a>

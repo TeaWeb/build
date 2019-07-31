@@ -2,7 +2,7 @@
 
 {$template "menu"}
 
-<div class="ui text menu small blue">
+<div class="ui text menu tiny blue">
     <a :href="'/agents/apps/itemDetail?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item">{{item.name}} &raquo; 详情</a>
     <span class="item">|</span>
     <a :href="'/agents/apps/itemValues?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from" class="item">数值记录</a>

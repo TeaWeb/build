@@ -1,4 +1,4 @@
-<div class="ui text basic menu blue">
+<div class="ui text basic menu blue small">
     <a :href="'/agents/apps/detail?agentId=' + agentId + '&appId=' + app.id" class="item" :class="{active:selectedTabbar == 'detail'}">{{app.name}}<span v-if="app.isSharedWithGroup" class="ui label tiny olive" style="margin:0 0.2em;padding:3px;font-size:0.5em">共享</span> &raquo; 详情</a>
     <a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id" class="item" :class="{active:selectedTabbar == 'monitor'}">监控项<span v-if="app.countItems > 0">({{app.countItems}})</span></a>
     <a :href="'/agents/apps/schedule?agentId=' + agentId + '&appId=' + app.id" class="item" :class="{active:selectedTabbar == 'schedule'}">定时任务<span v-if="app.countScheduleTasks > 0">({{app.countScheduleTasks}})</span></a>

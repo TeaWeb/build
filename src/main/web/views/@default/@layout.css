@@ -187,11 +187,35 @@ body.expanded .main {
     padding-left: 0.2em;
 }
 
+/** 顶部菜单 **/
+.top-secondary-menu {
+    position: fixed;
+    top: 2.4em;
+    left: 9em;
+    right: 0;
+    z-index: 10;
+    background: white;
+}
+
+.top-secondary-menu .menu {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.top-secondary-menu .menu var {
+    font-style: normal;
+}
+
+.top-secondary-menu .divider {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 /** 右侧主操作区 **/
 .main {
     position: absolute;
     left: 22em;
-    top: 3em;
+    top: 5.6em;
     padding-bottom: 5em;
     padding-right: 1em;
     right: 1em;
@@ -342,11 +366,15 @@ body.expanded .main {
 }
 
 /** 子菜单 **/
+.main.without-menu .sub-menu {
+    display: none;
+}
+
 .sub-menu {
     position: fixed;
     left: 8em;
     width: 12.5em;
-    top: 4em;
+    top: 6em;
     bottom: 2.8em;
 }
 
@@ -465,15 +493,6 @@ body.expanded .main {
 
 .sub-menu .fourth-menu .icon, .sub-menu .third-menu .icon {
     float: left !important;
-}
-
-.sub-menu .operations-box {
-    position: absolute;
-    z-index: 100;
-    bottom: 0;
-    background: white;
-    left: 0.3em;
-    right: 0.2em;
 }
 
 /** 右侧文本子菜单 **/

@@ -1,5 +1,5 @@
 <div class="second-menu">
-	<div class="ui text menu blue small">
+	<div class="ui text menu blue tiny">
 		<a :href="'/proxy/ssl?serverId=' + server.id" class="item" :class="{active:!urlPrefix('/proxy/ssl/generate', '/proxy/ssl/acme')}">配置信息</a>
 		<a :href="'/proxy/ssl/generate?serverId=' + server.id" class="item" :class="{active:urlPrefix('/proxy/ssl/generate', '/proxy/ssl/acme')}">ACME证书</a>
 	</div>

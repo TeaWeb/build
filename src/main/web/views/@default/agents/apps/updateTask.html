@@ -3,7 +3,7 @@
 {$template "/code_editor"}
 {$template "menu"}
 
-<div class="ui menu small text blue">
+<div class="ui menu tiny text blue">
 	<a :href="'/agents/apps/taskDetail?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar" class="ui item active">{{task.name}} &raquo; 详情</a>
 	<span class="item">|</span>
 	<a :href="'/agents/apps/taskLogs?agentId=' + agentId + '&appId=' + app.id + '&taskId=' + task.id + '&tabbar=' + tabbar"  class="ui item">日志</a>

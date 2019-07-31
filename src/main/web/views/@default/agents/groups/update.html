@@ -1,6 +1,6 @@
 {$layout}
 
-<div class="ui menu text blue">
+<div class="ui menu text blue small">
 	<a href="/agents/groups" class="item" style="padding-right:0">分组</a>
 	<a :href="'/agents/groups/detail?groupId=' + group.id" class="item active">“{{group.name}}” &raquo; 详情</a>
 	<a :href="'/agents/groups/noticeReceivers?groupId=' + group.id" class="item">通知设置</a>

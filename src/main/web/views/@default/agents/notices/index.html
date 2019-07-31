@@ -1,6 +1,6 @@
 {$layout}
 
-<div class="ui menu text blue">
+<div class="ui menu text blue small">
     <a :href="'/agents/notices?agentId=' + agentId + '&read=0'" class="item" :class="{active:!isRead}">未读通知<span> &nbsp;({{countUnread}})</span></a>
     <a :href="'/agents/notices?agentId=' + agentId + '&read=1'" class="item" :class="{active:isRead}">已读通知</a>
 	<a :href="'/agents/settings/noticeReceivers?agentId=' + agentId" class="item">通知设置</a>

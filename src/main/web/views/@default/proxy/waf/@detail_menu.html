@@ -1,5 +1,5 @@
 <div class="second-menu">
-	<div class="ui menu text small blue">
+	<div class="ui menu text tiny blue">
 		<a :href="'/proxy/waf/detail?wafId=' + config.id" class="item" :class="{active:selectedSubMenu == 'detail'}">{{config.name}} &raquo; 详情</a>
 		<a :href="'/proxy/waf/rules?wafId=' + config.id + '&inbound=1'" class="item" :class="{active:selectedSubMenu == 'rules' && inbound}">入站规则集<em>({{config.countInbound}})</em></a>
 		<a :href="'/proxy/waf/rules?wafId=' + config.id + '&outbound=1'" class="item" :class="{active:selectedSubMenu == 'rules' && outbound}">出站规则集<em>({{config.countOutbound}})</em></a>

@@ -6,7 +6,7 @@
 <script src="/js/clipboard.min.js" type="text/javascript"></script>
 {$end}
 
-<div class="ui menu text basic blue">
+<div class="ui menu text basic small blue">
 	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item" v-if="boardType != 'stat'">看板</a>
 	<a :href="'/proxy/stat?serverId=' + server.id" class="item" v-if="boardType == 'stat'">统计看板</a>
 	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item active">可用图表</a>

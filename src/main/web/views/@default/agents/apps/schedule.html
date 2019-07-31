@@ -3,7 +3,7 @@
 {$template "/code_editor"}
 {$template "menu"}
 
-<div class="ui text menu small blue">
+<div class="ui text menu tiny blue">
     <a :href="'/agents/apps/schedule?agentId=' + agentId + '&appId=' + app.id" class="item active">任务列表</a>
     <a :href="'/agents/apps/addTask?agentId=' + agentId + '&appId=' + app.id + '&from=' + from + '&isScheduling=1'" class="item" v-if="!teaDemoEnabled">添加任务</a>
 </div>
