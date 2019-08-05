@@ -1,0 +1,26 @@
+{$layout}
+
+<form class="ui form">
+	<div class="input-box">
+		<div v-if="from.length > 0" class="back-btn">
+			<a :href="from">&laquo; 返回上一界面</a>
+		</div>
+		<div class="ui input icon focus">
+			<input type="text" name="keyword" placeholder="搜索代理服务、主机、功能 ..." @input="changeKeyword()" v-model="keyword" @keypress.enter.prevent="1"/>
+			<i class="icon search link" v-if="keyword.length == 0"></i>
+			<i class="icon remove link" v-if="keyword.length > 0" @click.prevent="clearKeyword"></i>
+		</div>
+	</div>
+
+	<!-- 搜索结果 -->
+	<div v-if="keyword.length > 0 && results.length == 0" class="no-results-box">找不到要搜索的内容。</div>
+
+	<table class="ui table selectable definition" v-if="results.length > 0">
+		<tr v-for="result in results">
+			<td class="title">{{result.type}}</td>
+			<td style="width:24em">
+				<a :href="result.link">{{result.name}}</a>
+				<span class="ui label tiny" v-if="result.tags != null" v-for="tag in result.tags">{{tag}}</span>
+		</tr>
+	</table>
+</form>

@@ -101,4 +101,9 @@ Tea.context(function () {
 		}
 		return false;
 	};
+
+	/**
+	 * 当前URL
+	 */
+	this.globalURL = encodeURIComponent(window.location.toString());
 });

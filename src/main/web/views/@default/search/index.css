@@ -1,0 +1,22 @@
+.input-box {
+    text-align: center;
+}
+
+.input-box .input {
+    width: 80%;
+}
+
+.input-box .back-btn {
+    margin-top: 0.7em;
+    margin-bottom: 1em;
+}
+
+.no-results-box {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.table .label.tiny {
+    padding: 4px;
+    font-size: 0.7em !important;
+}
