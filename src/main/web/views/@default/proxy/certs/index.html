@@ -1,0 +1,94 @@
+{$layout}
+{$template "menu"}
+
+<!-- 检测配置是否有更新 begins -->
+<div class="ui icon message warning" v-if="statusChanged">
+	<i class="exclamation circle icon large"></i>
+	代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
+</div>
+
+{$var "header"}
+<script type="text/javascript" src="/_/@default/proxy/@global.js"></script>
+{$end}
+<!--  检测配置是否有更新 end -->
+
+<div class="ui first-menu">
+	<div class="ui menu text small blue">
+		<a href="" class="item" @click.prevent="selectTimeTab('all')" :class="{active:timeTab == 'all'}">所有证书({{countAll}})</a>
+		<a href="" class="item" @click.prevent="selectTimeTab('active')" :class="{active:timeTab == 'active'}">有效的证书({{countActive}})</a>
+		<a href="" class="item" @click.prevent="selectTimeTab('expired')" :class="{active:timeTab == 'expired'}">过期的证书({{countExpired}})</a>
+		<a href="" class="item" @click.prevent="selectTimeTab('expiring7Days')" :class="{active:timeTab == 'expiring7Days'}">7天内过期({{countExpiring7Days}})</a>
+		<a href="" class="item" @click.prevent="selectTimeTab('expiring30Days')" :class="{active:timeTab == 'expiring30Days'}">30天内过期({{countExpiring30Days}})</a>
+		<a href="" class="item" @click.prevent="selectTimeTab('acme')" :class="{active:timeTab == 'acme'}">ACME({{countACME}})</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<p class="comment" v-if="certs.length == 0">暂时还没有符合条件的证书。</p>
+
+<table class="ui table selectable" v-if="certs.length > 0">
+	<thead>
+		<tr>
+			<th>证书说明</th>
+			<th>顶级发行公司</th>
+			<th>域名</th>
+			<th nowrap="">开始日期</th>
+			<th nowrap="">过期日期</th>
+			<th nowrap="">引用组件</th>
+			<th nowrap="">状态</th>
+			<th class="three op">操作</th>
+		</tr>
+	</thead>
+	<tbody  v-for="cert in certs">
+		<tr>
+			<td>
+				{{cert.description}}
+				<span class="ui label tiny olive acme" v-if="cert.isACME > 0">ACME</span>
+			</td>
+			<td>
+				{{cert.commonName}}
+
+				<span v-if="cert.error.length > 0" class="red" style="display:inline-block;max-width:18em;word-break: break-all">错误：{{cert.error}}</span>
+			</td>
+			<td>
+				<span v-if="cert.dnsNames == null || cert.dnsNames.length == 0">-</span>
+				<div class="labels-box" v-if="cert.dnsNames != null && cert.dnsNames.length > 0">
+					<div v-for="dnsName in cert.dnsNames">
+						<span class="ui label tiny">{{dnsName}}</span>
+					</div>
+				</div>
+			</td>
+			<td nowrap="">
+				{{cert.dayBefore}}
+				<span v-if="cert.dayBefore.length == 0">-</span>
+			</td>
+			<td nowrap="">
+				{{cert.dayAfter}}
+				<span v-if="cert.dayAfter.length == 0">-</span>
+			</td>
+			<td>
+				<span v-if="cert.countRef > 0">{{cert.countRef}}个</span>
+				<span v-if="cert.countRef == 0">-</span>
+			</td>
+			<td nowrap="">
+				<span class="ui label tiny red" v-if="cert.error.length > 0">无效</span>
+				<div v-if="cert.error.length == 0">
+					<div v-if="!cert.on">
+						<span class="ui label tiny">未启用</span>
+					</div>
+					<div v-if="cert.on">
+						<span class="ui label green tiny" v-if="cert.isActive && !cert.isExpiring7Days && !cert.isExpiring30Days">有效</span>
+						<span class="ui label yellow tiny" v-if="cert.isExpiring7Days">7天失效</span>
+						<span class="ui label yellow tiny" v-if="cert.isExpiring30Days">30天失效</span>
+						<span class="ui label red tiny" v-if="cert.isExpired">已过期</span>
+					</div>
+				</div>
+			</td>
+			<td>
+				<a :href="'/proxy/certs/detail?certId=' + cert.id">详情</a> &nbsp;
+				<a :href="'/proxy/certs/update?certId=' + cert.id">修改</a> &nbsp;
+				<a href="" @click.prevent="deleteCert(cert.id)">删除</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

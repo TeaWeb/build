@@ -1,0 +1,49 @@
+{$layout}
+{$template "menu"}
+
+<div class="second-menu">
+	<div class="ui menu text tiny blue" style="margin-top:0">
+		<a href="/proxy/certs/acme" class="item active">证书列表</a>
+		<a href="/proxy/certs/acmeCreateTask" class="item" v-if="users.length > 0">申请证书</a>
+		<a href="/proxy/certs/acmeUsers" class="item">ACME用户</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<p class="comment">通过<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>支持的ACME协议生成免费的DV证书。</p>
+
+<p v-if="users.length == 0" class="grey">还没有用户，在生成证书之前请先<a href="/proxy/certs/acmeCreateUser">添加ACME用户</a>。</p>
+
+<div v-if="users.length > 0" style="margin-top:1em">
+	<p v-if="tasks.length == 0">还没有申请证书任务，	<a href="/proxy/certs/acmeCreateTask" class="item" v-if="users.length > 0">点此开始申请证书</a>。</p>
+
+	<table class="ui table selectable" v-if="tasks.length > 0">
+		<thead>
+			<tr>
+				<th>用户</th>
+				<th>域名</th>
+				<th>有效期</th>
+				<th class="four wide">更新时间</th>
+				<th class="three op">操作</th>
+			</tr>
+		</thead>
+		<tr v-for="task in tasks">
+			<td>{{task.email}}</td>
+			<td><span v-for="domain in task.domains" class="ui small label" style="margin-top:0.3em;margin-bottom:0.3em">{{domain}}</span></td>
+			<td>
+				<span v-if="task.dayFrom.length > 0" :class="{red:task.isExpired, green:!task.isExpired}">{{task.dayFrom}} - {{task.dayTo}}</span>
+			</td>
+			<td>{{task.runTime}}
+				<p class="comment" v-if="task.runError != null && task.runError.length > 0">
+					<span class="red">发生错误，点击<a :href="'/proxy/certs/acmeTask?taskId=' + task.id">"详情"</a>查看具体错误内容</span>
+				</p>
+			</td>
+			<td>
+				<a :href="'/proxy/certs/acmeTask?taskId=' + task.id">详情</a> &nbsp;
+				<a href="" @click.prevent="renewTask(task.id)" v-if="!isRenewing">更新</a>
+				<span v-if="isRenewing">更新中...</span> &nbsp;
+				<a href="" @click.prevent="deleteTask(task.id)" v-if="!isRenewing">删除</a>
+			</td>
+		</tr>
+	</table>
+</div>

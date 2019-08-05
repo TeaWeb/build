@@ -1,0 +1,149 @@
+{$layout}
+{$template "menu"}
+
+<div class="second-menu">
+	<div class="ui menu text tiny blue" style="margin-top:0">
+		<a href="/proxy/certs/acme" class="item">证书列表</a>
+		<a href="/proxy/certs/acmeCreateTask" class="item active" v-if="users.length > 0">申请证书</a>
+		<a href="/proxy/certs/acmeUsers" class="item">ACME用户</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<div class="ui steps fluid small">
+	<div class="ui step" :class="{active:step == 'prepare'}">
+		<div class="content">
+			<div class="title">开始前准备</div>
+		</div>
+	</div>
+	<div class="ui step" :class="{active:step == 'config'}">
+		<div class="content">
+			<div class="title">用户/域名信息</div>
+		</div>
+	</div>
+	<div class="ui step" :class="{active:step == 'auth'}">
+		<div class="content">
+			<div class="title">DNS设置</div>
+		</div>
+	</div>
+	<div class="ui step" :class="{active:step == 'finish'}">
+		<div class="content">
+			<div class="title">完成</div>
+		</div>
+	</div>
+</div>
+
+<!-- 准备 -->
+<div v-show="step == 'prepare'">
+	<div class="ui segment dns-notice">
+		在为某个或某些域名申请证书之前，请确认你拥有这些域名的<strong>DNS设置权限</strong>，并打开了DNS运营商提供的设置界面，因为接下来我们需要<strong>为域名设置TXT记录</strong>。
+	</div>
+	<div style="margin-top: 1em">
+		<button class="ui button primary" @click.prevent="confirmPrepared()" type="button">我准备好了</button>
+	</div>
+</div>
+
+<!-- 配置 -->
+<div v-show="step == 'config'">
+	<form class="ui form">
+		<table class="ui table selectable definition">
+			<tr>
+				<td class="title">选择用户 *</td>
+				<td>
+					<select class="ui dropdown" v-model="userId" style="width:auto">
+						<option v-for="user in users" :value="user.id">{{user.email}} - {{user.name}}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>域名</td>
+				<td>
+					<div class="domains-box" v-if="domains.length > 0">
+						<span class="ui label tiny" v-for="domain in domains">{{domain}}
+							<a href="" title="移除此域名" @click.prevent="removeDomain(domain)"><i class="icon remove"></i></a>
+						</span>
+					</div>
+					<div style="margin-bottom: 1em;margin-top: 1em" v-if="domainIsAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="addingDomain" v-model="addingDomain" @keyup.enter="confirmAddDomain()" @keypress.enter.prevent="1"/>
+							</div>
+							<button class="ui button tiny" type="button" @click.prevent="confirmAddDomain()">确认添加</button> &nbsp; &nbsp;
+							<a href="" @click.prevent="cancelAddingDomain()">取消</a>
+						</div>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevnet="addDomain()">+</button>
+				</td>
+			</tr>
+		</table>
+		<button class="ui button primary" type="button" @click.prevent="submitConfig()">下一步</button>
+	</form>
+</div>
+
+<!-- 认证 -->
+<div v-show="step == 'auth'">
+	<div class="margin" v-if="dnsRecords.length == 0 && dnsError.length == 0">
+		提交申请中，请耐心等待...
+	</div>
+	<div class="ui error message" v-if="dnsError.length > 0">
+		{{dnsError}}，
+		<a href="" @click.prevent="submitConfig">[重新提交]</a> &nbsp;
+		<a href="" @click.prevent="goConfig">[上一步]</a>
+	</div>
+	<div v-if="dnsRecords.length > 0">
+		<div class="margin">
+			请在你的域名DNS提供商后台设置以下DNS记录，用来验证你的域名归属：
+		</div>
+		<table class="ui table selectable">
+			<thead>
+				<tr>
+					<th>记录类型</th>
+					<th>主机记录</th>
+					<th>记录值</th>
+				</tr>
+			</thead>
+			<tr v-for="record in dnsRecords">
+				<td><strong>TXT</strong></td>
+				<td>{{record.fqdn}}</td>
+				<td>{{record.value}}</td>
+			</tr>
+		</table>
+
+		<p class="margin">
+			如果你已设置好DNS记录，请点击继续：
+		</p>
+		<button class="ui button primary" type="button" @click.prevent="checkDNS()" v-if="!dnsIsChecking && dnsCheckingError.length == 0">已完成设置</button>
+		<button class="ui button primary" type="button" @click.prevent="checkDNS()" v-if="!dnsIsChecking && dnsCheckingError.length > 0">重试</button>
+
+		<p v-if="dnsIsChecking">正在检查DNS设置，请耐心等待...</p>
+		<p class="ui error message" v-if="dnsCheckingError.length > 0">
+			{{dnsCheckingError}}
+		</p>
+
+		<div style="margin-top:2em">
+			<a href="" @click.prevent="showDnsHelp()">常见清除服务器DNS缓存的方法 <i class="icon angle" :class="{up:dnsHelpVisible,down:!dnsHelpVisible}"></i> </a>
+		</div>
+		<div class="ui segment dns-help-box" v-if="dnsHelpVisible">
+			<div>
+				<strong>Windows：</strong>在命令行窗口运行<span class="ui label tiny">ipconfig /flushdns</span>，如果是Win7以上的话，需要"以管理员身份运行"命令行，然后再运行上述命令。
+			</div>
+			<div class="ui divider"></div>
+			<div>
+				<strong>CentOS：</strong>如果没有安装dnsmasq，可以先安装<span class="ui label tiny">yum install dnsmasq</span>，安装后命令行中运行：<span class="ui label tiny">systemctl restart dnsmasq.service</span>
+			</div>
+			<div class="ui divider"></div>
+			<div><strong>Ubuntu：</strong>命令行中运行<span class="ui label tiny">sudo systemd-resolve --flush-caches</span> </div>
+			<div class="ui divider"></div>
+			<div>
+				<strong>Mac OS X：</strong>命令行中运行<span class="ui label tiny">dscacheutil -flushcache</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 完成 -->
+<div v-show="step == 'finish'">
+	<div class="ui segment green">
+		恭喜你，证书已成功生成，<a :href="'/proxy/certs/acmeTask?taskId=' + task.id">点此查看</a>。
+	</div>
+</div>

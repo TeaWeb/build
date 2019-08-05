@@ -62,7 +62,7 @@ Tea.context(function () {
 
 	this.uploadSSLKeyFile = function () {
 		if (this.sslKeyFile == null) {
-			alert("请先选择密钥文件");
+			alert("请先选择私钥文件");
 			return;
 		}
 

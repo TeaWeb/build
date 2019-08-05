@@ -12,7 +12,7 @@
 <!--  检测配置是否有更新 end -->
 
 <!-- 错误信息 -->
-<p class="ui message error" v-for="err in errs">
+<p class="ui message error" v-for="err in errs" style="word-break: break-all">
 	发生错误：{{err}}
 </p>
 
@@ -23,7 +23,7 @@
     <!-- HTTPS 设置 -->
     <h3>配置信息 <a :href="'/proxy/ssl/update?serverId=' + server.id">修改</a></h3>
 
-	<p class="ui message error" v-if="errorMessages.length > 0" v-for="error in errorMessages">
+	<p class="ui message error" v-if="errorMessages.length > 0" v-for="error in errorMessages" style="word-break: break-all">
 		发生错误：{{error}}
 	</p>
 
@@ -114,13 +114,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td>密钥文件<em>(Private Key)</em></td>
+				<td>私钥文件<em>(Private Key)</em></td>
 				<td>
 					<span v-if="cert.config.keyFile.length > 0">{{cert.config.keyFile}}</span>
 					<p style="margin-top:0.4em" v-if="cert.config.keyFile.length > 0">
 						<a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile" style="font-size:12px;">[下载]</a> &nbsp; <a :href="'/proxy/ssl/downloadFile?serverId=' + server.id + '&file=' + cert.config.keyFile + '&view=1'" style="font-size:12px;" target="_blank" title="新窗口打开">[查看内容]</a>
 					</p>
-					<a class="disabled" v-if="cert.config.keyFile.length == 0">[还没有上传密钥文件]</a>
+					<a class="disabled" v-if="cert.config.keyFile.length == 0">[还没有上传私钥文件]</a>
 				</td>
 			</tr>
 		</table>

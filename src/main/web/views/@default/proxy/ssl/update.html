@@ -66,59 +66,98 @@
 		<div class="ui segment attached" v-for="(cert, index) in certs" v-show="certIndex == index">
 			<table class="ui table selectable definition">
 				<tbody>
-				<tr>
-					<td colspan="2" style="font-weight: normal;background: rgba(0,0,0,.05)">证书#{{index+1}}：
-						<a href="" title="移除此证书" class="op-link" @click.prevent="removeCert(index)"><i class="icon remove small"></i></a>
-						<input type="hidden" name="certIds" :value="cert.id"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="title">证书#{{index+1}}说明</td>
-					<td>
-						<input type="text" name="certDescriptions" maxlength="200" v-model="cert.description" :id="'cert-descriptions-input-' + index"/>
-					</td>
-				</tr>
-				<tr>
-					<td>证书#{{index+1}}文件位置</td>
-					<td>
-						<div class="ui menu text blue">
-							<a href="" class="item" :class="{active:!cert.isLocal}" @click.prevent="cert.isLocal = false">从本地上传</a>
-							<a href="" class="item" :class="{active:cert.isLocal}" @click.prevent="cert.isLocal = true">指定证书文件路径</a>
-						</div>
-						<input type="hidden" name="certIsLocal" :value="cert.isLocal ? 1 : 0" />
-					</td>
-				</tr>
-				<tr v-show="!cert.isLocal">
-					<td>证书#{{index+1}}文件<em>(Certificate)</em></td>
-					<td>
-						<span v-if="cert.certFile.length > 0">{{cert.certFile}}</span>
+					<tr>
+						<td colspan="2" style="font-weight: normal;background: rgba(0,0,0,.05)">证书#{{index+1}}：
+							<a href="" title="移除此证书" class="op-link" @click.prevent="removeCert(index)"><i class="icon remove small"></i></a>
+							<input type="hidden" name="certIds" :value="cert.id"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="title">证书#{{index+1}}说明</td>
+						<td>
+							<input type="text" name="certDescriptions" maxlength="200" v-model="cert.description" :id="'cert-descriptions-input-' + index"/>
+						</td>
+					</tr>
+					<tr>
+						<td>选择证书文件</td>
+						<td>
+							<div class="ui menu tabular small attached">
+								<a href="" class="item" :class="{active:cert.isShared}" @click.prevent="cert.isShared = true">从公用证书中选择</a>
+								<a href="" class="item" :class="{active:!cert.isLocal && !cert.isShared}" @click.prevent="cert.isLocal = false, cert.isShared = false">从本地上传</a>
+								<a href="" class="item" :class="{active:cert.isLocal && !cert.isShared}" @click.prevent="cert.isLocal = true, cert.isShared = false">指定证书文件路径</a>
+							</div>
 
-						<input type="file" :name="'certFiles' + index" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert" style="margin-top:0.8em"/>
-						<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
-					</td>
-				</tr>
-				<tr v-show="!cert.isLocal">
-					<td>证书#{{index+1}}密钥文件<em>(Private Key)</em></td>
-					<td>
-						<span v-if="cert.keyFile.length > 0">{{cert.keyFile}}</span>
-						<input type="file" :name="'keyFiles' + index" accept="application/pkcs8" style="margin-top:0.8em"/>
-						<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
-					</td>
-				</tr>
-				<tr v-show="cert.isLocal">
-					<td>证书#{{index+1}}文件<em>(Certificate)</em></td>
-					<td>
-						<input type="text" name="certFilesPaths" v-model="cert.certFile"/>
-						<p class="comment">指定TeaWeb所在服务器上的证书文件路径，内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
-					</td>
-				</tr>
-				<tr v-show="cert.isLocal">
-					<td>证书#{{index+1}}密钥文件<em>(Private Key)</em></td>
-					<td>
-						<input type="text" name="keyFilesPaths" v-model="cert.keyFile"/>
-						<p class="comment">指定TeaWeb所在服务器上的证书密钥文件路径，内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
-					</td>
-				</tr>
+							<!-- 共享的证书 -->
+							<div class="ui segment attached" v-show="cert.isShared">
+
+								<div v-if="sharedCerts == null || sharedCerts.length == 0">暂时还没有公用的证书，可以在<a href="/proxy/certs">这里上传</a>。
+									<input type="hidden" name="sharedCertIds" value=""/>
+								</div>
+								<div v-if="sharedCerts != null && sharedCerts.length > 0">
+									<table class="ui table definition">
+										<tr>
+											<td class="title">选择一个公用证书</td>
+											<td>
+												<select class="ui dropdown" :name="'sharedCertIds' + index" v-model="cert.id">
+													<option v-for="sharedCert in sharedCerts" :value="sharedCert.id">{{sharedCert.summary}}</option>
+												</select>
+												<p class="comment">
+													<a href="/proxy/certs">更多证书可以在这里上传 &raquo;</a>
+												</p>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+							<!-- 上传的证书 -->
+							<div class="ui segment attached" v-show="!cert.isLocal && !cert.isShared">
+								<table class="ui table definition">
+									<!-- 上传的证书 -->
+									<tr>
+										<td class="title">证书#{{index+1}}文件<em>(Certificate)</em></td>
+										<td>
+											<span v-if="cert.certFile.length > 0">{{cert.certFile}}</span>
+
+											<input type="file" :name="'certFiles' + index" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert" style="margin-top:0.8em"/>
+											<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+										</td>
+									</tr>
+									<tr>
+										<td>证书#{{index+1}}私钥文件<em>(Private Key)</em></td>
+										<td>
+											<span v-if="cert.keyFile.length > 0">{{cert.keyFile}}</span>
+											<input type="file" :name="'keyFiles' + index" accept="application/pkcs8" style="margin-top:0.8em"/>
+											<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<!-- 本地的证书 -->
+							<div class="ui segment attached" v-show="cert.isLocal && !cert.isShared">
+								<table class="ui table definition">
+									<tr>
+										<td class="title">证书#{{index+1}}文件<em>(Certificate)</em></td>
+										<td>
+											<input type="text" name="certFilesPaths" v-model="cert.certFile"/>
+											<p class="comment">指定TeaWeb所在服务器上的证书文件路径，内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+										</td>
+									</tr>
+									<tr>
+										<td>证书#{{index+1}}私钥文件<em>(Private Key)</em></td>
+										<td>
+											<input type="text" name="keyFilesPaths" v-model="cert.keyFile"/>
+											<p class="comment">指定TeaWeb所在服务器上的证书私钥文件路径，内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<input type="hidden" name="certIsLocal" :value="cert.isLocal ? 1 : 0" />
+							<input type="hidden" name="certIsShared" :value="cert.isShared ? 1 : 0"/>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

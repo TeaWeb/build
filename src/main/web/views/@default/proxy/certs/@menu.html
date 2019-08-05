@@ -1,0 +1,8 @@
+<div class="first-menu">
+	<div class="ui menu text small blue">
+		<a href="/proxy/certs" class="ui item" :class="{active:!urlPrefix('/proxy/certs/upload', '/proxy/certs/acme')}">证书列表</a>
+		<a href="/proxy/certs/upload" class="ui item" :class="{active:urlPrefix('/proxy/certs/upload')}">上传证书</a>
+		<a href="/proxy/certs/acme" class="ui item" :class="{active:urlPrefix('/proxy/certs/acme')}">创建免费证书</a>
+	</div>
+	<div class="ui divider"></div>
+</div>

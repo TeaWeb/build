@@ -1,0 +1,45 @@
+{$layout}
+{$template "menu"}
+
+<p v-if="users.length == 0" class="comment">
+	暂时还没有用户，请<a href="/proxy/certs/acmeCreateUser">点此添加</a>。
+</p>
+
+<div class="second-menu">
+	<div class="ui menu text tiny blue" style="margin-top:0">
+		<a href="/proxy/certs/acme" class="item">证书列表</a>
+		<a href="/proxy/certs/acmeCreateTask" class="item" v-if="users.length > 0">申请证书</a>
+		<a href="/proxy/certs/acmeUsers" class="item active">ACME用户</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<div class="second-menu">
+	<div class="ui menu text tiny blue" style="margin-top:0">
+		<a href="/proxy/certs/acmeCreateUser" class="item active">注册新用户</a>
+	</div>
+</div>
+
+<div v-if="users.length > 0">
+	<table class="ui table selectable">
+		<thead>
+			<tr>
+				<th>邮箱</th>
+				<th>名称</th>
+				<th>URI</th>
+				<th class="one op">操作</th>
+			</tr>
+		</thead>
+		<tr v-for="user in users">
+			<td>{{user.email}}</td>
+			<td>
+				<span v-if="user.name.length > 0">{{user.name}}</span>
+				<span v-if="user.name.length == 0" class="disabled">没有设置</span>
+			</td>
+			<td>{{user.uri}}</td>
+			<td>
+				<a href="" @click.prevent="deleteUser(user.id)">删除</a>
+			</td>
+		</tr>
+	</table>
+</div>

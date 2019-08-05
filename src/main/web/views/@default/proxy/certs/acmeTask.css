@@ -1,0 +1,69 @@
+.tab-menu {
+    margin-bottom: 0 !important;
+}
+
+.main .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.divider {
+    margin-bottom: 0 !important;
+}
+
+.pre-box {
+    padding: 1em;
+    margin: 0;
+    line-height: 1.7;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    font-size: 0.9em;
+    background: rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+    max-height: 20em;
+}
+
+.pre-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+/** 内嵌表格 **/
+.without-definition thead tr:first-child > th:first-child {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    color: rgba(0, 0, 0, .87) !important;
+    font-weight: bold !important;
+    background: #f9fafb !important;
+}
+
+.without-definition thead tr:first-child > th {
+    border-left: 1px solid rgba(34, 36, 38, .15);
+}
+
+.without-definition thead tr th {
+    vertical-align: top !important;
+}
+
+.without-definition tr td:first-child {
+    width: 40%;
+}
+
+.without-definition tr td.value-td {
+    border-left: 1px solid rgba(34, 36, 38, .15);
+    width: 40%;
+}
+
+.without-definition tr td:last-child {
+    border-left: 1px solid rgba(34, 36, 38, .15);
+}
+
+.without-definition p {
+    margin-top: 0.6em;
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.without-definition a {
+    font-weight: normal;
+}

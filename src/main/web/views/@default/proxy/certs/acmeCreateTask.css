@@ -1,0 +1,31 @@
+.tab-menu {
+    margin-bottom: 0 !important;
+}
+
+.main .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.divider {
+    margin-bottom: 0 !important;
+}
+
+.domains-box .label {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+/** DNS设置提醒 **/
+.dns-notice {
+    line-height: 1.7;
+}
+
+.dns-help-box {
+    line-height: 1.6;
+}
+
+.dns-help-box .divider {
+    margin-top: 0.6em !important;
+    margin-bottom: 0.6em !important;
+}

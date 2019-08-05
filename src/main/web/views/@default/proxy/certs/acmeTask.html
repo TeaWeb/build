@@ -1,12 +1,11 @@
 {$layout}
-{$template "/proxy/menu"}
 {$template "menu"}
 
 <div class="second-menu">
 	<div class="ui menu text small blue" style="margin-top:0">
-		<a :href="'/proxy/ssl/generate?serverId=' + server.id" class="item active">证书列表</a>
-		<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item">申请证书</a>
-		<a :href="'/proxy/ssl/acmeUsers?serverId=' + server.id" class="item">ACME用户</a>
+		<a href="/proxy/certs/acme" class="item active">证书列表</a>
+		<a href="/proxy/certs/acmeCreateTask" class="item">申请证书</a>
+		<a href="/proxy/certs/acmeUsers" class="item">ACME用户</a>
 	</div>
 	<div class="ui divider"></div>
 </div>
@@ -59,23 +58,25 @@
 	<tr v-if="task.request.cert.length > 0">
 		<td>证书文件下载</td>
 		<td>
-			<a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=key'">私钥下载</a>
+			<a :href="'/proxy/certs/acmeDownload?taskId=' + task.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/certs/acmeDownload?taskId=' + task.id + '&type=key'">私钥下载</a>
 		</td>
 	</tr>
 	<tr v-if="task.request.cert.length > 0">
 		<td>证书预览</td>
 		<td>
 			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{task.request.cert}}</pre>
-			<p class="comment">
-				<a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=viewCert'" target="_blank">[浏览器新窗口打开]</a>
-			</p>
+			<div style="margin-top:0.5em">
+				<a :href="'/proxy/certs/acmeDownload?taskId=' + task.id + '&type=viewCert'" target="_blank">[浏览器新窗口打开]</a>
+			</div>
 		</td>
 	</tr>
 	<tr v-if="task.request.key.length > 0">
 		<td>私钥预览</td>
 		<td>
 			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{task.request.key}}</pre>
-			<a :href="'/proxy/ssl/acmeDownload?serverId=' + server.id + '&taskId=' + task.id + '&type=viewKey'" target="_blank">[浏览器新窗口打开]</a>
+			<div style="margin-top:0.5em">
+				<a :href="'/proxy/certs/acmeDownload?taskId=' + task.id + '&type=viewKey'" target="_blank">[浏览器新窗口打开]</a>
+			</div>
 		</td>
 	</tr>
 </table>

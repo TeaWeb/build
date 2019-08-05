@@ -1,0 +1,101 @@
+{$layout}
+{$template "menu"}
+
+<div class="margin"></div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+	<input type="hidden" name="certId" :value="cert.id"/>
+	<input type="hidden" name="isLocal" :value="isLocal ? 1 : 0"/>
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">证书说明</td>
+			<td>
+				<input type="text" name="description" v-model="cert.description"/>
+			</td>
+		</tr>
+		<tr>
+			<td>选择证书文件</td>
+			<td>
+				<div class="ui tabular menu small attached">
+					<a href="" class="item" :class="{active:!isLocal}" @click.prevent="isLocal = false">从本地上传</a>
+					<a href="" class="item" :class="{active:isLocal}" @click.prevent="isLocal = true">指定证书文件路径</a>
+				</div>
+				<div class="ui segment attached" v-show="!isLocal">
+					<table class="ui table definition">
+						<tr>
+							<td class="title">证书文件<em>(Certificate)</em></td>
+							<td>
+								已上传 {{cert.certFile}} <span v-if="cert.certTime.length > 0" style="font-size:0.9em;color:grey">(上传时间：{{cert.certTime}})</span>
+								<div class="ui divider"></div>
+								<a>
+									<label for="certFile" v-if="certFilename.length == 0">选择文件</label>
+									<label for="certFile" v-if="certFilename.length > 0">{{certFilename}}</label>
+								</a>
+								<div class="hidden">
+									<input type="file" name="certFile"
+										   accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"
+										   style="margin-top:0.8em" id="certFile" @change="changeCertFile"/>
+								</div>
+								<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+							</td>
+						</tr>
+						<tr>
+							<td>证书私钥文件<em>(Private Key)</em></td>
+							<td>
+								已上传 {{cert.keyFile}} <span v-if="cert.keyTime.length > 0" style="font-size:0.9em;color:grey">(上传时间：{{cert.keyTime}})</span>
+								<div class="ui divider"></div>
+								<a>
+									<label for="keyFile" v-if="keyFilename.length == 0">选择文件</label>
+									<label for="keyFile" v-if="keyFilename.length > 0">{{keyFilename}}</label>
+								</a>
+								<div class="hidden">
+									<input type="file" name="keyFile" accept="application/pkcs8" style="margin-top:0.8em" id="keyFile"
+										   @change="changeKeyFile"/>
+								</div>
+								<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="ui segment attached" v-show="isLocal">
+					<table class="ui table definition">
+						<tr>
+							<td class="title">证书文件路径<em>(Certificate)</em></td>
+							<td>
+								<input type="text" name="certPath" v-model="cert.certFile"/>
+								<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
+							</td>
+						</tr>
+						<tr>
+							<td>证书私钥文件路径<em>(Private Key)</em></td>
+							<td>
+								<input type="text" name="keyPath" v-model="cert.keyFile"/>
+								<p class="comment">内容中通常含有"-----BEGIN RSA PRIVATE KEY-----"类似的信息。</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="cert.on"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button>
+	&nbsp; <a href="/proxy/certs">返回</a>
+</form>

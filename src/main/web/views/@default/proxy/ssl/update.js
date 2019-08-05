@@ -38,7 +38,8 @@ Tea.context(function () {
 			"description": "",
 			"certFile": "",
 			"keyFile": "",
-			"isLocal": false
+			"isLocal": false,
+			"isShared": true
 		});
 		this.certIndex = this.certs.length - 1;
 		this.$delay(function () {

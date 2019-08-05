@@ -8,3 +8,4 @@ node.sum
 cluster.sum
 acme_userlist.conf
 accesslog.*
+ssl.certs.conf

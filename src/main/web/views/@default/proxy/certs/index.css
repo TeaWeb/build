@@ -1,0 +1,9 @@
+.labels-box .label {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+.table .label.acme {
+    padding: 2px;
+    font-size: 8px;
+}

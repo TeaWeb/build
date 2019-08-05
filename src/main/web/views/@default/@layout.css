@@ -61,6 +61,10 @@ tbody {
     width: 40em !important;
 }
 
+.table th, .table td {
+    font-size: 0.9em !important;
+}
+
 p.comment, div.comment {
     color: rgba(0, 0, 0, 0.3);
     padding-top: 0.4em;
@@ -164,7 +168,6 @@ body.expanded .main {
     position: fixed;
     width: 100%;
     z-index: 1000;
-    background: #276ac6 !important;
     overflow-x: auto;
 }
 
@@ -190,16 +193,18 @@ body.expanded .main {
 /** 顶部菜单 **/
 .top-secondary-menu {
     position: fixed;
-    top: 2.4em;
-    left: 9em;
+    top: 2.8em;
+    left: 8.1em;
     right: 0;
-    z-index: 10;
+    z-index: 1;
     background: white;
 }
 
 .top-secondary-menu .menu {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    background: #276ac6 !important;
+    border-radius: 0 !important;
 }
 
 .top-secondary-menu .menu var {

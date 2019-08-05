@@ -1,0 +1,88 @@
+{$layout}
+{$template "menu"}
+
+<div class="ui message error" v-if="cert.error.length > 0">错误：{{cert.error}}</div>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td class="title">证书说明</td>
+		<td><strong>{{cert.description}}</strong></td>
+	</tr>
+	<tr>
+		<td>状态</td>
+		<td>
+			<div v-if="!cert.on">
+				<span class="ui label tiny">未启用</span>
+			</div>
+			<div v-if="cert.on">
+				<span class="ui label green tiny" v-if="cert.isActive && !cert.isExpiring7Days && !cert.isExpiring30Days">有效</span>
+				<span class="ui label yellow tiny" v-if="cert.isExpiring7Days">7天失效</span>
+				<span class="ui label yellow tiny" v-if="cert.isExpiring30Days">30天失效</span>
+				<span class="ui label red tiny" v-if="cert.isExpired">已过期</span>
+				<span class="ui label red tiny" v-if="cert.error.length > 0">错误</span>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>发行信息</td>
+		<td>
+			<span v-if="cert.commonNames.length == 0">无法解析</span>
+			<div v-for="(commonName, index) in cert.commonNames" :style="{'padding-left':(index * 20) + 'px' }">{{commonName}}</div>
+		</td>
+	</tr>
+	<tr>
+		<td>域名</td>
+		<td>
+			<span v-if="cert.dnsNames == null || cert.dnsNames.length == 0">无法解析</span>
+			<span class="ui label tiny" v-for="domain in cert.dnsNames">{{domain}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>有效期</td>
+		<td>
+			<span v-if="cert.dayBefore.length == 0">无法解析</span>
+			<span v-if="cert.dayBefore.length > 0">{{cert.dayBefore}} - {{cert.dayAfter}}</span>
+ 		</td>
+	</tr>
+	<tr>
+		<td>引用组件</td>
+		<td>
+			<span v-if="cert.references.length == 0">暂时还没有引用的组件</span>
+			<div v-if="cert.references.length > 0" v-for="ref in cert.references" style="line-height:1.8">
+				<a :href="ref.link">{{ref.name}} &raquo;</a>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>证书文件路径</td>
+		<td>
+			<div>证书:&nbsp; &nbsp;{{cert.certFile}}</div>
+			<div class="ui divider" style="margin-top:0.5em"></div>
+			<div style="margin-top:0.5em">密钥:&nbsp; &nbsp;{{cert.keyFile}}</div>
+		</td>
+	</tr>
+	<tr>
+		<td>证书文件下载</td>
+		<td>
+			<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/certs/download?certId=' + cert.id + '&type=key'">私钥下载</a>
+		</td>
+	</tr>
+	<tr>
+		<td>证书预览</td>
+		<td>
+			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{cert.certText}}</pre>
+			<div style="margin-top:0.5em">
+				<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=viewCert'" target="_blank">[浏览器新窗口打开]</a>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>私钥预览</td>
+		<td>
+			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{cert.keyText}}</pre>
+			<div style="margin-top:0.5em">
+				<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=viewKey'" target="_blank">[浏览器新窗口打开]</a>
+			</div>
+		</td>
+	</tr>
+</table>
