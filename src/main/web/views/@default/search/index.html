@@ -3,7 +3,7 @@
 <form class="ui form">
 	<div class="input-box">
 		<div v-if="from.length > 0" class="back-btn">
-			<a :href="from">&laquo; 返回上一界面</a>
+			<a :href="from">&laquo; 返回上一界面 (Esc按键)</a> &nbsp; | &nbsp; 快速双击s键进入此页面
 		</div>
 		<div class="ui input icon focus">
 			<input type="text" name="keyword" placeholder="搜索代理服务、主机、功能 ..." @input="changeKeyword()" v-model="keyword" @keypress.enter.prevent="1"/>

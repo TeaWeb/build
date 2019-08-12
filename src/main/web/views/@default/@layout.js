@@ -18,6 +18,7 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.renewNoticeBadge();
+		this.loadGlobalEvents();
 	});
 
 	var documentTitle = document.title;
@@ -106,4 +107,31 @@ Tea.context(function () {
 	 * 当前URL
 	 */
 	this.globalURL = encodeURIComponent(window.location.toString());
+
+	/**
+	 * ss进入搜索
+	 */
+	var lastSSTime = null;
+	this.loadGlobalEvents = function () {
+		document.addEventListener("keyup", function (e) {
+			if (e.key == null || e.target == null) {
+				return;
+			}
+			if (["INPUT", "SELECT", "TEXTAREA", "BUTTON"].$contains(e.target.tagName)) {
+				return;
+			}
+			if (e.key.toString() == "s") {
+				if (lastSSTime == null) {
+					lastSSTime = new Date();
+					return;
+				}
+				var delta = new Date().getTime() - lastSSTime.getTime();
+				if (delta < 500) {
+					window.location = "/search?from=" + encodeURIComponent(window.location.toString());
+					return;
+				}
+				lastSSTime = new Date();
+			}
+		});
+	};
 });

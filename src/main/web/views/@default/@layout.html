@@ -17,7 +17,7 @@
 
 <div>
     <!-- 顶部导航 -->
-    <div class="ui menu top-nav blue small borderless" v-cloak="">
+    <div class="ui menu top-nav blue inverted small borderless" v-cloak="">
         <a href="/" class="item"><i class="icon leaf"></i>{{teaName}} &nbsp; <sup>v{{teaVersion}} - 可视化智能Web服务</sup></a>
 
         <div class="right menu">
@@ -39,7 +39,6 @@
     <div class="main-menu" v-cloak="">
         <div class="ui labeled menu vertical blue inverted tiny borderless">
 			<div class="item"></div>
-			<div class="item"></div>
             <a v-bind:href="Tea.url('dashboard')" class="item" v-bind:class="{active:teaMenu == 'dashboard'}">
                 <i class="ui dashboard icon"></i>
                 <span>仪表板</span>
@@ -56,7 +55,7 @@
 
 	<!-- 顶部二级菜单 -->
 	<div class="top-secondary-menu" v-cloak="">
-		<div class="ui menu blue inverted tiny borderless" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
+		<div class="ui menu text blue tiny borderless" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
 			<div class="item"></div>
 			<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><sup v-if="item.supName.length > 0">&nbsp; {{item.supName}}</sup><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
 			</a>

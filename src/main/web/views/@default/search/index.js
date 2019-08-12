@@ -8,11 +8,11 @@ Tea.context(function () {
 			if (e == null || e.key == null || e.target == null) {
 				return;
 			}
+			if (e.key.toString() == "Escape") {
+				window.history.back();
+			}
 			if (e.target.tagName == "INPUT") {
 				return;
-			}
-			if (e.key.toString() == "Backspace") {
-				window.location = that.from;
 			}
 		})
 	});

@@ -6,6 +6,10 @@ Tea.context(function () {
 	this.keyFile = null;
 	this.isLocal = false;
 
+	this.$delay(function () {
+		this.$find("form input[name='description']").focus();
+	});
+
 	this.changeCertFile = function (e) {
 		if (e.target.files.length == 0) {
 			this.certFilename = "";

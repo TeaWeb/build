@@ -169,6 +169,7 @@ body.expanded .main {
     width: 100%;
     z-index: 1000;
     overflow-x: auto;
+    background: #276ac6 !important;
 }
 
 .top-nav::-webkit-scrollbar {
@@ -193,13 +194,13 @@ body.expanded .main {
 /** 顶部搜索框 **/
 .top-nav .top-search-box.small {
     height: 2em;
-    min-width: 2em!important;
+    min-width: 2em !important;
 }
 
 .top-nav .top-search-box input {
     font-size: 0.8em !important;
-    padding: 0!important;
-    width: 2.4em!important;
+    padding: 0 !important;
+    width: 2.4em !important;
 }
 
 /** 顶部菜单 **/
@@ -215,7 +216,6 @@ body.expanded .main {
 .top-secondary-menu .menu {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    background: #276ac6 !important;
     border-radius: 0 !important;
 }
 
