@@ -16,9 +16,9 @@
 	<div v-if="keyword.length > 0 && results.length == 0" class="no-results-box">找不到要搜索的内容。</div>
 
 	<table class="ui table selectable definition" v-if="results.length > 0">
-		<tr v-for="result in results">
+		<tr v-for="(result, index) in results" :class="{active:selectedIndex == index}">
 			<td class="title">{{result.type}}</td>
-			<td style="width:24em">
+			<td>
 				<a :href="result.link">{{result.name}}</a>
 				<span class="ui label tiny" v-if="result.tags != null" v-for="tag in result.tags">{{tag}}</span>
 		</tr>
