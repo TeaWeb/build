@@ -36,6 +36,19 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 主机名
+	 */
+	this.hostError = "";
+	this.changeHost = function () {
+		var host = this.backend.host.trim().replace(/[a-zA-Z0-9-\\.]/g, "");
+		if (host.length > 0) {
+			this.hostError = "主机名中含有特殊字符“" + host + "”，可能会导致后端服务器无法解析。";
+		} else {
+			this.hostError = "";
+		}
+	};
+
+	/**
 	 * request headers
 	 */
 	this.requestHeadersAdding = false;

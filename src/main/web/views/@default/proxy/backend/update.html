@@ -45,8 +45,8 @@
 			<tr>
 				<td>主机名<em>（Host）</em></td>
 				<td>
-					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="100"/>
-					<p class="comment">请求后端服务器时的Host，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
+					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="100" @input="changeHost"/>
+					<p class="comment"><span class="red" v-if="hostError.length > 0">{{hostError}}</span>请求后端服务器时的Host，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
 				</td>
 			</tr>
 		</tbody>
