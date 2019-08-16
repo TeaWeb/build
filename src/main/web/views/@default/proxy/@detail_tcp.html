@@ -31,6 +31,20 @@
 			<span class="ui label small" v-for="listen in server.listen">{{listen}}</span>
 		</td>
 	</tr>
+	<tr>
+		<td>读缓冲区大小</td>
+		<td>
+			<span v-if="server.tcp.readBufferSize <= 0">默认4K</span>
+			<span v-if="server.tcp.readBufferSize > 0">{{teaweb.formatBytes(server.tcp.readBufferSize)}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>写缓冲区大小</td>
+		<td>
+			<span v-if="server.tcp.writeBufferSize <= 0">默认4K</span>
+			<span v-if="server.tcp.writeBufferSize > 0">{{teaweb.formatBytes(server.tcp.writeBufferSize)}}</span>
+		</td>
+	</tr>
 	<tr v-if="server.tcp.failReconnect">
 		<td>失败自动重连</td>
 		<td>

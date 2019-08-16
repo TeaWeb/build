@@ -78,6 +78,34 @@
 		</tr>
 		<tbody v-show="advancedOptionsVisible">
 			<tr>
+				<td>读缓冲区大小</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="tcpReadBufferSize" v-model="server.tcp.readBufferSize" maxlength="10" size="10"/>
+						</div>
+						<div class="ui field">
+							<span v-if="server.tcp.readBufferSize > 0">={{teaweb.formatBytes(server.tcp.readBufferSize)}}</span>
+						</div>
+					</div>
+					<p class="comment">单位：字节，默认4K。上行的数据流量越大，此值应该越大。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>写缓冲区大小</td>
+				<td>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="tcpWriteBufferSize" v-model="server.tcp.writeBufferSize" maxlength="10" size="10"/>
+						</div>
+						<div class="ui field">
+							<span v-if="server.tcp.writeBufferSize > 0">={{teaweb.formatBytes(server.tcp.writeBufferSize)}}。</span>
+						</div>
+					</div>
+					<p class="comment">单位：字节，默认4K。下行的数据流量越大，此值应该越大。</p>
+				</td>
+			</tr>
+			<tr>
 				<td>失败自动重连</td>
 				<td>
 					<div class="ui checkbox">
