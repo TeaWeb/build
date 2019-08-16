@@ -206,7 +206,7 @@ body.expanded .main {
 /** 顶部菜单 **/
 .top-secondary-menu {
     position: fixed;
-    top: 2.8em;
+    top: 2.6em;
     left: 8.1em;
     right: 0;
     z-index: 1;
@@ -667,4 +667,63 @@ span.olive, var.olive {
 
 var.dash {
     border-bottom: 1px dashed grey;
+}
+
+/** modal **/
+.modal {
+    background: rgba(0, 0, 0, 0.25);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: none;
+}
+
+.modal.visible {
+    display: block;
+}
+
+.modal .modal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 2em 0.4em 1em 0.4em;
+    border-radius: 0.3em;
+}
+
+.modal .modal-box .form {
+    position: absolute;
+    top: 2em;
+    bottom: 0.4em;
+    left: 0;
+    right: 0;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.modal .modal-box .bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: right;
+    padding-right: 1em;
+    padding-top: 0.4em;
+    border-top: 1px rgba(0, 0, 0, 0.1) solid;
+}
+
+.modal .modal-box.small {
+    width: 40%;
+    margin-left: -20%;
+    height: 40%;
+    margin-top: -20%;
+    background: white;
+}
+
+.modal .icon.close {
+    position: absolute;
+    right: 1em;
+    top: 1em;
 }

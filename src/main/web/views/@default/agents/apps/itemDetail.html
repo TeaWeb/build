@@ -20,6 +20,12 @@
 
 <table class="ui table definition selectable">
 	<tr>
+		<td class="title">监控项名称</td>
+		<td>
+            {{item.name}}
+		</td>
+	</tr>
+	<tr>
 		<td>是否启用</td>
 		<td>
 			<span class="ui label tiny green" v-if="item.on">启用中</span>
@@ -30,12 +36,6 @@
 			<a href="" style="font-size:12px" @click.prevent="putOff()" v-if="item.on">快速关闭</a>
 		</td>
 	</tr>
-    <tr>
-        <td class="title">监控项名称</td>
-        <td>
-            {{item.name}}
-        </td>
-    </tr>
 	<tr>
 		<td>AgentID</td>
 		<td>{{agentId}}</td>
@@ -92,7 +92,7 @@
             <td>
                 <span v-if="item.thresholds == null || item.thresholds.length == 0" class="disabled">还没有设置</span>
                 <div v-if="item.thresholds != null && item.thresholds.length > 0" v-for="threshold in item.thresholds" style="margin-top:0.2em;margin-bottom:0.4em">
-                    <span class="ui label small">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
+                    <span class="ui label tiny">{{threshold.param}} <strong style="font-style:italic">{{threshold.operator}}</strong> {{threshold.value}}
                         <em v-if="threshold.noticeMessage.length > 0">[{{threshold.levelName}}:{{threshold.noticeMessage}}]</em>
                         <em v-if="threshold.noticeMessage.length == 0">[{{threshold.levelName}}]</em> <em v-if="threshold.actions != null && threshold.actions.length > 0">[{{threshold.actions.length}}动作]</em>
 						<em v-if="threshold.maxFails > 1">[连续{{threshold.maxFails}}次]</em>

@@ -1,4 +1,8 @@
 Tea.context(function () {
+	if (typeof (teaweb) != "undefined") {
+		this.teaweb = teaweb;
+	}
+
 	/**
 	 * 测试MongoDB连接
 	 */
@@ -113,6 +117,7 @@ Tea.context(function () {
 	 */
 	var lastSSTime = null;
 	this.loadGlobalEvents = function () {
+		var that = this;
 		document.addEventListener("keyup", function (e) {
 			if (e.key == null || e.target == null) {
 				return;
@@ -132,6 +137,24 @@ Tea.context(function () {
 				}
 				lastSSTime = new Date();
 			}
+
+			if (e.key.toString() == "Escape") {
+				that.closeModal();
+			}
 		});
+	};
+
+	/**
+	 * 关闭Modal
+	 */
+	this.closeModal = function () {
+		this.$find(".modal").each(function (k, v) {
+			v.className = "modal";
+		});
+	};
+
+	this.showModal = function (modalId) {
+		var modal = document.getElementById("chart-setting-modal");
+		modal.className = "modal visible";
 	};
 });

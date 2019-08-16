@@ -126,7 +126,7 @@
 										<p class="comment">{{addingCond.description}}</p>
 									</td>
 									<td class="value-td">
-										<input type="text" v-model="addingCond.value" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
+										<textarea v-model="addingCond.value" rows="1"></textarea>
 									</td>
 								</tr>
 								<tr v-show="addingCond.moreOptions">
@@ -136,7 +136,7 @@
 										</select>
 									</td>
 									<td colspan="2">
-										<input type="text" v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空" @keyup.enter="saveCond" @keypress.enter.prevent="1"/>
+										<textarea v-model="addingCond.noticeMessage" placeholder="通知消息，可以为空" rows="1"></textarea>
 										<p class="comment">同参数一样，通知消息中也可以使用变量</p>
 									</td>
 								</tr>
@@ -167,7 +167,7 @@
 									</td>
 								</tr>
 								<tr v-show="addingCond.moreOptions">
-									<td colspan="3"><a href="" style="font-weight: normal;" @click.prevent="addCondAction()">+动作 &nbsp; <span style="color: rgba(0, 0, 0, 0.3)">(需要将Agent更新到v0.0.9版本以上)</span></a></td>
+									<td colspan="3"><a href="" style="font-weight: normal;" @click.prevent="addCondAction()">+动作 &nbsp; </a></td>
 								</tr>
 							</tbody>
 						</table>
