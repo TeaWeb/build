@@ -7,8 +7,8 @@
         <tr>
             <td class="title">登录用户名</td>
             <td>
-                <input type="text" name="username" :value="username" maxlength="20"/>
-                <p class="ui comment">只能包含英文字母、数字，长度不超过20位</p>
+                <input type="text" name="username" :value="username" maxlength="200"/>
+                <p class="ui comment">只能包含英文字母、数字，长度不超过200位</p>
             </td>
         </tr>
         <tr>
@@ -22,14 +22,14 @@
         <tr v-if="passwordUpdating">
             <td>登录密码</td>
             <td>
-                <input type="password" name="password" placeholder="留空表示不修改" maxlength="20"/>
-                <p class="ui comment">只能包含英文字母、数字，长度不超过20位</p>
+                <input type="password" name="password" placeholder="留空表示不修改" maxlength="200"/>
+                <p class="ui comment">只能包含英文字母、数字，长度不超过200位</p>
             </td>
         </tr>
         <tr v-if="passwordUpdating">
             <td>确认登录密码</td>
             <td>
-                <input type="password" name="password2" placeholder="留空表示不修改" maxlength="20"/>
+                <input type="password" name="password2" placeholder="留空表示不修改" maxlength="200"/>
                 <p class="ui comment">再次输入密码，以便确认密码输入正确</p>
             </td>
         </tr>
