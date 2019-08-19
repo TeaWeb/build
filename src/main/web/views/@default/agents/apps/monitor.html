@@ -19,7 +19,7 @@
     <tr v-for="item in items" :class="{warning:item.isWarning, error:item.isError}">
         <td>{{item.name}}
             <br/>
-            <span class="ui label tiny" v-if="!item.on">未启用</span>
+            <span class="ui label tiny red" v-if="!item.on">未启用</span>
 			<span class="ui label tiny" v-if="item.sourceName.length > 0">{{item.sourceName}}</span>
         </td>
         <td>{{item.interval}}</td>

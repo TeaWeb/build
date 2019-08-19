@@ -1,19 +1,20 @@
 .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .ui.divider {
-    margin-top: 0!important;
+    margin-top: 0 !important;
 }
 
 .table .label.tiny {
     padding: 3px;
+    font-size: 0.8em;
 }
 
 /** 排序 **/
 .sortable-ghost {
-    background: #ddd!important;
+    background: #ddd !important;
 }
 
 .sortable-drag {

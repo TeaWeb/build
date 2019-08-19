@@ -70,7 +70,7 @@
 			</td>
 			<td>{{agent.name}}
 				<br/>
-				<span v-if="!agent.on" class="ui label tiny">未启用</span>
+				<span v-if="!agent.on" class="ui label tiny red">未启用</span>
 				<span v-if="agent.isWaiting" class="ui label tiny green">已连接</span>
 			</td>
 			<td>{{agent.host}}</td>

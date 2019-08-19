@@ -18,7 +18,7 @@
     <tr v-for="task in tasks">
         <td>{{task.name}}
             <br/>
-            <span class="ui label tiny" v-if="!task.on">未启用</span>
+            <span class="ui label tiny red" v-if="!task.on">未启用</span>
             <span v-if="task.isBooting" class="ui label tiny">启动</span>
             <span v-if="task.isManual" class="ui label tiny">手动</span>
             <span v-for="schedule in task.schedules" class="ui label tiny" style="margin-top:0.4em;margin-bottom:0.4em">{{schedule}}</span>

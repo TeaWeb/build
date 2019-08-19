@@ -9,7 +9,7 @@
             <td>是否启用</td>
             <td>
                 <span class="ui label green small" v-if="agent.on">启用中</span>
-                <span class="ui label small" v-if="!agent.on">未启用</span>
+                <span class="ui label tiny red" v-if="!agent.on">未启用</span>
 
 				&nbsp;
 				<a href="" style="font-size:12px" @click.prevent="putOn()" v-if="!agent.on && !isLocal">快速启用</a>

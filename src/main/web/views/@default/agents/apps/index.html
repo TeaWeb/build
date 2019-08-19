@@ -31,7 +31,7 @@
 			<td>{{app.name}}<br/>
 				<span v-if="app.isSharedWithGroup" class="ui label tiny olive">共享</span>
 				<span v-if="!app.isSharedWithGroup && app.id == 'system'" class="ui label tiny olive">系统</span>
-				<span v-if="!app.on" class="ui label tiny">未启用</span>
+				<span v-if="!app.on" class="ui label tiny red">未启用</span>
 			</td>
 			<td>
 				<a :href="'/agents/apps/monitor?agentId=' + agentId + '&appId=' + app.id">{{app.items.length}}</a>
