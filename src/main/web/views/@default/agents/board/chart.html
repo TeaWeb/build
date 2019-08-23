@@ -1,0 +1,59 @@
+{$layout}
+
+{$template "/datepicker"}
+
+<div>
+	{$template "/chart_render"}
+</div>
+
+<form class="ui form" data-tea-action=".updateChart" id="update-chart-form" :class="{loading:isLoading}">
+	<input type="hidden" name="agentId" :value="agentId"/>
+	<input type="hidden" name="appId" :value="appId"/>
+	<input type="hidden" name="itemId" :value="itemId"/>
+	<input type="hidden" name="chartId" :value="chartId"/>
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">名称</td>
+			<td>
+				<input type="text" name="name" v-model="chart.name" @input="changeName()"/>
+			</td>
+		</tr>
+		<tr>
+			<td>时间筛选</td>
+			<td>
+				<select class="ui dropdown" name="timeType" style="width:10em" v-model="chart.timeType" @change="changeTimeType">
+					<option value="default">默认</option>
+					<option value="past">近期时间</option>
+					<option value="range">日期范围</option>
+				</select>
+			</td>
+		</tr>
+		<tbody v-show="chart.timeType == 'past'">
+			<tr>
+				<td>近期时间</td>
+				<td>
+					<select class="ui dropdown" name="timePast" v-model="chart.timePast" @change="changeTimePast()" style="width:10em">
+						<option v-for="timePast in timePasts" :value="timePast.value">{{timePast.name}}</option>
+					</select>
+				</td>
+			</tr>
+		</tbody>
+		<tbody v-show="chart.timeType == 'range'">
+			<tr>
+				<td>开始日期</td>
+				<td>
+					<input type="text" name="dayFrom" value="" id="day-from-input" style="width:8em" autocomplete="off" v-model="chart.dayFrom"/>
+				</td>
+			</tr>
+			<tr>
+				<td>结束日期</td>
+				<td>
+					<input type="text" name="dayTo" value="" id="day-to-input" style="width:8em" autocomplete="off" v-model="chart.dayTo"/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="" @click.prevent="submit()" v-show="!successVisible">保存当前条件</a>
+	<span class="green" v-if="successVisible">保存成功</span>
+</form>

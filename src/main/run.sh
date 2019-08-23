@@ -5,4 +5,4 @@
 export GOPATH=`pwd`/../../
 export GO111MODULE=off
 
-go run -ldflags="-s -w" ${GOPATH}/src/github.com/TeaWeb/code/main/main.go
+go run ${GOPATH}/src/github.com/TeaWeb/code/main/main.go

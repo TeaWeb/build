@@ -10,6 +10,7 @@ Tea.context(function () {
 	 * 加载图表
 	 */
 	this.charts = [];
+	this.hasWrongCharts = false;
 
 	this.loadCharts = function () {
 		this.$post("$")
@@ -28,6 +29,9 @@ Tea.context(function () {
 				// charts
 				this.charts = resp.data.charts;
 				new ChartRender(this.charts);
+
+				// 和预计的数量是否一致
+				this.hasWrongCharts = (this.charts.length != this.item.charts.length);
 			})
 			.done(function () {
 				this.isLoaded = true;

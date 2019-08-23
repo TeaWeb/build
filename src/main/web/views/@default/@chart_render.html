@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/_/@default/@chart_render.css" type="text/css"/>
 {$end}
 
+<!-- 图表列表 -->
 <div class="ui grid two columns chart-list">
     <div v-for="chart in charts" :class="{'one column row':chart.options.columns > 1, 'column':chart.options.columns <= 1}">
         <div :class="{'column':chart.options.columns > 1}">

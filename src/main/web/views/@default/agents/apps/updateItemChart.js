@@ -155,4 +155,31 @@ Tea.context(function () {
 
 		editor.focus();
 	};
+
+	/**
+	 * 预览
+	 */
+	this.charts = [];
+
+	this.preview = function () {
+		this.charts = [];
+		var chartForm = document.getElementById("chart-form");
+		var form = new FormData(chartForm);
+		this.$post(".previewItemChart")
+			.params(form)
+			.success(function (resp) {
+				// output
+				resp.data.output.$each(function (k, v) {
+					console.log("[widget]" + v);
+				});
+
+				// charts
+				this.charts = resp.data.charts;
+				new ChartRender(this.charts);
+			});
+	};
+
+	this.$delay(function () {
+		this.preview();
+	});
 });

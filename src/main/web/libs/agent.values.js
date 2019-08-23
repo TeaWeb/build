@@ -1,26 +1,26 @@
 var values = {};
 
+function NewQuery() {
+	return new values.Query();
+}
+
 values.Query = function () {
 	var query = {
 		"action": "",
-		"group": null,
 		"cond": {
 			"error": {
 				"eq": ""
 			}
 		},
 		"duration": "",
-		"for": null,
 		"offset": -1,
 		"size": -1,
 		"sorts": [],
-		"cache": 0
+		"cache": 0,
+		"timePast": null,
+		"aggregationFields": null
 	};
 
-	this.group = function (field) {
-		query["group"] = field;
-		return this;
-	};
 
 	this.attr = function (field, value) {
 		return this.op("eq", field, value);
@@ -64,6 +64,44 @@ values.Query = function () {
 		return this;
 	};
 
+	this.past = function (number, unit) {
+		query.timePast = {
+			"number": number,
+			"unit": unit
+		};
+		return this;
+	};
+
+	this.timeLabel = function (one) {
+		if (context.timeUnit != null && context.timeUnit.length > 0) {
+			query.timePast = {
+				"unit": context.timeUnit
+			};
+		}
+		if (query.timePast == null) {
+			var minute = one.timeFormat.minute.substring(8);
+			return minute.substr(0, 2) + ":" + minute.substr(2, 2);
+		}
+		switch (query.timePast.unit) {
+			case time.SECOND:
+				var second = one.timeFormat.second.substring(8);
+				return second.substr(0, 2) + ":" + second.substr(2, 2) + ":" + second.substr(4, 2);
+			case time.MINUTE:
+				var minute = one.timeFormat.minute.substring(8);
+				return minute.substr(0, 2) + ":" + minute.substr(2, 2);
+			case time.HOUR:
+				return one.timeFormat.hour.substr(8);
+			case time.DAY:
+				return one.timeFormat.day.substr(4, 2) + "-" + one.timeFormat.day.substr(6, 2);
+			case time.MONTH:
+				return one.timeFormat.month.substr(0, 4) + "-" + one.timeFormat.month.substr(4, 2);
+			case time.YEAR:
+				return one.timeFormat.year;
+		}
+		var minute = one.timeFormat.minute.substring(8);
+		return minute.substr(0, 2) + ":" + minute.substr(2, 2);
+	};
+
 	this.cache = function (seconds) {
 		query.cache = seconds;
 		return this;
@@ -89,9 +127,8 @@ values.Query = function () {
 		return this;
 	};
 
-	this.action = function (action, forField) {
+	this.action = function (action) {
 		query["action"] = action;
-		query["for"] = forField;
 		return this;
 	};
 
@@ -117,29 +154,18 @@ values.Query = function () {
 		return result;
 	};
 
-	this.count = function () {
-		return this.action("count")
+	this.avg = function () {
+		var fields = [];
+		for (var i = 0; i < arguments.length; i++) {
+			fields.push(arguments[i]);
+		}
+		query.aggregationFields = fields;
+		var ones = this.action("avgValues")
 			.execute();
-	};
-
-	this.sum = function (field) {
-		return this.action("sum", field)
-			.execute();
-	};
-
-	this.avg = function (field) {
-		return this.action("avg", field)
-			.execute();
-	};
-
-	this.min = function (field) {
-		return this.action("min", field)
-			.execute();
-	};
-
-	this.max = function (field) {
-		return this.action("max", field)
-			.execute();
+		for (var i = 0; i < ones.length; i++) {
+			ones[i].label = this.timeLabel(ones[i]);
+		}
+		return ones;
 	};
 
 	this.findAll = function () {

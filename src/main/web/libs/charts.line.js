@@ -5,6 +5,10 @@ charts.Line = function () {
 	this.showItems = false;
 	this.color = colors.BLUE;
 	this.smooth = false;
+
+	this.addValue = function (v) {
+		this.values.push(v);
+	};
 };
 
 charts.LineChart = function () {
@@ -22,6 +26,10 @@ charts.LineChart = function () {
 
 	this.addLines = function (lines) {
 		this.lines.$pushAll(lines);
+	};
+
+	this.addLabel = function (label) {
+		this.labels.push(label);
 	};
 };
 

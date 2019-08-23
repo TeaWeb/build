@@ -13,12 +13,17 @@
 
 <h3>图表 <a :href="'/agents/apps/addItemChart?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&from=' + from">添加</a></h3>
 
-<p class="comment" v-if="isLoaded && charts.length == 0">暂时还没有图表。</p>
+<p class="comment" v-if="isLoaded && charts.length == 0 && !hasWrongCharts">暂时还没有图表。</p>
+<div v-if="hasWrongCharts" style="line-height:1.8">
+	有个别图表发生了错误，请逐个检查：<br/>
+	<a :href="'/agents/apps/updateItemChart?agentId=' + agentId + '&appId=' + app.id + '&itemId=' + item.id + '&chartId=' + chart.id + '&from=' + from" v-for="chart in item.charts" class="ui label tiny blue">{{chart.name}}</a>
+	<div class="ui divider" style="margin-top:1em!important;"></div>
+</div>
 
-<div class="ui field" style="margin-bottom:2em" v-if="isLoaded && charts.length > 0">
+<div style="margin-bottom:2em" v-if="isLoaded && charts.length > 0">
     {$template "/chart_render"}
 </div>
 
-<p v-if="hasDefaultCharts">
+<div v-if="hasDefaultCharts" style="margin-top: 1em">
 	<a href="" @click.prevent="addDefaultCharts()">添加当前数据源<span style="text-decoration: underline">({{sourceName}})</span>内置的图表</a>
-</p>
+</div>

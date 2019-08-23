@@ -1,5 +1,15 @@
 var times = {};
 
+var time = {
+	"YEAR": "YEAR",
+	"MONTH": "MONTH",
+	"DAY": "DAY",
+	"HOUR": "HOUR",
+	"MINUTE": "MINUTE",
+	"SECOND": "SECOND"
+};
+
+
 times.Time = function (date) {
 	if (date == null) {
 		date = new Date();

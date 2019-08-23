@@ -13,6 +13,7 @@ Tea.context(function () {
 			})
 			.success(function () {
 				chart.isUsing = true;
+				window.location.reload();
 			});
 	};
 
@@ -26,6 +27,7 @@ Tea.context(function () {
 			})
 			.success(function () {
 				chart.isUsing = false;
+				window.location.reload();
 			});
 	};
 

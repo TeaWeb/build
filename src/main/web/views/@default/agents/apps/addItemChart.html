@@ -12,7 +12,7 @@
 </div>
 <div class="ui divider margin"></div>
 
-<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" id="chart-form">
     <input type="hidden" name="agentId" :value="agentId"/>
     <input type="hidden" name="appId" :value="app.id"/>
     <input type="hidden" name="itemId" :value="item.id"/>
@@ -161,6 +161,15 @@
                     </select>
                 </td>
             </tr>
+			<tr>
+				<td>是否支持时间范围查询</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="supportsTimeRange" value="1"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
             <tr>
                 <td>是否启用</td>
                 <td>
@@ -175,3 +184,11 @@
 
     <button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="from">返回</a>
 </form>
+
+<div style="margin-top:1.5em">
+	<div class="ui divider"></div>
+	<h3>预览 <a href="" @click.prevent="preview()">刷新</a> </h3>
+	<div v-if="charts.length > 0" style="margin-top:1em">
+		{$template "/chart_render"}
+	</div>
+</div>
