@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.10
 
 # Dependencies to get the git sources and go binaries
 RUN apt-get update && apt-get install -y  --no-install-recommends \
@@ -11,15 +11,15 @@ RUN apt-get update && apt-get install -y  --no-install-recommends \
 # Get the git sources. If not cached, this takes O(5 minutes).
 WORKDIR /git
 RUN git config --global advice.detachedHead false
-# Linux Kernel: Released 03 Jun 2018
-RUN git clone --branch v4.17 --depth 1 https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-# GNU C library: Released 01 Feb 2018 (we should try to get a secure way to clone this)
-RUN git clone --branch glibc-2.27 --depth 1 git://sourceware.org/git/glibc.git
+# Linux Kernel: Released 07 July 2019
+RUN git clone --branch v5.2 --depth 1 https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
+# GNU C library: Released 02 Aug 2019 (we should try to get a secure way to clone this)
+RUN git clone --branch release/2.30/master --depth 1 git://sourceware.org/git/glibc.git
 
 # Get Go
-ENV GOLANG_VERSION 1.11beta1
+ENV GOLANG_VERSION 1.13beta1
 ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
-ENV GOLANG_DOWNLOAD_SHA256 df7fe096ffab5d331d35c6d038d2ec0426b45ce17f55a93037e371d3af9d4e6d
+ENV GOLANG_DOWNLOAD_SHA256 dbd131c92f381a5bc5ca1f0cfd942cb8be7d537007b6f412b5be41ff38a7d0d9
 
 RUN curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz \
     && echo "$GOLANG_DOWNLOAD_SHA256  golang.tar.gz" | sha256sum -c - \
@@ -30,10 +30,10 @@ ENV PATH /usr/local/go/bin:$PATH
 
 # Linux and Glibc build dependencies and emulator
 RUN apt-get update && apt-get install -y  --no-install-recommends \
-        bison gawk make python \
+        bison gawk make python3 \
         gcc gcc-multilib \
         gettext texinfo \
-        qemu \
+        qemu-user \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # Cross compilers (install recommended packages to get cross libc-dev)
@@ -42,6 +42,7 @@ RUN apt-get update && apt-get install -y \
         gcc-mips-linux-gnu          gcc-mips64-linux-gnuabi64 \
         gcc-mips64el-linux-gnuabi64 gcc-mipsel-linux-gnu      \
         gcc-powerpc64-linux-gnu     gcc-powerpc64le-linux-gnu \
+	gcc-riscv64-linux-gnu                                 \
         gcc-s390x-linux-gnu         gcc-sparc64-linux-gnu     \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
