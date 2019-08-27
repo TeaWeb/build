@@ -1,3 +1,11 @@
+runOn:
+    -
+        minServerVersion: "4.0"
+        topology: ["replicaset"]
+    -
+        minServerVersion: "4.1.8"
+        topology: ["sharded"]
+
 database_name: &database_name "transaction-tests"
 collection_name: &collection_name "test"
 
@@ -47,6 +55,7 @@ tests:
             autocommit: false
             readConcern:
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -59,6 +68,7 @@ tests:
             autocommit: false
             readConcern:
             writeConcern:
+            maxTimeMS:
           command_name: commitTransaction
           database_name: admin
       - command_started_event:
@@ -75,6 +85,7 @@ tests:
             readConcern:
               afterClusterTime: 42
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -87,6 +98,7 @@ tests:
             autocommit: false
             readConcern:
             writeConcern:
+            maxTimeMS:
           command_name: abortTransaction
           database_name: admin
 
@@ -118,6 +130,7 @@ tests:
             readConcern:
               level: local
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -131,6 +144,7 @@ tests:
             readConcern:
             writeConcern:
               w: 1
+            maxTimeMS:
           command_name: commitTransaction
           database_name: admin
       - command_started_event:
@@ -148,6 +162,7 @@ tests:
               level: local
               afterClusterTime: 42
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -161,6 +176,7 @@ tests:
             readConcern:
             writeConcern:
               w: 1
+            maxTimeMS:
           command_name: abortTransaction
           database_name: admin
 
@@ -175,6 +191,7 @@ tests:
             level: snapshot
           writeConcern:
             w: 1
+          maxCommitTimeMS: 60000
 
     operations: *commitAbortOperations
 
@@ -206,6 +223,7 @@ tests:
             readConcern:
             writeConcern:
               w: 1
+            maxTimeMS: 60000
           command_name: commitTransaction
           database_name: admin
       - command_started_event:
@@ -254,6 +272,7 @@ tests:
             level: majority
           writeConcern:
             w: 1
+          maxCommitTimeMS: 30000
 
     operations:
       - name: startTransaction
@@ -264,6 +283,7 @@ tests:
               level: snapshot
             writeConcern:
               w: majority
+            maxCommitTimeMS: 60000
       - name: insertOne
         object: collection
         arguments:
@@ -308,6 +328,7 @@ tests:
             readConcern:
               level: snapshot
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -321,6 +342,7 @@ tests:
             readConcern:
             writeConcern:
               w: majority
+            maxTimeMS: 60000
           command_name: commitTransaction
           database_name: admin
       - command_started_event:
@@ -338,6 +360,7 @@ tests:
               level: snapshot
               afterClusterTime: 42
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -351,6 +374,7 @@ tests:
             readConcern:
             writeConcern:
               w: majority
+            maxTimeMS:
           command_name: abortTransaction
           database_name: admin
 
@@ -369,6 +393,7 @@ tests:
             level: snapshot
           writeConcern:
             w: majority
+          maxCommitTimeMS: 60000
 
     operations: *commitAbortOperations
 
@@ -387,6 +412,7 @@ tests:
             readConcern:
               level: snapshot
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -400,6 +426,7 @@ tests:
             readConcern:
             writeConcern:
               w: majority
+            maxTimeMS: 60000
           command_name: commitTransaction
           database_name: admin
       - command_started_event:
@@ -417,6 +444,7 @@ tests:
               level: snapshot
               afterClusterTime: 42
             writeConcern:
+            maxTimeMS:
           command_name: insert
           database_name: *database_name
       - command_started_event:
@@ -430,6 +458,7 @@ tests:
             readConcern:
             writeConcern:
               w: majority
+            maxTimeMS:
           command_name: abortTransaction
           database_name: admin
 
@@ -511,7 +540,7 @@ tests:
 
     outcome: *outcome
 
-  - description: readConcern local in startTransaction options
+  - description: readConcern snapshot in startTransaction options
 
     sessionOptions:
       session0:

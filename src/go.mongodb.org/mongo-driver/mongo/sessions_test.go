@@ -8,6 +8,7 @@ package mongo
 
 import (
 	"context"
+	"path"
 	"reflect"
 	"testing"
 
@@ -22,19 +23,21 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/event"
 	"go.mongodb.org/mongo-driver/internal/testutil"
-	"go.mongodb.org/mongo-driver/internal/testutil/helpers"
+	testhelpers "go.mongodb.org/mongo-driver/internal/testutil/helpers"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readconcern"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"go.mongodb.org/mongo-driver/x/bsonx"
+	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/connstring"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/operation"
 	"go.mongodb.org/mongo-driver/x/mongo/driver/session"
 	"go.mongodb.org/mongo-driver/x/mongo/driver/topology"
-	"go.mongodb.org/mongo-driver/x/network/command"
-	"go.mongodb.org/mongo-driver/x/network/connection"
-	"go.mongodb.org/mongo-driver/x/network/connstring"
-	"go.mongodb.org/mongo-driver/x/network/description"
 )
+
+const sessionTestsDir = "../data/sessions"
 
 var sessionStarted *event.CommandStartedEvent
 var sessionSucceeded *event.CommandSucceededEvent
@@ -121,8 +124,6 @@ func createFuncMap(t *testing.T, dbName string, collName string, monitored bool)
 			res := coll.FindOneAndUpdate(mctx, emptyDoc, updateDoc)
 			return res.err
 		}},
-		{"DropCollection", coll, nil, func(mctx SessionContext) error { err := coll.Drop(mctx); return err }},
-		{"DropDatabase", coll, nil, func(mctx SessionContext) error { err := db.Drop(mctx); return err }},
 		{"ListCollections", coll, nil, func(mctx SessionContext) error { _, err := db.ListCollections(mctx, emptyDoc); return err }},
 		{"ListDatabases", coll, nil, func(mctx SessionContext) error { _, err := client.ListDatabases(mctx, emptyDoc); return err }},
 		{"CreateOneIndex", coll, nil, func(mctx SessionContext) error { _, err := iv.CreateOne(mctx, fooIndex); return err }},
@@ -130,6 +131,8 @@ func createFuncMap(t *testing.T, dbName string, collName string, monitored bool)
 		{"DropOneIndex", coll, &iv, func(mctx SessionContext) error { _, err := iv.DropOne(mctx, "barIndex"); return err }},
 		{"DropAllIndexes", coll, nil, func(mctx SessionContext) error { _, err := iv.DropAll(mctx); return err }},
 		{"ListIndexes", coll, nil, func(mctx SessionContext) error { _, err := iv.List(mctx); return err }},
+		{"DropCollection", coll, nil, func(mctx SessionContext) error { err := coll.Drop(mctx); return err }},
+		{"DropDatabase", coll, nil, func(mctx SessionContext) error { err := db.Drop(mctx); return err }},
 	}
 
 	return client, db, coll, functions
@@ -165,12 +168,15 @@ func getOptValues(opts []interface{}) []reflect.Value {
 	return valOpts
 }
 
-func createMonitoredTopology(t *testing.T, clock *session.ClusterClock, monitor *event.CommandMonitor) *topology.Topology {
+func createMonitoredTopology(t *testing.T, clock *session.ClusterClock, monitor *event.CommandMonitor, connstr *connstring.ConnString) *topology.Topology {
 	if sessionsMonitoredTop != nil {
 		return sessionsMonitoredTop // don't create the same topology twice
 	}
 
 	cs := testutil.ConnString(t)
+	if connstr != nil {
+		cs = *connstr
+	}
 	cs.HeartbeatInterval = time.Hour
 	cs.HeartbeatIntervalSet = true
 
@@ -179,10 +185,10 @@ func createMonitoredTopology(t *testing.T, clock *session.ClusterClock, monitor 
 		topology.WithServerOptions(func(opts ...topology.ServerOption) []topology.ServerOption {
 			return append(
 				opts,
-				topology.WithConnectionOptions(func(opts ...connection.Option) []connection.Option {
+				topology.WithConnectionOptions(func(opts ...topology.ConnectionOption) []topology.ConnectionOption {
 					return append(
 						opts,
-						connection.WithMonitor(func(*event.CommandMonitor) *event.CommandMonitor {
+						topology.WithMonitor(func(*event.CommandMonitor) *event.CommandMonitor {
 							return monitor
 						}),
 					)
@@ -199,24 +205,13 @@ func createMonitoredTopology(t *testing.T, clock *session.ClusterClock, monitor 
 		t.Fatal(err)
 	}
 
-	err = sessionsMonitoredTop.Connect(context.Background())
-	if err != nil {
-		t.Fatal(err)
-	}
-	s, err := sessionsMonitoredTop.SelectServer(context.Background(), description.WriteSelector())
+	err = sessionsMonitoredTop.Connect()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	c, err := s.Connection(context.Background())
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	_, err = (&command.Write{
-		DB:      testutil.DBName(t),
-		Command: bsonx.Doc{{"dropDatabase", bsonx.Int32(1)}},
-	}).RoundTrip(context.Background(), s.SelectedDescription(), c)
+	err = operation.NewCommand(bsoncore.BuildDocument(nil, bsoncore.AppendInt32Element(nil, "dropDatabase", 1))).
+		Database(testutil.DBName(t)).ServerSelector(description.WriteSelector()).Deployment(sessionsMonitoredTop).Execute(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -228,12 +223,13 @@ func createSessionsMonitoredClient(t *testing.T, monitor *event.CommandMonitor) 
 	clock := &session.ClusterClock{}
 
 	c := &Client{
-		topology:       createMonitoredTopology(t, clock, monitor),
+		topology:       createMonitoredTopology(t, clock, monitor, nil),
 		connString:     testutil.ConnString(t),
 		readPreference: readpref.Primary(),
 		readConcern:    readconcern.Local(),
 		clock:          clock,
 		registry:       bson.DefaultRegistry,
+		monitor:        monitor,
 	}
 
 	subscription, err := c.topology.Subscribe()
@@ -357,8 +353,8 @@ func TestSessions(t *testing.T) {
 		defer firstSess.EndSession(ctx)
 		first := firstSess.(*sessionImpl)
 
-		if !sessionIDsEqual(t, first.SessionID, b.SessionID) {
-			t.Errorf("expected first session ID to be %#v. got %#v", first.SessionID, b.SessionID)
+		if !sessionIDsEqual(t, first.clientSession.SessionID, b.clientSession.SessionID) {
+			t.Errorf("expected first session ID to be %#v. got %#v", first.clientSession.SessionID, b.clientSession.SessionID)
 		}
 
 		secondSess, err := client.StartSession()
@@ -366,8 +362,8 @@ func TestSessions(t *testing.T) {
 		defer secondSess.EndSession(ctx)
 		second := secondSess.(*sessionImpl)
 
-		if !sessionIDsEqual(t, second.SessionID, a.SessionID) {
-			t.Errorf("expected second session ID to be %#v. got %#v", second.SessionID, a.SessionID)
+		if !sessionIDsEqual(t, second.clientSession.SessionID, a.clientSession.SessionID) {
+			t.Errorf("expected second session ID to be %#v. got %#v", second.clientSession.SessionID, a.clientSession.SessionID)
 		}
 	})
 
@@ -478,7 +474,7 @@ func TestSessions(t *testing.T) {
 				err = WithSession(ctx, sess, tc.f)
 				testhelpers.RequireNil(t, err, "error running %s: %s", tc.name, err)
 
-				_, sessID := sess.SessionID.Lookup("id").Binary()
+				_, sessID := sess.clientSession.SessionID.Lookup("id").Binary()
 				if !bytes.Equal(getSessionUUID(t, sessionStarted.Command), sessID) {
 					t.Fatal("included UUID does not match session UUID")
 				}
@@ -709,4 +705,10 @@ func TestSessions(t *testing.T) {
 			})
 		}
 	})
+
+	for _, file := range testhelpers.FindJSONFilesInDir(t, sessionTestsDir) {
+		t.Run(file, func(t *testing.T) {
+			runTransactionTestFile(t, path.Join(sessionTestsDir, file))
+		})
+	}
 }

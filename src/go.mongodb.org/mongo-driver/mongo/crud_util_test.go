@@ -11,8 +11,10 @@ import (
 	"context"
 	"encoding/json"
 	"math"
+	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,6 +24,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"go.mongodb.org/mongo-driver/x/bsonx"
 )
+
+type cursor interface {
+	Err() error
+	Next(context.Context) bool
+	Decode(interface{}) error
+}
 
 // Various helper functions for crud related operations
 
@@ -244,12 +252,17 @@ func executeFindOneAndUpdate(sess *sessionImpl, coll *Collection, args map[strin
 	opts := options.FindOneAndUpdate()
 	var filter map[string]interface{}
 	var update map[string]interface{}
+	var updatePipe []interface{}
+	var ok bool
 	for name, opt := range args {
 		switch name {
 		case "filter":
 			filter = opt.(map[string]interface{})
 		case "update":
-			update = opt.(map[string]interface{})
+			update, ok = opt.(map[string]interface{})
+			if !ok {
+				updatePipe = opt.([]interface{})
+			}
 		case "arrayFilters":
 			opts = opts.SetArrayFilters(options.ArrayFilters{
 				Filters: opt.([]interface{}),
@@ -285,7 +298,13 @@ func executeFindOneAndUpdate(sess *sessionImpl, coll *Collection, args map[strin
 			Context: context.WithValue(ctx, sessionKey{}, sess),
 			Session: sess,
 		}
+		if updatePipe != nil {
+			return coll.FindOneAndUpdate(sessCtx, filter, updatePipe, opts)
+		}
 		return coll.FindOneAndUpdate(sessCtx, filter, update, opts)
+	}
+	if updatePipe != nil {
+		return coll.FindOneAndUpdate(ctx, filter, updatePipe, opts)
 	}
 	return coll.FindOneAndUpdate(ctx, filter, update, opts)
 }
@@ -439,12 +458,17 @@ func executeUpdateOne(sess *sessionImpl, coll *Collection, args map[string]inter
 	opts := options.Update()
 	var filter map[string]interface{}
 	var update map[string]interface{}
+	var updatePipe []interface{}
+	var ok bool
 	for name, opt := range args {
 		switch name {
 		case "filter":
 			filter = opt.(map[string]interface{})
 		case "update":
-			update = opt.(map[string]interface{})
+			update, ok = opt.(map[string]interface{})
+			if !ok {
+				updatePipe = opt.([]interface{})
+			}
 		case "arrayFilters":
 			opts = opts.SetArrayFilters(options.ArrayFilters{Filters: opt.([]interface{})})
 		case "upsert":
@@ -462,15 +486,19 @@ func executeUpdateOne(sess *sessionImpl, coll *Collection, args map[string]inter
 	replaceFloatsWithInts(filter)
 	replaceFloatsWithInts(update)
 
-	if opts.Upsert == nil {
-		opts = opts.SetUpsert(false)
-	}
 	if sess != nil {
 		sessCtx := sessionContext{
 			Context: context.WithValue(ctx, sessionKey{}, sess),
 			Session: sess,
 		}
+		if updatePipe != nil {
+			return coll.UpdateOne(sessCtx, filter, updatePipe, opts)
+		}
 		return coll.UpdateOne(sessCtx, filter, update, opts)
+	}
+
+	if updatePipe != nil {
+		return coll.UpdateOne(ctx, filter, updatePipe, opts)
 	}
 	return coll.UpdateOne(ctx, filter, update, opts)
 }
@@ -479,12 +507,17 @@ func executeUpdateMany(sess *sessionImpl, coll *Collection, args map[string]inte
 	opts := options.Update()
 	var filter map[string]interface{}
 	var update map[string]interface{}
+	var updatePipe []interface{}
+	var ok bool
 	for name, opt := range args {
 		switch name {
 		case "filter":
 			filter = opt.(map[string]interface{})
 		case "update":
-			update = opt.(map[string]interface{})
+			update, ok = opt.(map[string]interface{})
+			if !ok {
+				updatePipe = opt.([]interface{})
+			}
 		case "arrayFilters":
 			opts = opts.SetArrayFilters(options.ArrayFilters{Filters: opt.([]interface{})})
 		case "upsert":
@@ -502,15 +535,18 @@ func executeUpdateMany(sess *sessionImpl, coll *Collection, args map[string]inte
 	replaceFloatsWithInts(filter)
 	replaceFloatsWithInts(update)
 
-	if opts.Upsert == nil {
-		opts = opts.SetUpsert(false)
-	}
 	if sess != nil {
 		sessCtx := sessionContext{
 			Context: context.WithValue(ctx, sessionKey{}, sess),
 			Session: sess,
 		}
+		if updatePipe != nil {
+			return coll.UpdateMany(sessCtx, filter, updatePipe, opts)
+		}
 		return coll.UpdateMany(sessCtx, filter, update, opts)
+	}
+	if updatePipe != nil {
+		return coll.UpdateMany(ctx, filter, updatePipe, opts)
 	}
 	return coll.UpdateMany(ctx, filter, update, opts)
 }
@@ -526,6 +562,8 @@ func executeAggregate(sess *sessionImpl, coll *Collection, args map[string]inter
 			opts = opts.SetBatchSize(int32(opt.(float64)))
 		case "collation":
 			opts = opts.SetCollation(collationFromMap(opt.(map[string]interface{})))
+		case "maxTimeMS":
+			opts = opts.SetMaxTime(time.Duration(opt.(float64)) * time.Millisecond)
 		}
 	}
 
@@ -537,6 +575,46 @@ func executeAggregate(sess *sessionImpl, coll *Collection, args map[string]inter
 		return coll.Aggregate(sessCtx, pipeline, opts)
 	}
 	return coll.Aggregate(ctx, pipeline, opts)
+}
+
+func executeWithTransaction(t *testing.T, sess *sessionImpl, collName string, db *Database, args json.RawMessage) error {
+	expectedBytes, err := args.MarshalJSON()
+	if err != nil {
+		return err
+	}
+
+	var testArgs withTransactionArgs
+	err = json.Unmarshal(expectedBytes, &testArgs)
+	if err != nil {
+		return err
+	}
+	opts := getTransactionOptions(testArgs.Options)
+
+	_, err = sess.WithTransaction(context.Background(), func(sessCtx SessionContext) (interface{}, error) {
+		err := runWithTransactionOperations(t, testArgs.Callback.Operations, sess, collName, db)
+		return nil, err
+	}, opts)
+	return err
+}
+
+func executeRenameCollection(sess Session, coll *Collection, argmap map[string]interface{}) *SingleResult {
+	to := argmap["to"].(string)
+
+	cmd := bson.D{
+		{"renameCollection", strings.Join([]string{coll.db.name, coll.name}, ".")},
+		{"to", strings.Join([]string{coll.db.name, to}, ".")},
+	}
+
+	admin := coll.db.client.Database("admin")
+	if sess != nil {
+		sessCtx := sessionContext{
+			Context: context.WithValue(ctx, sessionKey{}, sess),
+			Session: sess,
+		}
+		return admin.RunCommand(sessCtx, cmd)
+	}
+
+	return admin.RunCommand(ctx, cmd)
 }
 
 func executeRunCommand(sess Session, db *Database, argmap map[string]interface{}, args json.RawMessage) *SingleResult {
@@ -631,6 +709,7 @@ func verifyInsertManyResult(t *testing.T, res *InsertManyResult, result json.Raw
 	require.NoError(t, err)
 
 	if expected.InsertedIds != nil {
+		require.NotNil(t, res)
 		replaceFloatsWithInts(expected.InsertedIds)
 
 		for _, val := range expected.InsertedIds {
@@ -639,22 +718,7 @@ func verifyInsertManyResult(t *testing.T, res *InsertManyResult, result json.Raw
 	}
 }
 
-func verifyCursorResult2(t *testing.T, cur *Cursor, result json.RawMessage) {
-	for _, expected := range docSliceFromRaw(t, result) {
-		require.NotNil(t, cur)
-		require.True(t, cur.Next(context.Background()))
-
-		var actual bsonx.Doc
-		require.NoError(t, cur.Decode(&actual))
-
-		compareDocs(t, expected, actual)
-	}
-
-	require.False(t, cur.Next(ctx))
-	require.NoError(t, cur.Err())
-}
-
-func verifyCursorResult(t *testing.T, cur *Cursor, result json.RawMessage) {
+func verifyCursorResult(t *testing.T, cur cursor, result json.RawMessage) {
 	for _, expected := range docSliceFromRaw(t, result) {
 		require.NotNil(t, cur)
 		require.True(t, cur.Next(context.Background()))
@@ -781,6 +845,11 @@ func verifyCollectionContents(t *testing.T, coll *Collection, result json.RawMes
 func sanitizeCollectionName(kind string, name string) string {
 	// Collections can't have "$" in their names, so we substitute it with "%".
 	name = strings.Replace(name, "$", "%", -1)
+
+	// must have enough room for kind + "." + one character of name, can't have collection name end in .
+	if len(kind) > 118 {
+		kind = kind[:118]
+	}
 
 	// Namespaces can only have 120 bytes max.
 	if len(kind+"."+name) >= 119 {
@@ -919,4 +988,61 @@ func replaceFloatsWithInts(m map[string]interface{}) {
 			m[key] = innerM
 		}
 	}
+}
+
+func shouldSkip(t *testing.T, minVersion string, maxVersion string, db *Database) bool {
+	versionStr, err := getServerVersion(db)
+	require.NoError(t, err)
+
+	if len(minVersion) > 0 && compareVersions(t, minVersion, versionStr) > 0 {
+		return true
+	}
+
+	if len(maxVersion) > 0 && compareVersions(t, maxVersion, versionStr) < 0 {
+		return true
+	}
+
+	return false
+}
+
+func canRunOn(t *testing.T, runOn runOn, dbAdmin *Database) bool {
+	if shouldSkip(t, runOn.MinServerVersion, runOn.MaxServerVersion, dbAdmin) {
+		return false
+	}
+
+	if runOn.Topology == nil || len(runOn.Topology) == 0 {
+		return true
+	}
+
+	for _, top := range runOn.Topology {
+		if os.Getenv("TOPOLOGY") == runOnTopologyToEnvTopology(t, top) {
+			return true
+		}
+	}
+	return false
+}
+
+func runOnTopologyToEnvTopology(t *testing.T, runOnTopology string) string {
+	switch runOnTopology {
+	case "single":
+		return "server"
+	case "replicaset":
+		return "replica_set"
+	case "sharded":
+		return "sharded_cluster"
+	default:
+		t.Fatalf("unknown topology %v", runOnTopology)
+	}
+	return ""
+}
+
+func skipIfNecessaryRunOnSlice(t *testing.T, runOns []runOn, dbAdmin *Database) {
+	for _, runOn := range runOns {
+		if canRunOn(t, runOn, dbAdmin) {
+			return
+		}
+	}
+	versionStr, err := getServerVersion(dbAdmin)
+	require.NoError(t, err, "unable to run on current server version, topology combination, error getting server version")
+	t.Skipf("unable to run on %v %v", os.Getenv("TOPOLOGY"), versionStr)
 }

@@ -42,7 +42,7 @@ type csTest struct {
 	Target           string                       `json:"target"`
 	Topology         []string                     `json:"topology"`
 	Pipeline         []interface{}                `json:"changeStreamPipeline"`
-	Options          map[string]interface{}       `json:"options"`
+	Options          map[string]interface{}       `json:"changeStreamOptions"`
 	Operations       []csOperation                `json:"operations"`
 	Expectations     []map[string]json.RawMessage `json:"expectations"`
 	Result           csResult                     `json:"result"`
@@ -73,9 +73,15 @@ func closeCursor(stream *ChangeStream) {
 	_ = stream.Close(ctx)
 }
 
-func getStreamOptions(test *csTest) *options.ChangeStreamOptions {
+func getStreamOptions(t *testing.T, test *csTest) *options.ChangeStreamOptions {
 	opts := options.ChangeStream()
-	if len(test.Options) > 0 {
+	for name, opt := range test.Options {
+		switch name {
+		case "batchSize":
+			opts = opts.SetBatchSize(int32(opt.(float64)))
+		default:
+			t.Fatalf("unknown changeStream option: %s", name)
+		}
 	}
 
 	// no options
@@ -85,12 +91,36 @@ func getStreamOptions(test *csTest) *options.ChangeStreamOptions {
 func changeStreamCompareErrors(t *testing.T, expected map[string]interface{}, actual error) {
 	if cmdErr, ok := actual.(CommandError); ok {
 		expectedCode := int32(expected["code"].(float64))
-
 		if cmdErr.Code != expectedCode {
 			t.Fatalf("error code mismatch. expected %d, got %d", expectedCode, cmdErr.Code)
 		}
+
+		if expected["errorLabels"] != nil {
+			expectedLabels := expected["errorLabels"].([]interface{})
+			var labelStrings []string
+			for _, label := range expectedLabels {
+				labelStrings = append(labelStrings, label.(string))
+			}
+
+			if len(labelStrings) != len(cmdErr.Labels) {
+				t.Fatalf("error label length mismatch")
+			}
+
+			for _, exp := range labelStrings {
+				var found bool
+				for _, label := range cmdErr.Labels {
+					if label == exp {
+						found = true
+						break
+					}
+				}
+				if !found {
+					t.Fatalf("error label %s not found", exp)
+				}
+			}
+		}
 	} else {
-		t.Fatalf("error was not of type CommandError")
+		t.Fatalf("error type mismatch; expected CommandError, got %T", actual)
 	}
 }
 
@@ -212,7 +242,7 @@ func runCsTestFile(t *testing.T, globalClient *Client, path string) {
 			testhelpers.RequireNil(t, err, "error inserting into client coll: %s", err)
 
 			drainChannels()
-			opts := getStreamOptions(&test)
+			opts := getStreamOptions(t, &test)
 			var cursor *ChangeStream
 			switch test.Target {
 			case "collection":
@@ -244,7 +274,17 @@ func runCsTestFile(t *testing.T, globalClient *Client, path string) {
 				var opErr error
 				switch op.Name {
 				case "insertOne":
-					opErr = insertOne(t, opColl, op.Arguments)
+					_, opErr = executeInsertOne(nil, opColl, op.Arguments)
+				case "updateOne":
+					_, opErr = executeUpdateOne(nil, opColl, op.Arguments)
+				case "replaceOne":
+					_, opErr = executeReplaceOne(nil, opColl, op.Arguments)
+				case "deleteOne":
+					_, opErr = executeDeleteOne(nil, opColl, op.Arguments)
+				case "rename":
+					opErr = executeRenameCollection(nil, opColl, op.Arguments).Err()
+				case "drop":
+					opErr = opColl.Drop(ctx)
 				default:
 					t.Fatalf("unknown operation for test %s: %s", t.Name(), op.Name)
 				}
@@ -253,6 +293,13 @@ func runCsTestFile(t *testing.T, globalClient *Client, path string) {
 					changeStreamCompareErrors(t, test.Result.Error, opErr)
 					return
 				}
+			}
+
+			if len(test.Result.Success) == 0 && len(test.Result.Error) != 0 {
+				if cursor.Next(ctx) {
+					t.Fatalf("Next returned true instead of false")
+				}
+				changeStreamCompareErrors(t, test.Result.Error, cursor.Err())
 			}
 
 			for i := 0; i < len(test.Result.Success); i++ {
@@ -266,12 +313,4 @@ func runCsTestFile(t *testing.T, globalClient *Client, path string) {
 			}
 		})
 	}
-}
-
-func insertOne(t *testing.T, coll *Collection, args map[string]interface{}) error {
-	doc, err := transformDocument(nil, args["document"])
-	testhelpers.RequireNil(t, err, "error transforming insertOne document: %s", err)
-
-	_, err = coll.InsertOne(ctx, doc)
-	return err
 }

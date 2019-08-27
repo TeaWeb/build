@@ -13,6 +13,7 @@ import (
 	"os"
 	"path"
 	"reflect"
+	"strconv"
 	"testing"
 	"time"
 
@@ -20,15 +21,22 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsoncodec"
 	"go.mongodb.org/mongo-driver/bson/bsonrw"
+	"go.mongodb.org/mongo-driver/event"
 	"go.mongodb.org/mongo-driver/internal/testutil"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"go.mongodb.org/mongo-driver/tag"
 	"go.mongodb.org/mongo-driver/x/bsonx"
+	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
+	"go.mongodb.org/mongo-driver/x/mongo/driver"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/address"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/connstring"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/drivertest"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/operation"
 	"go.mongodb.org/mongo-driver/x/mongo/driver/session"
 	"go.mongodb.org/mongo-driver/x/mongo/driver/uuid"
-	"go.mongodb.org/mongo-driver/x/network/connstring"
 )
 
 func createTestClient(t *testing.T) *Client {
@@ -40,6 +48,7 @@ func createTestClient(t *testing.T) *Client {
 		readPreference: readpref.Primary(),
 		clock:          &session.ClusterClock{},
 		registry:       bson.DefaultRegistry,
+		retryWrites:    true,
 	}
 }
 
@@ -281,6 +290,161 @@ func TestClient_ReplaceTopologyError(t *testing.T) {
 
 }
 
+type retryableSSD struct {
+	C driver.Connection
+}
+
+var _ driver.Deployment = retryableSSD{}
+var _ driver.Server = retryableSSD{}
+
+func (rssd retryableSSD) SelectServer(context.Context, description.ServerSelector) (driver.Server, error) {
+	return rssd, nil
+}
+
+func (rssd retryableSSD) Kind() description.TopologyKind {
+	return description.Single
+}
+
+func (rssd retryableSSD) Connection(context.Context) (driver.Connection, error) {
+	return rssd.C, nil
+}
+
+func (rssd retryableSSD) SupportsRetryWrites() bool {
+	return true
+}
+
+func TestRetryWritesError20Wrapped(t *testing.T) {
+	serverVersion, err := getServerVersion(createTestDatabase(t, nil))
+	require.NoError(t, err)
+
+	if compareVersions(t, serverVersion, "3.6") < 0 {
+		t.Skip()
+	}
+
+	idx, writeError := bsoncore.AppendDocumentStart(nil)
+	writeError = bsoncore.AppendInt32Element(writeError, "ok", 1)
+	elemIdx, elem := bsoncore.AppendDocumentStart(nil)
+	elem = bsoncore.AppendInt32Element(elem, "index", 0)
+	elem = bsoncore.AppendStringElement(elem, "errmsg", "Transaction numbers")
+	elem = bsoncore.AppendInt32Element(elem, "code", 20)
+	elem, _ = bsoncore.AppendDocumentEnd(elem, elemIdx)
+	writeErrorsIdx, writeErrors := bsoncore.AppendArrayStart(nil)
+	writeErrors = bsoncore.AppendDocumentElement(writeErrors, strconv.Itoa(0), elem)
+	writeErrors, _ = bsoncore.AppendArrayEnd(writeErrors, writeErrorsIdx)
+	writeError = bsoncore.AppendArrayElement(writeError, "writeErrors", writeErrors)
+	writeError, _ = bsoncore.AppendDocumentEnd(writeError, idx)
+
+	idx, writeErrorNot20 := bsoncore.AppendDocumentStart(nil)
+	writeErrorNot20 = bsoncore.AppendInt32Element(writeErrorNot20, "ok", 1)
+	elemIdx, elem = bsoncore.AppendDocumentStart(nil)
+	elem = bsoncore.AppendInt32Element(elem, "index", 0)
+	elem = bsoncore.AppendStringElement(elem, "errmsg", "Transaction numbers")
+	elem = bsoncore.AppendInt32Element(elem, "code", 19)
+	elem, _ = bsoncore.AppendDocumentEnd(elem, elemIdx)
+	writeErrorsIdx, writeErrors = bsoncore.AppendArrayStart(nil)
+	writeErrors = bsoncore.AppendDocumentElement(writeErrors, strconv.Itoa(0), elem)
+	writeErrors, _ = bsoncore.AppendArrayEnd(writeErrors, writeErrorsIdx)
+	writeErrorNot20 = bsoncore.AppendArrayElement(writeErrorNot20, "writeErrors", writeErrors)
+	writeErrorNot20, _ = bsoncore.AppendDocumentEnd(writeErrorNot20, idx)
+
+	idx, writeErrorOnly20 := bsoncore.AppendDocumentStart(nil)
+	writeErrorOnly20 = bsoncore.AppendInt32Element(writeErrorOnly20, "ok", 1)
+	elemIdx, elem = bsoncore.AppendDocumentStart(nil)
+	elem = bsoncore.AppendInt32Element(elem, "index", 0)
+	elem = bsoncore.AppendStringElement(elem, "errmsg", "something other than transaction numbers")
+	elem = bsoncore.AppendInt32Element(elem, "code", 20)
+	elem, _ = bsoncore.AppendDocumentEnd(elem, elemIdx)
+	writeErrorsIdx, writeErrors = bsoncore.AppendArrayStart(nil)
+	writeErrors = bsoncore.AppendDocumentElement(writeErrors, strconv.Itoa(0), elem)
+	writeErrors, _ = bsoncore.AppendArrayEnd(writeErrors, writeErrorsIdx)
+	writeErrorOnly20 = bsoncore.AppendArrayElement(writeErrorOnly20, "writeErrors", writeErrors)
+	writeErrorOnly20, _ = bsoncore.AppendDocumentEnd(writeErrorOnly20, idx)
+
+	idx, notOk := bsoncore.AppendDocumentStart(nil)
+	notOk = bsoncore.AppendInt64Element(notOk, "ok", 0)
+	notOk = bsoncore.AppendStringElement(notOk, "errmsg", "Transaction numbers")
+	notOk = bsoncore.AppendInt32Element(notOk, "code", 20)
+	notOk, _ = bsoncore.AppendDocumentEnd(notOk, idx)
+
+	idx, not20notOK := bsoncore.AppendDocumentStart(nil)
+	not20notOK = bsoncore.AppendInt64Element(not20notOK, "ok", 0)
+	not20notOK = bsoncore.AppendStringElement(not20notOK, "errmsg", "Transaction numbers")
+	not20notOK = bsoncore.AppendInt32Element(not20notOK, "code", 19)
+	not20notOK, _ = bsoncore.AppendDocumentEnd(not20notOK, idx)
+
+	idx, only20NotOK := bsoncore.AppendDocumentStart(nil)
+	only20NotOK = bsoncore.AppendInt64Element(only20NotOK, "ok", 0)
+	only20NotOK = bsoncore.AppendStringElement(only20NotOK, "errmsg", "something other than transaction numbers")
+	only20NotOK = bsoncore.AppendInt32Element(only20NotOK, "code", 20)
+	only20NotOK, _ = bsoncore.AppendDocumentEnd(only20NotOK, idx)
+
+	tests := []struct {
+		name                 string
+		wireMessage          []byte // bsoncore byte slice
+		shouldError          bool
+		expectedErrorMessage string
+	}{
+		{"writeError", writeError, true, driver.ErrUnsupportedStorageEngine.Error()},
+		{"writeError with only err code 20 and wrong err message", writeErrorOnly20, true, "write command error: [{write errors: [{something other than transaction numbers}]}, {<nil>}]"},
+		{"writeError with only err code 19 and right err message", writeErrorNot20, true, "write command error: [{write errors: [{Transaction numbers}]}, {<nil>}]"},
+		{"NotOkError", notOk, true, driver.ErrUnsupportedStorageEngine.Error()},
+		{"NotOkError with err code 20 and wrong err message", only20NotOK, true, "something other than transaction numbers"},
+		{"NotOkError with err code 19 and right err message", not20notOK, true, "Transaction numbers"},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			conn := &drivertest.ChannelConn{
+				Written: make(chan []byte, 1),
+				Desc: description.Server{
+					CanonicalAddr:         address.Address("localhost:27017"),
+					MaxDocumentSize:       16777216,
+					MaxMessageSize:        48000000,
+					MaxBatchCount:         100000,
+					SessionTimeoutMinutes: 30,
+					Kind:                  description.RSPrimary,
+					WireVersion: &description.VersionRange{
+						Max: 8,
+					},
+				},
+				ReadResp: make(chan []byte, 1),
+			}
+
+			conn.ReadResp <- drivertest.MakeReply(test.wireMessage)
+
+			deployment := retryableSSD{C: conn}
+
+			client := createTestClient(t)
+			coll := client.Database("test").Collection("test")
+
+			sess, err := client.StartSession()
+			defer sess.EndSession(context.Background())
+			noerr(t, err)
+
+			idx, writeError = bsoncore.AppendDocumentStart(nil)
+			writeError = bsoncore.AppendStringElement(writeError, "_id", "1")
+			writeError, _ = bsoncore.AppendDocumentEnd(writeError, idx)
+
+			op := operation.NewInsert(writeError).CommandMonitor(coll.client.monitor).ClusterClock(coll.client.clock).
+				Database(coll.db.name).Collection(coll.name).
+				Deployment(coll.client.topology).Deployment(deployment).Retry(driver.RetryOnce).Session(sess.(*sessionImpl).clientSession)
+
+			err = op.Execute(context.Background())
+			if test.shouldError {
+				if err == nil || err.Error() != test.expectedErrorMessage {
+					t.Fatalf("unexpected error occured, wanted: %v got: %v", test.expectedErrorMessage, err)
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("did not expect an error, instead recieved: %v", err)
+			}
+
+		})
+	}
+}
+
 func TestClient_ListDatabases_noFilter(t *testing.T) {
 	t.Parallel()
 
@@ -480,21 +644,21 @@ func TestClient_CausalConsistency(t *testing.T) {
 	sess := s.(*sessionImpl)
 	require.NoError(t, err)
 	require.NotNil(t, sess)
-	require.True(t, sess.Consistent)
+	require.True(t, sess.clientSession.Consistent)
 	sess.EndSession(ctx)
 
 	s, err = c.StartSession(options.Session().SetCausalConsistency(false))
 	sess = s.(*sessionImpl)
 	require.NoError(t, err)
 	require.NotNil(t, sess)
-	require.False(t, sess.Consistent)
+	require.False(t, sess.clientSession.Consistent)
 	sess.EndSession(ctx)
 
 	s, err = c.StartSession()
 	sess = s.(*sessionImpl)
 	require.NoError(t, err)
 	require.NotNil(t, sess)
-	require.True(t, sess.Consistent)
+	require.True(t, sess.clientSession.Consistent)
 	sess.EndSession(ctx)
 }
 
@@ -544,4 +708,58 @@ func TestClient_Watch_Disconnected(t *testing.T) {
 	change, err := c.Watch(context.Background(), []bson.D{})
 	require.Nil(t, change)
 	require.Equal(t, err, ErrClientDisconnected)
+}
+
+func TestEndSessions(t *testing.T) {
+	skipIfBelow36(t)
+	cs := testutil.ConnString(t)
+	client, err := NewClient(options.Client().ApplyURI(cs.String()).SetMonitor(monitor))
+	require.NoError(t, err)
+	err = client.Connect(nil)
+	require.NoError(t, err)
+
+	_, err = client.ListDatabases(ctx, bsonx.Doc{})
+	require.NoError(t, err)
+
+	drainChannels()
+
+	err = client.Disconnect(ctx)
+	require.NoError(t, err)
+
+	var started *event.CommandStartedEvent
+	select {
+	case started = <-startedChan:
+	default:
+		t.Fatalf("expected a CommandStartedEvent but none found")
+	}
+
+	require.Equal(t, "endSessions", started.CommandName)
+}
+
+func TestIsMaster(t *testing.T) {
+	if os.Getenv("TOPOLOGY") != "replica_set" {
+		t.Skip("Needs to run on a replica set")
+	}
+	cs := testutil.ConnString(t)
+	client, err := NewClient(options.Client().ApplyURI(cs.String()))
+	require.NoError(t, err)
+	err = client.Connect(nil)
+	require.NoError(t, err)
+
+	coll := createTestCollection(t, nil, nil)
+	skipIfBelow34(t, coll.db)
+	_, err = coll.InsertOne(
+		context.Background(),
+		bsonx.Doc{{"x", bsonx.Int32(1)}},
+	)
+	require.NoError(t, err)
+
+	isMaster := operation.NewIsMaster().ClusterClock(client.clock).Deployment(client.topology).
+		AppName(cs.AppName).Compressors(cs.Compressors)
+
+	err = isMaster.Execute(ctx)
+	require.NoError(t, err)
+
+	res := isMaster.Result("")
+	require.False(t, res.LastWriteTime.IsZero())
 }

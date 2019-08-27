@@ -13,18 +13,35 @@ import (
 	"testing"
 	"time"
 
-	"go.mongodb.org/mongo-driver/x/network/address"
-	"go.mongodb.org/mongo-driver/x/network/command"
-	"go.mongodb.org/mongo-driver/x/network/description"
+	"go.mongodb.org/mongo-driver/x/mongo/driver"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/address"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
 )
 
 const testTimeout = 2 * time.Second
 
 func noerr(t *testing.T, err error) {
+	t.Helper()
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 		t.FailNow()
 	}
+}
+
+func compareErrors(err1, err2 error) bool {
+	if err1 == nil && err2 == nil {
+		return true
+	}
+
+	if err1 == nil || err2 == nil {
+		return false
+	}
+
+	if err1.Error() != err2.Error() {
+		return false
+	}
+
+	return true
 }
 
 func TestServerSelection(t *testing.T) {
@@ -209,7 +226,7 @@ func TestServerSelection(t *testing.T) {
 		topo, err := New()
 		noerr(t, err)
 		atomic.StoreInt32(&topo.connectionstate, connected)
-		srvr, err := NewServer(address.Address("one"), func(desc description.Server) { topo.apply(context.Background(), desc) })
+		srvr, err := ConnectServer(address.Address("one"), func(desc description.Server) { topo.apply(context.Background(), desc) })
 		noerr(t, err)
 		topo.servers[address.Address("one")] = srvr
 		desc := topo.desc.Load().(description.Topology)
@@ -243,7 +260,7 @@ func TestServerSelection(t *testing.T) {
 
 		// manually add the servers to the topology
 		for _, srv := range desc.Servers {
-			s, err := NewServer(srv.Addr, func(desc description.Server) { topo.apply(context.Background(), desc) })
+			s, err := ConnectServer(srv.Addr, func(desc description.Server) { topo.apply(context.Background(), desc) })
 			noerr(t, err)
 			topo.servers[srv.Addr] = s
 		}
@@ -263,11 +280,8 @@ func TestServerSelection(t *testing.T) {
 		// send a not master error to the server forcing an update
 		serv, err := topo.FindServer(desc.Servers[0])
 		noerr(t, err)
-		err = serv.pool.Connect(context.Background())
-		noerr(t, err)
 		atomic.StoreInt32(&serv.connectionstate, connected)
-		sc := &sconn{s: serv.Server}
-		sc.processErr(command.Error{Message: "not master"})
+		serv.ProcessError(driver.Error{Message: "not master"})
 
 		resp := make(chan []description.Server)
 

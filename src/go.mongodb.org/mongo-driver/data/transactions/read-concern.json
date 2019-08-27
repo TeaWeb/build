@@ -1,4 +1,18 @@
 {
+  "runOn": [
+    {
+      "minServerVersion": "4.0",
+      "topology": [
+        "replicaset"
+      ]
+    },
+    {
+      "minServerVersion": "4.1.8",
+      "topology": [
+        "sharded"
+      ]
+    }
+  ],
   "database_name": "transaction-tests",
   "collection_name": "test",
   "data": [
@@ -86,7 +100,7 @@
                 },
                 {
                   "$group": {
-                    "_id": null,
+                    "_id": 1,
                     "n": {
                       "$sum": 1
                     }
@@ -122,7 +136,7 @@
                 },
                 {
                   "$group": {
-                    "_id": null,
+                    "_id": 1,
                     "n": {
                       "$sum": 1
                     }
@@ -896,7 +910,7 @@
                 },
                 {
                   "$group": {
-                    "_id": null,
+                    "_id": 1,
                     "n": {
                       "$sum": 1
                     }
@@ -930,7 +944,7 @@
                 },
                 {
                   "$group": {
-                    "_id": null,
+                    "_id": 1,
                     "n": {
                       "$sum": 1
                     }

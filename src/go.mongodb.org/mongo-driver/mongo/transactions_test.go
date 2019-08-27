@@ -20,39 +20,50 @@ import (
 	"os"
 	"path"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsontype"
 	"go.mongodb.org/mongo-driver/event"
 	"go.mongodb.org/mongo-driver/internal/testutil"
-	"go.mongodb.org/mongo-driver/internal/testutil/helpers"
+	testhelpers "go.mongodb.org/mongo-driver/internal/testutil/helpers"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readconcern"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"go.mongodb.org/mongo-driver/x/bsonx"
+	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
+	"go.mongodb.org/mongo-driver/x/mongo/driver/operation"
 	"go.mongodb.org/mongo-driver/x/mongo/driver/session"
-	"go.mongodb.org/mongo-driver/x/network/command"
-	"go.mongodb.org/mongo-driver/x/network/description"
 )
 
 const transactionTestsDir = "../data/transactions"
 
 type transTestFile struct {
+	RunOn          []*runOn         `json:"runOn"`
 	DatabaseName   string           `json:"database_name"`
 	CollectionName string           `json:"collection_name"`
 	Data           json.RawMessage  `json:"data"`
 	Tests          []*transTestCase `json:"tests"`
 }
 
+type runOn struct {
+	MinServerVersion string   `json:"minServerVersion"`
+	MaxServerVersion string   `json:"maxServerVersion"`
+	Topology         []string `json:"topology"`
+}
+
 type transTestCase struct {
-	Description    string                 `json:"description"`
-	FailPoint      *failPoint             `json:"failPoint"`
-	ClientOptions  map[string]interface{} `json:"clientOptions"`
-	SessionOptions map[string]interface{} `json:"sessionOptions"`
-	Operations     []*transOperation      `json:"operations"`
-	Outcome        *transOutcome          `json:"outcome"`
-	Expectations   []*transExpectation    `json:"expectations"`
+	Description         string                 `json:"description"`
+	SkipReason          string                 `json:"skipReason"`
+	FailPoint           *failPoint             `json:"failPoint"`
+	ClientOptions       map[string]interface{} `json:"clientOptions"`
+	SessionOptions      map[string]interface{} `json:"sessionOptions"`
+	Operations          []*transOperation      `json:"operations"`
+	Outcome             *transOutcome          `json:"outcome"`
+	Expectations        []*expectation         `json:"expectations"`
+	UseMultipleMongoses bool                   `json:"useMultipleMongoses"`
 }
 
 type failPoint struct {
@@ -68,6 +79,7 @@ type failPointData struct {
 	FailBeforeCommitExceptionCode int32    `json:"failBeforeCommitExceptionCode"`
 	WriteConcernError             *struct {
 		Code   int32  `json:"code"`
+		Name   string `json:"codeName"`
 		Errmsg string `json:"errmsg"`
 	} `json:"writeConcernError"`
 }
@@ -79,6 +91,7 @@ type transOperation struct {
 	Result            json.RawMessage        `json:"result"`
 	Arguments         json.RawMessage        `json:"arguments"`
 	ArgMap            map[string]interface{}
+	Error             bool `json:"error"`
 }
 
 type transOutcome struct {
@@ -87,7 +100,7 @@ type transOutcome struct {
 	} `json:"collection"`
 }
 
-type transExpectation struct {
+type expectation struct {
 	CommandStartedEvent struct {
 		CommandName  string          `json:"command_name"`
 		DatabaseName string          `json:"database_name"`
@@ -102,19 +115,20 @@ type transError struct {
 	ErrorLabelsOmit    []string `bson:"errorLabelsOmit"`
 }
 
-var transStartedChan = make(chan *event.CommandStartedEvent, 100)
+var commandStarted []*event.CommandStartedEvent
 
 var transMonitor = &event.CommandMonitor{
 	Started: func(ctx context.Context, cse *event.CommandStartedEvent) {
-		//fmt.Printf("STARTED: %v\n", cse)
-		transStartedChan <- cse
+		commandStarted = append(commandStarted, cse)
 	},
 }
 
 // test case for all TransactionSpec tests
 func TestTransactionSpec(t *testing.T) {
 	for _, file := range testhelpers.FindJSONFilesInDir(t, transactionTestsDir) {
-		runTransactionTestFile(t, path.Join(transactionTestsDir, file))
+		t.Run(file, func(t *testing.T) {
+			runTransactionTestFile(t, path.Join(transactionTestsDir, file))
+		})
 	}
 }
 
@@ -130,8 +144,24 @@ func runTransactionTestFile(t *testing.T, filepath string) {
 
 	version, err := getServerVersion(dbAdmin)
 	require.NoError(t, err)
-	if shouldSkipTransactionsTest(t, version) {
+	runTest := len(testfile.RunOn) == 0
+	for _, reqs := range testfile.RunOn {
+		if shouldExecuteTest(t, version, reqs) {
+			runTest = true
+			break
+		}
+	}
+
+	if !runTest {
 		t.Skip()
+	}
+
+	if os.Getenv("TOPOLOGY") == "replica_set" {
+		err := dbAdmin.RunCommand(ctx, bson.D{
+			{"setParameter", 1},
+			{"transactionLifetimeLimitSeconds", 3},
+		}).Err()
+		require.NoError(t, err)
 	}
 
 	for _, test := range testfile.Tests {
@@ -142,48 +172,93 @@ func runTransactionTestFile(t *testing.T, filepath string) {
 
 func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTestFile, dbAdmin *Database) {
 	t.Run(test.Description, func(t *testing.T) {
+		if len(test.SkipReason) > 0 {
+			t.Skip(test.SkipReason)
+		}
+
 		// kill sessions from previously failed tests
 		killSessions(t, dbAdmin.client)
 
-		// configure failpoint if specified
-		if test.FailPoint != nil {
-			doc := createFailPointDoc(t, test.FailPoint)
-			err := dbAdmin.RunCommand(ctx, doc).Err()
-			require.NoError(t, err)
+		if testfile.CollectionName == "" {
+			testfile.CollectionName = "collection_name"
+		}
+		collName := sanitizeCollectionName(testfile.DatabaseName, testfile.CollectionName)
 
-			defer func() {
-				// disable failpoint if specified
-				_ = dbAdmin.RunCommand(ctx, bsonx.Doc{
-					{"configureFailPoint", bsonx.String(test.FailPoint.ConfigureFailPoint)},
-					{"mode", bsonx.String("off")},
-				})
-			}()
+		var shardedHost string
+		var failPointNames []string
+
+		defer disableFailpoints(t, &failPointNames)
+
+		if os.Getenv("TOPOLOGY") == "sharded_cluster" {
+			mongodbURI := testutil.ConnString(t)
+			opts := options.Client().ApplyURI(mongodbURI.String())
+			hosts := opts.Hosts
+			for _, host := range hosts {
+				shardClient, err := NewClient(opts.SetHosts([]string{host}))
+				require.NoError(t, err)
+				addClientOptions(shardClient, test.ClientOptions)
+				err = shardClient.Connect(context.Background())
+				require.NoError(t, err)
+				killSessions(t, shardClient)
+				// Workaround for SERVER-39704
+				if test.Description == "distinct" {
+					shardDatabase := shardClient.Database(testfile.DatabaseName)
+					_, err = shardDatabase.Collection(collName).Distinct(context.Background(), "x", bsonx.Doc{})
+					require.NoError(t, err)
+				}
+				if !test.UseMultipleMongoses {
+					shardedHost = host
+					break
+				}
+				_ = shardClient.Disconnect(ctx)
+			}
 		}
 
-		client := createTransactionsMonitoredClient(t, transMonitor, test.ClientOptions)
+		client := createTransactionsMonitoredClient(t, transMonitor, test.ClientOptions, shardedHost)
 		addClientOptions(client, test.ClientOptions)
 
 		db := client.Database(testfile.DatabaseName)
 
-		collName := sanitizeCollectionName(testfile.DatabaseName, testfile.CollectionName)
+		_ = db.Collection(collName, options.Collection().SetWriteConcern(writeconcern.New(writeconcern.WMajority()))).Drop(context.Background())
 
-		err := db.Drop(ctx)
-		require.NoError(t, err)
-
-		err = db.RunCommand(
+		err := db.RunCommand(
 			context.Background(),
 			bsonx.Doc{{"create", bsonx.String(collName)}},
 		).Err()
 		require.NoError(t, err)
 
+		// client for setup data
+		var i map[string]interface{}
+		setupClient := createTransactionsMonitoredClient(t, transMonitor, i, shardedHost)
+		setupDb := setupClient.Database(testfile.DatabaseName)
+
 		// insert data if present
-		coll := db.Collection(collName)
+		coll := setupDb.Collection(collName)
 		docsToInsert := docSliceToInterfaceSlice(docSliceFromRaw(t, testfile.Data))
 		if len(docsToInsert) > 0 {
 			coll2, err := coll.Clone(options.Collection().SetWriteConcern(writeconcern.New(writeconcern.WMajority())))
 			require.NoError(t, err)
 			_, err = coll2.InsertMany(context.Background(), docsToInsert)
 			require.NoError(t, err)
+		}
+
+		if test.FailPoint != nil {
+			doc := createFailPointDoc(t, test.FailPoint)
+			mongodbURI := testutil.ConnString(t)
+			opts := options.Client().ApplyURI(mongodbURI.String())
+			if len(shardedHost) > 0 {
+				opts.SetHosts([]string{shardedHost})
+			}
+			fpClient, err := NewClient(opts)
+			require.NoError(t, err)
+			addClientOptions(fpClient, test.ClientOptions)
+			err = fpClient.Connect(context.Background())
+			require.NoError(t, err)
+			fpDatabase := fpClient.Database("admin")
+			err = fpDatabase.RunCommand(ctx, doc).Err()
+			require.NoError(t, err)
+			_ = fpClient.Disconnect(context.Background())
+			failPointNames = append(failPointNames, test.FailPoint.ConfigureFailPoint)
 		}
 
 		var sess0Opts *options.SessionOptions
@@ -196,6 +271,8 @@ func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTe
 			}
 		}
 
+		commandStarted = commandStarted[:0]
+
 		session0, err := client.StartSession(sess0Opts)
 		require.NoError(t, err)
 		session1, err := client.StartSession(sess1Opts)
@@ -204,27 +281,18 @@ func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTe
 		sess0 := session0.(*sessionImpl)
 		sess1 := session1.(*sessionImpl)
 
-		lsid0 := sess0.SessionID
-		lsid1 := sess1.SessionID
+		lsid0 := sess0.clientSession.SessionID
+		lsid1 := sess1.clientSession.SessionID
 
 		defer func() {
 			sess0.EndSession(ctx)
 			sess1.EndSession(ctx)
 		}()
 
-		// Drain the channel so we only capture events for this test.
-		for len(transStartedChan) > 0 {
-			<-transStartedChan
-		}
-
 		for _, op := range test.Operations {
 			if op.Name == "count" {
 				t.Skip("count has been deprecated")
 			}
-
-			// create collection with default read preference Primary (needed to prevent server selection fail)
-			coll = db.Collection(collName, options.Collection().SetReadPreference(readpref.Primary()))
-			addCollectionOptions(coll, op.CollectionOptions)
 
 			// Arguments aren't marshaled directly into a map because runcommand
 			// needs to convert them into BSON docs.  We convert them to a map here
@@ -242,12 +310,26 @@ func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTe
 				}
 			}
 
+			if op.Object == "testRunner" {
+				fpName, err := executeTestRunnerOperation(t, op, sess)
+				require.NoError(t, err)
+				if len(fpName) > 0 {
+					failPointNames = append(failPointNames, fpName)
+				}
+				continue
+			}
+
+			// create collection with default read preference Primary (needed to prevent server selection fail)
+			coll := db.Collection(collName, options.Collection().SetReadPreference(readpref.Primary()).SetReadConcern(readconcern.Local()))
+			addCollectionOptions(coll, op.CollectionOptions)
+
 			// execute the command on given object
+			var err error
 			switch op.Object {
 			case "session0":
-				err = executeSessionOperation(op, sess0)
+				err = executeSessionOperation(t, op, sess0, collName, db)
 			case "session1":
-				err = executeSessionOperation(op, sess1)
+				err = executeSessionOperation(t, op, sess1, collName, db)
 			case "collection":
 				err = executeCollectionOperation(t, op, sess, coll)
 			case "database":
@@ -256,6 +338,10 @@ func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTe
 
 			// ensure error is what we expect
 			verifyError(t, err, op.Result)
+
+			if op.Error {
+				require.Error(t, err)
+			}
 		}
 
 		// Needs to be done here (in spite of defer) because some tests
@@ -265,9 +351,11 @@ func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTe
 
 		checkExpectations(t, test.Expectations, lsid0, lsid1)
 
+		disableFailpoints(t, &failPointNames)
+
 		if test.Outcome != nil {
 			// Verify with primary read pref
-			coll2, err := coll.Clone(options.Collection().SetReadPreference(readpref.Primary()))
+			coll2, err := coll.Clone(options.Collection().SetReadPreference(readpref.Primary()).SetReadConcern(readconcern.Local()))
 			require.NoError(t, err)
 			verifyCollectionContents(t, coll2, test.Outcome.Collection.Data)
 		}
@@ -276,32 +364,45 @@ func runTransactionsTestCase(t *testing.T, test *transTestCase, testfile transTe
 }
 
 func killSessions(t *testing.T, client *Client) {
-	s, err := client.topology.SelectServer(ctx, description.WriteSelector())
+	err := operation.NewCommand(bsoncore.BuildDocument(nil, bsoncore.AppendArrayElement(nil, "killAllSessions", bsoncore.BuildArray(nil)))).
+		Database("admin").ServerSelector(description.WriteSelector()).Deployment(client.topology).Execute(context.Background())
 	require.NoError(t, err)
-
-	vals := make(bsonx.Arr, 0, 0)
-	cmd := command.Write{
-		DB:      "admin",
-		Command: bsonx.Doc{{"killAllSessions", bsonx.Array(vals)}},
-	}
-	conn, err := s.Connection(ctx)
-	require.NoError(t, err)
-	defer testhelpers.RequireNoErrorOnClose(t, conn)
-	// ignore the error because command kills its own implicit session
-	_, _ = cmd.RoundTrip(context.Background(), s.SelectedDescription(), conn)
 }
 
-func createTransactionsMonitoredClient(t *testing.T, monitor *event.CommandMonitor, opts map[string]interface{}) *Client {
+func disableFailpoints(t *testing.T, failPointNames *[]string) {
+	mongodbURI := testutil.ConnString(t)
+	opts := options.Client().ApplyURI(mongodbURI.String())
+	hosts := opts.Hosts
+	for _, host := range hosts {
+		shardClient, err := NewClient(opts.SetHosts([]string{host}))
+		require.NoError(t, err)
+		require.NoError(t, shardClient.Connect(ctx))
+		// disable failpoint if specified
+		for _, failpt := range *failPointNames {
+			require.NoError(t, shardClient.Database("admin").RunCommand(ctx, bson.D{
+				{"configureFailPoint", failpt},
+				{"mode", "off"},
+			}).Err())
+		}
+		_ = shardClient.Disconnect(ctx)
+	}
+}
+
+func createTransactionsMonitoredClient(t *testing.T, monitor *event.CommandMonitor, opts map[string]interface{}, host string) *Client {
 	clock := &session.ClusterClock{}
 
+	cs := testutil.ConnString(t)
+	if len(host) > 0 {
+		cs.Hosts = []string{host}
+	}
 	c := &Client{
-		topology:       createMonitoredTopology(t, clock, monitor),
-		connString:     testutil.ConnString(t),
+		topology:       createMonitoredTopology(t, clock, monitor, &cs),
+		connString:     cs,
 		readPreference: readpref.Primary(),
 		clock:          clock,
 		registry:       bson.NewRegistryBuilder().Build(),
+		monitor:        monitor,
 	}
-
 	addClientOptions(c, opts)
 
 	subscription, err := c.topology.Subscribe()
@@ -358,6 +459,7 @@ func createFailPointDoc(t *testing.T, failPoint *failPoint) bsonx.Doc {
 			dataDoc = append(dataDoc,
 				bsonx.Elem{"writeConcernError", bsonx.Document(bsonx.Doc{
 					{"code", bsonx.Int32(failPoint.Data.WriteConcernError.Code)},
+					{"codeName", bsonx.String(failPoint.Data.WriteConcernError.Name)},
 					{"errmsg", bsonx.String(failPoint.Data.WriteConcernError.Errmsg)},
 				})},
 			)
@@ -373,7 +475,7 @@ func createFailPointDoc(t *testing.T, failPoint *failPoint) bsonx.Doc {
 	return failDoc
 }
 
-func executeSessionOperation(op *transOperation, sess *sessionImpl) error {
+func executeSessionOperation(t *testing.T, op *transOperation, sess *sessionImpl, collName string, db *Database) error {
 	switch op.Name {
 	case "startTransaction":
 		// options are only argument
@@ -386,6 +488,13 @@ func executeSessionOperation(op *transOperation, sess *sessionImpl) error {
 		return sess.CommitTransaction(ctx)
 	case "abortTransaction":
 		return sess.AbortTransaction(ctx)
+	case "withTransaction":
+		return executeWithTransaction(t, sess, collName, db, op.Arguments)
+	case "endSession":
+		sess.EndSession(ctx)
+		return nil
+	default:
+		require.Fail(t, "unknown operation", op.Name)
 	}
 	return nil
 }
@@ -398,80 +507,80 @@ func executeCollectionOperation(t *testing.T, op *transOperation, sess *sessionI
 		return err
 	case "distinct":
 		res, err := executeDistinct(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyDistinctResult(t, res, op.Result)
 		}
 		return err
 	case "insertOne":
 		res, err := executeInsertOne(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyInsertOneResult(t, res, op.Result)
 		}
 		return err
 	case "insertMany":
 		res, err := executeInsertMany(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyInsertManyResult(t, res, op.Result)
 		}
 		return err
 	case "find":
 		res, err := executeFind(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyCursorResult(t, res, op.Result)
 		}
 		return err
 	case "findOneAndDelete":
 		res := executeFindOneAndDelete(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && res.err == nil {
 			verifySingleResult(t, res, op.Result)
 		}
 		return res.err
 	case "findOneAndUpdate":
 		res := executeFindOneAndUpdate(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && res.err == nil {
 			verifySingleResult(t, res, op.Result)
 		}
 		return res.err
 	case "findOneAndReplace":
 		res := executeFindOneAndReplace(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && res.err == nil {
 			verifySingleResult(t, res, op.Result)
 		}
 		return res.err
 	case "deleteOne":
 		res, err := executeDeleteOne(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyDeleteResult(t, res, op.Result)
 		}
 		return err
 	case "deleteMany":
 		res, err := executeDeleteMany(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyDeleteResult(t, res, op.Result)
 		}
 		return err
 	case "updateOne":
 		res, err := executeUpdateOne(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyUpdateResult(t, res, op.Result)
 		}
 		return err
 	case "updateMany":
 		res, err := executeUpdateMany(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyUpdateResult(t, res, op.Result)
 		}
 		return err
 	case "replaceOne":
 		res, err := executeReplaceOne(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
+		if !resultHasError(t, op.Result) && err == nil {
 			verifyUpdateResult(t, res, op.Result)
 		}
 		return err
 	case "aggregate":
 		res, err := executeAggregate(sess, coll, op.ArgMap)
-		if !resultHasError(t, op.Result) {
-			verifyCursorResult2(t, res, op.Result)
+		if !resultHasError(t, op.Result) && err == nil {
+			verifyCursorResult(t, res, op.Result)
 		}
 		return err
 	case "bulkWrite":
@@ -496,6 +605,56 @@ func executeDatabaseOperation(t *testing.T, op *transOperation, sess *sessionImp
 		return err
 	}
 	return nil
+}
+
+func executeTestRunnerOperation(t *testing.T, op *transOperation, sess *sessionImpl) (string, error) {
+	switch op.Name {
+	case "targetedFailPoint":
+		failPtStr, ok := op.ArgMap["failPoint"]
+		require.True(t, ok)
+		var fp failPoint
+		marshaled, err := json.Marshal(failPtStr.(map[string]interface{}))
+		require.NoError(t, err)
+		require.NoError(t, json.Unmarshal(marshaled, &fp))
+
+		doc := createFailPointDoc(t, &fp)
+		mongodbURI := testutil.ConnString(t)
+		opts := options.Client().ApplyURI(mongodbURI.String())
+		client, err := NewClient(opts.SetHosts([]string{sess.clientSession.PinnedServer.Addr.String()}))
+		require.NoError(t, err)
+		require.NoError(t, client.Connect(ctx))
+		require.NoError(t, client.Database("admin").RunCommand(ctx, doc).Err())
+
+		_ = client.Disconnect(ctx)
+
+		return fp.ConfigureFailPoint, nil
+	case "assertSessionPinned":
+		require.NotNil(t, sess.clientSession.PinnedServer)
+	case "assertSessionUnpinned":
+		require.Nil(t, sess.clientSession.PinnedServer)
+	case "assertSessionDirty":
+		require.NotNil(t, sess.clientSession.Server)
+		require.True(t, sess.clientSession.Server.Dirty)
+	case "assertSessionNotDirty":
+		require.NotNil(t, sess.clientSession.Server)
+		require.False(t, sess.clientSession.Server.Dirty)
+	case "assertSameLsidOnLastTwoCommands":
+		require.True(t, sameLsidOnLastTwoCommandEvents(t))
+	case "assertDifferentLsidOnLastTwoCommands":
+		require.False(t, sameLsidOnLastTwoCommandEvents(t))
+	default:
+		require.Fail(t, "unknown operation", op.Name)
+	}
+	return "", nil
+}
+
+func sameLsidOnLastTwoCommandEvents(t *testing.T) bool {
+	res := commandStarted[len(commandStarted)-2:]
+	require.Equal(t, len(res), 2)
+	if cmp.Equal(res[0].Command.Lookup("lsid"), res[1].Command.Lookup("lsid")) {
+		return true
+	}
+	return false
 }
 
 func verifyError(t *testing.T, e error, result json.RawMessage) {
@@ -564,14 +723,12 @@ func getErrorFromResult(t *testing.T, result json.RawMessage) *transError {
 	return &expected
 }
 
-func checkExpectations(t *testing.T, expectations []*transExpectation, id0 bsonx.Doc, id1 bsonx.Doc) {
-	for _, expectation := range expectations {
-		var evt *event.CommandStartedEvent
-		select {
-		case evt = <-transStartedChan:
-		default:
+func checkExpectations(t *testing.T, expectations []*expectation, id0 bsonx.Doc, id1 bsonx.Doc) {
+	for i, expectation := range expectations {
+		if i == len(commandStarted) {
 			require.Fail(t, "Expected command started event", expectation.CommandStartedEvent.CommandName)
 		}
+		evt := commandStarted[i]
 
 		require.Equal(t, expectation.CommandStartedEvent.CommandName, evt.CommandName)
 		require.Equal(t, expectation.CommandStartedEvent.DatabaseName, evt.DatabaseName)
@@ -601,7 +758,7 @@ func checkExpectations(t *testing.T, expectations []*transExpectation, id0 bsonx
 
 			// Keys that should not be nil
 			require.NotEqual(t, actualVal.Type, bsontype.Null, "Expected %v, got nil for key: %s", elem, key)
-			require.NoError(t, actualVal.Validate())
+			require.NoError(t, actualVal.Validate(), "Expected %v, couldn't validate", elem)
 			if key == "lsid" {
 				if val.StringValue() == "session0" {
 					doc, err := bsonx.ReadDoc(actualVal.Document())
@@ -671,6 +828,9 @@ func getSessionOptions(opts map[string]interface{}) *options.SessionOptions {
 			if transOpts["readPreference"] != nil {
 				sessOpts = sessOpts.SetDefaultReadPreference(getReadPref(transOpts["readPreference"]))
 			}
+			if transOpts["maxCommitTimeMS"] != nil {
+				sessOpts = sessOpts.SetDefaultMaxCommitTime(getMaxCommitTime(transOpts["maxCommitTimeMS"]))
+			}
 		}
 	}
 
@@ -687,6 +847,8 @@ func getTransactionOptions(opts map[string]interface{}) *options.TransactionOpti
 			transOpts = transOpts.SetReadPreference(getReadPref(opt))
 		case "readConcern":
 			transOpts = transOpts.SetReadConcern(getReadConcern(opt))
+		case "maxCommitTimeMS":
+			transOpts = transOpts.SetMaxCommitTime(getMaxCommitTime(opt))
 		}
 	}
 	return transOpts
@@ -722,6 +884,14 @@ func getReadPref(opt interface{}) *readpref.ReadPref {
 	return nil
 }
 
+func getMaxCommitTime(opt interface{}) *time.Duration {
+	if max, ok := opt.(float64); ok {
+		res := time.Duration(max) * time.Millisecond
+		return &res
+	}
+	return nil
+}
+
 func readPrefFromString(s string) *readpref.ReadPref {
 	switch strings.ToLower(s) {
 	case "primary":
@@ -738,8 +908,34 @@ func readPrefFromString(s string) *readpref.ReadPref {
 	return readpref.Primary()
 }
 
-// skip if server version less than 4.0 OR not a replica set.
-func shouldSkipTransactionsTest(t *testing.T, serverVersion string) bool {
-	return compareVersions(t, serverVersion, "4.0") < 0 ||
-		os.Getenv("TOPOLOGY") != "replica_set"
+func shouldExecuteTest(t *testing.T, serverVersion string, reqs *runOn) bool {
+	if len(reqs.MinServerVersion) > 0 && compareVersions(t, serverVersion, reqs.MinServerVersion) < 0 {
+		return false
+	}
+	if len(reqs.MaxServerVersion) > 0 && compareVersions(t, serverVersion, reqs.MaxServerVersion) > 0 {
+		return false
+	}
+	if len(reqs.Topology) == 0 {
+		return true
+	}
+	for _, top := range reqs.Topology {
+		envTop := os.Getenv("TOPOLOGY")
+		switch envTop {
+		case "server":
+			if top == "single" {
+				return true
+			}
+		case "replica_set":
+			if top == "replicaset" {
+				return true
+			}
+		case "sharded_cluster":
+			if top == "sharded" {
+				return true
+			}
+		default:
+			t.Fatalf("unrecognized TOPOLOGY: %v", envTop)
+		}
+	}
+	return false
 }

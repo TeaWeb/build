@@ -14,7 +14,7 @@ The MongoDB supported driver for Go.
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Bugs/Feature Reporting](#bugs-feature-reporting)
+- [Bugs / Feature Reporting](#bugs--feature-reporting)
 - [Testing / Development](#testing--development)
 - [Continuous Integration](#continuous-integration)
 - [License](#license)
@@ -31,7 +31,7 @@ The MongoDB supported driver for Go.
 The recommended way to get started using the MongoDB Go driver is by using `dep` to install the dependency in your project.
 
 ```bash
-dep ensure -add "go.mongodb.org/mongo-driver/mongo@~1.0.1"
+dep ensure -add "go.mongodb.org/mongo-driver/mongo@~1.1.0"
 ```
 
 -------------------------
@@ -40,7 +40,10 @@ dep ensure -add "go.mongodb.org/mongo-driver/mongo@~1.0.1"
 To get started with the driver, import the `mongo` package, create a `mongo.Client`:
 
 ```go
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+    "go.mongodb.org/mongo-driver/mongo"
+    "go.mongodb.org/mongo-driver/mongo/options"
+)
 
 client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://localhost:27017"))
 ```

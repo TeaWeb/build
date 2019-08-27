@@ -10,40 +10,44 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
-	"math"
-	"path"
-	"strconv"
-	"strings"
-	"testing"
-
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/x/bsonx"
-
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path"
+	"testing"
 
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/internal/testutil/helpers"
+	testhelpers "go.mongodb.org/mongo-driver/internal/testutil/helpers"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
+	"go.mongodb.org/mongo-driver/x/bsonx"
 )
 
-type testFile struct {
+type testFileV1 struct {
 	Data             json.RawMessage
 	MinServerVersion string
 	MaxServerVersion string
-	Tests            []testCase
+	DatabaseName     string `json:"database_name"`
+	Tests            []testCaseV1
 }
 
-type testCase struct {
-	Description string
-	Operation   operation
-	Outcome     outcome
+type testCaseV1 struct {
+	Description   string
+	SkipReason    string
+	ClientOptions *options.CollectionOptions
+	Operation     op
+	Outcome       outcome
+	Expectations  []map[string]expectation
 }
 
-type operation struct {
-	Name      string
-	Arguments map[string]interface{}
+type op struct {
+	Name              string
+	Arguments         map[string]interface{}
+	Object            string
+	CollectionOptions *collOpts `json:"collectionOptions"`
+	Error             bool      `json:"error"`
+	Result            json.RawMessage
 }
 
 type outcome struct {
@@ -56,80 +60,45 @@ type collection struct {
 	Data json.RawMessage
 }
 
+type aggregator interface {
+	Aggregate(context.Context, interface{}, ...*options.AggregateOptions) (*Cursor, error)
+}
+
 const crudTestsDir = "../data/crud"
-const readTestsDir = "read"
-const writeTestsDir = "write"
-
-// compareVersions compares two version number strings (i.e. positive integers separated by
-// periods). Comparisons are done to the lesser precision of the two versions. For example, 3.2 is
-// considered equal to 3.2.11, whereas 3.2.0 is considered less than 3.2.11.
-//
-// Returns a positive int if version1 is greater than version2, a negative int if version1 is less
-// than version2, and 0 if version1 is equal to version2.
-func compareVersions(t *testing.T, v1 string, v2 string) int {
-	n1 := strings.Split(v1, ".")
-	n2 := strings.Split(v2, ".")
-
-	for i := 0; i < int(math.Min(float64(len(n1)), float64(len(n2)))); i++ {
-		i1, err := strconv.Atoi(n1[i])
-		require.NoError(t, err)
-
-		i2, err := strconv.Atoi(n2[i])
-		require.NoError(t, err)
-
-		difference := i1 - i2
-		if difference != 0 {
-			return difference
-		}
-	}
-
-	return 0
-}
-
-func getServerVersion(db *Database) (string, error) {
-	var serverStatus bsonx.Doc
-	err := db.RunCommand(
-		context.Background(),
-		bsonx.Doc{{"serverStatus", bsonx.Int32(1)}},
-	).Decode(&serverStatus)
-	if err != nil {
-		return "", err
-	}
-
-	version, err := serverStatus.LookupErr("version")
-	if err != nil {
-		return "", err
-	}
-
-	return version.StringValue(), nil
-}
+const readTestsDir = "v1/read"
+const writeTestsDir = "v1/write"
 
 // Test case for all CRUD spec tests.
-func TestCRUDSpec(t *testing.T) {
-	dbName := "crud-spec-tests"
-	db := createTestDatabase(t, &dbName)
-
+func TestCRUDSpecV1(t *testing.T) {
 	for _, file := range testhelpers.FindJSONFilesInDir(t, path.Join(crudTestsDir, readTestsDir)) {
-		runCRUDTestFile(t, path.Join(crudTestsDir, readTestsDir, file), db)
+		runCRUDTestFileV1(t, path.Join(crudTestsDir, readTestsDir, file))
 	}
 
 	for _, file := range testhelpers.FindJSONFilesInDir(t, path.Join(crudTestsDir, writeTestsDir)) {
-		runCRUDTestFile(t, path.Join(crudTestsDir, writeTestsDir, file), db)
+		runCRUDTestFileV1(t, path.Join(crudTestsDir, writeTestsDir, file))
 	}
 }
 
-func runCRUDTestFile(t *testing.T, filepath string, db *Database) {
+func runCRUDTestFileV1(t *testing.T, filepath string) {
 	content, err := ioutil.ReadFile(filepath)
 	require.NoError(t, err)
 
-	var testfile testFile
+	var testfile testFileV1
 	require.NoError(t, json.Unmarshal(content, &testfile))
+
+	var db *Database
+	dbName := "crud-spec-tests"
+	if testfile.DatabaseName != "" {
+		dbName = testfile.DatabaseName
+	}
+	db = createTestDatabase(t, &dbName)
 
 	if shouldSkip(t, testfile.MinServerVersion, testfile.MaxServerVersion, db) {
 		return
 	}
 
 	for _, test := range testfile.Tests {
+
 		collName := sanitizeCollectionName("crud-spec-tests", test.Description)
 
 		_ = db.RunCommand(
@@ -145,16 +114,23 @@ func runCRUDTestFile(t *testing.T, filepath string, db *Database) {
 		}
 
 		coll := db.Collection(collName)
-		docsToInsert := docSliceToInterfaceSlice(docSliceFromRaw(t, testfile.Data))
 
 		wcColl, err := coll.Clone(options.Collection().SetWriteConcern(writeconcern.New(writeconcern.WMajority())))
 		require.NoError(t, err)
-		_, err = wcColl.InsertMany(context.Background(), docsToInsert)
-		require.NoError(t, err)
+
+		if len(testfile.Data) != 0 {
+			docsToInsert := docSliceToInterfaceSlice(docSliceFromRaw(t, testfile.Data))
+			_, err = wcColl.InsertMany(context.Background(), docsToInsert)
+			require.NoError(t, err)
+		}
 
 		switch test.Operation.Name {
 		case "aggregate":
-			aggregateTest(t, db, coll, &test)
+			if test.Operation.Object == "database" {
+				aggregateTest(t, db, db, &test)
+			} else {
+				aggregateTest(t, db, coll, &test)
+			}
 		case "bulkWrite":
 			bulkWriteTest(t, wcColl, &test)
 		case "count":
@@ -183,12 +159,19 @@ func runCRUDTestFile(t *testing.T, filepath string, db *Database) {
 			updateManyTest(t, coll, &test)
 		case "updateOne":
 			updateOneTest(t, coll, &test)
+		default:
+			t.Fatalf("Unknown operation name: %v", test.Operation.Name)
 		}
 	}
 }
 
-func aggregateTest(t *testing.T, db *Database, coll *Collection, test *testCase) {
+func aggregateTest(t *testing.T, db *Database, a aggregator, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
+		if test.Operation.Object == "database" {
+			if os.Getenv("TOPOLOGY") == "sharded_cluster" {
+				t.Skip("don't run $currentOp on sharded clusters")
+			}
+		}
 		pipeline := test.Operation.Arguments["pipeline"].([]interface{})
 
 		opts := options.Aggregate()
@@ -201,6 +184,10 @@ func aggregateTest(t *testing.T, db *Database, coll *Collection, test *testCase)
 			opts = opts.SetCollation(collationFromMap(collation.(map[string]interface{})))
 		}
 
+		if diskUse, found := test.Operation.Arguments["allowDiskUse"]; found {
+			opts = opts.SetAllowDiskUse(diskUse.(bool))
+		}
+
 		out := false
 		if len(pipeline) > 0 {
 			if _, found := pipeline[len(pipeline)-1].(map[string]interface{})["$out"]; found {
@@ -208,25 +195,27 @@ func aggregateTest(t *testing.T, db *Database, coll *Collection, test *testCase)
 			}
 		}
 
-		cursor, err := coll.Aggregate(context.Background(), pipeline, opts)
+		cursor, err := a.Aggregate(context.Background(), pipeline, opts)
 		require.NoError(t, err)
 
 		if !out {
-			verifyCursorResult2(t, cursor, test.Outcome.Result)
+			verifyCursorResult(t, cursor, test.Outcome.Result)
 		}
 
 		if test.Outcome.Collection != nil {
-			outColl := coll
+			collName := sanitizeCollectionName("crud-spec-tests", test.Description)
+			outColl := db.Collection(collName)
 			if len(test.Outcome.Collection.Name) > 0 {
 				outColl = db.Collection(test.Outcome.Collection.Name)
 			}
 
 			verifyCollectionContents(t, outColl, test.Outcome.Collection.Data)
 		}
+
 	})
 }
 
-func bulkWriteTest(t *testing.T, coll *Collection, test *testCase) {
+func bulkWriteTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		// TODO(GODRIVER-593): Figure out why this test fails
 		if test.Description == "BulkWrite with replaceOne operations" {
@@ -251,8 +240,6 @@ func bulkWriteTest(t *testing.T, coll *Collection, test *testCase) {
 
 			argsMap := reqMap["arguments"].(map[string]interface{})
 			for k, v := range argsMap {
-				var err error
-
 				switch k {
 				case "filter":
 					filter = v.(map[string]interface{})
@@ -274,10 +261,6 @@ func bulkWriteTest(t *testing.T, coll *Collection, test *testCase) {
 					arrayFiltersSet = true
 				default:
 					fmt.Printf("unknown argument: %s\n", k)
-				}
-
-				if err != nil {
-					t.Fatalf("error parsing argument %s: %s", k, err)
 				}
 			}
 
@@ -399,7 +382,7 @@ func bulkWriteTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func countTest(t *testing.T, coll *Collection, test *testCase) {
+func countTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actualCount, err := executeCount(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -414,7 +397,7 @@ func countTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func deleteManyTest(t *testing.T, coll *Collection, test *testCase) {
+func deleteManyTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeDeleteMany(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -425,7 +408,7 @@ func deleteManyTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func deleteOneTest(t *testing.T, coll *Collection, test *testCase) {
+func deleteOneTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeDeleteOne(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -438,7 +421,7 @@ func deleteOneTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func distinctTest(t *testing.T, coll *Collection, test *testCase) {
+func distinctTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeDistinct(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -447,7 +430,7 @@ func distinctTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func findTest(t *testing.T, coll *Collection, test *testCase) {
+func findTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		cursor, err := executeFind(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -456,7 +439,7 @@ func findTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func findOneAndDeleteTest(t *testing.T, coll *Collection, test *testCase) {
+func findOneAndDeleteTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actualResult := executeFindOneAndDelete(nil, coll, test.Operation.Arguments)
 
@@ -466,7 +449,7 @@ func findOneAndDeleteTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func findOneAndReplaceTest(t *testing.T, coll *Collection, test *testCase) {
+func findOneAndReplaceTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actualResult := executeFindOneAndReplace(nil, coll, test.Operation.Arguments)
 
@@ -476,7 +459,7 @@ func findOneAndReplaceTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func findOneAndUpdateTest(t *testing.T, coll *Collection, test *testCase) {
+func findOneAndUpdateTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actualResult := executeFindOneAndUpdate(nil, coll, test.Operation.Arguments)
 		verifySingleResult(t, actualResult, test.Outcome.Result)
@@ -485,7 +468,7 @@ func findOneAndUpdateTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func insertManyTest(t *testing.T, coll *Collection, test *testCase) {
+func insertManyTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeInsertMany(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -496,7 +479,7 @@ func insertManyTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func insertOneTest(t *testing.T, coll *Collection, test *testCase) {
+func insertOneTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeInsertOne(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -507,7 +490,7 @@ func insertOneTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func replaceOneTest(t *testing.T, coll *Collection, test *testCase) {
+func replaceOneTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeReplaceOne(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -520,7 +503,7 @@ func replaceOneTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func updateManyTest(t *testing.T, coll *Collection, test *testCase) {
+func updateManyTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeUpdateMany(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -533,7 +516,7 @@ func updateManyTest(t *testing.T, coll *Collection, test *testCase) {
 	})
 }
 
-func updateOneTest(t *testing.T, coll *Collection, test *testCase) {
+func updateOneTest(t *testing.T, coll *Collection, test *testCaseV1) {
 	t.Run(test.Description, func(t *testing.T) {
 		actual, err := executeUpdateOne(nil, coll, test.Operation.Arguments)
 		require.NoError(t, err)
@@ -544,19 +527,4 @@ func updateOneTest(t *testing.T, coll *Collection, test *testCase) {
 			verifyCollectionContents(t, coll, test.Outcome.Collection.Data)
 		}
 	})
-}
-
-func shouldSkip(t *testing.T, minVersion string, maxVersion string, db *Database) bool {
-	versionStr, err := getServerVersion(db)
-	require.NoError(t, err)
-
-	if len(minVersion) > 0 && compareVersions(t, minVersion, versionStr) > 0 {
-		return true
-	}
-
-	if len(maxVersion) > 0 && compareVersions(t, maxVersion, versionStr) < 0 {
-		return true
-	}
-
-	return false
 }
