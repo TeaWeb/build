@@ -1,3 +1,16 @@
 .form {
     margin-top: 2em;
 }
+
+.data-box {
+    overflow-y: auto;
+    max-height: 16em;
+}
+
+.data-box::-webkit-scrollbar {
+    width: 4px;
+}
+
+.export-box {
+    height: 16em;
+}

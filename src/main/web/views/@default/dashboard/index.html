@@ -1,6 +1,6 @@
 {$layout}
 
-<p class="comment" v-if="mongoFailed">需要设置MongoDB才能展示本页面，<a href="/settings/mongo">去设置</a>。</p>
+<p class="comment" v-if="mongoFailed">需要设置数据库才能展示本页面，<a href="/settings/mongo">去设置</a>。</p>
 <p class="comment" v-if="isLoaded && charts.length == 0 && !mongoFailed">请等待数据初始化完成...</p>
 
 <!-- 实时 -->

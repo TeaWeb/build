@@ -10,6 +10,7 @@ Tea.context(function () {
 	 * 加载图表
 	 */
 	this.charts = [];
+	this.error = "";
 
 	this.loadCharts = function () {
 		this.$post("$")
@@ -25,6 +26,8 @@ Tea.context(function () {
 				// charts
 				this.charts = resp.data.charts;
 				new ChartRender(this.charts);
+
+				this.error = resp.data.error;
 			})
 			.done(function () {
 				this.$delay(function () {

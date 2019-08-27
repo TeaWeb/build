@@ -2,8 +2,39 @@
 
 {$template "/datepicker"}
 
-<div>
+<div class="ui menu tabular tiny attached">
+	<a href="" @click.prevent="selectTab('chart')" class="item" :class="{active:tab=='chart'}">图表</a>
+	<a href="" @click.prevent="selectTab('data')" class="item" :class="{active:tab=='data'}">数据</a>
+	<a href="" @click.prevent="selectTab('csv')" class="item" :class="{active:tab=='csv'}">导出</a>
+</div>
+
+
+<!-- 图表 -->
+<div class="ui segment attached" style="padding-bottom:2em" v-show="tab == 'chart'">
 	{$template "/chart_render"}
+</div>
+
+<!-- 数据 -->
+<div class="ui segment attached data-box" v-show="tab == 'data'">
+	<table class="ui table selectable">
+		<thead>
+			<tr>
+				<th>时间</th>
+				<th v-if="exportTitles.length == 0">数据</th>
+				<th v-for="t in exportTitles">{{t}}</th>
+			</tr>
+		</thead>
+		<tr v-for="v in exportArray">
+			<td class="title">{{v.time}}</td>
+			<td v-if="exportTitles.length == 0">{{v.value}}</td>
+			<td v-for="t in exportTitles">{{getValue(v.value, t)}}</td>
+		</tr>
+	</table>
+</div>
+
+<!-- 导出 -->
+<div class="ui segment attached export-box" v-show="tab == 'csv'">
+	<a href="" @click.prevent="exportCSV()">点此导出为CSV文件，浏览器将会提示下载文件</a>
 </div>
 
 <form class="ui form" data-tea-action=".updateChart" id="update-chart-form" :class="{loading:isLoading}">

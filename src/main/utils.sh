@@ -23,6 +23,7 @@ function build() {
 			if [ ${result} -gt 0 ]
 			then
 				GO_CMD="go.1.11"
+				GOROOT=""
 			else
 				GO_CMD="go"
 			fi
@@ -167,6 +168,7 @@ function buildAgent() {
 			if [ ${result} -gt 0 ]
 			then
 				GO_CMD="go.1.11"
+				GOROOT=""
 			else
 				GO_CMD="go"
 			fi
@@ -249,18 +251,19 @@ function buildAgentInstaller() {
     then
         EXT=".exe"
 
-		# we use go 1.11 to build 386 binary
-        if [ ${GOARCH} = "386" ]
-		then
-			echo "check go 1.11 for old windows"
-			result=`go.1.11 version|wc -c`
-			if [ ${result} -gt 0 ]
+			# we use go 1.11 to build 386 binary
+    	if [ ${GOARCH} = "386" ]
 			then
-				GO_CMD="go.1.11"
-			else
-				GO_CMD="go"
-			fi
-        fi
+				echo "check go 1.11 for old windows"
+				result=`go.1.11 version|wc -c`
+				if [ ${result} -gt 0 ]
+				then
+					GO_CMD="go.1.11"
+					GOROOT=""
+				else
+					GO_CMD="go"
+				fi
+      fi
     fi
 
 	echo "[================ building agent installer ${GOOS}/${GOARCH}/v${VERSION}] ================]"
