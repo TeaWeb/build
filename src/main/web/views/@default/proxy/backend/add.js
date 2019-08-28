@@ -15,9 +15,18 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 证书
+	 */
+	this.useCert = false;
+
+	/**
 	 * 地址
 	 */
 	this.address = "";
+	this.scheme = "http";
+	if (this.isTCP) {
+		this.scheme = "tcp";
+	}
 
 	this.changeAddress = function () {
 		if (this.address == null) {

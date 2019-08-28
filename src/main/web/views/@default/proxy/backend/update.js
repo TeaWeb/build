@@ -18,6 +18,18 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 证书
+	 */
+	this.useCert = (this.backend.cert != null);
+	if (this.backend.cert != null) {
+		this.certId = this.backend.cert.id;
+		this.certServerName = this.backend.cert.serverName;
+	} else {
+		this.certId = "";
+		this.certServerName = "";
+	}
+
+	/**
 	 * 地址
 	 */
 	this.changeAddress = function () {

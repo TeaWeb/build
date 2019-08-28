@@ -34,6 +34,43 @@
 				</select>
 			</td>
 		</tr>
+		<!-- 证书 -->
+		<tr v-if="backend.scheme == 'https' || backend.scheme == 'tcp+tls'">
+			<td>SSL证书</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="useCert" id="user-cert-checkbox" value="1" v-model="useCert"/>
+					<label for="user-cert-checkbox">请求后端服务器时使用SSL证书</label>
+				</div>
+				<p class="comment">选中后，每次请求后端服务器时，都使用此证书，以保证通讯安全。</p>
+				<table class="ui table" v-show="useCert">
+					<tr>
+						<td class="title">选择证书</td>
+						<td>
+							<div  v-if="sharedCerts.length > 0" style="margin-top:1em">
+								<select name="certId" class="ui dropdown" v-model="certId">
+									<option value="">[请选择证书]</option>
+									<option v-for="sharedCert in sharedCerts" :value="sharedCert.id">{{sharedCert.summary}}</option>
+								</select>
+								<p class="comment">
+									<a href="/proxy/certs">添加更多证书&raquo;</a>
+								</p>
+							</div>
+							<div v-show="useCert" v-if="sharedCerts.length == 0" style="margin-top:1em">
+								没有可以使用的证书，请在<a href="/proxy/certs">SSL证书管理页面</a>添加。
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>证书域名</td>
+						<td>
+							<input type="text" name="certServerName" v-model="certServerName"/>
+							<p class="comment">和证书匹配的匹配的域名<span v-if="isHTTP">，默认和主机名一致。</span>。</p>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 		<tbody v-if="isHTTP">
 			<tr>
 				<td>请求URI</td>
@@ -46,7 +83,7 @@
 				<td>主机名<em>（Host）</em></td>
 				<td>
 					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="100" @input="changeHost"/>
-					<p class="comment"><span class="red" v-if="hostError.length > 0">{{hostError}}</span>请求后端服务器时的Host，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
+					<p class="comment"><span class="red" v-if="hostError.length > 0">{{hostError}}</span>请求后端服务器时的Host，用于修改后端服务器接收到的域名，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
 				</td>
 			</tr>
 		</tbody>
