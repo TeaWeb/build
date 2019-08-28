@@ -18,12 +18,12 @@
 
     <h3>Websocket信息 <a :href="'/proxy/locations/websocket/update?serverId=' + server.id + '&locationId=' + location.id + '&from=' + from">修改</a></h3>
     <p v-if="websocket == null" class="comment" style="padding-top:0">暂时还没有设置Websocket。</p>
-    <table class="ui table definition" v-if="websocket != null">
+    <table class="ui table definition selectable" v-if="websocket != null">
         <tr>
             <td>是否启用</td>
             <td>
                 <span class="ui label tiny green" v-if="websocket.on">已启用</span>
-                <span class="ui label tiny" v-if="!websocket.on">未启用</span>
+                <span class="ui label tiny red" v-if="!websocket.on">未启用</span>
             </td>
         </tr>
         <tr>

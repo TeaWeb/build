@@ -5,7 +5,7 @@
 <div class="second-menu">
 	<div class="ui menu text tiny blue" style="margin-top:0">
 		<a :href="'/proxy/ssl/generate?serverId=' + server.id" class="item">证书列表</a>
-		<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item active" v-if="users.length > 0">申请证书</a>
+		<<!--a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item active" v-if="users.length > 0">申请证书</a>-->
 		<a :href="'/proxy/ssl/acmeUsers?serverId=' + server.id" class="item">ACME用户</a>
 	</div>
 	<div class="ui divider"></div>

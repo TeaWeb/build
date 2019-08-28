@@ -39,12 +39,12 @@
                                 <input type="text" name="addingOriginName" style="width:16em" maxlength="100" placeholder="域名，比如example.com" @keyup.enter="confirmAddOrigin()" @keypress.enter.prevent="1" v-model="addingOriginName" />
                             </div>
                             <div class="ui field">
-                                <button class="ui button" type="button" @click="confirmAddOrigin()">确定</button>
+                                <button class="ui button tiny" type="button" @click="confirmAddOrigin()">确定</button>
                                 &nbsp; <a href="" @click.prevent="cancelOriginAdding()">取消</a>
                             </div>
                         </div>
                         <div class="ui field" style="margin-top: 1em">
-                            <button class="ui button" type="button" @click="addOrigin()">+</button>
+                            <button class="ui button tiny" type="button" @click="addOrigin()">+</button>
                         </div>
                         <p class="comment">允许客户端可以访问的域名，可以使用星号通配符（*）来表示匹配一组域名，比如www.example.com *.google.com</p>
                     </div>

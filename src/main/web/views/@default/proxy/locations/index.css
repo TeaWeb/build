@@ -18,6 +18,7 @@
 
 table .label.tiny {
     padding: 3px;
+    font-size: 0.6em !important;
 }
 
 table td p {

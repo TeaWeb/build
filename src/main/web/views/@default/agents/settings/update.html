@@ -53,7 +53,7 @@
                         </div>
 
                         <div style="margin-top:0.5em" v-show="!allowAllIP">
-                        <span class="ui label small" v-for="(ip, arrayIndex) in ips">{{ip}}
+                        <span class="ui label tiny" v-for="(ip, arrayIndex) in ips">{{ip}}
                             <input type="hidden" name="ips" :value="ip"/>
                         <a href="" @click.prevent="removeIP(arrayIndex)" title="删除"><i class="icon remove"></i></a>
                     </span>

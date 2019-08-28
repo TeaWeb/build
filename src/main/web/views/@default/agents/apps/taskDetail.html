@@ -61,7 +61,7 @@
         <td>
             <span v-if="task.env == null || task.env.length == 0" class="disabled">没有设置</span>
             <div v-if="task.env != null && task.env.length > 0">
-                <span class="ui label small" v-for="(var1, index) in task.env">
+                <span class="ui label tiny" v-for="(var1, index) in task.env">
                     <em>{{var1.name}}</em>: {{var1.value}}
                 </span>
             </div>

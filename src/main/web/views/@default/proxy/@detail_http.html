@@ -9,7 +9,7 @@
 		<td class="title">是否开启HTTP</td>
 		<td>
 			<span class="ui label tiny green" v-if="server.http">已开启</span>
-			<span class="ui label tiny" v-if="!server.http">未开启</span>
+			<span class="ui label tiny red" v-if="!server.http">未开启</span>
 			&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.http" @click.prevent="startHttp()">快速启动</a><a href="" style="font-size: 12px" v-if="server.on && server.http" @click.prevent="shutdownHttp()">快速关闭</a>
 		</td>
 	</tr>

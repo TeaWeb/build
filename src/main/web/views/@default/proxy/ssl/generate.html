@@ -5,18 +5,18 @@
 <div class="second-menu">
 	<div class="ui menu text tiny blue" style="margin-top:0">
 		<a :href="'/proxy/ssl/generate?serverId=' + server.id" class="item active">证书列表</a>
-		<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item" v-if="users.length > 0">申请证书</a>
+		<!--<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item" v-if="users.length > 0">申请证书</a>-->
 		<a :href="'/proxy/ssl/acmeUsers?serverId=' + server.id" class="item">ACME用户</a>
 	</div>
 	<div class="ui divider"></div>
 </div>
 
-<p class="comment">通过<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>支持的ACME协议生成免费的DV证书。</p>
+<p class="comment">通过<a href="https://letsencrypt.org/" target="_blank">Let's Encrypt</a>支持的ACME协议生成免费的DV证书，此功能已经移到<a href="/proxy/certs">[SSL证书管理]</a>中。</p>
 
-<p v-if="users.length == 0" class="grey">还没有用户，在生成证书之前请先<a :href="'/proxy/ssl/acmeCreateUser?serverId=' + server.id">添加ACME用户</a>。</p>
+<!--<p v-if="users.length == 0" class="grey">还没有用户，在生成证书之前请先<a :href="'/proxy/ssl/acmeCreateUser?serverId=' + server.id">添加ACME用户</a>。</p>-->
 
 <div v-if="users.length > 0" style="margin-top:1em">
-	<p v-if="tasks.length == 0">还没有申请证书任务，	<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item" v-if="users.length > 0">点此开始申请证书</a>。</p>
+	<!--<p v-if="tasks.length == 0">还没有申请证书任务，	<a :href="'/proxy/ssl/acmeCreateTask?serverId=' + server.id" class="item" v-if="users.length > 0">点此开始申请证书</a>。</p>-->
 
 	<table class="ui table selectable" v-if="tasks.length > 0">
 		<thead>

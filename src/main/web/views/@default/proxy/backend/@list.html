@@ -52,7 +52,7 @@
 					<span class="ui label tiny">{{backend.requestURI}}</span>
 				   </p>
 				   <span class="ui label tiny green" v-if="backend.on">启用</span>
-				   <span class="ui label tiny grey" v-if="!backend.on">停用</span>
+				   <span class="ui label tiny red" v-if="!backend.on">停用</span>
 
 				   <span class="ui label tiny green" v-if="!backend.isDown">上线中</span>
 				   <span class="ui label tiny red" v-if="backend.isDown">下线于{{backend.downTime}}</span>

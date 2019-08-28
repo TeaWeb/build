@@ -11,7 +11,7 @@
 	</thead>
 	<tr>
 		<td>
-			<span v-for="receiver in level.receivers" class="ui label small">[{{receiver.name}}][{{receiver.mediaType.toUpperCase()}}]{{receiver.user}}&nbsp;<a href="" title="删除" @click.prevent="deleteReceiver(level.code, receiver.id)"><i class="icon remove"></i> </a> </span>
+			<span v-for="receiver in level.receivers" class="ui label tiny">[{{receiver.name}}][{{receiver.mediaType.toUpperCase()}}]{{receiver.user}}&nbsp;<a href="" title="删除" @click.prevent="deleteReceiver(level.code, receiver.id)"><i class="icon remove"></i> </a> </span>
 			<span v-if="level.receivers.length == 0" class="disabled">暂时还没有接收人。</span>
 		</td>
 	</tr>
