@@ -15,6 +15,7 @@
 <div class="ui first-menu">
 	<div class="ui menu text small blue">
 		<a href="" class="item" @click.prevent="selectTimeTab('all')" :class="{active:timeTab == 'all'}">所有证书({{countAll}})</a>
+		<a href="" class="item" @click.prevent="selectTimeTab('ca')" :class="{active:timeTab == 'ca'}">CA证书({{countCA}})</a>
 		<a href="" class="item" @click.prevent="selectTimeTab('active')" :class="{active:timeTab == 'active'}">有效的证书({{countActive}})</a>
 		<a href="" class="item" @click.prevent="selectTimeTab('expired')" :class="{active:timeTab == 'expired'}">过期的证书({{countExpired}})</a>
 		<a href="" class="item" @click.prevent="selectTimeTab('expiring7Days')" :class="{active:timeTab == 'expiring7Days'}">7天内过期({{countExpiring7Days}})</a>
@@ -43,7 +44,9 @@
 		<tr>
 			<td>
 				{{cert.description}}
+				<br/>
 				<span class="ui label tiny olive acme" v-if="cert.isACME > 0">ACME</span>
+				<span class="ui label tiny olive acme" v-if="cert.isCA">CA</span>
 			</td>
 			<td>
 				{{cert.commonName}}

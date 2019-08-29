@@ -6,7 +6,10 @@
 <table class="ui table definition selectable">
 	<tr>
 		<td class="title">证书说明</td>
-		<td><strong>{{cert.description}}</strong></td>
+		<td><strong>{{cert.description}}</strong>
+			<span v-if="cert.isACME" class="ui label tiny olive acme">ACME</span>
+			<span v-if="cert.isCA" class="ui label tiny olive ca">CA</span>
+		</td>
 	</tr>
 	<tr>
 		<td>状态</td>
@@ -57,14 +60,14 @@
 		<td>证书文件路径</td>
 		<td>
 			<div>证书:&nbsp; &nbsp;{{cert.certFile}}</div>
-			<div class="ui divider" style="margin-top:0.5em"></div>
-			<div style="margin-top:0.5em">密钥:&nbsp; &nbsp;{{cert.keyFile}}</div>
+			<div class="ui divider" style="margin-top:0.5em" v-if="!cert.isCA"></div>
+			<div style="margin-top:0.5em" v-if="!cert.isCA">密钥:&nbsp; &nbsp;{{cert.keyFile}}</div>
 		</td>
 	</tr>
 	<tr>
 		<td>证书文件下载</td>
 		<td>
-			<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/certs/download?certId=' + cert.id + '&type=key'">私钥下载</a>
+			<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/certs/download?certId=' + cert.id + '&type=key'" v-if="!cert.isCA">私钥下载</a>
 		</td>
 	</tr>
 	<tr>
@@ -76,7 +79,7 @@
 			</div>
 		</td>
 	</tr>
-	<tr>
+	<tr v-if="!cert.isCA">
 		<td>私钥预览</td>
 		<td>
 			<pre class="pre-box" style="font-family:Menlo, Monaco, 'Courier New', monospace !important;">{{cert.keyText}}</pre>

@@ -40,10 +40,10 @@
 			<td>
 				<div class="ui checkbox">
 					<input type="checkbox" name="useCert" id="user-cert-checkbox" value="1" v-model="useCert"/>
-					<label for="user-cert-checkbox">请求后端服务器时使用SSL证书</label>
+					<label for="user-cert-checkbox">请求后端服务器时使用SSL证书<span v-if="useCert">，<a href="" @click.prevent="showCert()">已设置<i class="icon angle" :class="{down:!certVisible, up:certVisible}"></i></a></span></label>
 				</div>
 				<p class="comment">选中后，每次请求后端服务器时，都使用此证书，以保证通讯安全。</p>
-				<table class="ui table" v-show="useCert">
+				<table class="ui table" v-show="useCert && certVisible">
 					<tr>
 						<td class="title">选择证书</td>
 						<td>

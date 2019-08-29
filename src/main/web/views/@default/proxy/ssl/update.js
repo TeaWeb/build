@@ -278,4 +278,43 @@ Tea.context(function () {
 		this.cancelHstsDomainAdding();
 		this.hsts.domains.$remove(index);
 	};
+
+	/**
+	 * CA证书
+	 */
+	this.caCertsVisible = false;
+
+	this.showCACerts = function () {
+		this.caCertsVisible = !this.caCertsVisible;
+	};
+
+	var that = this;
+	this.selectedCACerts = this.caCerts.$filter(function (k, v) {
+		v.isSelected = that.clientCACertIds.$contains(v.id);
+		return v.isSelected;
+	});
+	this.leftCACerts = this.caCerts.$filter(function (k, v) {
+		v.isSelected = that.clientCACertIds.$contains(v.id);
+		return !v.isSelected;
+	});
+
+	this.selectCACert = function (cert) {
+		cert.isSelected = true;
+		this.selectedCACerts = this.caCerts.$findAll(function (k, v) {
+			return v.isSelected;
+		});
+		this.leftCACerts = this.caCerts.$findAll(function (k, v) {
+			return !v.isSelected;
+		});
+	};
+
+	this.removeSelectedCACert = function (cert) {
+		cert.isSelected = false;
+		this.selectedCACerts = this.caCerts.$findAll(function (k, v) {
+			return v.isSelected;
+		});
+		this.leftCACerts = this.caCerts.$findAll(function (k, v) {
+			return !v.isSelected;
+		});
+	};
 });

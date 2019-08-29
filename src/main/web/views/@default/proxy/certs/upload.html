@@ -9,6 +9,12 @@
 
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
 	<input type="hidden" name="isLocal" :value="isLocal ? 1 : 0"/>
+	<input type="hidden" name="certType" :value="certType" />
+
+	<div class="ui menu tabular">
+		<a href="" class="item" :class="{active: certType == 'pair'}" @click.prevent="changeCertType('pair')">加密证书</a>
+		<a href="" class="item" :class="{active: certType == 'ca'}" @click.prevent="changeCertType('ca')">CA证书</a>
+	</div>
 	<table class="ui table selectable definition">
 		<tr>
 			<td class="title">证书说明</td>
@@ -40,7 +46,7 @@
 								<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
 							</td>
 						</tr>
-						<tr>
+						<tr v-show="certType == 'pair'">
 							<td>证书私钥文件<em>(Private Key)</em></td>
 							<td>
 								<a>
@@ -65,7 +71,7 @@
 								<p class="comment">内容中通常含有"-----BEGIN CERTIFICATE-----"类似的信息。</p>
 							</td>
 						</tr>
-						<tr>
+						<tr v-show="certType == 'pair'">
 							<td>证书私钥文件路径<em>(Private Key)</em></td>
 							<td>
 								<input type="text" name="keyPath"/>

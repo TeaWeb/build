@@ -5,6 +5,7 @@ Tea.context(function () {
 	this.countExpiring7Days = 0;
 	this.countExpiring30Days = 0;
 	this.countACME = 0;
+	this.countCA = 0;
 
 	this.timeTab = "all";
 
@@ -26,6 +27,9 @@ Tea.context(function () {
 		}
 		if (cert.isACME) {
 			that.countACME++;
+		}
+		if (cert.isCA) {
+			that.countCA++;
 		}
 	});
 
@@ -52,6 +56,10 @@ Tea.context(function () {
 				}
 				if (tab == "acme") {
 					return cert.isACME;
+				}
+
+				if (tab == "ca") {
+					return cert.isCA;
 				}
 			});
 		}, 100);

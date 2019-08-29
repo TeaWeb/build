@@ -82,6 +82,21 @@
 				<span v-if="server.ssl == null || server.ssl.hsts == null" class="disabled">未开启</span>
 			</td>
 		</tr>
+
+		<!-- 客户端认证 -->
+		<tr>
+			<td>客户端认证方式</td>
+			<td>{{clientAuthTypeName}}</td>
+		</tr>
+		<tr>
+			<td>客户端认证CA证书</td>
+			<td>
+				<span v-if="clientCACerts.length == 0">暂时还没有选择CA证书</span>
+				<div class="ca-certs-box">
+					<a v-for="cert in clientCACerts" :href="'/proxy/certs/detail?certId=' + cert.id" class="ui label tiny" title="点击查看证书详情">{{cert.description}}</a>
+				</div>
+			</td>
+		</tr>
 	</table>
 
 	<div class="ui divider margin"></div>

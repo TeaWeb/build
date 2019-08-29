@@ -10,6 +10,14 @@ Tea.context(function () {
 		this.$find("form input[name='description']").focus();
 	});
 
+	/**
+	 * 证书类型
+	 */
+	this.certType = "pair";
+	this.changeCertType = function (certType) {
+		this.certType = certType;
+	};
+
 	this.changeCertFile = function (e) {
 		if (e.target.files.length == 0) {
 			this.certFilename = "";

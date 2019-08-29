@@ -73,7 +73,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="title">证书#{{index+1}}说明</td>
+						<td class="title" nowrap="">证书#{{index+1}}说明</td>
 						<td>
 							<input type="text" name="certDescriptions" maxlength="200" v-model="cert.description" :id="'cert-descriptions-input-' + index"/>
 						</td>
@@ -222,7 +222,7 @@
 					</td>
 				</tr>
 				<tr v-if="isHTTP">
-					<td>开启HSTS</td>
+					<td class="color-border">开启HSTS</td>
 					<td>
 						<div class="ui checkbox">
 							<input type="checkbox" name="hstsOn" v-model="hsts.on" value="1"/>
@@ -232,7 +232,7 @@
 					</td>
 				</tr>
 				<tr v-show="hsts.on && hstsOptionsVisible">
-					<td>HSTS有效时间<em>（max-age）</em></td>
+					<td class="color-border">HSTS有效时间<em>（max-age）</em></td>
 					<td>
 						<div class="ui fields inline">
 							<div class="ui field">
@@ -251,7 +251,7 @@
 					</td>
 				</tr>
 				<tr v-show="hsts.on && hstsOptionsVisible">
-					<td>HSTS包含子域名<em>（includeSubDomains）</em></td>
+					<td class="color-border">HSTS包含子域名<em>（includeSubDomains）</em></td>
 					<td>
 						<div class="ui checkbox">
 							<input type="checkbox" name="hstsIncludeSubDomains" value="1" v-model="hsts.includeSubDomains"/>
@@ -260,7 +260,7 @@
 					</td>
 				</tr>
 				<tr v-show="hsts.on && hstsOptionsVisible">
-					<td>HSTS预加载<em>（preload）</em></td>
+					<td class="color-border">HSTS预加载<em>（preload）</em></td>
 					<td>
 						<div class="ui checkbox">
 							<input type="checkbox" name="hstsPreload" value="1" v-model="hsts.preload"/>
@@ -269,7 +269,7 @@
 					</td>
 				</tr>
 				<tr v-show="hsts.on && hstsOptionsVisible">
-					<td>HSTS生效的域名</td>
+					<td class="color-border">HSTS生效的域名</td>
 					<td colspan="2">
 						<div class="names-box">
 						<span class="ui label tiny" v-for="(domain, arrayIndex) in hsts.domains" :class="{blue:hstsDomainEditingIndex == arrayIndex}">{{domain}}
@@ -291,6 +291,34 @@
 							<button class="ui button tiny" type="button" @click="addHstsDomain()">+</button>
 						</div>
 						<p class="comment">如果没有设置域名的话，则默认支持所有的域名。</p>
+					</td>
+				</tr>
+
+				<!-- 客户端认证 -->
+				<tr>
+					<td>客户端认证方式</td>
+					<td>
+						<select name="clientAuthType" v-model="clientAuthType" class="ui dropdown" style="width:15em">
+							<option v-for="authType in clientAuthTypes" :value="authType.type">{{authType.name}}</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>客户端认证CA证书</td>
+					<td>
+						<span v-if="selectedCACerts.length == 0">暂时还没有选择CA证书，<a href="" @click.prevent="showCACerts()">选择证书<i class="icon angle" :class="{down:!caCertsVisible,up:caCertsVisible}"></i></a></span>
+
+						<div v-if="selectedCACerts.length > 0">已选择证书：
+							<span v-for="cert in selectedCACerts" class="ui label tiny"><a :href="'/proxy/certs/detail?certId=' + cert.id" title="点击查看证书详情">{{cert.description}}</a> <a href="" title="移除" @click.prevent="removeSelectedCACert(cert)"><i class="icon remove"></i></a>
+								<input type="hidden" name="caCertIds" :value="cert.id"/>
+							</span>
+							<a href="" @click.prevent="showCACerts()">选择证书<i class="icon angle" :class="{down:!caCertsVisible,up:caCertsVisible}"></i></a>
+						</div>
+						<div class="ca-certs-box" v-show="caCertsVisible">可选证书：
+							<span v-if="leftCACerts.length == 0">没有可选的证书</span>
+							<a href="" v-for="cert in leftCACerts" class="ui label tiny" title="点击选择" @click.prevent="selectCACert(cert)">{{cert.description}}</a>
+						</div>
+						<p class="comment">用来校验客户端证书以增强安全性，<a href="/proxy/certs">管理CA证书&raquo;</a></p>
 					</td>
 				</tr>
 			</tbody>

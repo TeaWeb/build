@@ -28,6 +28,17 @@ Tea.context(function () {
 		this.certId = "";
 		this.certServerName = "";
 	}
+	this.certVisible = false;
+
+	this.$delay(function () {
+		this.$watch("useCert", function () {
+			this.certVisible = true;
+		});
+	});
+
+	this.showCert = function () {
+		this.certVisible = !this.certVisible;
+	};
 
 	/**
 	 * 地址
