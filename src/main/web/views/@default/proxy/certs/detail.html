@@ -65,7 +65,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td>证书文件下载</td>
+		<td>证书文件下载 <i class="icon download small"></i> </td>
 		<td>
 			<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=zip'">ZIP下载</a> &nbsp;<a :href="'/proxy/certs/download?certId=' + cert.id + '&type=cert'">证书下载</a> &nbsp; <a :href="'/proxy/certs/download?certId=' + cert.id + '&type=key'" v-if="!cert.isCA">私钥下载</a>
 		</td>

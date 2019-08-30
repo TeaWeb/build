@@ -109,7 +109,7 @@
 		<table class="ui table selectable definition" >
 			<!-- 证书列表 -->
 			<tr>
-				<td colspan="2" style="font-weight: normal;;background: rgba(0,0,0,.05)">证书#{{index+1}}<span v-if="cert.config.description.length > 0" class="grey">（{{cert.config.description}}）</span><span v-if="cert.config.taskId.length > 0" class="grey">（ACME）</span>：</td>
+				<td colspan="2" style="font-weight: normal;;background: rgba(0,0,0,.05)">证书#{{index+1}}<span v-if="cert.config.description.length > 0" class="grey">（{{cert.config.description}}）</span><span v-if="cert.config.taskId.length > 0" class="grey">（ACME）</span> <a href="" v-if="!cert.config.isShared" @click.prevent="makeShared(cert.config.id)">[添加到SSL证书管理中]</a>：</td>
 			</tr>
 			<tr>
 				<td class="title">证书文件<em>(Certificate)</em></td>
