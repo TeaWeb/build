@@ -45,16 +45,4 @@
 			<span v-if="server.tcp.writeBufferSize > 0">{{teaweb.formatBytes(server.tcp.writeBufferSize)}}</span>
 		</td>
 	</tr>
-	<tr v-if="server.tcp.failReconnect">
-		<td>失败自动重连</td>
-		<td>
-			<span class="green">Y</span>
-		</td>
-	</tr>
-	<tr v-if="server.tcp.failReconnect && server.tcp.failResend">
-		<td>数据自动重发</td>
-		<td>
-			<span class="green">Y</span>
-		</td>
-	</tr>
 </table>

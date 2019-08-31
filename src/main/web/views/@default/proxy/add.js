@@ -95,7 +95,6 @@ Tea.context(function () {
 	this.listenAdding = false;
 	this.addingListenName = "";
 	this.editingListenIndex = -1;
-	this.failReconnect = false;
 
 	this.$delay(function () {
 		this.$post(".localAddrs")
