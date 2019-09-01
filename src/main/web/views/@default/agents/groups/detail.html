@@ -25,7 +25,7 @@
 		<td>
 			<span v-if="group.key == null || group.key.length == 0">还没有密钥，<a href="" @click.prevent="generateKey()">点此生成</a></span>
 			<span v-if="group.key != null && group.key.length > 0">{{group.key}} &nbsp; <a href="" @click.prevent="generateKey()">[重新生成]</a> </span>
-			<p class="comment">可用于Agent快速接入</p>
+			<p class="comment">可用于Agent快速接入，可参考<a href="http://teaos.cn/doc/agents/InstallGroupKey.md" target="_blank">在线文档</a>。</p>
 		</td>
 	</tr>
 </table>
