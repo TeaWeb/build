@@ -9,6 +9,25 @@ Tea.context(function () {
 		this.sortable();
 	});
 
+	/**
+	 * 密钥
+	 */
+	this.generateKey = function () {
+		if (this.group.key != null && this.group.key.length > 0) {
+			if (!window.confirm("确定要重新生成密钥吗？")) {
+				return;
+			}
+		}
+		this.$post(".generateKey")
+			.params({
+				"groupId": this.group.id
+			})
+			.refresh();
+	};
+
+	/**
+	 * 生成
+	 */
 	this.changeKeyword = function () {
 		this.filter();
 	};

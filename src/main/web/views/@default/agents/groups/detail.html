@@ -20,6 +20,14 @@
 		<td class="title">分组名称</td>
 		<td>{{group.name}}</td>
 	</tr>
+	<tr>
+		<td>密钥</td>
+		<td>
+			<span v-if="group.key == null || group.key.length == 0">还没有密钥，<a href="" @click.prevent="generateKey()">点此生成</a></span>
+			<span v-if="group.key != null && group.key.length > 0">{{group.key}} &nbsp; <a href="" @click.prevent="generateKey()">[重新生成]</a> </span>
+			<p class="comment">可用于Agent快速接入</p>
+		</td>
+	</tr>
 </table>
 
 <h3 style="margin-top:2em!important">主机 &nbsp; <span v-if="countAllAgents > 0">({{countAllAgents}}个)</span></h3>

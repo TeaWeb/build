@@ -727,3 +727,9 @@ var.dash {
     right: 1em;
     top: 1em;
 }
+
+/** Message **/
+.message .gopher {
+    width: 30px;
+    margin-right: 10px;
+}

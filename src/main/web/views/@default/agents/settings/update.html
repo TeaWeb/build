@@ -8,14 +8,14 @@
             <tr>
                 <td class="title">主机名</td>
                 <td>
-                    <input type="text" name="name" maxlength="100" v-model="agent.name"/>
+                    <input type="text" name="name" maxlength="200" v-model="agent.name"/>
                     <p class="comment">给这个主机起一个很好记的名称，比如Web001</p>
                 </td>
             </tr>
             <tr>
                 <td>主机地址</td>
                 <td>
-                    <input type="text" name="host" maxlength="100" v-model="agent.host"/>
+                    <input type="text" name="host" maxlength="200" v-model="agent.host"/>
                     <p class="comment">比如192.168.1.100</p>
                 </td>
             </tr>
@@ -23,7 +23,6 @@
 				<td>分组</td>
 				<td>
 					<select class="ui dropdown" name="groupId" v-model="groupId" style="width:10em">
-						<option value="">[{{defaultGroupName}}]</option>
 						<option v-for="group in groups" :value="group.id">{{group.name}}</option>
 					</select>
 					<p class="comment"><a :href="'/agents/groups/add?from=' + from">添加分组</a> </p>
