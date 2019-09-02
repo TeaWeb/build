@@ -1,7 +1,7 @@
 {$layout}
 {$template "menu"}
 
-<p class="comment">在这里可以设置当前Agent独立的通知信息接收人。</p>
+<p class="comment">在这里可以设置当前Agent独立的通知信息接收人，会自动覆盖当前分组对应级别的设置。</p>
 
 <table class="ui table selectable" v-for="level in levels">
 	<thead>
@@ -13,6 +13,23 @@
 		<td>
 			<span v-for="receiver in level.receivers" class="ui label tiny">[{{receiver.name}}][{{receiver.mediaType.toUpperCase()}}]{{receiver.user}}&nbsp;<a href="" title="删除" @click.prevent="deleteReceiver(level.code, receiver.id)"><i class="icon remove"></i> </a> </span>
 			<span v-if="level.receivers.length == 0" class="disabled">暂时还没有接收人。</span>
+		</td>
+	</tr>
+
+	<!-- 当前分组设置 -->
+	<tr>
+		<td @click.prevent="showGroupSetting(level)"><a href=""><span v-if="level.receivers.length > 0">覆盖</span><span v-if="level.receivers.length == 0">继承</span>的当前分组设置({{level.groupReceivers.length}})<i class="icon angle" :class="{down:!level.showGroupSetting,up:level.showGroupSetting}"></i></a> </td>
+	</tr>
+	<tr v-if="level.groupReceivers.length > 0 && level.showGroupSetting">
+		<td>
+			<span v-for="receiver in level.groupReceivers" class="ui label tiny">[{{receiver.name}}][{{receiver.mediaType.toUpperCase()}}]{{receiver.user}}</a> </span>
+			<a :href="'/agents/groups/noticeReceivers?groupId=' + groupId">[修改]</a>
+		</td>
+	</tr>
+	<tr v-if="level.groupReceivers.length == 0 && level.showGroupSetting">
+		<td>
+			<span class="disabled">暂时没有设置。</span>
+			<a :href="'/agents/groups/noticeReceivers?groupId=' + groupId">[修改]</a>
 		</td>
 	</tr>
 </table>
