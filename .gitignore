@@ -58,7 +58,6 @@ src/main/plus
 src/main/mongodb
 src/main/web/installers
 src/tests/
-bin/
 dist/
 drafts/
 pkg/
