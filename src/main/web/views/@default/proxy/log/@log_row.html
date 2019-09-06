@@ -6,7 +6,7 @@
 					<p @click="showLog(index)" :class="{ error:log.status>=400 }">
                             <span class="browser">
                                 <i class="icon" :class="log.browserIcon" v-if="log.browserIcon.length > 0"></i>
-                                <span v-if="log.extend != null && log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
+                                <span v-if="log.extend != null && log.extend.client != null && log.extend.client.browser.family.length > 0 && log.browserIcon.length == 0">{{log.extend.client.browser.family}}</span>
                             </span>
 						<span class="ui label tiny" v-if="log.upgrade.length > 0">{{log.upgrade}}</span>
 

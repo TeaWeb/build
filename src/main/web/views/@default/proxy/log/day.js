@@ -6,14 +6,17 @@ Tea.context(function () {
 		}
 
 		// 浏览器图标
-		var browserFamily = log.extend.client.browser.family.toLowerCase();
 		log.browserIcon = "";
-		if (["chrome", "firefox", "safari", "opera", "edge", "internet explorer"].$contains(browserFamily)) {
-			log.browserIcon = browserFamily;
-		} else if (browserFamily == "ie") {
-			log.browserIcon = "internet explorer";
-		} else if (browserFamily == "other") {
-			log.extend.client.browser.family = "";
+		if (log.extend != null && log.extend.client != null) {
+			var browserFamily = log.extend.client.browser.family.toLowerCase();
+			log.browserIcon = "";
+			if (["chrome", "firefox", "safari", "opera", "edge", "internet explorer"].$contains(browserFamily)) {
+				log.browserIcon = browserFamily;
+			} else if (browserFamily == "ie") {
+				log.browserIcon = "internet explorer";
+			} else if (browserFamily == "other") {
+				log.extend.client.browser.family = "";
+			}
 		}
 	});
 
@@ -230,6 +233,11 @@ Tea.context(function () {
 
 		// 终端信息
 		else if (tabName == "client") {
+			if (log.extend == null || log.extend.client == null) {
+				log.tabName = tabName;
+				this.$set(this.logs, index, log);
+				return;
+			}
 			var client = log.extend.client;
 
 			// 操作系统信息
