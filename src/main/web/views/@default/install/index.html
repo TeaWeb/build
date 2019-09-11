@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="shortcut icon" href="/images/favicon.png"/>
+	<title>TeaWeb数据库</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	{$TEA.VUE}
+	{$TEA.SEMANTIC}
+</head>
+<body>
+
+<div class="main-box">
+	<div>在使用TeaWeb之前，请先设置数据库。这一步不是必需，你可以 <a href="" @click.prevent="skip()">先跳过</a> 。</div>
+	<div class="ui steps tiny fluid">
+		<div class="ui step" :class="{active:step == 'dbType'}">
+			<div class="content">
+				<div class="title">
+					选择数据库类型
+				</div>
+			</div>
+		</div>
+		<div class="ui step" :class="{active:step == 'config'}">
+			<div class="content">
+				<div class="title">
+					配置数据库
+				</div>
+			</div>
+		</div>
+		<div class="ui step" :class="{active:step == 'finish'}">
+			<div class="content">
+				<div class="title">
+					开始使用
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 选择数据库类型 -->
+	<form class="ui form" v-show="step == 'dbType'">
+		<table class="ui table selectable">
+			<tr>
+				<td>
+					<div class="ui radio">
+						<input type="radio" name="dbType" value="mongo" checked="checked" id="mongodb-radio" v-model="dbType"/> &nbsp;
+						<label for="mongodb-radio" class="ui link">MongoDB</label> &nbsp; <a href="https://www.mongodb.com/download-center/community" target="_blank" class="small">官网下载&raquo;</a>  &nbsp; &nbsp; <a v-if="os == 'linux' || os == 'darwin'" href="/settings/mongo/install?action=install" class="small">使用TeaWeb下载安装&raquo;</a>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="ui radio">
+						<input type="radio" name="dbType" value="mysql" id="mysql-radio" v-model="dbType"/> &nbsp;
+						<label for="mysql-radio">MySQL</label> &nbsp; <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" class="small">官网下载&raquo;</a>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="ui radio">
+						<input type="radio" name="dbType" value="postgres" id="postgres-radio" v-model="dbType"/> &nbsp;
+						<label for="postgres-radio">PostgreSQL</label> &nbsp; <a href="https://www.postgresql.org/download/" target="_blank" class="small">官网下载&raquo;</a>
+					</div>
+				</td>
+			</tr>
+		</table>
+
+		<button class="ui button primary" type="button" @click.prevent="saveDBType()">下一步</button> &nbsp; <a href="" class="right-link" @click.prevent="skip()">先跳过<span class="grey">（之后可以在"设置"中修改）</span></a>
+	</form>
+
+	<!-- 配置数据库 -->
+	<div v-show="step == 'config'">
+		<!-- 配置数据库MongoDB -->
+		<div v-show="dbType == 'mongo'">
+			<form class="ui form">
+				<table class="ui table definition selectable">
+					<tr>
+						<td>数据库类型</td>
+						<td>MongoDB</td>
+					</tr>
+					<tr>
+						<td style="width:11em">数据库主机地址<em>（Host:Port）</em></td>
+						<td>
+							<input type="text" name="host" v-model="mongoAddr"/>
+							<p class="comment">类似于192.168.1.100:27017</p>
+						</td>
+					</tr>
+					<tr>
+						<td>数据库名称 *</td>
+						<td>
+							<input type="text" name="dbName" value="teaweb" v-model="mongoDBName"/>
+							<p class="comment">此数据库需要有创建数据集合、删除数据集合、创建索引的权限</p>
+						</td>
+					</tr>
+					<tr>
+						<td>开启认证</td>
+						<td>
+							<div class="ui checkbox">
+								<input type="checkbox" name="" v-model="mongoAuthEnabled" value="1" />
+								<label></label>
+							</div>
+							<p class="comment">
+								<a href="http://teaos.cn/doc/settings/MongoDB.md#%E8%AE%A4%E8%AF%81" target="_blank">MongoDB认证相关帮助 &raquo;</a>
+							</p>
+						</td>
+					</tr>
+					<tbody v-if="mongoAuthEnabled">
+					<tr>
+						<td>用户名<em>（Username）</em></td>
+						<td>
+							<input type="text" name="username" v-model="mongoUsername" maxlength="128"/>
+						</td>
+					</tr>
+					<tr>
+						<td>密码<em>（Password）</em></td>
+						<td>
+							<input type="password" name="password" v-model="mongoPassword" maxlength="128"/>
+							<p class="comment">留空表示不修改</p>
+						</td>
+					</tr>
+					<tr>
+						<td>认证机制<em>（Auth Mechanism）</em></td>
+						<td>
+							<select class="ui dropdown" name="authMechanism" v-model="mongoAuthMechanism" style="width:10em">
+
+								<option value="SCRAM-SHA-1">SCRAM-SHA-1</option>
+								<option value="SCRAM-SHA-256">SCRAM-SHA-256</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>认证附加参数<em>(Auth Mechanism Properties)</em></td>
+						<td>
+							<input type="text" name="authMechanismProperties" v-model="mongoAuthMechanismProperties"/>
+							<p class="comment">通常为空即可。多个参数用英文逗号隔开，比如：CANONICALIZE_HOST_NAME:true,SERVICE_REALM:tea</p>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<div class="ui message error" v-if="!dbTestResult.ok && !dbTestResult.isRunning && dbTestResult.message.length > 0">{{dbTestResult.message}}</div>
+				<div class="ui message success" v-if="dbTestResult.ok">测试成功，现在可以保存设置了。</div>
+				<div class="ui message" v-if="dbTestResult.isRunning">测试中...</div>
+
+				<button class="ui button primary" type="button" @click.prevent="testDB()" v-if="!dbTestResult.ok">检查数据库</button>
+				<button class="ui button primary" type="button" @click.prevent="saveDB()" v-if="dbTestResult.ok">保存设置</button>
+				&nbsp; <a href="" class="right-link" @click.prevent="goStep('dbType')">上一步</a>
+			</form>
+		</div>
+
+		<!-- 配置SQL数据库 -->
+		<div v-show="dbType == 'mysql' || dbType == 'postgres'">
+			<form class="ui form">
+				<table class="ui table definition selectable">
+					<tr>
+						<td>数据库类型</td>
+						<td>
+							<span v-if="dbType == 'mysql'">MySQL</span><span v-if="dbType == 'postgres'">PostgreSQL</span>
+						</td>
+					</tr>
+					<tr>
+						<td class="title">数据库主机地址<em>（Host:Port）</em> *</td>
+						<td>
+							<input type="text" name="addr" v-model="dbAddr"/>
+							<p class="comment" v-if="dbType == 'mysql'">类似于192.168.1.100:3306</p>
+							<p class="comment" v-if="dbType == 'postgres'">类似于192.168.1.100:5432</p>
+						</td>
+					</tr>
+					<tr>
+						<td>用户名<em>（Username）</em></td>
+						<td>
+							<input type="text" name="username" v-model="dbUsername"/>
+						</td>
+					</tr>
+					<tr>
+						<td>密码<em>（Password）</em></td>
+						<td>
+							<input type="password" name="password" v-model="dbPassword"/>
+						</td>
+					</tr>
+					<tr>
+						<td>数据库名称 *</td>
+						<td>
+							<input type="text" name="dbName" value="teaweb" v-model="dbName"/>
+							<p class="comment">此数据库必须是存在的，而且需要有创建数据表、删除数据表、创建索引的权限</p>
+						</td>
+					</tr>
+				</table>
+
+				<div class="ui message error" v-if="!dbTestResult.ok && !dbTestResult.isRunning && dbTestResult.message.length > 0">{{dbTestResult.message}}</div>
+				<div class="ui message success" v-if="dbTestResult.ok">测试成功，现在可以保存设置了。</div>
+				<div class="ui message" v-if="dbTestResult.isRunning">测试中...</div>
+
+				<button class="ui button primary" type="button" @click.prevent="testDB()" v-if="!dbTestResult.ok">检查数据库</button>
+				<button class="ui button primary" type="button" @click.prevent="saveDB()" v-if="dbTestResult.ok">保存设置</button>
+				&nbsp; <a href="" class="right-link" @click.prevent="goStep('dbType')">上一步</a>
+			</form>
+		</div>
+	</div>
+
+	<!-- 完成  -->
+	<div v-show="step == 'finish'">
+		<div v-if="saveSuccess">
+			<p class="ui message success">保存成功，现在可以开始使用了。</p>
+			<a class="ui button primary" href="/">开始使用&raquo;</a>
+		</div>
+		<div v-if="saveFailed">
+			<p class="ui message error">{{saveMessage}}</p>
+			<button class="ui button primary" @click.prevent="saveDB()">重试</button>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

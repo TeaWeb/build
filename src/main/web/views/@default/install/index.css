@@ -1,0 +1,42 @@
+.main-box {
+    width: 40em;
+    margin: 6em auto 0 auto;
+}
+
+.main-box .grey {
+    color: grey;
+}
+
+.main-box .table .title {
+    width: 10em;
+}
+
+
+p.comment, div.comment {
+    color: rgba(0, 0, 0, 0.3);
+    padding-top: 0.4em;
+}
+
+.message.error, .message.success {
+    display: block !important;
+}
+
+.table em {
+    font-style: normal;
+    font-size: 0.8em;
+    color: grey;
+    font-weight: normal;
+}
+
+form {
+    position: relative;
+}
+
+form a.right-link {
+    position: absolute;
+    right: 1em;
+}
+
+form a.small {
+    font-size: 0.8em;
+}

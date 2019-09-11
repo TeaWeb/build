@@ -9,4 +9,6 @@ cluster.sum
 acme_userlist.conf
 accesslog.*
 ssl.certs.conf
+mysql.conf
+postgres.conf
 db.conf

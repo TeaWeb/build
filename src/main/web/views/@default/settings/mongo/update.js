@@ -1,5 +1,4 @@
 Tea.context(function () {
-	this.authUpdating = this.config.username != null && this.config.username.length > 0;
 	this.isTesting = false;
 	this.testingError = "";
 	this.testingSuccess = "";
@@ -9,15 +8,17 @@ Tea.context(function () {
 	}
 
 	this.updateAuth = function () {
-		this.authUpdating = !this.authUpdating;
+		this.config.authEnabled = !this.config.authEnabled;
 	};
 
 	this.testConnection = function () {
 		var params = {
 			host: this.config.host,
-			port: this.config.port
+			port: this.config.port,
+			dbName: this.config.dbName,
+			authEnabled: this.config.authEnabled ? 1 : 0
 		};
-		if (this.authUpdating) {
+		if (this.config.authEnabled) {
 			if (this.config.username.length == 0) {
 				alert("请输入用户名");
 				this.$find("form input[name='username']").focus();

@@ -1,8 +1,11 @@
 ~~~
 admin.conf - 管理员配置
-mongo.conf - MongoDB配置
 server.conf - 管理界面访问地址配置
+
 db.conf - 数据库配置
+mongo.conf - MongoDB配置
+mysql.conf - MySQL配置
+postgres.conf - PostgreSQL配置
 
 notice.conf - 通知全局配置
 

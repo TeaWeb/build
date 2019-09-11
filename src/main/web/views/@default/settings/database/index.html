@@ -1,0 +1,37 @@
+{$layout}
+
+<p class="comment">可以在这里切换TeaWeb使用的数据库类型。</p>
+
+<form class="ui form">
+	<table class="ui table selectable">
+		<tr>
+			<td>
+				<div class="ui radio">
+					<input type="radio" name="dbType" value="mongo" checked="checked" id="mongodb-radio" v-model="dbType"/> &nbsp;
+					<label for="mongodb-radio" class="ui link">MongoDB</label>
+				</div>
+				<span class="ui label tiny green" v-if="currentDBType == 'mongo'">当前选择</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="ui radio">
+					<input type="radio" name="dbType" value="mysql" id="mysql-radio" v-model="dbType"/> &nbsp;
+					<label for="mysql-radio">MySQL</label>
+				</div>
+				<span class="ui label tiny green" v-if="currentDBType == 'mysql'">当前选择</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="ui radio">
+					<input type="radio" name="dbType" value="postgres" id="postgres-radio" v-model="dbType"/> &nbsp;
+					<label for="postgres-radio">PostgreSQL</label>
+				</div>
+				<span class="ui label tiny green" v-if="currentDBType == 'postgres'">当前选择</span>
+			</td>
+		</tr>
+	</table>
+
+	<button class="ui button primary" type="button" @click.prevent="goNext()">下一步</button>
+</form>

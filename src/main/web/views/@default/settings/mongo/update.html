@@ -24,11 +24,17 @@
                     <input type="text" name="port" v-model="config.port"/>
                 </td>
             </tr>
+			<tr>
+				<td>数据库名</td>
+				<td>
+					<input type="text" name="dbName" v-model="config.dbName"/>
+				</td>
+			</tr>
             <tr>
                 <td>开启认证</td>
 				<td>
 					<div class="ui checkbox">
-						<input type="checkbox" name="" v-model="authUpdating" />
+						<input type="checkbox" name="authEnabled" value="1" v-model="config.authEnabled" />
 						<label></label>
 					</div>
 					<p class="comment">
@@ -36,7 +42,7 @@
 					</p>
 				</td>
             </tr>
-			<tbody v-if="authUpdating">
+			<tbody v-if="config.authEnabled">
 				<tr>
 					<td>用户名<em>（username）</em></td>
 					<td>
@@ -53,7 +59,7 @@
 				<tr>
 					<td>认证机制<em>（Auth Mechanism）</em></td>
 					<td>
-						<select class="ui dropdown" name="authMechanism" v-model="config.authMechanism" style="width:10em">
+						<select class="ui dropdown" name="authMechanism" v-model="config.authMechanism" style="width:11em">
 
 							<option value="SCRAM-SHA-1">SCRAM-SHA-1</option>
 							<option value="SCRAM-SHA-256">SCRAM-SHA-256</option>

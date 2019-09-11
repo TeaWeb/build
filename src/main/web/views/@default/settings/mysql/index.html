@@ -1,0 +1,37 @@
+{$layout}
+
+<h3>MySQL连接设置<a href="/settings/mysql/update">修改</a> </h3>
+
+<p class="ui message warning" v-if="shouldRestart">需要重启TeaWeb服务才能使配置生效。</p>
+
+<table class="ui table definition selectable">
+	<tr>
+		<td class="title">数据库主机地址<em>（Host:Port）</em> </td>
+		<td>
+			{{config.addr}}
+		</td>
+	</tr>
+	<tr>
+		<td>用户名<em>（Username）</em></td>
+		<td>
+			{{config.username}}
+		</td>
+	</tr>
+	<tr>
+		<td>密码<em>（Password）</em></td>
+		<td>
+			<span v-if="config.password.length > 0">{{config.password}}</span>
+			<span v-if="config.password.length == 0" class="disabled">没有设置</span>
+		</td>
+	</tr>
+	<tr>
+		<td>数据库名称</td>
+		<td>
+			{{config.dbName}}
+		</td>
+	</tr>
+</table>
+
+<h4>连接状态</h4>
+<p class="ui message error" v-if="error.length > 0">{{error}}</p>
+<p class="ui message info" v-if="error.length == 0">连接正常</p>
