@@ -35,6 +35,7 @@ Tea.context(function () {
 		}
 		this.$post(".test")
 			.params(params)
+			.timeout(10)
 			.success(function () {
 				this.dbTestResult.ok = true;
 			})
