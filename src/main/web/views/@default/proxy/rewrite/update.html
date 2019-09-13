@@ -119,6 +119,13 @@
 					<p class="comment">是否开启<span class="ui label tiny">301 Moved Permanently</span>跳转</p>
 				</td>
 			</tr>
+			<tr v-if="redirectMode == 'p'">
+				<td>代理主机名<em>（Host）</em></td>
+				<td>
+					<input type="text" name="proxyHost" v-model="proxyHost" placeholder="比如 teaos.cn" maxlength="100" @input="changeProxyHost"/>
+					<p class="comment"><span class="red" v-if="proxyHostError.length > 0">{{proxyHostError}}</span>请求被代理的URL使用的Host，用于修改被代理服务接收到的域名，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
+				</td>
+			</tr>
             <tr>
                 <td>是否启用</td>
                 <td>

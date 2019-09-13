@@ -16,6 +16,7 @@
             <span class="ui label tiny" v-if="!rewrite.on">未启用</span>
 			<span class="ui label tiny" v-if="rewrite.isBreak">break</span>
 			<span class="ui label tiny" v-if="rewrite.isPermanent">permanent</span>
+			<span class="ui label tiny" v-if="rewrite.proxyHost.length > 0">Host: {{rewrite.proxyHost}}</span>
         </td>
         <td>
             <span v-if="rewrite.conds.length == 0" class="disabled">无匹配条件</span>

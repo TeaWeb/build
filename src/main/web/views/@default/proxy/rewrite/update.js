@@ -69,6 +69,22 @@ Tea.context(function () {
 		cond.showVariables = false;
 	};
 
+
+	/**
+	 * 选项
+	 */
+	this.proxyHost = this.rewrite.proxyHost;
+	this.proxyHostError = "";
+
+	this.changeProxyHost = function () {
+		var host = this.proxyHost.trim().replace(/[a-zA-Z0-9-\\.]/g, "");
+		if (host.length > 0) {
+			this.proxyHostError = "主机名中含有特殊字符“" + host + "”，可能会导致后端服务器无法解析。";
+		} else {
+			this.proxyHostError = "";
+		}
+	};
+
 	/**
 	 * 匹配测试
 	 */
