@@ -23,8 +23,8 @@ Tea.context(function () {
 				}
 				this.lastId = resp.data.values.$first().id;
 				this.values = resp.data.values.$map(function (k, v) {
-					v.datetime = v.timeFormat.second.substr(0, 4) + "-" + v.timeFormat.second.substr(4, 2) + "-" + v.timeFormat.second.substr(6, 2) + " " + v.timeFormat.second.substr(8, 2) + ":" + v.timeFormat.second.substr(10, 2) + ":" + v.timeFormat.second.substr(12);
 					v.value = JSON.stringify(v.value, 1, "  ");
+					v.costMs = Math.ceil(v.costMs * 1000) / 1000;
 					return v;
 				}).concat(this.values);
 			})

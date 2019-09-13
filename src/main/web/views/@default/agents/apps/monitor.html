@@ -21,6 +21,7 @@
             <br/>
             <span class="ui label tiny red" v-if="!item.on">未启用</span>
 			<span class="ui label tiny" v-if="item.sourceName.length > 0">{{item.sourceName}}</span>
+			<span v-if="item.costMs > 0" class="ui label tiny">{{item.costMs}}ms</span>
         </td>
         <td>{{item.interval}}</td>
         <td>

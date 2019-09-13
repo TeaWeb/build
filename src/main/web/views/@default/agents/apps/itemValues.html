@@ -29,7 +29,7 @@
 <table class="ui table selectable values-table small" v-for="(value, valueIndex) in values">
     <thead>
         <tr>
-            <th :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}"><span v-if="value.noticeLevel != null">[{{value.noticeLevel.name}}] - </span>{{value.datetime}}</th>
+            <th :style="{'background':(value.noticeLevel == null) ? '' : value.noticeLevel.bgcolor, 'color':(value.noticeLevel == null) ? '' : value.noticeLevel.color}"><span v-if="value.noticeLevel != null">[{{value.noticeLevel.name}}] - </span><span v-if="value.beginTime != value.endTime">{{value.beginTime}} 至 </span>{{value.endTime}} &nbsp; <span v-if="value.costMs > 0">耗时：{{value.costMs}}ms</span></th>
         </tr>
     </thead>
     <tr>

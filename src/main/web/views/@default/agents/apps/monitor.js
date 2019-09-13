@@ -16,6 +16,8 @@ Tea.context(function () {
 			.success(function (resp) {
 				this.items = resp.data.items;
 				this.items.$each(function (k, item) {
+					item.costMs = Math.ceil(item.costMs * 1000) / 1000;
+
 					// 阈值
 					if (item.thresholds != null) {
 						item.thresholds.$each(function (k, v) {
