@@ -7,6 +7,7 @@ Tea.context(function () {
 	});
 
 	this.httpsOn = (this.server.ssl != null && this.server.ssl.on);
+	this.http2Enabled = (this.server.ssl == null || !this.server.ssl.http2Disabled);
 
 	if (this.server.ssl == null) {
 		this.server.ssl = {

@@ -19,7 +19,9 @@
 <div>
     {$template "/proxy/menu"}
 
-    <!-- HTTPS 设置 -->
+	<p class="comment">提醒：HTTP2、证书等信息修改后，可能需要清空浏览器缓存后才能浏览效果。</p>
+
+	<!-- HTTPS 设置 -->
     <form class="ui form" data-tea-action="/proxy/ssl/update" data-tea-success="submitSuccess">
         <input type="hidden" name="serverId" :value="server.id"/>
         <table class="ui table definition selectable">
@@ -56,6 +58,15 @@
 						<button class="ui button tiny" type="button" @click="addListen()">+</button>
 					</div>
 					<p class="comment" style="padding-top:0;margin-top:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>启用HTTP/2</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="http2Enabled" value="1" v-model="http2Enabled"/>
+						<label></label>
+					</div>
 				</td>
 			</tr>
 		</table>

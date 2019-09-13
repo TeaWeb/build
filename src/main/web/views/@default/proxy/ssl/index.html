@@ -52,6 +52,13 @@
 				</div>
 			</td>
 		</tr>
+		<tr v-if="isHTTP">
+			<td>启用HTTP/2</td>
+			<td>
+				<span class="ui label tiny green" v-if="server.ssl == null || !server.ssl.http2Disabled">启用</span>
+				<span class="ui label tiny" v-if="server.ssl != null && server.ssl.http2Disabled">不启用</span>
+			</td>
+		</tr>
 		<tr>
 			<td>TLS最低版本</td>
 			<td>
