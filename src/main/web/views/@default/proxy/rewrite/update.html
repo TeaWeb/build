@@ -54,7 +54,7 @@
                         <option value="r">跳转</option>
                         <option value="p">代理</option>
                     </select>
-                    <p class="comment" v-if="redirectMode == 'r'">通过<span class="ui label tiny">307 Temporary Redirect</span>在客户端（比如浏览器）跳转到目标URL。</p>
+                    <p class="comment" v-if="redirectMode == 'r'">通过<span class="ui label tiny">307 Temporary Redirect</span>或<span class="ui label tiny">301 Moved Permanently</span> 在客户端（比如浏览器）跳转到目标URL。</p>
                     <p class="comment" v-if="redirectMode == 'p'">将目标URL隐藏于客户端。</p>
                 </td>
             </tr>
@@ -99,6 +99,26 @@
                     <p class="comment">满足以上条件时重写规则才会生效。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
                 </td>
             </tr>
+			<tr>
+				<td>是否终止往下匹配</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="isBreak" value="1" v-model="rewrite.isBreak"/>
+						<label></label>
+					</div>
+					<p class="comment">如果选中了此选项，一旦匹配成功，不会继续匹配其他的路径规则</p>
+				</td>
+			</tr>
+			<tr v-if="redirectMode == 'r'">
+				<td>是否持久重定向</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="isPermanent" value="1" v-model="rewrite.isPermanent"/>
+						<label></label>
+					</div>
+					<p class="comment">是否开启<span class="ui label tiny">301 Moved Permanently</span>跳转</p>
+				</td>
+			</tr>
             <tr>
                 <td>是否启用</td>
                 <td>
