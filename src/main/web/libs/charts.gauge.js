@@ -5,6 +5,7 @@ charts.GaugeChart = function () {
 	this.min = 0;
 	this.max = 0;
 	this.unit = "";
+	this.menus = [];
 };
 
 charts.GaugeChart.prototype = new charts.Chart();

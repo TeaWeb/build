@@ -2,6 +2,7 @@ charts.TableChart = function () {
 	this.type = "table";
 	this.rows = [];
 	this.widths = [];
+	this.menus = [];
 
 	this.addRow = function () {
 		var cols = [];

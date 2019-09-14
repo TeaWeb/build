@@ -19,6 +19,7 @@ charts.LineChart = function () {
 	this.xShowTick = true;
 	this.xTickCount = 0;
 	this.yShowTick = true;
+	this.menus = [];
 
 	this.addLine = function (line) {
 		this.lines.push(line);

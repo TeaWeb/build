@@ -22,6 +22,10 @@
     padding-bottom: 0!important;
 }
 
+.chart-list .table th {
+    position: relative;
+}
+
 .chart-list .table th em {
     font-weight: normal;
     font-style: normal;
@@ -31,7 +35,7 @@
 .chart-list .table th .menu {
     position: absolute;
     top: 0.1em;
-    right: 2em;
+    right: 1em;
 }
 
 .chart-list .table th .menu var {

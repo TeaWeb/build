@@ -3,6 +3,7 @@ charts.StackBarChart = function () {
 	this.values = [];
 	this.labels = [];
 	this.colors = colors.ARRAY;
+	this.menus = [];
 };
 
 charts.StackBarChart.prototype = new charts.Chart();

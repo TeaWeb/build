@@ -3,6 +3,7 @@ charts.PieChart = function () {
 	this.values = [];
 	this.labels = [];
 	this.colors = colors.ARRAY;
+	this.menus = [];
 };
 
 charts.PieChart.prototype = new charts.Chart();

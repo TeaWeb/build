@@ -1,6 +1,7 @@
-charts.Menu = function () {
+charts.Menu = function (chart) {
 	this.chart = null;
 	this.items = [];
+
 
 	this.addItem = function (name, code, isActive) {
 		var item = new charts.MenuItem();
@@ -11,12 +12,15 @@ charts.Menu = function () {
 	};
 
 	this.onChange = function (callback) {
-		if (this.chart.options.events == null) {
+		if (chart == null) {
+			return;
+		}
+		if (chart.options.events == null) {
 			return;
 		}
 		var result = [];
-		for (var i = 0; i < this.chart.options.events.length; i++) {
-			var info = this.chart.options.events[i];
+		for (var i = 0; i < chart.options.events.length; i++) {
+			var info = chart.options.events[i];
 			if (info["event"] == "click" && info["target"] == "menu.item") {
 				var data = info["data"];
 				var found = false;
@@ -34,7 +38,7 @@ charts.Menu = function () {
 			}
 			result.push(info);
 		}
-		this.chart.options.events = result;
+		chart.options.events = result;
 	};
 };
 
