@@ -1,25 +1,25 @@
 Tea.context(function () {
-    var that = this;
+	var that = this;
 
-    this.charts = [];
+	this.charts = [];
 
-    this.$delay(function () {
-        this.loadCharts();
-        this.serversSortable();
-    });
+	this.$delay(function () {
+		this.loadCharts();
+		this.serversSortable();
+	});
 
-    this.widgetIsLoaded = false;
-    this.widgetError = "";
-    this.events = [];
+	this.widgetIsLoaded = false;
+	this.widgetError = "";
+	this.events = [];
 
-    this.loadCharts = function () {
-        this.$post("/proxy/board")
-            .params({
-                "serverId": this.server.id,
+	this.loadCharts = function () {
+		this.$post("/proxy/board")
+			.params({
+				"serverId": this.server.id,
 				"type": this.boardType,
 				"events": JSON.stringify(this.events)
-            })
-            .timeout(10)
+			})
+			.timeout(10)
 			.success(function (resp) {
 				// output
 				if (resp.data.output != null) {
@@ -56,7 +56,21 @@ Tea.context(function () {
 
 				//this.events = [];
 			});
-    };
+	};
+
+	/**
+	 * 刷新数据
+	 */
+	this.refreshData = function () {
+		this.$post(".refreshData")
+			.params({
+				"serverId": this.server.id
+			})
+			.success(function () {
+				alert("刷新成功");
+			})
+			.refresh();
+	};
 
 	/**
 	 * 左侧菜单排序
