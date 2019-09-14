@@ -127,6 +127,10 @@ Tea.context(function () {
 		"isFilled": 0,
 		"color": ""
 	}];
+	this.lineMax = 0;
+	if (this.chart.options.max != null) {
+		this.lineMax = this.chart.options.max;
+	}
 	if (this.chart.type == "line") {
 		if (this.chart.options.lines != null && this.chart.options.lines.length > 0) {
 			this.lineParams = this.chart.options.lines.$map(function (k, v) {
