@@ -194,8 +194,9 @@ values.Query = function () {
  * 获取参数值
  */
 values.valueOf = function (value, param) {
-	var v = param.replace(/(\${[\w\\.]+})/, function (match) {
-		var varName = match.substring(2, match.length - 1);
+	var v = param.replace(/(\${[\w\\.\s]+})/, function (match) {
+		var varName = match.substring(2, match.length - 1)
+			.replace(/\s+/g, "");
 		if (value instanceof Array) {
 			var index = parseInt(varName, 10);
 			if (index < 0 || index >= value.length) {
