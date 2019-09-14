@@ -63,7 +63,7 @@
                 <td>
                     <input type="text" name="pieParam" value="${0}" v-if="chart.type != 'pie'"/>
                     <input type="text" name="pieParam" v-model="chart.options.Param" v-if="chart.type == 'pie'"/>
-                    <p class="comment" style="margin-bottom:0.3em">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+                    <p class="comment" style="margin-bottom:0.3em">数组中使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
 					<!-- 变量 -->
 					<div style="line-height:1.8" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
 						<div class="ui divider" style="margin-bottom:0.4em!important;"></div>
@@ -91,16 +91,44 @@
             <tr v-for="(lineParam, index) in lineParams" :key="index">
                 <td>数据项{{index+1}}</td>
                 <td>
-                    <input type="text" name="lineParams" v-model="lineParam.varName" v-if="index == 0"/>
-                    <div class="ui fields inline" v-if="index > 0">
-                        <div class="ui field">
-                            <input type="text" name="lineParams" v-model="lineParam.varName"/>
-                        </div>
-                        <div class="ui field">
-                            <a href="" title="删除" @click.prevent="removeLine(index)"><i class="icon remove"></i></a>
-                        </div>
-                    </div>
-                    <p class="comment" style="margin-bottom:0.3em" v-if="index == 0">使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
+					<div class="ui fields inline" v-if="index == 0">
+						<div class="ui field">
+							<input type="text" name="lineParams" v-model="lineParam.varName"/>
+						</div>
+						<div class="ui field">
+							<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
+								<option value="0">不填充</option>
+								<option value="1">填充</option>
+							</select>
+						</div>
+						<div class="ui field">
+							<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
+								<option value="">[默认]</option>
+								<option v-for="color in colors" :value="color.value">{{color.name}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="ui fields inline" v-if="index > 0">
+						<div class="ui field">
+							<input type="text" name="lineParams" v-model="lineParam.varName"/>
+						</div>
+						<div class="ui field">
+							<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
+								<option value="0">不填充</option>
+								<option value="1">填充</option>
+							</select>
+						</div>
+						<div class="ui field">
+							<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
+								<option value="">[默认]</option>
+								<option v-for="color in colors" :value="color.value">{{color.name}}</option>
+							</select>
+						</div>
+						<div class="ui field">
+							<a href="" title="删除" @click.prevent="removeLine(index)"><i class="icon remove"></i></a>
+						</div>
+					</div>
+                    <p class="comment" style="margin-bottom:0.3em" v-if="index == 0">数组中使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
 					<!-- 变量 -->
 					<div style="line-height:1.8" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">
 						<div class="ui divider" style="margin-bottom:0.4em!important;"></div>
@@ -112,20 +140,8 @@
             <tr>
                 <td></td>
                 <td>
-                    <button class="ui button small" type="button" @click="addLine()">+添加新数据项</button>
+                    <button class="ui button tiny" type="button" @click="addLine()">+添加新数据项</button>
                     <p class="comment">每个数据项代表一条线</p>
-                </td>
-            </tr>
-            <tr>
-                <td>数据采样数量</td>
-                <td>
-                    <select class="ui dropdown" style="width:10em" name="lineLimit" v-model="lineLimit">
-                        <option value="10">10</option>
-                        <option value="60">60</option>
-                        <option value="120">120</option>
-                        <option value="240">240</option>
-                    </select>
-                    <p class="comment">从最近的{{pieLimit}}条数据中获取数据项数据</p>
                 </td>
             </tr>
         </tbody>
