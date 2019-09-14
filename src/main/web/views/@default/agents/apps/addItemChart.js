@@ -86,6 +86,14 @@ Tea.context(function () {
 	};
 
 	/**
+	 * 饼图
+	 */
+	this.pieParam = {
+		"varName": "${0}",
+		"key": ""
+	};
+
+	/**
 	 * 线图
 	 */
 	this.colors = [
@@ -121,19 +129,27 @@ Tea.context(function () {
 	this.lineParams = [{
 		"varName": "${0}",
 		"isFilled": 1,
-		"color": ""
+		"color": "",
+		"key": ""
 	}];
 
 	this.addLine = function () {
 		this.lineParams.push({
 			"varName": "${" + this.lineParams.length + "}",
 			"isFilled": 0,
-			"color": ""
+			"color": "",
+			"key": ""
 		});
 	};
 
 	this.removeLine = function (index) {
 		this.lineParams.$remove(index);
+	};
+
+	this.changeValueKey = function (param) {
+		if (param.key.length > 0) {
+			param.varName = "${" + param.key + "}";
+		}
 	};
 
 	/**

@@ -16,7 +16,7 @@
     <input type="hidden" name="agentId" :value="agentId"/>
     <input type="hidden" name="appId" :value="app.id"/>
     <input type="hidden" name="itemId" :value="item.id"/>
-    <table class="ui table definition">
+    <table class="ui table definition selectable">
         <tr class="title">
             <td class="title">名称</td>
             <td>
@@ -60,7 +60,17 @@
             <tr>
                 <td>数据项</td>
                 <td>
-                    <input type="text" name="pieParam" value="${0}"/>
+					<div class="ui fields inline">
+						<div class="ui field">
+							<input type="text" name="pieParam" value="${0}" v-model="pieParam.varName"/>
+						</div>
+						<div class="ui field" v-if="keys.length > 0">
+							<select class="ui dropdown" @change="changeValueKey(pieParam)" v-model="pieParam.key">
+								<option value="">[参考变量]</option>
+								<option v-for="key in keys" :value="key">{{key}}</option>
+							</select>
+						</div>
+					</div>
                     <p class="comment" style="margin-bottom:0.3em">数组中使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
 
 					<!-- 变量 -->
@@ -94,6 +104,12 @@
 						<div class="ui field">
 							<input type="text" name="lineParams" v-model="lineParam.varName"/>
 						</div>
+						<div class="ui field" v-if="keys.length > 0">
+							<select class="ui dropdown" @change="changeValueKey(lineParam)" v-model="lineParam.key">
+								<option value="">[参考变量]</option>
+								<option v-for="key in keys" :value="key">{{key}}</option>
+							</select>
+						</div>
 						<div class="ui field">
 							<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
 								<option value="0">不填充</option>
@@ -102,7 +118,7 @@
 						</div>
 						<div class="ui field">
 							<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
-								<option value="">[默认]</option>
+								<option value="">[颜色]</option>
 								<option v-for="color in colors" :value="color.value">{{color.name}}</option>
 							</select>
 						</div>
@@ -111,6 +127,12 @@
                         <div class="ui field">
                             <input type="text" name="lineParams" v-model="lineParam.varName"/>
                         </div>
+						<div class="ui field" v-if="keys.length > 0">
+							<select class="ui dropdown" @change="changeValueKey(lineParam)" v-model="lineParam.key">
+								<option value="">[参考变量]</option>
+								<option v-for="key in keys" :value="key">{{key}}</option>
+							</select>
+						</div>
 						<div class="ui field">
 							<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
 								<option value="0">不填充</option>
@@ -119,7 +141,7 @@
 						</div>
 						<div class="ui field">
 							<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
-								<option value="">[默认]</option>
+								<option value="">[颜色]</option>
 								<option v-for="color in colors" :value="color.value">{{color.name}}</option>
 							</select>
 						</div>

@@ -3,8 +3,6 @@ Tea.context(function () {
 	this.chartType = this.chart.type;
 	this.chartDescription = "";
 
-	this.pieLimit = (this.chart.type == "pie") ? this.chart.options.Limit : 100;
-
 	this.$delay(function () {
 		this.$find("form input[name='name']").focus();
 	});
@@ -89,7 +87,30 @@ Tea.context(function () {
 		editor.focus();
 	};
 
+
 	/**
+	 * 饼图
+	 */
+	this.pieParam = {
+		"varName": "${0}",
+		"key": ""
+	};
+
+	if (this.chart.options.param != null) {
+		this.pieParam.varName = this.chart.options.param;
+	} else if (this.chart.options.Param != null) { // 兼容老版本 v0.1.8
+		this.pieParam.varName = this.chart.options.Param;
+	}
+
+	this.pieLimit = 100;
+	if (this.chart.options.limit != null) {
+		this.pieLimit = this.chart.options.limit;
+	} else if (this.chart.options.Limit != null) { // 兼容老版本 v0.1.8
+		this.pieLimit = thsi.chart.options.Limit;
+	}
+
+
+		/**
 	 * 线图
 	 */
 	this.colors = [
@@ -125,7 +146,8 @@ Tea.context(function () {
 	this.lineParams = [{
 		"varName": "${0}",
 		"isFilled": 0,
-		"color": ""
+		"color": "",
+		"key": ""
 	}];
 	this.lineMax = 0;
 	if (this.chart.options.max != null) {
@@ -137,7 +159,8 @@ Tea.context(function () {
 				return {
 					"varName": v.param,
 					"isFilled": v.isFilled ? 1 : 0,
-					"color": v.color
+					"color": v.color,
+					"key": ""
 				};
 			});
 		} else if (this.chart.options.Params != null) {
@@ -146,7 +169,8 @@ Tea.context(function () {
 				return {
 					"varName": v,
 					"isFilled": 0,
-					"color": ""
+					"color": "",
+					"key": ""
 				};
 			});
 		}
@@ -156,12 +180,19 @@ Tea.context(function () {
 		this.lineParams.push({
 			"varName": "${" + this.lineParams.length + "}",
 			"isFilled": 0,
-			"color": ""
+			"color": "",
+			"key": ""
 		});
 	};
 
 	this.removeLine = function (index) {
 		this.lineParams.$remove(index);
+	};
+
+	this.changeValueKey = function (param) {
+		if (param.key.length > 0) {
+			param.varName = "${" + param.key + "}";
+		}
 	};
 
 	/**
