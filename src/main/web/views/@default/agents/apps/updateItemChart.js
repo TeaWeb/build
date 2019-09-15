@@ -110,7 +110,7 @@ Tea.context(function () {
 	}
 
 
-		/**
+	/**
 	 * 线图
 	 */
 	this.colors = [
@@ -147,7 +147,9 @@ Tea.context(function () {
 		"varName": "${0}",
 		"isFilled": 0,
 		"color": "",
-		"key": ""
+		"key": "",
+		"name": "",
+		"moreVisible": false
 	}];
 	this.lineMax = 0;
 	if (this.chart.options.max != null) {
@@ -160,7 +162,9 @@ Tea.context(function () {
 					"varName": v.param,
 					"isFilled": v.isFilled ? 1 : 0,
 					"color": v.color,
-					"key": ""
+					"key": "",
+					"name": v.name,
+					"moreVisible": false
 				};
 			});
 		} else if (this.chart.options.Params != null) {
@@ -170,7 +174,9 @@ Tea.context(function () {
 					"varName": v,
 					"isFilled": 0,
 					"color": "",
-					"key": ""
+					"key": "",
+					"name": "",
+					"moreVisible": false
 				};
 			});
 		}
@@ -181,7 +187,9 @@ Tea.context(function () {
 			"varName": "${" + this.lineParams.length + "}",
 			"isFilled": 0,
 			"color": "",
-			"key": ""
+			"key": "",
+			"name": "",
+			"moreVisible": false
 		});
 	};
 
@@ -193,6 +201,10 @@ Tea.context(function () {
 		if (param.key.length > 0) {
 			param.varName = "${" + param.key + "}";
 		}
+	};
+
+	this.showMoreParamOptions = function (param) {
+		param.moreVisible = !param.moreVisible;
 	};
 
 	/**

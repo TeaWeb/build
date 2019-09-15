@@ -101,55 +101,57 @@
             <tr v-for="(lineParam, index) in lineParams" :key="index">
                 <td>数据项{{index+1}}</td>
                 <td>
-					<div class="ui fields inline" v-if="index == 0">
-						<div class="ui field">
-							<input type="text" name="lineParams" v-model="lineParam.varName"/>
-						</div>
-						<div class="ui field" v-if="keys.length > 0">
-							<select class="ui dropdown" @change="changeValueKey(lineParam)" v-model="lineParam.key">
-								<option value="">[参考变量]</option>
-								<option v-for="key in keys" :value="key">{{key}}</option>
-							</select>
-						</div>
-						<div class="ui field">
-							<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
-								<option value="0">不填充</option>
-								<option value="1">填充</option>
-							</select>
-						</div>
-						<div class="ui field">
-							<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
-								<option value="">[颜色]</option>
-								<option v-for="color in colors" :value="color.value">{{color.name}}</option>
-							</select>
-						</div>
-					</div>
-					<div class="ui fields inline" v-if="index > 0">
-						<div class="ui field">
-							<input type="text" name="lineParams" v-model="lineParam.varName"/>
-						</div>
-						<div class="ui field" v-if="keys.length > 0">
-							<select class="ui dropdown" @change="changeValueKey(lineParam)" v-model="lineParam.key">
-								<option value="">[参考变量]</option>
-								<option v-for="key in keys" :value="key">{{key}}</option>
-							</select>
-						</div>
-						<div class="ui field">
-							<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
-								<option value="0">不填充</option>
-								<option value="1">填充</option>
-							</select>
-						</div>
-						<div class="ui field">
-							<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
-								<option value="">[颜色]</option>
-								<option v-for="color in colors" :value="color.value">{{color.name}}</option>
-							</select>
-						</div>
-						<div class="ui field">
-							<a href="" title="删除" @click.prevent="removeLine(index)"><i class="icon remove"></i></a>
-						</div>
-					</div>
+					<table class="ui table definition">
+						<tr>
+							<td class="title">变量</td>
+							<td>
+								<div class="ui fields inline">
+									<div class="ui field">
+										<input type="text" name="lineParams" v-model="lineParam.varName"/>
+									</div>
+									<div class="ui field" v-if="keys.length > 0">
+										<select class="ui dropdown" @change="changeValueKey(lineParam)" v-model="lineParam.key" style="width:10em">
+											<option value="">[参考变量]</option>
+											<option v-for="key in keys" :value="key">{{key}}</option>
+										</select>
+									</div>
+									<div class="ui field">
+										<a href="" @click.prevent="showMoreParamOptions(lineParam)">更多选项<i class="icon angle" :class="{down:!lineParam.moreVisible,up:lineParam.moreVisible}"></i></a>
+									</div>
+									<div class="ui field" v-if="index > 0">
+										<a href="" title="删除" @click.prevent="removeLine(index)"><i class="icon remove small"></i></a>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr v-show="lineParam.moreVisible">
+							<td>是否填充</td>
+							<td>
+								<select class="ui dropdown" name="lineFills" v-model="lineParam.isFilled" style="width:6em">
+									<option value="0">不填充</option>
+									<option value="1">填充</option>
+								</select>
+								<p class="comment"><i class="icon line chart" :class="{area:lineParam.isFilled > 0}"></i> </p>
+							</td>
+						</tr>
+						<tr v-show="lineParam.moreVisible">
+							<td>颜色</td>
+							<td>
+								<select class="ui dropdown" name="lineColors" style="width:6em" v-model="lineParam.color">
+									<option value="">[颜色]</option>
+									<option v-for="color in colors" :value="color.value">{{color.name}}</option>
+								</select>
+							</td>
+						</tr>
+						<tr v-show="lineParam.moreVisible">
+							<td>名称</td>
+							<td>
+								<input type="text" name="lineNames" v-model="lineParam.name"/>
+								<p class="comment">将以图例形式出现</p>
+							</td>
+						</tr>
+					</table>
+
                     <p class="comment" style="margin-bottom:0.3em" v-if="index == 0">数组中使用<span class="ui label tiny">${N}</span>表示第N行数据，从0行开始，比如：<span class="ui label tiny">${0}</span>, <span class="ui label tiny">${1}</span>；使用<span class="ui label tiny">${NAME}</span>来获取KEY-VALUE形式的数据，比如<span class="ui label tiny">${name}</span>。支持加(+)减(-)乘(*)除(/)取余(%)运算符。</p>
 					<!-- 变量 -->
 					<div style="line-height:1.8" v-if="selectedSource != null && selectedSource.variables != null && selectedSource.variables.length > 0" class="comment">

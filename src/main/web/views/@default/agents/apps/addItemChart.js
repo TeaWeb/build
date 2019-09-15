@@ -130,7 +130,8 @@ Tea.context(function () {
 		"varName": "${0}",
 		"isFilled": 1,
 		"color": "",
-		"key": ""
+		"key": "",
+		"moreVisible": false
 	}];
 
 	this.addLine = function () {
@@ -138,7 +139,8 @@ Tea.context(function () {
 			"varName": "${" + this.lineParams.length + "}",
 			"isFilled": 0,
 			"color": "",
-			"key": ""
+			"key": "",
+			"moreVisible": false
 		});
 	};
 
@@ -150,6 +152,10 @@ Tea.context(function () {
 		if (param.key.length > 0) {
 			param.varName = "${" + param.key + "}";
 		}
+	};
+
+	this.showMoreParamOptions = function (param) {
+		param.moreVisible = !param.moreVisible;
 	};
 
 	/**
