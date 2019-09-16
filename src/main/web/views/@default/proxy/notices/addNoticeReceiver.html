@@ -1,0 +1,58 @@
+{$layout}
+{$template "/proxy/menu"}
+
+<p class="comment" v-if="medias.length == 0">
+	<a href="/notices/addMedia">还没有可选的媒介，请先添加媒介 &raquo;</a>
+</p>
+
+<form class="ui form" style="margin-top:1em" data-tea-action="$" data-tea-success="submitSuccess" v-if="medias.length > 0">
+	<input type="hidden" name="serverId" :value="server.id"/>
+	<input type="hidden" name="level" :value="level.code"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">级别</td>
+			<td :style="{color:level.color, background:level.bgcolor}">{{level.name}}</td>
+		</tr>
+		<tr>
+			<td>接收人名称</td>
+			<td>
+				<input type="text" name="name" maxlength="100"/>
+			</td>
+		</tr>
+		<tr>
+			<td>媒介<em><a href="/notices/medias">（管理）</a></em></td>
+			<td>
+				<select class="ui dropdown" name="mediaId" style="width:16em" v-model="mediaId" @change="changeMedia()">
+					<option v-for="media in medias" :value="media.id">{{media.name}}({{media.typeName}})</option>
+				</select>
+				<p class="comment" v-html="mediaDescription"></p>
+			</td>
+		</tr>
+		<tr>
+			<td>接收人标识</td>
+			<td>
+				<input type="text" name="user" maxlength="100"/>
+				<p class="comment" v-html="userDescription"></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+		<tr>
+			<td>是否启用</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="on" value="1" checked="checked"/>
+					<label></label>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+
+	<button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="'/proxy/notices?serverId=' + server.id">返回</a>
+</form>

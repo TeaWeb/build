@@ -1,0 +1,18 @@
+{$layout}
+{$template "/proxy/menu"}
+
+<p class="comment">在这里可以设置当前代理服务独立的通知信息接收人。</p>
+
+<table class="ui table selectable" v-for="level in levels">
+	<thead>
+		<tr>
+			<th>“{{level.name}}”级别通知接收人 <a :href="'/proxy/notices/addNoticeReceiver?serverId=' + server.id + '&level=' + level.code" title="添加接收人">[添加]</a> </th>
+		</tr>
+	</thead>
+	<tr>
+		<td>
+			<span v-for="receiver in level.receivers" class="ui label tiny">[{{receiver.name}}][{{receiver.mediaType.toUpperCase()}}]{{receiver.user}}&nbsp;<a href="" title="删除" @click.prevent="deleteReceiver(level.code, receiver.id)"><i class="icon remove"></i> </a> </span>
+			<span v-if="level.receivers.length == 0" class="disabled">暂时还没有接收人。</span>
+		</td>
+	</tr>
+</table>

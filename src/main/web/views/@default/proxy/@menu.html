@@ -10,6 +10,7 @@
 	<a :href="$url('/proxy/servers/waf', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'waf'}"><i class="ui icon filter small"></i>WAF<span v-if="server.wafId != null && server.wafId.length > 0">(已设置)</span></a>
     <a :href="$url('/proxy/cache', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'cache'}"><i class="ui icon save small"></i>缓存<span v-if="server.cachePolicy.length > 0">(已设置)</span></a>
 	<a :href="$url('/proxy/tunnel', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'tunnel'}"><i class="ui icon external square alternate small" :class="{green:server.tunnelOn || (server != null && server.tunnel != null && server.tunnel.on)}"></i>HTTP隧道</a>
+	<a :href="$url('/proxy/notices', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'notices'}"><i class="ui icon bell small"></i>通知设置</a>
     <a :href="$url('/proxy/frontend', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'frontend'}"><i class="ui icon paper plane small"></i>前端代理</a>
 </div>
 
@@ -19,6 +20,7 @@
 	<a :href="$url('/proxy/ssl', { 'serverId':server.id })" class="item green" :class="{active:selectedTab == 'https'}"><i class="ui icon expeditedssl small" :class="{green:server.ssl && server.ssl.on}"></i>TLS</a>
 	<a :href="$url('/proxy/backend', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'backend'}"><i class="ui icon server small"></i>后端服务器({{server.backends.length}})</a>
 	<a :href="$url('/proxy/clients', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'clients'}"><i class="ui icon linkify small"></i>连接管理</a>
+	<a :href="$url('/proxy/notices', { 'serverId':server.id })" class="item" :class="{active:selectedTab == 'notices'}"><i class="ui icon bell small"></i>通知设置</a>
 </div>
 
 <div class="ui divider" style="margin-top:0"></div>
