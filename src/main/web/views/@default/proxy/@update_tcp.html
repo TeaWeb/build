@@ -106,6 +106,27 @@
 				</td>
 			</tr>
 		</tbody>
+		<tr>
+			<td colspan="2">
+				<a href="" style="font-weight: normal;" @click.prevent="showNotice()">通知设置<i class="icon angle" :class="{down:!noticeVisible, up:noticeVisible}"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="noticeVisible">
+			<tr>
+				<td>后端服务器自动下线</td>
+				<td>
+					<notice-item name="backendDown" :item="noticeItems.backendDown"></notice-item>
+					<p class="comment">如果后端服务器因为错误过多而自动下线，则发送通知。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>后端服务器自动上线</td>
+				<td>
+					<notice-item name="backendUp" :item="noticeItems.backendUp"></notice-item>
+					<p class="comment">如果后端服务器因为手动或者其他原因而自动上线，则发送通知。</p>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<button class="ui button primary" type="submit">保存</button>

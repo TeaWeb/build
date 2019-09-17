@@ -321,4 +321,13 @@ Tea.context(function () {
 	this.showAdvancedOptions = function () {
 		this.advancedOptionsVisible = !this.advancedOptionsVisible;
 	};
+
+	/**
+	 * 通知设置
+	 */
+	this.noticeVisible = false;
+
+	this.showNotice = function () {
+		this.noticeVisible = !this.noticeVisible;
+	};
 });

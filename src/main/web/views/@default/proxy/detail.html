@@ -12,6 +12,11 @@
 {$end}
 <!--  检测配置是否有更新 end -->
 
+<!-- 组件 -->
+{$var "header"}
+<script src="/js/vue.components.js" type="text/javascript"></script>
+{$end}
+
 <!-- 错误信息 -->
 <p class="ui message error" v-for="err in errs">
 	发生错误：{{err}}

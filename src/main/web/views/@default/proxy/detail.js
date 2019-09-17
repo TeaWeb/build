@@ -71,4 +71,13 @@ Tea.context(function () {
 				window.location.reload();
 			});
 	};
+
+	/**
+	 * 通知设置
+	 */
+	this.noticeVisible = false;
+
+	this.showNotice = function () {
+		this.noticeVisible = !this.noticeVisible;
+	};
 });

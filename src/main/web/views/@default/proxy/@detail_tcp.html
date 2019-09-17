@@ -45,4 +45,23 @@
 			<span v-if="server.tcp.writeBufferSize > 0">{{teaweb.formatBytes(server.tcp.writeBufferSize)}}</span>
 		</td>
 	</tr>
+	<tr>
+		<td colspan="2">
+			<a href="" style="font-weight: normal;" @click.prevent="showNotice()">通知设置<i class="icon angle" :class="{down:!noticeVisible, up:noticeVisible}"></i> </a>
+		</td>
+	</tr>
+	<tbody v-show="noticeVisible">
+		<tr>
+			<td>后端服务器自动下线</td>
+			<td>
+				<notice-item-view :item="server.noticeItems.backendDown"></notice-item-view>
+			</td>
+		</tr>
+		<tr>
+			<td>后端服务器自动上线</td>
+			<td>
+				<notice-item-view :item="server.noticeItems.backendUp"></notice-item-view>
+			</td>
+		</tr>
+	</tbody>
 </table>

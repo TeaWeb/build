@@ -733,3 +733,8 @@ var.dash {
     width: 30px;
     margin-right: 10px;
 }
+
+/** checkbox **/
+.checkbox label a {
+    font-size: 0.8em;
+}

@@ -21,7 +21,7 @@
 </div>
 <div class="ui divider" style="margin-bottom:0.5em!important;"></div>
 
-<p class="comment" style="padding-top:0;margin-top:0">这里可以管理一些实际处理用户请求的后端服务器。</p>
+<p class="comment" style="padding-top:0;margin-top:0">这里可以管理一些实际处理用户请求的后端服务器（也称为"源服务器"）。</p>
 
 <div class="ui menu tabular attached group-menu small">
 	<a class="item" v-for="group in groups" @click.prevent="selectGroup(group.id)" :class="{active:selectedGroupId == group.id}" v-if="group.isDefault || group.count > 0">{{group.name}}<span v-if="group.count > 0" style="font-size: 0.9em;">({{group.count}})</span></a>
