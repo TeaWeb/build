@@ -36,6 +36,7 @@ Tea.context(function () {
 
 		this.$get(".test")
 			.params(params)
+			.timeout(10)
 			.success(function () {
 				this.testingError = "";
 				this.testingSuccess = "连接成功！";
@@ -44,6 +45,9 @@ Tea.context(function () {
 				if (resp) {
 					this.testingError = resp.message;
 				}
+			})
+			.error(function () {
+				this.testingError = "连接超时";
 			})
 			.done(function () {
 				this.isTesting = false;

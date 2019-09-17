@@ -9,6 +9,8 @@
 <div>
     <h3>MongoDB连接设置 <a href="/settings/mongo/update" v-if="!teaDemoEnabled">修改</a><a v-if="teaDemoEnabled">[演示版无法修改]</a></h3>
 
+	<p class="ui message warning" v-if="shouldRestart">需要重启TeaWeb服务才能使配置生效。</p>
+
     <table class="ui table definition selectable">
         <tr>
             <td style="width:11em">主机地址<em>（host）</em></td>
