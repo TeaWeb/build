@@ -50,4 +50,27 @@ Tea.context(function () {
 				alert("已向Agent发送执行请求，稍后请在\"日志\"界面查看执行结果");
 			});
 	};
+
+	/**
+	 * 启用和停止某个任务
+	 */
+	this.enableTask = function () {
+		this.$post(".taskOn")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"taskId": this.task.id
+			})
+			.refresh();
+	};
+
+	this.disableTask = function () {
+		this.$post(".taskOff")
+			.params({
+				"agentId": this.agentId,
+				"appId": this.app.id,
+				"taskId": this.task.id
+			})
+			.refresh();
+	};
 });

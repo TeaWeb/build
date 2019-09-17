@@ -18,6 +18,9 @@
         <td>
             <span class="ui label tiny green" v-if="task.on">已启用</span>
             <span class="ui label tiny red" v-if="!task.on">未启用</span>
+			&nbsp;
+			<a href="" style="font-size:12px" v-if="!task.on" @click.prevent="enableTask()">快速启用</a>
+			<a href="" style="font-size:12px" v-if="task.on" @click.prevent="disableTask()">快速关闭</a>
         </td>
     </tr>
     <tr>
