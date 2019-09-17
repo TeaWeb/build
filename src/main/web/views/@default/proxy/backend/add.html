@@ -140,7 +140,7 @@
 						<input type="checkbox" name="checkOn" value="1" v-model="checkOn"/>
 						<label></label>
 					</div>
-					<p class="comment">选中表示开启健康检查。</p>
+					<p class="comment">选中表示开启健康检查，需要同时设置“连接最多连续失败次数”。</p>
 				</td>
 			</tr>
 			<tr v-if="checkOn && isHTTP">
@@ -179,7 +179,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>连接最多连续失败次数</td>
+				<td :class="{'color-border':checkOn}">连接最多连续失败次数</td>
 				<td>
 					<div class="ui fields inline">
 						<div class="ui field">
