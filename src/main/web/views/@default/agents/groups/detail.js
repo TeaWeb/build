@@ -144,4 +144,18 @@ Tea.context(function () {
 			})
 			.refresh();
 	};
+
+	/**
+	 * 密钥
+	 */
+	this.selectedKeyIndex = -1;
+	this.keysVisible = false;
+
+	this.selectKey = function (index) {
+		this.selectedKeyIndex = index;
+	};
+
+	this.showKeys = function () {
+		this.keysVisible = !this.keysVisible;
+	};
 });

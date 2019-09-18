@@ -18,14 +18,76 @@
 <table class="ui table selectable definition">
 	<tr>
 		<td class="title">分组名称</td>
-		<td>{{group.name}}</td>
+		<td>{{group.name}}
+			<span v-if="isExpired" class="ui label tiny red">已失效</span>
+		</td>
 	</tr>
 	<tr>
-		<td>密钥</td>
+		<td>Agent数量限制</td>
+		<td>
+			<span v-if="group.maxAgents > 0">{{group.maxAgents}}</span>
+			<span v-if="group.maxAgents == 0">没有限制</span>
+		</td>
+	</tr>
+	<tr>
+		<td>开始生效日期</td>
+		<td>
+			<span v-if="group.dayFrom.length > 0">{{group.dayFrom}}</span>
+			<span v-if="group.dayFrom.length == 0">没有限制</span>
+		</td>
+	</tr>
+	<tr>
+		<td>失效日期</td>
+		<td>
+			<span v-if="group.dayTo.length > 0">{{group.dayTo}}</span>
+			<span v-if="group.dayTo.length == 0">没有限制</span>
+		</td>
+	</tr>
+	<tr>
+		<td>临时密钥</td>
+		<td>
+			<span v-if="group.keys == null || group.keys.length == 0">还没有临时密钥</span>
+			<div v-if="group.keys != null && group.keys.length > 0">
+				<a href="" @click.prevent="showKeys()">共{{group.keys.length}}个密钥 <i class="icon angle" :class="{down:!keysVisible, up:keysVisible}"></i> </a>
+				<table class="ui table" v-show="keysVisible">
+					<thead class="full-width">
+						<tr>
+							<th>密钥</th>
+							<th>开始日期</th>
+							<th>结束日期</th>
+							<th>Agent数量限制</th>
+							<th>已使用</th>
+						</tr>
+					</thead>
+					<tr v-for="(key,index) in groupKeys" @click.prevent="selectKey(index)" :class="{active:index == selectedKeyIndex}">
+						<td>{{key.key}}</td>
+						<td>
+							<span v-if="key.dayFrom.length > 0">{{key.dayFrom}}</span>
+							<span v-if="key.dayFrom.length == 0" class="disabled">没有限制</span>
+						</td>
+						<td>
+							<span v-if="key.dayTo.length > 0">{{key.dayTo}}</span>
+							<span v-if="key.dayTo.length == 0" class="disabled">没有限制</span>
+						</td>
+						<td>
+							<span v-if="key.maxAgents > 0">{{key.maxAgents}}</span>
+							<span v-if="key.maxAgents <= 0" class="disabled">没有限制</span>
+						</td>
+						<td>
+							<span v-if="key.countAgents > 0">{{key.countAgents}}</span>
+							<span v-if="key.countAgents == 0" class="disabled">0</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>永久密钥</td>
 		<td>
 			<span v-if="group.key == null || group.key.length == 0">还没有密钥，<a href="" @click.prevent="generateKey()">点此生成</a></span>
 			<span v-if="group.key != null && group.key.length > 0">{{group.key}} &nbsp; <a href="" @click.prevent="generateKey()">[重新生成]</a> </span>
-			<p class="comment">可用于Agent快速接入，可参考<a href="http://teaos.cn/doc/agents/InstallGroupKey.md" target="_blank">在线文档</a>。</p>
+			<p class="comment">可用于Agent快速接入，没有日期限制，可参考<a href="http://teaos.cn/doc/agents/InstallGroupKey.md" target="_blank">在线文档</a>。</p>
 		</td>
 	</tr>
 </table>

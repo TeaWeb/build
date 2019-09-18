@@ -51,13 +51,16 @@ window.teaweb = {
 	},
 
 	datepicker: function (element, callback) {
+		if (typeof (element) == "string") {
+			element = document.getElementById(element);
+		}
 		var year = new Date().getFullYear();
 		var picker = new Pikaday({
 			field: element,
 			firstDay: 1,
 			minDate: new Date(year - 1, 0, 1),
-			maxDate: new Date(),
-			yearRange: [year - 1, year],
+			maxDate: new Date(year + 10, 11, 31),
+			yearRange: [year - 1, year + 10],
 			format: "YYYY-MM-DD",
 			i18n: {
 				previousMonth: '上月',

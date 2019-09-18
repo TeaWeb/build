@@ -1,4 +1,9 @@
 {$layout}
+{$template "/datepicker"}
+
+{$var "header"}
+<script src="/js/vue.components.js" type="text/javascript"></script>
+{$end}
 
 <div class="ui menu text blue small">
 	<a href="/agents/groups" class="item" style="padding-right:0">分组</a>
@@ -16,9 +21,41 @@
 		<tr>
 			<td class="title">分组名称</td>
 			<td>
-				<input type="text" name="name" maxlength="100" v-model="group.name"/>
+				<input type="text" name="name" maxlength="200" v-model="group.name"/>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2"><a href="" style="font-weight: normal" @click.prevent="showAdvanced()">更多选项 <i class="icon angle down"></i> </a></td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>Agent数量限制</td>
+				<td>
+					<input type="text" name="maxAgents" v-model="group.maxAgents" maxlength="8" style="width:10em"/>
+					<p class="comment">超出此限制则不能再添加新的Agent。0表示不限制。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>开始生效日期</td>
+				<td>
+					<input type="text" name="dayFrom" v-model="group.dayFrom" id="day-from-input" style="width:8em" autocomplete="off"/>
+					<p class="comment">非必填信息。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>失效日期</td>
+				<td>
+					<input type="text" name="dayTo" v-model="group.dayTo" id="day-to-input" style="width:8em" autocomplete="off"/>
+					<p class="comment">该日期结束后，不能再添加或注册新的Agent。非必填信息。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>临时密钥</td>
+				<td>
+					<agent-group-keys :keys="group.keys"></agent-group-keys>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<button class="ui button primary" type="submit">保存</button> &nbsp; <a :href="'/agents/groups/detail?groupId=' + group.id">返回</a>

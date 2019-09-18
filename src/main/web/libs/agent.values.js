@@ -194,6 +194,9 @@ values.Query = function () {
  * 获取参数值
  */
 values.valueOf = function (value, param) {
+	if (value == null) {
+		return "";
+	}
 	var v = param.replace(/(\${[\w\\.\s]+})/, function (match) {
 		var varName = match.substring(2, match.length - 1)
 			.replace(/\s+/g, "");
@@ -212,7 +215,7 @@ values.valueOf = function (value, param) {
 					var lastObject = value;
 					for (var i = 0; i < pieces.length; i++) {
 						var piece = pieces[i];
-						if (lastObject != null && typeof (lastObject[piece]) != "undefined") {
+						if (lastObject != null && typeof (lastObject) == "object" && typeof (lastObject[piece]) != "undefined") {
 							lastObject = lastObject[piece];
 
 							if (i == pieces.length - 1) {

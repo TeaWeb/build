@@ -19,21 +19,36 @@
 	<thead>
 		<tr>
 			<th>名称</th>
-			<th>主机数</th>
+			<th>主机数/最大限制</th>
 			<th>通知接收人</th>
+			<th>开始日期</th>
+			<th>结束日期</th>
 			<th class="two op">操作</th>
 		</tr>
 	</thead>
 	<tbody v-for="group in groups" :class="{sortable:group.id.length>0}">
 		<tr>
-			<td><span :class="{grey:group.id.length == 0}">{{group.name}}</span></td>
+			<td><span :class="{grey:group.id.length == 0}">{{group.name}}</span>
+				<span class="ui label tiny red" v-if="group.isExpired">已失效</span>
+			</td>
 			<td>
 				<a :href="'/agents/groups/detail?groupId=' + group.id" v-if="group.countAgents > 0">{{group.countAgents}}</a>
-				<a :href="'/agents/groups/detail?groupId=' + group.id" v-if="group.countAgents == 0" class="disabled">-</a>
+				<a :href="'/agents/groups/detail?groupId=' + group.id" v-if="group.countAgents == 0" class="disabled">0</a>
+				<span class="disabled">/</span>
+				<span v-if="group.maxAgents <= 0" class="disabled">∞</span>
+				<span v-if="group.maxAgents > 0" class="disabled">{{group.maxAgents}}</span>
 			</td>
 			<td>
 				<a :href="'/agents/groups/noticeReceivers?groupId=' + group.id" v-if="group.countReceivers > 0">{{group.countReceivers}}</a>
 				<a :href="'/agents/groups/noticeReceivers?groupId=' + group.id" v-if="group.countReceivers == 0" class="disabled">-</a>
+			</td>
+			<td>
+				<span v-if="group.dayFrom.length == 0" class="disabled">没有限制</span>
+				<span v-if="group.dayFrom.length > 0">{{group.dayFrom}}</span>
+			</td>
+			<td>
+				<span v-if="group.dayTo.length == 0" class="disabled">没有限制</span>
+				<span v-if="group.dayTo.length > 0">{{group.dayTo}}</span>
 			</td>
 			<td>
 				<a :href="'/agents/groups/detail?groupId=' + group.id">详情</a>

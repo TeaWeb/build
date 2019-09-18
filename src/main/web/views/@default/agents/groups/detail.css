@@ -9,7 +9,7 @@
 
 .table .label.tiny {
     padding: 3px;
-    font-size: 0.8em;
+    font-size: 0.6em !important;
 }
 
 /** 排序 **/
@@ -23,4 +23,12 @@
 
 .icon.handle {
     cursor: pointer;
+}
+
+span.large {
+    font-size: 2em;
+}
+
+span var {
+    font-style: normal;
 }
