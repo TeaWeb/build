@@ -1,9 +1,4 @@
 Tea.context(function () {
-	// 数据源Javascript
-	if (this.formJavascript.length > 0) {
-		eval(this.formJavascript);
-	}
-
 	this.$delay(function () {
 		this.$find("form input[name='name']").focus();
 		this.sortable();

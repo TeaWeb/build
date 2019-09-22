@@ -398,3 +398,310 @@ Vue.component("agent-group-keys", {
 	</div>'
 });
 
+/**
+ * Header参数
+ */
+Vue.component("http-header-box", {
+	props: ["headers", "comment", "prefix"],
+	data: function () {
+		return {
+			editingIndex: -1,
+			name: "",
+			value: "",
+			isAdding: false
+		}
+	},
+	methods: {
+		add: function () {
+			this.isAdding = true;
+			var that = this;
+			setTimeout(function () {
+				if (that.$refs.nameInput != null) {
+					that.$refs.nameInput.focus()
+				}
+			}, 50);
+		},
+		confirmAdd: function () {
+			if (this.name == null || this.name.length == 0) {
+				alert("请输入Header名称");
+				return;
+			}
+
+			if (this.editingIndex > -1) {
+				this.headers[this.editingIndex].name = this.name;
+				this.headers[this.editingIndex].value = this.value;
+			} else {
+				this.headers.push({
+					name: this.name,
+					value: this.value
+				});
+			}
+			this.cancel();
+		},
+		cancel: function () {
+			this.editingIndex = -1;
+			this.isAdding = false;
+			this.name = "";
+			this.value = "";
+		},
+		remove: function (index) {
+			if (!window.confirm("确定要删除此Header吗？")) {
+				return;
+			}
+			this.cancel();
+			this.headers.$remove(index);
+		},
+		edit: function (index) {
+			this.editingIndex = index;
+			this.isAdding = true;
+			this.name = this.headers[index].name;
+			this.value = this.headers[index].value;
+		}
+	},
+	template: '<div> \
+		<div style="margin-bottom: 1em">\
+			<div class="ui label tiny" style="padding:4px" :class="{blue:editingIndex == index}" v-for="(header,index) in headers"> \
+				{{header.name}}: {{header.value}}\
+				&nbsp; <a href="" title="修改" @click.prevent="edit(index)"><i class="icon pencil small"></i></a>&nbsp; \
+				<a href="" title="删除" @click.prevent="remove(index)"><i class="icon remove small"></i> </a> \
+				<input type="hidden" :name="prefix + \'_headerNames\'" :value="header.name"/>\
+				<input type="hidden" :name="prefix + \'_headerValues\'" :value="header.value"/> \
+			</div>\
+		</div> \
+		<div v-if="isAdding"> \
+			<table class="ui table definition"> \
+				<tr> \
+					<td>名称</td> \
+					<td> \
+						<input type="text" name="name" v-model="name" ref="nameInput" @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="Header名"/> \
+					</td> \
+				</tr> \
+				<tr> \
+					<td>值</td> \
+					<td> \
+						<input type="text" name="value" v-model="value"  @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="Header值"/> \
+					</td> \
+				</tr> \
+			</table> \
+			<div style="margin-bottom:1em"> \
+				<button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex == -1">确认添加</button><button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex > -1">确认保存</button>  &nbsp;<a href="" @click.prevent="cancel()">取消</a> \
+			</div> \
+		</div> \
+		<button class="ui button tiny" type="button" @click.prevent="add()" v-if="!isAdding">+</button> \
+		<p class="comment">{{comment}}</p> \
+	</div>'
+});
+
+/**
+ * Agent Group密钥管理
+ */
+Vue.component("http-params", {
+	props: ["params", "comment", "prefix"],
+	data: function () {
+		var paramList = this.params;
+		if (paramList == null) {
+			paramList = [];
+		}
+		return {
+			paramList: paramList,
+			editingIndex: -1,
+			name: "",
+			value: "",
+			isAdding: false
+		}
+	},
+	methods: {
+		add: function () {
+			this.isAdding = true;
+			var that = this;
+			setTimeout(function () {
+				if (that.$refs.nameInput != null) {
+					that.$refs.nameInput.focus()
+				}
+			}, 50);
+		},
+		confirmAdd: function () {
+			if (this.name == null || this.name.length == 0) {
+				alert("请输入参数名称");
+				return;
+			}
+
+			if (this.editingIndex > -1) {
+				this.paramList[this.editingIndex].name = this.name;
+				this.paramList[this.editingIndex].value = this.value;
+			} else {
+				this.paramList.push({
+					name: this.name,
+					value: this.value
+				});
+			}
+			this.cancel();
+		},
+		cancel: function () {
+			this.editingIndex = -1;
+			this.isAdding = false;
+			this.name = "";
+			this.value = "";
+		},
+		remove: function (index) {
+			if (!window.confirm("确定要删除此参数吗？")) {
+				return;
+			}
+			this.cancel();
+			this.params.$remove(index);
+		},
+		edit: function (index) {
+			this.editingIndex = index;
+			this.isAdding = true;
+			this.name = this.paramList[index].name;
+			this.value = this.paramList[index].value;
+		}
+	},
+	template: '<div> \
+		<div style="margin-bottom: 1em">\
+			<div class="ui label tiny" style="padding:4px" :class="{blue:editingIndex == index}" v-for="(param,index) in paramList"> \
+				{{param.name}}: {{param.value}}\
+				&nbsp; <a href="" title="修改" @click.prevent="edit(index)"><i class="icon pencil small"></i></a>&nbsp; \
+				<a href="" title="删除" @click.prevent="remove(index)"><i class="icon remove small"></i> </a> \
+				<input type="hidden" :name="prefix + \'_paramNames\'" :value="param.name"/>\
+				<input type="hidden" :name="prefix + \'_paramValues\'" :value="param.value"/> \
+			</div>\
+		</div> \
+		<div v-if="isAdding"> \
+			<table class="ui table definition"> \
+				<tr> \
+					<td>名称</td> \
+					<td> \
+						<input type="text" name="name" v-model="name" ref="nameInput" @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="参数名"/> \
+					</td> \
+				</tr> \
+				<tr> \
+					<td>值</td> \
+					<td> \
+						<input type="text" name="value" v-model="value"  @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="参数值"/> \
+					</td> \
+				</tr> \
+			</table> \
+			<div style="margin-bottom:1em"> \
+				<button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex == -1">确认添加</button><button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex > -1">确认保存</button>  &nbsp;<a href="" @click.prevent="cancel()">取消</a> \
+			</div> \
+		</div> \
+		<button class="ui button tiny" type="button" @click.prevent="add()" v-if="!isAdding">+</button> \
+		<p class="comment">{{comment}}</p> \
+	</div>'
+});
+
+/**
+ * HTTP参数信息
+ */
+Vue.component("http-box", {
+	props: ["prefix", "method", "url", "headers", "params", "timeout", "textBody"],
+	data: function () {
+		var timeout = this.timeout;
+		if (timeout != null) {
+			timeout = timeout.replace(/\D+/, "");
+		}
+		var tab = "params";
+		if (this.textBody != null && this.textBody.length > 0) {
+			tab = "text";
+		}
+
+		return {
+			selectedTab: tab,
+			moreOptionsVisible: false,
+
+			vPrefix: this.prefix,
+			vMethod: this.method,
+			vURL: this.url,
+			vHeaders: this.headers,
+			vParams: this.params,
+			vTimeout: timeout,
+			vTextBody: this.textBody
+		};
+	},
+	methods: {
+		selectTab: function (tab) {
+			this.selectedTab = tab;
+			if (tab == "text") {
+				var that = this;
+				setTimeout(function () {
+					var textInput = that.$refs.textInput;
+					if (textInput != null) {
+						textInput.focus();
+					}
+				});
+			}
+		},
+		showMore: function () {
+			this.moreOptionsVisible = !this.moreOptionsVisible;
+		}
+	},
+	watch: {
+		vMethod: function (v) {
+			if (v == "PUT") {
+				this.selectTab("text");
+			} else {
+				this.selectTab("params");
+			}
+		}
+	},
+	template: '<tbody> \
+		<tr> \
+			<td class="title">URL *</td> \
+			<td> \
+				<input type="text" :name="prefix + \'_url\'" v-model="vURL" placeholder="http://" maxlength="500"/>\
+			</td> \
+		</tr> \
+		<tr>\
+			<td>请求方法 *</td> \
+			<td> \
+				<select :name="prefix + \'_method\'" v-model="vMethod" class="ui dropdown" style="width:8em">\
+					<option value="GET">GET</option> \
+					<option value="POST">POST</option> \
+					<option value="PUT">PUT</option> \
+				</select> \
+			</td> \
+		</tr> \
+		<tr> \
+			<td colspan="2"> \
+				<a href="" style="font-weight: normal" @click.prevent="showMore()">更多请求选项<i class="icon angle" :class="{down:!moreOptionsVisible, up:moreOptionsVisible}"></i> </a> \
+			</td> \
+		</tr> \
+		<tr v-show="moreOptionsVisible"> \
+			<td>自定义Header</td> \
+			<td> \
+				<http-header-box :prefix="vPrefix" :headers="vHeaders"></http-header-box> \
+			</td> \
+		</tr> \
+		<tr v-show="moreOptionsVisible" v-if="vMethod == \'POST\' || vMethod == \'PUT\'">\
+			<td>自定义请求内容</td> \
+			<td> \
+				<div class="ui menu tabular attached"> \
+					<a href="" class="item" :class="{active:selectedTab == \'params\'}" @click.prevent="selectTab(\'params\')" v-if="vMethod == \'POST\'">参数对</a> \
+					<a href="" class="item" :class="{active:selectedTab == \'text\'}" @click.prevent="selectTab(\'text\')">文本</a> \
+				</div>	\
+				<div class="ui segment attached" v-if="selectedTab == \'params\'"> \
+					<http-params :prefix="vPrefix" :params="vParams"></http-params> \
+				</div> \
+				<div class="ui segment attached" v-if="selectedTab == \'text\'">\
+					<textarea rows="4" :name="prefix + \'_textBody\'" v-model="vTextBody" placeholder="要发送的内容文本" ref="textInput"></textarea> \
+					<p class="comment">提醒：可能需要设置对应的<span class="ui label tiny">Content-Type</span>。</p> \
+				</div> \
+			</td> \
+		</tr> \
+		<tr v-show="moreOptionsVisible">\
+			<td>超时时间</td>\
+			<td> \
+				<div class="ui fields inline"> \
+				 	<div class="ui field">\
+				 		<input type="text" :name="prefix + \'_timeout\'" style="width:4em" maxlength="6" v-model="vTimeout"/> \
+				 	</div> \
+				 	<div class="ui field">\
+				 		s \
+				 	</div> \
+				</div> \
+			</td> \
+		</tr> \
+	</tbody> \
+	'
+});

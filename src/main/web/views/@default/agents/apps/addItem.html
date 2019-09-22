@@ -4,7 +4,15 @@
 
 {$var "header"}
 <script type="text/javascript" src="/js/sortable.min.js"></script>
+<script src="/js/vue.components.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+	Tea.context(function() {
+		{$ .formJavascript}
+	});
+</script>
 {$end}
+
 
 <!-- 数据源CSS -->
 <div v-html="formCSS"></div>
@@ -49,9 +57,13 @@
 		</tbody>
 		{$range $x := .formGroups1}
 			<!-- {$ $x.Namespace} source options begins -->
-			<tbody v-show="sourceCode == '{$ $x.Namespace}'">
-				{$ $x.HTML}
-			</tbody>
+			{$if .IsComposed}
+				{$ $x.HTML }
+			{$else}
+				<tbody v-show="sourceCode == '{$ $x.Namespace}'">
+					{$ $x.HTML}
+				</tbody>
+			{$end}
 			<!-- {$ $x.Namespace} source options end -->
 		{$end}
 		<tbody>

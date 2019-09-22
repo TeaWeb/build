@@ -3,7 +3,13 @@
 {$template "menu"}
 
 {$var "header"}
-<script type="text/javascript" src="/js/sortable.min.js"></script>
+<script src="/js/sortable.min.js" type="text/javascript"></script>
+<script src="/js/vue.components.js" type="text/javascript"></script>
+<script type="text/javascript">
+Tea.context(function () {
+	{$ .formJavascript}
+});
+</script>
 {$end}
 
 <div class="ui text menu tiny blue">
@@ -57,11 +63,15 @@
         </tr>
 
 		{$range $x := .formGroups1}
-		<!-- {$ $x.Namespace} source options begins -->
-		<tbody v-show="sourceCode == '{$ $x.Namespace}'">
+			<!-- {$ $x.Namespace} source options begins -->
+			{$if .IsComposed}
+				{$ $x.HTML }
+			{$else}
+				<tbody v-show="sourceCode == '{$ $x.Namespace}'">
 			{$ $x.HTML}
-		</tbody>
-		<!-- {$ $x.Namespace} source options end -->
+				</tbody>
+			{$end}
+			<!-- {$ $x.Namespace} source options end -->
 		{$end}
 
         <tr>
