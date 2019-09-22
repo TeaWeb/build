@@ -1,6 +1,8 @@
 function ChartRender(charts, eventCallback) {
 	var that = this;
 
+	var chartObjects = [];
+
 	charts.$map(function (k, v) {
 		if (v.options.id != null) {
 			v.id = v.options.id;
@@ -119,6 +121,7 @@ function ChartRender(charts, eventCallback) {
 			return "";
 		}
 		var c = echarts.init(chartBox);
+		chartObjects.push(c);
 
 		var bottomHeight = (chart.labels == null || chart.labels.length == 0) ? 16 : 20;
 		if (chart.lines.$exist(function (k, v) {
@@ -237,6 +240,7 @@ function ChartRender(charts, eventCallback) {
 			return "";
 		}
 		var c = echarts.init(chartBox);
+		chartObjects.push(c);
 
 		var option = {
 			textStyle: {
@@ -380,6 +384,7 @@ function ChartRender(charts, eventCallback) {
 		}
 
 		var c = echarts.init(chartBox);
+		chartObjects.push(c);
 		var seriesIndexes = [0, 1];
 		if (chart.values.length > 0) {
 			seriesIndexes = Array.$range(0, chart.values[0].length - 1);
@@ -454,4 +459,10 @@ function ChartRender(charts, eventCallback) {
 		});
 		return width;
 	};
+
+	window.addEventListener("resize", function () {
+		chartObjects.$each(function (k, v) {
+			v.resize();
+		});
+	});
 }
