@@ -606,6 +606,16 @@ Vue.component("http-box", {
 			tab = "text";
 		}
 
+		var headers = this.headers;
+		if (headers == null) {
+			headers = [];
+		}
+
+		var params = this.params;
+		if (params == null) {
+			params = [];
+		}
+
 		return {
 			selectedTab: tab,
 			moreOptionsVisible: false,
@@ -613,8 +623,8 @@ Vue.component("http-box", {
 			vPrefix: this.prefix,
 			vMethod: this.method,
 			vURL: this.url,
-			vHeaders: this.headers,
-			vParams: this.params,
+			vHeaders: headers,
+			vParams: params,
 			vTimeout: timeout,
 			vTextBody: this.textBody
 		};
