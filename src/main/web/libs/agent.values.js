@@ -173,6 +173,11 @@ values.Query = function () {
 			.execute();
 	};
 
+	this.find = function () {
+		return this.action("find")
+			.execute();
+	};
+
 	this.latest = function (size) {
 		if (typeof (size) == "undefined") {
 			size = 10;
