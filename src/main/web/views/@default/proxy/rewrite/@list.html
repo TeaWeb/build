@@ -20,7 +20,7 @@
         </td>
         <td>
             <span v-if="rewrite.conds.length == 0" class="disabled">无匹配条件</span>
-            <div class="ui field" v-for="cond in rewrite.conds" style="margin-bottom:0.4em"><span class="ui label small">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
+            <div class="ui field" v-for="cond in rewrite.conds" style="margin-bottom:0.4em"><span class="ui label tiny">{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
         </td>
         <td>
             <span v-if="rewrite.targetProxyName.length > 0 && rewrite.targetProxyFilename.length == 0" class="ui label tiny red">{{rewrite.targetProxyName}}</span>

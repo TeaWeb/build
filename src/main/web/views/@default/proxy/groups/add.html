@@ -1,6 +1,11 @@
 {$layout}
 {$template "/proxy/menu"}
 
+<!-- 组件 -->
+{$var "header"}
+<script src="/js/vue.components.js" type="text/javascript"></script>
+{$end}
+
 <div class="ui menu text blue small" v-if="locationId.length == 0">
 	<a :href="'/proxy/backend?serverId=' + server.id" class="item">服务器列表</a>
 	<a :href="'/proxy/groups?serverId=' + server.id" class="item">分组管理</a>
@@ -32,188 +37,162 @@
 				<input type="text" name="name" maxlength="100"/>
 			</td>
 		</tr>
-		<tr v-if="isHTTP">
-			<td>匹配条件</td>
-			<td>
-				<table class="ui table" v-if="conds.length > 0">
-					<thead class="full-width">
-						<tr>
-							<th style="width:30%">参数</th>
-							<th>运算符</th>
-							<th>对比值</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tr v-for="(cond, index) in conds" :key="index">
-						<td>
-							<input type="text" name="condParams" v-model="cond.param"/>
-							<div class="variables-box">
-								<a href="" @click.prevent="showCondVariables(index, cond)">内置变量 <i class="icon angle" :class="{down:!cond.showVariables,up:cond.showVariables}"></i> </a>
-								<div class="labels-box" v-show="cond.showVariables">
-									<a href="" @click.prevent="selectCondVariable(cond, variable)" class="ui label tiny" v-for="variable in variables" :title="variable.description">{{variable.code}} <br/> {{variable.name}}</a>
-								</div>
-							</div>
-						</td>
-						<td>
-							<select class="ui dropdown" style="width:10em" name="condOps" v-model="cond.op" @change="changeCondOp(cond)">
-								<option v-for="op in operators" :value="op.op">{{op.name}}</option>
-							</select>
-							<p class="comment">{{cond.description}}</p>
-						</td>
-						<td class="value-td">
-							<input type="text" name="condValues" v-model="cond.value"/>
-						</td>
-						<td>
-							<a href="" @click.prevent="removeCond(index)" title="删除"><i class="icon remove"></i></a>
-						</td>
-					</tr>
-				</table>
-				<button type="button" class="ui button tiny" @click="addCond()">+</button>
-				<p class="comment">满足以上条件时分组才会被使用。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
-			</td>
-		</tr>
 		<tr>
-			<td>IP范围</td>
-			<td>
-				<!-- 已添加 -->
-				<div>
-					<div class="ui label small" :class="{blue:ipRangeEditingIndex == index}" style="margin-bottom:0.5em" v-for="(ipRange,index) in ipRanges">
-						<input type="hidden" name="ipRangeTypeList" :value="ipRange.type"/>
-						<input type="hidden" name="ipRangeFromList" :value="ipRange.from"/>
-						<input type="hidden" name="ipRangeToList" :value="ipRange.to"/>
-						<input type="hidden" name="ipRangeCIDRIPList" :value="ipRange.ip"/>
-						<input type="hidden" name="ipRangeCIDRBitsList" :value="ipRange.bits"/>
-						<input type="hidden" name="ipRangeVarList" :value="ipRange.var"/>
-
-						<span v-if="ipRange.type == 'range'">
-							{{ipRange.var}} {{ipRange.from}} - {{ipRange.to}}
-						</span>
-						<span v-if="ipRange.type == 'cidr'">{{ipRange.var}} {{ipRange.ip}}/{{ipRange.bits}}</span>
-						&nbsp;
-						<a href="" @click.prevent="editIPRange(index)" title="修改"><i class="icon pencil"></i></a>
-						<a href="" @click.prevent="removeIPRange(index)" title="移除"><i class="icon remove"></i></a>
-					</div>
-				</div>
-
-				<!-- 添加 -->
-				<div style="margin-bottom:1em;margin-top:1em" v-if="ipRangeAdding">
-					<div class="ui field">
-						<div class="ui menu tabular small attached ">
-							<a href="" class="item" :class="{active:ipRangeType == 'range'}" @click.prevent="selectIPRangeType('range')">IP范围</a>
-							<a href="" class="item" :class="{active:ipRangeType == 'cidr'}" @click.prevent="selectIPRangeType('cidr')">CIDR</a>
-						</div>
-						<div class="ui segment attached" v-if="ipRangeType == 'range'">
-							<div class="ui fields inline">
-								<div class="ui field">
-									IP地址变量：<input type="text" v-model="ipRangeVar" size="40" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
-								</div>
-							</div>
-							<div class="ui fields inline">
-								<div class="ui field">
-									IP范围：
-								</div>
-								<div class="ui field">
-									<input type="text" placeholder="开始IP" maxlength="15" size="15" v-model="ipRangeFrom" name="ipRangeFrom" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
-								</div>
-								<div class="ui field">
-									-
-								</div>
-								<div class="ui field">
-									<input type="text" placeholder="结束IP" maxlength="15" size="15" v-model="ipRangeTo" name="ipRangeTo" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1" />
-								</div>
-							</div>
-							<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex == -1">确认添加</button> &nbsp;
-							<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex > -1">保存</button> &nbsp;
-							<a href="" title="取消" @click.prevent="cancelIPRangeAdding()"><i class="icon remove"></i></a>
-						</div>
-						<div class="ui segment attached" v-if="ipRangeType == 'cidr'">
-							<div class="ui fields inline">
-								<div class="ui field">
-									IP地址变量：<input type="text" value="${remoteAddr}" size="40" v-model="ipRangeVar" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
-								</div>
-							</div>
-							<div class="ui fields inline">
-								<div class="ui field">CIDR：</div>
-								<div class="ui field">
-									<input type="text" placeholder="IP地址" maxlength="15" size="15" v-model="ipRangeCIDRIP" name="ipRangeCIDRIP" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
-								</div>
-								<div class="ui field">
-									/
-								</div>
-								<div class="ui field">
-									<input type="text" placeholder="位数" size="3" maxlength="2" v-model="ipRangeCIDRBits" name="ipRangeCIDRBits" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
-								</div>
-							</div>
-							<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex == -1">确认添加</button> &nbsp;
-							<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex > -1">保存</button> &nbsp;
-							<a href="" title="取消" @click.prevent="cancelIPRangeAdding()"><i class="icon remove"></i></a>
-						</div>
-					</div>
-				</div>
-
-				<button v-if="!ipRangeAdding" type="button" class="ui button tiny" @click.prevent="addIPRange()">+</button>
-
-				<p class="comment">目前只支持IPv4，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">IP地址可以使用的变量</a>。</p>
+			<td colspan="2">
+				<a href="" style="font-weight: normal" @click.prevent="showAdvancedOptions()">更多选项 <i class="icon angle" :class="{down:!advancedOptionsVisible, up:advancedOptionsVisible}"></i> </a>
 			</td>
 		</tr>
-		<tr v-if="isHTTP">
-			<td>请求Header</td>
-			<td>
-				<div class="request-headers-box" style="margin-bottom:1em">
-						<span class="ui label tiny" :class="{blue:requestHeadersEditingIndex == index}" v-for="(header,index) in requestHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
-							<input type="hidden" name="requestHeaderNames" :value="header.name"/>
-							<input type="hidden" name="requestHeaderValues" :value="header.value"/> &nbsp;
-							<a href="" title="修改" @click.prevent="editRequestHeader(index)"><i class="icon pencil"></i></a>
-							<a href="" title="删除" @click.prevent="removeRequestHeader(index)"><i class="icon remove"></i></a>
-						</span>
-				</div>
-				<button class="ui button tiny" type="button" @click.prevent="addRequestHeader()" v-if="!requestHeadersAdding">+</button>
-				<div v-if="requestHeadersAdding">
-					<div class="ui fields inline">
-						<div class="ui field">
-							<input type="text" name="requestHeaderName" size="20" v-model="requestHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
-						</div>
-						<div class="ui field">:</div>
-						<div class="ui field">
-							<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
-						</div>
-					</div>
-					<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
-					<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex > -1">保存</button>
-					&nbsp;  <a href="" @click.prevent="cancelRequestHeadersAdding()"><i class="icon remove"></i></a>
-				</div>
-				<p class="comment">向后端服务器转发的请求Header，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
-			</td>
-		</tr>
-		<tr v-if="isHTTP">
-			<td>响应Header</td>
-			<td>
-				<div class="response-headers-box" style="margin-bottom:1em">
-						<span class="ui label tiny" :class="{blue:responseHeadersEditingIndex == index}" v-for="(header,index) in responseHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
-							<input type="hidden" name="responseHeaderNames" :value="header.name"/>
-							<input type="hidden" name="responseHeaderValues" :value="header.value"/> &nbsp;
-							<a href="" title="修改" @click.prevent="editResponseHeader(index)"><i class="icon pencil"></i></a>
-							<a href="" title="删除" @click.prevent="removeResponseHeader(index)"><i class="icon remove"></i></a>
-						</span>
-				</div>
-				<button class="ui button tiny" type="button" @click.prevent="addResponseHeader()" v-if="!responseHeadersAdding">+</button>
-				<div v-if="responseHeadersAdding">
-					<div class="ui fields inline">
-						<div class="ui field">
-							<input type="text" name="responseHeaderName" size="20" v-model="responseHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
-						</div>
-						<div class="ui field">:</div>
-						<div class="ui field">
-							<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+		<tbody v-show="advancedOptionsVisible">
+			<tr v-if="isHTTP">
+				<td>匹配条件</td>
+				<td>
+					<request-cond-box prefix="request" :operators="operators" :variables="variables"></request-cond-box>
+					<p class="comment">满足以上条件时分组才会被使用。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+				</td>
+			</tr>
+			<tr>
+				<td>IP范围</td>
+				<td>
+					<!-- 已添加 -->
+					<div>
+						<div class="ui label small" :class="{blue:ipRangeEditingIndex == index}" style="margin-bottom:0.5em" v-for="(ipRange,index) in ipRanges">
+							<input type="hidden" name="ipRangeTypeList" :value="ipRange.type"/>
+							<input type="hidden" name="ipRangeFromList" :value="ipRange.from"/>
+							<input type="hidden" name="ipRangeToList" :value="ipRange.to"/>
+							<input type="hidden" name="ipRangeCIDRIPList" :value="ipRange.ip"/>
+							<input type="hidden" name="ipRangeCIDRBitsList" :value="ipRange.bits"/>
+							<input type="hidden" name="ipRangeVarList" :value="ipRange.var"/>
+
+							<span v-if="ipRange.type == 'range'">
+								{{ipRange.var}} {{ipRange.from}} - {{ipRange.to}}
+							</span>
+							<span v-if="ipRange.type == 'cidr'">{{ipRange.var}} {{ipRange.ip}}/{{ipRange.bits}}</span>
+							&nbsp;
+							<a href="" @click.prevent="editIPRange(index)" title="修改"><i class="icon pencil"></i></a>
+							<a href="" @click.prevent="removeIPRange(index)" title="移除"><i class="icon remove"></i></a>
 						</div>
 					</div>
-					<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>
-					<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex > -1">保存</button>
-					&nbsp;  <a href="" @click.prevent="cancelResponseHeadersAdding()"><i class="icon remove"></i></a>
-				</div>
-				<p class="comment">向终端发送的响应Header。</p>
-			</td>
-		</tr>
+
+					<!-- 添加 -->
+					<div style="margin-bottom:1em;margin-top:1em" v-if="ipRangeAdding">
+						<div class="ui field">
+							<div class="ui menu tabular small attached ">
+								<a href="" class="item" :class="{active:ipRangeType == 'range'}" @click.prevent="selectIPRangeType('range')">IP范围</a>
+								<a href="" class="item" :class="{active:ipRangeType == 'cidr'}" @click.prevent="selectIPRangeType('cidr')">CIDR</a>
+							</div>
+							<div class="ui segment attached" v-if="ipRangeType == 'range'">
+								<div class="ui fields inline">
+									<div class="ui field">
+										IP地址变量：<input type="text" v-model="ipRangeVar" size="40" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
+									</div>
+								</div>
+								<div class="ui fields inline">
+									<div class="ui field">
+										IP范围：
+									</div>
+									<div class="ui field">
+										<input type="text" placeholder="开始IP" maxlength="15" size="15" v-model="ipRangeFrom" name="ipRangeFrom" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
+									</div>
+									<div class="ui field">
+										-
+									</div>
+									<div class="ui field">
+										<input type="text" placeholder="结束IP" maxlength="15" size="15" v-model="ipRangeTo" name="ipRangeTo" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1" />
+									</div>
+								</div>
+								<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex == -1">确认添加</button> &nbsp;
+								<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex > -1">保存</button> &nbsp;
+								<a href="" title="取消" @click.prevent="cancelIPRangeAdding()"><i class="icon remove"></i></a>
+							</div>
+							<div class="ui segment attached" v-if="ipRangeType == 'cidr'">
+								<div class="ui fields inline">
+									<div class="ui field">
+										IP地址变量：<input type="text" value="${remoteAddr}" size="40" v-model="ipRangeVar" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
+									</div>
+								</div>
+								<div class="ui fields inline">
+									<div class="ui field">CIDR：</div>
+									<div class="ui field">
+										<input type="text" placeholder="IP地址" maxlength="15" size="15" v-model="ipRangeCIDRIP" name="ipRangeCIDRIP" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
+									</div>
+									<div class="ui field">
+										/
+									</div>
+									<div class="ui field">
+										<input type="text" placeholder="位数" size="3" maxlength="2" v-model="ipRangeCIDRBits" name="ipRangeCIDRBits" @keyup.enter="confirmAddIPRange" @keypress.enter.prevent="1"/>
+									</div>
+								</div>
+								<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex == -1">确认添加</button> &nbsp;
+								<button class="ui button tiny" type="button" @click.prevent="confirmAddIPRange()" v-if="ipRangeEditingIndex > -1">保存</button> &nbsp;
+								<a href="" title="取消" @click.prevent="cancelIPRangeAdding()"><i class="icon remove"></i></a>
+							</div>
+						</div>
+					</div>
+
+					<button v-if="!ipRangeAdding" type="button" class="ui button tiny" @click.prevent="addIPRange()">+</button>
+
+					<p class="comment">目前只支持IPv4，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">IP地址可以使用的变量</a>。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>请求Header</td>
+				<td>
+					<div class="request-headers-box" style="margin-bottom:1em">
+							<span class="ui label tiny" :class="{blue:requestHeadersEditingIndex == index}" v-for="(header,index) in requestHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
+								<input type="hidden" name="requestHeaderNames" :value="header.name"/>
+								<input type="hidden" name="requestHeaderValues" :value="header.value"/> &nbsp;
+								<a href="" title="修改" @click.prevent="editRequestHeader(index)"><i class="icon pencil"></i></a>
+								<a href="" title="删除" @click.prevent="removeRequestHeader(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addRequestHeader()" v-if="!requestHeadersAdding">+</button>
+					<div v-if="requestHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="requestHeaderName" size="20" v-model="requestHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
+						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex > -1">保存</button>
+						&nbsp;  <a href="" @click.prevent="cancelRequestHeadersAdding()"><i class="icon remove"></i></a>
+					</div>
+					<p class="comment">向后端服务器转发的请求Header，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
+				</td>
+			</tr>
+			<tr v-if="isHTTP">
+				<td>响应Header</td>
+				<td>
+					<div class="response-headers-box" style="margin-bottom:1em">
+							<span class="ui label tiny" :class="{blue:responseHeadersEditingIndex == index}" v-for="(header,index) in responseHeaders" style="margin-top:0.2em;margin-bottom:0.2em">{{header.name}}: {{header.value}}
+								<input type="hidden" name="responseHeaderNames" :value="header.name"/>
+								<input type="hidden" name="responseHeaderValues" :value="header.value"/> &nbsp;
+								<a href="" title="修改" @click.prevent="editResponseHeader(index)"><i class="icon pencil"></i></a>
+								<a href="" title="删除" @click.prevent="removeResponseHeader(index)"><i class="icon remove"></i></a>
+							</span>
+					</div>
+					<button class="ui button tiny" type="button" @click.prevent="addResponseHeader()" v-if="!responseHeadersAdding">+</button>
+					<div v-if="responseHeadersAdding">
+						<div class="ui fields inline">
+							<div class="ui field">
+								<input type="text" name="responseHeaderName" size="20" v-model="responseHeadersAddingName" placeholder="名称" maxlength="100" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+							<div class="ui field">:</div>
+							<div class="ui field">
+								<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+							</div>
+						</div>
+						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>
+						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex > -1">保存</button>
+						&nbsp;  <a href="" @click.prevent="cancelResponseHeadersAdding()"><i class="icon remove"></i></a>
+					</div>
+					<p class="comment">向终端发送的响应Header。</p>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 	<button class="ui button primary" type="submit">保存</button>
 </form>

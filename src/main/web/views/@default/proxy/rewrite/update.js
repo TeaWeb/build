@@ -23,54 +23,6 @@ Tea.context(function () {
 	};
 
 	/**
-	 * 请求条件
-	 */
-	this.conds = this.rewrite.conds.$map(function (k, v) {
-		return {
-			"param": v.param,
-			"value": v.value,
-			"op": v.operator,
-			"description": that.operators.$find(function (k1, v1) {
-				return v.operator == v1.op;
-			}).description
-		};
-	});
-	this.addCond = function () {
-		this.conds.push({
-			"param": "",
-			"op": "eq",
-			"value": "",
-			"description": ""
-		});
-		this.changeCondOp(this.conds.$last());
-		this.$delay(function () {
-			this.$find("form input[name='condParams']").last().focus();
-			window.scroll(0, 10000);
-		});
-	};
-
-	this.changeCondOp = function (cond) {
-		cond.description = this.operators.$find(function (k, v) {
-			return cond.op == v.op;
-		}).description;
-	};
-
-	this.removeCond = function (index) {
-		this.conds.$remove(index);
-	};
-
-	this.showCondVariables = function (index, cond) {
-		cond.showVariables = !cond.showVariables;
-		Vue.set(this.conds, index, cond);
-	};
-
-	this.selectCondVariable = function (cond, variable) {
-		cond.param = variable.code;
-		cond.showVariables = false;
-	};
-
-
-	/**
 	 * 选项
 	 */
 	this.proxyHost = this.rewrite.proxyHost;

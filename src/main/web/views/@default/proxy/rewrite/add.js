@@ -17,45 +17,7 @@ Tea.context(function () {
 	this.showAdvancedOptions = function () {
 		this.advancedOptionsVisible = !this.advancedOptionsVisible;
 	};
-
-	/**
-	 * 重写条件
-	 */
-	this.conds = [];
-	this.addCond = function () {
-		this.conds.push({
-			"param": "",
-			"op": "eq",
-			"value": "",
-			"description": ""
-		});
-		this.changeCondOp(this.conds.$last());
-		this.$delay(function () {
-			this.$find("form input[name='condParams']").last().focus();
-			window.scroll(0, 10000);
-		});
-	};
-
-	this.changeCondOp = function (cond) {
-		cond.description = this.operators.$find(function (k, v) {
-			return cond.op == v.op;
-		}).description;
-	};
-
-	this.removeCond = function (index) {
-		this.conds.$remove(index);
-	};
-
-	this.showCondVariables = function (index, cond) {
-		cond.showVariables = !cond.showVariables;
-		Vue.set(this.conds, index, cond);
-	};
-
-	this.selectCondVariable = function (cond, variable) {
-		cond.param = variable.code;
-		cond.showVariables = false;
-	};
-
+	
 	/**
 	 * 选项
 	 */

@@ -471,7 +471,7 @@ Vue.component("http-header-box", {
 		<div v-if="isAdding"> \
 			<table class="ui table definition"> \
 				<tr> \
-					<td>名称</td> \
+					<td class="title">名称</td> \
 					<td> \
 						<input type="text" name="name" v-model="name" ref="nameInput" @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="Header名"/> \
 					</td> \
@@ -570,7 +570,7 @@ Vue.component("http-params", {
 		<div v-if="isAdding"> \
 			<table class="ui table definition"> \
 				<tr> \
-					<td>名称</td> \
+					<td class="title">名称</td> \
 					<td> \
 						<input type="text" name="name" v-model="name" ref="nameInput" @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="参数名"/> \
 					</td> \
@@ -803,6 +803,178 @@ Vue.component("single-value-list", {
 		<div v-if="isAdding"> \
 			<div style="margin-bottom:1em"> \
 				<input type="text" name="value" v-model="value" ref="valueInput"  @keyup.enter="confirmAdd" @keypress.enter.prevent="1" :placeholder="valueName" style="width:10em"/> &nbsp; \
+				<button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex == -1">确认添加</button><button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex > -1">确认保存</button>  &nbsp;<a href="" @click.prevent="cancel()">取消</a> \
+			</div> \
+		</div> \
+		<button class="ui button tiny" type="button" @click.prevent="add()" v-if="!isAdding">+</button> \
+		<p class="comment">{{comment}}</p> \
+	</div>'
+});
+
+/**
+ * 请求匹配条件
+ */
+Vue.component("request-cond-box", {
+	props: ["conds", "prefix", "operators", "comment", "variables"],
+	data: function () {
+		var conds = this.conds;
+		if (conds == null) {
+			conds = [];
+		}
+
+		var variables = this.variables;
+		if (variables == null) {
+			variables = [];
+		}
+
+		var that = this;
+		setTimeout(function () {
+			that.changeOp("eq")
+		}, 100);
+		return {
+			vConds: conds,
+			vOperators: this.operators,
+			vVariables: variables,
+			editingIndex: -1,
+			vParam: "",
+			vValue: "",
+			vOperator: "eq",
+			vOperatorDescription: "",
+			vVariable: "",
+			vVariableDescription: "",
+			isAdding: false
+		}
+	},
+	watch: {
+		vOperator: function (op) {
+			this.changeOp(op);
+		},
+		vVariable: function (variable) {
+			this.vOperatorDescription = "";
+			this.vParam += variable;
+			if (variable.length > 0) {
+				var v = this.vVariables.$find(function (k, v1) {
+					return v1.code == variable;
+				});
+				if (v) {
+					this.vVariableDescription = v.description;
+				}
+			}
+		}
+	},
+	methods: {
+		add: function () {
+			this.isAdding = true;
+			var that = this;
+			setTimeout(function () {
+				if (that.$refs.paramInput != null) {
+					that.$refs.paramInput.focus()
+				}
+			});
+		},
+		confirmAdd: function () {
+			if (this.vParam == null || this.vParam.length == 0) {
+				alert("请输入参数");
+				if (this.$refs.paramInput != null) {
+					this.$refs.paramInput.focus()
+				}
+				return;
+			}
+
+			if (this.editingIndex > -1) {
+				this.vConds[this.editingIndex].param = this.vParam;
+				this.vConds[this.editingIndex].operator = this.vOperator;
+				this.vConds[this.editingIndex].value = this.vValue;
+			} else {
+				this.vConds.push({
+					param: this.vParam,
+					operator: this.vOperator,
+					value: this.vValue
+				});
+			}
+			this.cancel();
+		},
+		cancel: function () {
+			this.editingIndex = -1;
+			this.isAdding = false;
+			this.vParam = "";
+			this.vOperator = "eq";
+			this.vValue = "";
+			this.vVariable = "";
+		},
+		remove: function (index) {
+			if (!window.confirm("确定要删除此匹配条件吗？")) {
+				return;
+			}
+			this.cancel();
+			this.vConds.$remove(index);
+		},
+		edit: function (index) {
+			this.editingIndex = index;
+			this.isAdding = true;
+			this.vParam = this.vConds[index].param;
+			this.vOperator = this.vConds[index].operator;
+			this.vValue = this.vConds[index].value;
+
+			var that = this;
+			setTimeout(function () {
+				if (that.$refs.paramInput != null) {
+					that.$refs.paramInput.focus()
+				}
+			})
+		},
+		changeOp: function (op) {
+			var operator = this.vOperators.$find(function (k, v) {
+				return v.op == op;
+			});
+			if (operator != null) {
+				this.vOperatorDescription = operator.description;
+			}
+		}
+	},
+	template: '<div> \
+		<div style="margin-bottom: 1em">\
+			<div class="ui label tiny" style="padding:4px" :class="{blue:editingIndex == index}" v-for="(cond,index) in vConds"> \
+				{{cond.param}} <var>{{cond.operator}}</var> {{cond.value}}\
+				&nbsp; <a href="" title="修改" @click.prevent="edit(index)"><i class="icon pencil small"></i></a>&nbsp; \
+				<a href="" title="删除" @click.prevent="remove(index)"><i class="icon remove small"></i> </a> \
+				<input type="hidden" :name="prefix + \'_condParams\'" :value="cond.param"/> \
+				<input type="hidden" :name="prefix + \'_condOperators\'" :value="cond.operator"/> \
+				<input type="hidden" :name="prefix + \'_condValues\'" :value="cond.value"/> \
+			</div>\
+		</div> \
+		<div v-if="isAdding"> \
+			<table class="ui table definition"> \
+				<tr> \
+					<td class="title">参数</td> \
+					<td> \
+						<input type="text" v-model="vParam" ref="paramInput" @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="参数，类似于${arg.name}"/> \
+						<div style="margin-top:1em"> \
+							<select class="ui dropdown small" style="width:20em" v-model="vVariable"> \
+								<option value="">[参考变量]</option> \
+								<option v-for="variable in variables" :value="variable.code">{{variable.code}} - {{variable.name}}</option> \
+							</select> \
+							<p class="comment">{{vVariableDescription}}</p> \
+						</div> \
+					</td> \
+				</tr> \
+				<tr> \
+					<td>操作符</td> \
+					<td> \
+						<select style="width:10em" class="ui dropdown" v-model="vOperator"> \
+							<option v-for="operator in vOperators" :value="operator.op">{{operator.name}}</option>\
+						</select>\
+						<p class="comment">{{vOperatorDescription}}</p> \
+					</td> \
+				</tr> \
+				<tr> \
+					<td>对比值</td> \
+					<td> \
+						<textarea type="text"  v-model="vValue" rows="2" placeholder="对比值"/> \
+					</td> \
+				</tr> \
+			</table> \
+			<div style="margin-bottom:1em"> \
 				<button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex == -1">确认添加</button><button class="ui button tiny" type="button" @click.prevent="confirmAdd()" v-if="editingIndex > -1">确认保存</button>  &nbsp;<a href="" @click.prevent="cancel()">取消</a> \
 			</div> \
 		</div> \

@@ -1,24 +1,17 @@
-/** 请求变量 **/
-.variables-box {
-    font-weight: normal;
-    margin-top: 0.6em;
+.tab-menu {
+    margin-bottom: 0 !important;
 }
 
-.variables-box a:not(.label) {
-    font-size: 0.9em;
+.main .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
-.variables-box .labels-box {
-    max-height: 10em;
-    overflow-y: auto;
+.main .menu.text span.item {
+    padding-left: 0;
+    padding-right: 0;
 }
 
-.variables-box .labels-box::-webkit-scrollbar {
-    width: 4px;
-}
-
-.variables-box .labels-box .label {
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-    line-height: 1.5;
+.divider {
+    margin-bottom: 0 !important;
 }

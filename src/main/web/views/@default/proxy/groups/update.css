@@ -15,28 +15,3 @@ div.margin {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
-
-/** 请求变量 **/
-.variables-box {
-    font-weight: normal;
-    margin-top: 0.6em;
-}
-
-.variables-box a:not(.label) {
-    font-size: 0.9em;
-}
-
-.variables-box .labels-box {
-    max-height: 10em;
-    overflow-y: auto;
-}
-
-.variables-box .labels-box::-webkit-scrollbar {
-    width: 4px;
-}
-
-.variables-box .labels-box .label {
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-    line-height: 1.5;
-}

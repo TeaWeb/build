@@ -51,7 +51,7 @@
 		<td>
 			<span v-if="group.conds == null || group.conds.length == 0" class="disabled">-</span>
 			<div v-if="group.conds != null" v-for="cond in group.conds" style="margin-top:0.3em;margin-bottom:0.3em">
-				<span class="ui label tiny">{{cond.param}} {{cond.operator}} {{cond.value}}</span>
+				<span class="ui label tiny">{{cond.param}} <var>{{cond.operator}}</var> {{cond.value}}</span>
 			</div>
 		</td>
 		<td>
