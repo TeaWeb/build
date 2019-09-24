@@ -735,6 +735,6 @@ var.dash {
 }
 
 /** checkbox **/
-.checkbox label a {
-    font-size: 0.8em;
+.checkbox label a, .checkbox label {
+    font-size: 0.8em !important;
 }

@@ -149,6 +149,16 @@
 			</td>
 		</tr>
 	</tbody>
+
+	<tr>
+		<td>匹配条件</td>
+		<td>
+			<span v-if="policy.cond == null || policy.cond.length == 0" class="disabled">没有设置匹配条件。</span>
+			<div v-if="policy.cond != null && policy.cond.length > 0">
+				<span class="ui label tiny" v-for="cond in policy.cond">{{cond.param}} <var>{{cond.operator}}</var> {{cond.value}}</span>
+			</div>
+		</td>
+	</tr>
 </table>
 
 <h3 style="padding-top:1em">使用此日志策略的项目</h3>

@@ -1,6 +1,11 @@
 {$layout}
 {$template "menu"}
 
+<!-- 组件 -->
+{$var "header"}
+<script src="/js/vue.components.js" type="text/javascript"></script>
+{$end}
+
 <div class="margin"></div>
 
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
@@ -206,14 +211,28 @@
 		</tbody>
 
 		<tr>
-			<td>是否启用</td>
-			<td>
-				<div class="ui checkbox">
-					<input type="checkbox" name="on" value="1" v-model="policy.on"/>
-					<label></label>
-				</div>
+			<td colspan="2">
+				<more-options-indicator></more-options-indicator>
 			</td>
 		</tr>
+		<tbody v-show="moreOptionsVisible">
+			<tr>
+				<td>匹配条件</td>
+				<td>
+					<request-cond-box prefix="request" :operators="condOperators" :variables="condVariables" :conds="policy.cond"></request-cond-box>
+					<p class="comment">满足以上条件时此策略才会生效。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+				</td>
+			</tr>
+			<tr>
+				<td>是否启用</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="on" value="1" v-model="policy.on"/>
+						<label></label>
+					</div>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<button class="ui button primary" type="submit">保存</button> &nbsp;

@@ -43,6 +43,11 @@ Tea.context(function () {
 			return v.type == that.storageType;
 		});
 	};
-	
+
 	this.changeStorageType();
+
+	/**
+	 * 更多设置
+	 */
+	this.moreOptionsVisible = false;
 });

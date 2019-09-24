@@ -38,4 +38,9 @@ Tea.context(function () {
 			return v.type == that.storageType;
 		});
 	};
+
+	/**
+	 * 更多设置
+	 */
+	this.moreOptionsVisible = false;
 });
