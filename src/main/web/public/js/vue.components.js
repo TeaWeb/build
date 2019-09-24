@@ -838,11 +838,13 @@ Vue.component("request-cond-box", {
 			editingIndex: -1,
 			vParam: "",
 			vValue: "",
+			vValues: [],
 			vOperator: "eq",
 			vOperatorDescription: "",
 			vVariable: "",
 			vVariableDescription: "",
-			isAdding: false
+			isAdding: false,
+			variablesVisible: false
 		}
 	},
 	watch: {
@@ -881,6 +883,10 @@ Vue.component("request-cond-box", {
 				return;
 			}
 
+			if (this.vOperator == "in" || this.vOperator == "not in") {
+				this.vValue = JSON.stringify(this.vValues);
+			}
+
 			if (this.editingIndex > -1) {
 				this.vConds[this.editingIndex].param = this.vParam;
 				this.vConds[this.editingIndex].operator = this.vOperator;
@@ -900,6 +906,7 @@ Vue.component("request-cond-box", {
 			this.vParam = "";
 			this.vOperator = "eq";
 			this.vValue = "";
+			this.vValues = [];
 			this.vVariable = "";
 		},
 		remove: function (index) {
@@ -916,6 +923,10 @@ Vue.component("request-cond-box", {
 			this.vOperator = this.vConds[index].operator;
 			this.vValue = this.vConds[index].value;
 
+			if (this.vOperator == "in" || this.vOperator == "not in") {
+				this.vValues = JSON.parse(this.vValue);
+			}
+
 			var that = this;
 			setTimeout(function () {
 				if (that.$refs.paramInput != null) {
@@ -930,11 +941,28 @@ Vue.component("request-cond-box", {
 			if (operator != null) {
 				this.vOperatorDescription = operator.description;
 			}
+		},
+		addValue: function () {
+			this.vValues.push("");
+
+			var that = this;
+			setTimeout(function () {
+				var inputs = that.$refs.valuesInput;
+				if (inputs != null && (inputs instanceof Array)) {
+					inputs[inputs.length - 1].focus();
+				}
+			});
+		},
+		removeValue: function (index) {
+			this.vValues.$remove(index);
+		},
+		showVariables: function () {
+			this.variablesVisible = !this.variablesVisible;
 		}
 	},
 	template: '<div> \
 		<div style="margin-bottom: 1em">\
-			<div class="ui label tiny" style="padding:4px" :class="{blue:editingIndex == index}" v-for="(cond,index) in vConds"> \
+			<div class="ui label tiny" style="padding:4px;margin-top:3px;margin-bottom:3px" :class="{blue:editingIndex == index}" v-for="(cond,index) in vConds"> \
 				{{cond.param}} <var>{{cond.operator}}</var> {{cond.value}}\
 				&nbsp; <a href="" title="修改" @click.prevent="edit(index)"><i class="icon pencil small"></i></a>&nbsp; \
 				<a href="" title="删除" @click.prevent="remove(index)"><i class="icon remove small"></i> </a> \
@@ -949,12 +977,15 @@ Vue.component("request-cond-box", {
 					<td class="title">参数</td> \
 					<td> \
 						<input type="text" v-model="vParam" ref="paramInput" @keyup.enter="confirmAdd" @keypress.enter.prevent="1" placeholder="参数，类似于${arg.name}"/> \
-						<div style="margin-top:1em"> \
-							<select class="ui dropdown small" style="width:20em" v-model="vVariable"> \
-								<option value="">[参考变量]</option> \
-								<option v-for="variable in variables" :value="variable.code">{{variable.code}} - {{variable.name}}</option> \
-							</select> \
-							<p class="comment">{{vVariableDescription}}</p> \
+						<div style="margin-top:0.6em"> \
+							<a href="" @click.prevent="showVariables">内置变量 <i class="icon angle" :class="{down:!variablesVisible, up:variablesVisible}"></i></a> \
+							<div v-show="variablesVisible" style="margin-top:0.4em"> \
+								<select class="ui dropdown small" style="width:20em" v-model="vVariable"> \
+									<option value="">[内置变量]</option> \
+									<option v-for="variable in variables" :value="variable.code">{{variable.code}} - {{variable.name}}</option> \
+								</select> \
+								<p class="comment">{{vVariableDescription}}</p> \
+							</div> \
 						</div> \
 					</td> \
 				</tr> \
@@ -967,10 +998,22 @@ Vue.component("request-cond-box", {
 						<p class="comment">{{vOperatorDescription}}</p> \
 					</td> \
 				</tr> \
-				<tr> \
+				<tr v-show="vOperator != \'in\' && vOperator != \'not in\'"> \
 					<td>对比值</td> \
 					<td> \
 						<textarea type="text"  v-model="vValue" rows="2" placeholder="对比值"/> \
+					</td> \
+				</tr> \
+				<tr v-show="vOperator == \'in\' || vOperator == \'not in\'"> \
+					<td>对比值</td> \
+					<td> \
+						<div> \
+							<div class="ui field" v-for="(v,index) in vValues"> \
+								<input type="text" v-model="vValues[index]" style="width:10em" ref="valuesInput"/> \
+								<a href="" title="删除" @click.prevent="removeValue(index)"><i class="icon remove small"></i></a> \
+							</div> \
+							<button class="ui button tiny" type="button" @click.prevent="addValue()">+</button>\
+						</div> \
 					</td> \
 				</tr> \
 			</table> \
@@ -993,7 +1036,7 @@ Vue.component("more-options-indicator", {
 		};
 	},
 	methods: {
-		changeVisible: function() {
+		changeVisible: function () {
 			this.visible = !this.visible;
 			if (Tea.Vue != null) {
 				Tea.Vue.moreOptionsVisible = this.visible;
