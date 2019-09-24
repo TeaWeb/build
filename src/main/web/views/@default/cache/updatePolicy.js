@@ -103,8 +103,8 @@ Tea.context(function () {
 	/**
 	 * advanced
 	 */
-	this.showAdvanced = function (b) {
-		this.advancedVisible = b;
+	this.showAdvanced = function () {
+		this.advancedVisible = !this.advancedVisible;
 	};
 
 	/**

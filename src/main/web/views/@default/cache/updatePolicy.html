@@ -1,9 +1,14 @@
 {$layout}
 
+<!-- 组件 -->
+{$var "header"}
+<script src="/js/vue.components.js" type="text/javascript"></script>
+{$end}
+
 <div class="first-menu">
 	<div class="ui menu text small blue">
 		<a class="item active" href="/cache">策略列表</a>
-		<a class="item" href="/cache/createPolicy">添加新策略</a>
+		<a class="item" href="/cache/createPolicy">+添加新策略</a>
 	</div>
 
 	<div class="ui divider"></div>
@@ -104,8 +109,7 @@
 
         <tr>
             <td colspan="2">
-                <a href="" v-if="!advancedVisible" @click.prevent="showAdvanced(true)" style="font-weight: normal;">显示高级选项 <i class="icon down angle"></i> </a>
-                <a href="" v-if="advancedVisible" @click.prevent="showAdvanced(false)" style="font-weight: normal">收起高级选项 <i class="icon up angle"></i> </a>
+                <a href="" @click.prevent="showAdvanced()" style="font-weight: normal;">更多选项 <i class="icon angle" :class="{down:!advancedVisible,up:advancedVisible}"></i> </a>
                 <input type="hidden" name="isAdvanced" value="1" v-if="advancedVisible"/>
             </td>
         </tr>
@@ -232,7 +236,13 @@
                 <p class="ui comment">允许缓存的最大内容长度</p>
             </td>
         </tr>
-
+		<tr v-show="advancedVisible">
+			<td>匹配条件</td>
+			<td>
+				<request-cond-box prefix="request" :operators="condOperators" :variables="condVariables" :conds="policy.cond"></request-cond-box>
+				<p class="comment">满足以上条件时此策略才会生效。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+			</td>
+		</tr>
     </table>
 
     <button class="ui button primary" type="submit">保存</button> &nbsp;
