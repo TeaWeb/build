@@ -45,6 +45,15 @@
 		</td>
 	</tr>
 	<tr>
+		<td>匹配条件</td>
+		<td>
+			<span v-if="config.cond == null || config.cond.length == 0" class="disabled">没有设置匹配条件。</span>
+			<div v-if="config.cond != null && config.cond.length > 0">
+				<span class="ui label tiny" v-for="cond in config.cond">{{cond.param}} <var>{{cond.operator}}</var> {{cond.value}}</span>
+			</div>
+		</td>
+	</tr>
+	<tr>
 		<td>是否启用</td>
 		<td>
 			<span class="ui label tiny green" v-if="config.on">启用</span>
