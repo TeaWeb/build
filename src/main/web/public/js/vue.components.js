@@ -883,7 +883,7 @@ Vue.component("request-cond-box", {
 				return;
 			}
 
-			if (this.vOperator == "in" || this.vOperator == "not in") {
+			if (this.isArrayOperator(this.vOperator)) {
 				this.vValue = JSON.stringify(this.vValues);
 			}
 
@@ -923,7 +923,7 @@ Vue.component("request-cond-box", {
 			this.vOperator = this.vConds[index].operator;
 			this.vValue = this.vConds[index].value;
 
-			if (this.vOperator == "in" || this.vOperator == "not in") {
+			if (this.isArrayOperator(this.vOperator)) {
 				this.vValues = JSON.parse(this.vValue);
 			}
 
@@ -958,6 +958,9 @@ Vue.component("request-cond-box", {
 		},
 		showVariables: function () {
 			this.variablesVisible = !this.variablesVisible;
+		},
+		isArrayOperator: function (operator) {
+			return ["in", "not in", "file ext", "mime type"].$contains(operator);
 		}
 	},
 	template: '<div> \
@@ -998,13 +1001,13 @@ Vue.component("request-cond-box", {
 						<p class="comment">{{vOperatorDescription}}</p> \
 					</td> \
 				</tr> \
-				<tr v-show="vOperator != \'in\' && vOperator != \'not in\'"> \
+				<tr v-show="!isArrayOperator(vOperator)"> \
 					<td>对比值</td> \
 					<td> \
 						<textarea type="text"  v-model="vValue" rows="2" placeholder="对比值"/> \
 					</td> \
 				</tr> \
-				<tr v-show="vOperator == \'in\' || vOperator == \'not in\'"> \
+				<tr v-show="isArrayOperator(vOperator)"> \
 					<td>对比值</td> \
 					<td> \
 						<div> \
