@@ -130,15 +130,25 @@
 		<tr>
 			<td class="color-border">Gzip压缩级别</td>
 			<td>
-				<span v-if="server.gzipLevel == 0">不压缩</span>
-				<span v-if="server.gzipLevel > 0">{{server.gzipLevel}}</span>
+				<span v-if="server.gzip == null || server.gzip.level == 0">不压缩</span>
+				<span v-if="server.gzip != null && server.gzip.level > 0" class="green">{{server.gzip.level}}</span>
+				<p v-if="server.gzip != null && server.gzip.level > 0" class="comment">级别越高，压缩比例越大，最大级别为9。</p>
 			</td>
 		</tr>
-		<tr>
+		<tr v-if="server.gzip != null && server.gzip.level > 0">
 			<td class="color-border">Gzip内容最小长度</td>
 			<td>
-				<span v-if="server.gzipMinLength == 0" class="disabled">-</span>
-				<span v-if="server.gzipMinLength.length > 0">{{server.gzipMinLength}}</span>
+				<span v-if="server.gzip.minLength.length == 0" class="disabled">-</span>
+				<span v-if="server.gzip.minLength.length > 0">{{server.gzip.minLength}}</span>
+			</td>
+		</tr>
+		<tr v-if="server.gzip != null && server.gzip.level > 0">
+			<td class="color-border">Gzip文件MimeType</td>
+			<td>
+				<span v-if="server.gzip.mimeTypes == null || server.gzip.mimeTypes.length == 0" class="disabled">使用默认</span>
+				<div v-if="server.gzip.mimeTypes.length > 0">
+					<span v-for="mimeType in server.gzip.mimeTypes" class="ui label tiny">{{mimeType}}</span>
+				</div>
 			</td>
 		</tr>
 		<tr>

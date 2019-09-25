@@ -150,9 +150,10 @@ Tea.context(function () {
 			"name": "M"
 		}];
 	this.gzipMinUnit = "k";
-	if (this.location.gzipMinLength.length > 0) {
-		this.gzipMinUnit = this.location.gzipMinLength[this.location.gzipMinLength.length - 1];
-		this.location.gzipMinLength = this.location.gzipMinLength.substring(0, this.location.gzipMinLength.length - 1);
+	this.gzipMinLength = "";
+	if (this.gzip.minLength.length > 0) {
+		this.gzipMinUnit = this.gzip.minLength[this.gzip.minLength.length - 1];
+		this.gzipMinLength = this.gzip.minLength.substring(0, this.gzip.minLength.length - 1);
 	}
 
 	/**

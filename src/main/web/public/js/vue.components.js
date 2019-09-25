@@ -797,7 +797,7 @@ Vue.component("single-value-list", {
 				{{param.value}}\
 				&nbsp; <a href="" title="修改" @click.prevent="edit(index)"><i class="icon pencil small"></i></a>&nbsp; \
 				<a href="" title="删除" @click.prevent="remove(index)"><i class="icon remove small"></i> </a> \
-				<input type="hidden" :name="prefix + \'_values\'" :value="param.value"/> \
+				<input type="hidden" :name="prefix + \'Values\'" :value="param.value"/> \
 			</div>\
 		</div> \
 		<div v-if="isAdding"> \

@@ -217,20 +217,20 @@
 				<tr>
 					<td class="color-border">Gzip压缩级别</td>
 					<td>
-						<select name="gzipLevel" v-model="location.gzipLevel" class="ui dropdown" style="width:10em">
-							<option value="-1">不设置</option>
+						<select name="gzipLevel" v-model="gzip.level" class="ui dropdown" style="width:10em">
+							<option value="-1">继承上一级设置</option>
 							<option value="0">不压缩</option>
 							<option v-for="level in gzipLevels" :value="level">{{level}}</option>
 						</select>
 						<p class="ui comment">级别越高，压缩比例越大</p>
 					</td>
 				</tr>
-				<tr>
+				<tr v-if="gzip.level > 0">
 					<td class="color-border">Gzip内容最小长度</td>
 					<td>
 						<div class="ui fields inline">
 							<div class="ui field">
-								<input type="text" name="gzipMinLength" size="8" v-model="location.gzipMinLength"/>
+								<input type="text" name="gzipMinLength" v-model="gzipMinLength" size="8" value="0"/>
 							</div>
 							<div class="ui field">
 								<select class="ui dropdown" name="gzipMinUnit" v-model="gzipMinUnit">
@@ -239,6 +239,13 @@
 							</div>
 						</div>
 						<p class="comment">0表示不限制，内容长度从文件尺寸或Content-Length中获取。</p>
+					</td>
+				</tr>
+				<tr v-if="gzip.level > 0">
+					<td class="color-border">Gzip文件MimeType</td>
+					<td>
+						<single-value-list prefix="gzipMimeType" :values="gzip.mimeTypes" value-name="类型"></single-value-list>
+						<p class="comment">默认为text/html, application/json，支持类似于text/*的类型</p>
 					</td>
 				</tr>
 				<tr>

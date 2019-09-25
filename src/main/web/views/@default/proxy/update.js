@@ -197,9 +197,9 @@ Tea.context(function () {
 			"name": "M"
 		}];
 	this.gzipMinUnit = "k";
-	if (this.server.gzipMinLength.length > 0) {
-		this.gzipMinUnit = this.server.gzipMinLength[this.server.gzipMinLength.length - 1];
-		this.server.gzipMinLength = this.server.gzipMinLength.substring(0, this.server.gzipMinLength.length - 1);
+	if (this.server.gzip.minLength.length > 0) {
+		this.gzipMinUnit = this.server.gzip.minLength[this.server.gzip.minLength.length - 1];
+		this.server.gzip.minLength = this.server.gzip.minLength.substring(0, this.server.gzip.minLength.length - 1);
 	}
 
 	/**

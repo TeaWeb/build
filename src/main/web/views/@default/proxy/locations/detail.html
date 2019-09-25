@@ -146,16 +146,26 @@
 			<tr>
 				<td class="color-border">Gzip压缩级别</td>
 				<td>
-					<span v-if="location.gzipLevel < 0">不设置</span>
-					<span v-if="location.gzipLevel == 0">不压缩</span>
-					<span v-if="location.gzipLevel > 0">{{location.gzipLevel}}</span>
+					<span v-if="location.gzip == null">继承上一级设置</span>
+					<span v-if="location.gzip != null && location.gzip.level == 0">不压缩</span>
+					<span v-if="location.gzip != null && location.gzip.level > 0" class="green">{{location.gzip.level}}</span>
+					<p v-if="location.gzip != null && location.gzip.level > 0" class="comment">级别越高，压缩比例越大，最大级别为9。</p>
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="location.gzip != null && location.gzip.level > 0">
 				<td class="color-border">Gzip内容最小长度</td>
 				<td>
-					<span v-if="location.gzipMinLength.length == 0" class="disabled">-</span>
-					<span v-if="location.gzipMinLength.length > 0">{{location.gzipMinLength}}</span>
+					<span v-if="location.gzip.minLength.length == 0" class="disabled">-</span>
+					<span v-if="location.gzip.minLength.length > 0">{{location.gzip.minLength}}</span>
+				</td>
+			</tr>
+			<tr v-if="location.gzip != null && location.gzip.level > 0">
+				<td class="color-border">Gzip文件MimeType</td>
+				<td>
+					<span v-if="location.gzip.mimeTypes == null || location.gzip.mimeTypes.length == 0" class="disabled">使用默认</span>
+					<div v-if="location.gzip.mimeTypes.length > 0">
+						<span v-for="mimeType in location.gzip.mimeTypes" class="ui label tiny">{{mimeType}}</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
