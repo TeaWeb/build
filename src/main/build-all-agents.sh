@@ -42,6 +42,14 @@ then
 	export GOOS=freebsd
 	export GOARCH=amd64
 	buildAgent
+
+	export GOOS=linux
+	export GOARCH=mips64
+	buildAgent
+
+	export GOOS=linux
+	export GOARCH=mips64le
+	buildAgent
 elif [ "$2" != "" ]
 then
 		export GOOS=$1
