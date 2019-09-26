@@ -26,6 +26,7 @@
                 <td>
                     <div class="ui progress blue tiny" style="padding:0;margin:0">
                         <div class="bar" :style="{width: downloadProgress + '%'}"></div>
+						<span class="label" v-if="timeLeft != null && timeLeft.length > 0">预计剩余时间{{timeLeft}}</span>
                     </div>
                 </td>
             </tr>
