@@ -146,7 +146,7 @@
 			<td class="color-border">Gzip文件MimeType</td>
 			<td>
 				<span v-if="server.gzip.mimeTypes == null || server.gzip.mimeTypes.length == 0" class="disabled">使用默认</span>
-				<div v-if="server.gzip.mimeTypes.length > 0">
+				<div v-if="server.gzip.mimeTypes != null && server.gzip.mimeTypes.length > 0">
 					<span v-for="mimeType in server.gzip.mimeTypes" class="ui label tiny">{{mimeType}}</span>
 				</div>
 			</td>
