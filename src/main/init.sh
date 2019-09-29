@@ -23,6 +23,7 @@ function go_get() {
 # TeaGO
 go_get "github.com/iwind/TeaGo"
 go_get "github.com/pquerna/ffjson"
+go_get "github.com/mailru/easyjson"
 
 # fastcgi
 go_get "github.com/iwind/gofcgi"

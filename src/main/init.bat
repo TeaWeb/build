@@ -9,6 +9,7 @@ REM go_get function
 REM TeaGO
 call go_get "github.com/iwind/TeaGo"
 call go_get "github.com/pquerna/ffjson"
+call go_get "github.com/mailru/easyjson"
 
 REM fastcgi
 call go_get "github.com/iwind/gofcgi"
