@@ -3,6 +3,7 @@ Tea.context(function () {
 	this.dbUsername = this.config.username;
 	this.dbPassword = this.config.password;
 	this.dbName = this.config.dbName;
+	this.autoCreate = true;
 	this.dbTestResult = {
 		"ok": false,
 		"isRunning": false,
@@ -19,7 +20,8 @@ Tea.context(function () {
 			"addr": this.dbAddr,
 			"username": this.dbUsername,
 			"password": this.dbPassword,
-			"dbName": this.dbName
+			"dbName": this.dbName,
+			"autoCreate": this.autoCreate ? 1 : 0
 		};
 		if (this.dbType == "mongo") {
 			params = {

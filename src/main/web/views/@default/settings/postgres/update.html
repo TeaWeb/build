@@ -32,6 +32,16 @@
 				<p class="comment">此数据库必须是存在的，而且需要有创建数据表、删除数据表、创建索引的权限</p>
 			</td>
 		</tr>
+		<tr>
+			<td>自动创建数据库</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="autoCreate" value="1" v-model="autoCreate"/>
+					<label></label>
+				</div>
+				<p class="comment">选中后，如果数据库不存在，在检查数据库时会尝试自动创建数据库。</p>
+			</td>
+		</tr>
 	</table>
 
 	<div class="ui message error" v-if="!dbTestResult.ok && !dbTestResult.isRunning && dbTestResult.message.length > 0">{{dbTestResult.message}}</div>
