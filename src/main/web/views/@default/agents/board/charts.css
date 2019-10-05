@@ -1,14 +1,14 @@
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
+    margin-top: 0 !important;
 }
 
 .table span.small {
@@ -17,7 +17,17 @@
     font-size: 0.8em;
 }
 
-.chart-box .label {
+.charts-box {
+    margin: 1em !important;
+}
+
+.charts-box .chart-box {
+    border: 1px white solid;
+    cursor: pointer;
+    background: #eee;
+}
+
+.charts-box .label {
     margin-top: 0.2em;
     margin-bottom: 0.2em;
 }
@@ -28,7 +38,7 @@
 
 /** 排序 **/
 .sortable-ghost {
-    background: #ddd!important;
+    background: #ddd !important;
 }
 
 .sortable-drag {

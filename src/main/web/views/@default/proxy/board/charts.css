@@ -1,24 +1,34 @@
 @media screen and (max-width: 512px) {
     .column:not(.one) {
-        width: 100%!important;
+        width: 100% !important;
     }
 }
 
 .tab-menu {
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
 }
 
 .menu.text {
-    margin-top: 0!important;
-    margin-bottom: 0!important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 .divider {
-    margin-top: 0!important;
+    margin-top: 0 !important;
+}
+
+.using-charts-box {
+    margin: 1em !important;
+}
+
+.using-charts-box .chart-box {
+    border: 1px white solid;
+    cursor: pointer;
+    background: #eee;
 }
 
 .using-charts-box .label {
-    margin: 0.3em!important;
+    margin: 0.3em !important;
     cursor: pointer;
 }
 
@@ -35,7 +45,7 @@ table .label.tiny {
 
 /** 排序 **/
 .sortable-ghost {
-    background: #ddd!important;
+    background: #ddd !important;
 }
 
 .sortable-drag {

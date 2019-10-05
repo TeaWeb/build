@@ -8,11 +8,16 @@
 <p class="comment" v-if="charts.length == 0">暂时还没有可以使用的图表。</p>
 
 <p class="comment" v-if="usingCharts.length > 0">以下是已添加图表，可以拖动改变位置：</p>
-<div class="chart-box">
-    <span v-for="chart in usingCharts" v-if="usingCharts.length > 0" class="ui label small">{{chart.name}} &nbsp;<a href="" @click.prevent="removeChart(chart)" title="从看板移除"><i class="icon remove small" v-if="chart.isUsing"></i></a></span>
+<div class="charts-box ui grid two columns">
+	<div v-for="chart in usingCharts" class="chart-box" :class="{'one column row':chart.columns > 1, 'column':chart.columns <= 1}">
+		<div :class="{'column':chart.columns > 1}">
+   	 		<span v-if="usingCharts.length > 0" class="ui label small">{{chart.name}} <a href="" @click.prevent="removeChart(chart)" title="从看板移除"><i class="icon remove small" v-if="chart.isUsing"></i></a></span>
+		</div>
+	</div>
 </div>
 <p class="ui message success" v-if="moveSuccess">保存成功</p>
 
+<p class="comment" v-if="usingCharts.length > 0">更多可以添加到看板的图表：</p>
 <table class="ui table selectable" v-if="charts.length > 0">
     <thead>
         <tr>

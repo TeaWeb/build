@@ -37,10 +37,10 @@ Tea.context(function () {
 	this.moveSuccess = false;
 
 	this.sortable = function () {
-		var box = this.$find(".chart-box")[0];
+		var box = this.$find(".charts-box")[0];
 		var that = this;
 		Sortable.create(box, {
-			draggable: "span",
+			draggable: ".chart-box",
 			onStart: function () {
 
 			},

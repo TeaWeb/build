@@ -16,8 +16,12 @@
 <p class="comment" v-if="widgets.length == 0">暂时还没有任何可用的图表。</p>
 
 <p class="comment" v-if="usingCharts.length > 0">以下是已添加图表，可以拖动改变位置：</p>
-<div v-show="usingCharts.length > 0" class="using-charts-box ui segment">
-	<span v-for="chart in usingCharts" class="ui label small">{{chart.name}}<em>({{chart.columns}}列)</em> <a href="" title="移除" @click.prevent="cancelChart(chart, server.id, chart.widget.id, chart.id)"><i class="icon remove" ></i></a></span>
+<div v-show="usingCharts != null && usingCharts.length > 0" class="using-charts-box ui grid two columns">
+	<div v-for="chart in usingCharts" class="chart-box" :class="{'one column row':chart.columns > 1, 'column':chart.columns <= 1}">
+		<div :class="{'column':chart.columns > 1}">
+			<span  class="ui label small">{{chart.name}} <a href="" title="移除" @click.prevent="cancelChart(chart, server.id, chart.widget.id, chart.id)"><i class="icon remove small" ></i></a></span>
+		</div>
+	</div>
 </div>
 <p class="ui message success" v-if="moveSuccess">保存成功</p>
 

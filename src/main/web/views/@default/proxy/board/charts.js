@@ -57,7 +57,7 @@ Tea.context(function () {
 		var box = this.$find(".using-charts-box")[0];
 		var that = this;
 		Sortable.create(box, {
-			draggable: "span",
+			draggable: ".chart-box",
 			onStart: function () {
 
 			},
