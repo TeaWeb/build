@@ -1,0 +1,133 @@
+{$layout}
+{$template "/code_editor"}
+
+<div class="ui menu text basic small blue">
+	<a :href="'/proxy/board?serverId=' + server.id + '&boardType=' + boardType" class="item" v-if="boardType != 'stat'">看板</a>
+	<a :href="'/proxy/stat?serverId=' + server.id" class="item" v-if="boardType == 'stat'">统计看板</a>
+	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item">可用图表</a>
+	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item">制作图表</a>
+	<a :href="'/proxy/board/items?serverId=' + server.id + '&boardType=' + boardType" class="item active">数据指标</a>
+</div>
+<div class="ui divider"></div>
+
+<p class="comment">这里可以管理正在运行的数据指标。</p>
+
+<h3>添加的指标</h3>
+<a href="" @click.prevent="showAddItemForm()">[添加]</a>
+<form class="ui form" style="margin-top:1em" v-show="addItemFormVisible">
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">选择指标</td>
+			<td>
+				<select class="ui dropdown" style="width:20em" v-model="selectedItemCode" @change="changeItem()">
+					<option value="">[选择指标]</option>
+					<option v-for="item in items" :value="item.code">{{item.name}} - {{item.code}}</option>
+				</select>
+				<p class="comment" v-if="selectedItem != null">{{selectedItem.description}}<span v-if="selectedItem.period.length > 0">（{{selectedItem.period}}）</span>。</p>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary tiny" type="button" @click.prevent="confirmAddItem()">保存</button> &nbsp; <a href="" @click.prevent="showAddItemForm()">取消</a>
+</form>
+
+<!-- 自己添加的正在运行的指标 -->
+<table class="ui table" v-if="runningItems.length > 0">
+	<thead>
+	<tr>
+		<th>指标</th>
+		<th>名称</th>
+		<th>说明</th>
+		<th class="one op">操作</th>
+	</tr>
+	</thead>
+	<tbody v-for="(chartItem, index) in runningItems">
+	<tr>
+		<td>
+			<a href="" @click.prevent="showRunningItemDetail(index)">{{chartItem.code}} <i class="icon angle small" :class="{down:chartItem.detailVisible == null || !chartItem.detailVisible, up:chartItem.detailVisible}"></i></a>
+		</td>
+		<td>{{chartItem.name}}</td>
+		<td>{{chartItem.description}}</td>
+		<td>
+			<a href="" title="删除这个指标" @click.prevent="deleteRunningItem(chartItem.code)">删除</a> &nbsp;
+		</td>
+	</tr>
+	<tr v-if="chartItem.detailVisible">
+		<td colspan="4">
+			<table class="ui table">
+				<tr>
+					<td style="width:7em">参数：</td>
+					<td>
+						<span v-if="chartItem.params == null || chartItem.params.length == 0">无</span>
+						<div v-if="chartItem.params != null && chartItem.params.length > 0">
+							<span v-for="param in chartItem.params" class="ui label tiny"><var>{{param.code}}</var>：{{param.description}}</span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>统计数据：</td>
+					<td>
+						<span v-if="chartItem.values == null || chartItem.values.length == 0">无</span>
+						<div v-if="chartItem.values != null && chartItem.values.length > 0">
+							<span v-for="param in chartItem.values" class="ui label tiny"><var>{{param.code}}</var>：{{param.description}}</span>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+<div class="margin"></div>
+<div class="ui divider"></div>
+
+<!-- 图表引用的指标 -->
+<h3>图表引用的指标</h3>
+<table class="ui table" v-if="chartItems.length > 0">
+	<thead>
+		<tr>
+			<th>指标</th>
+			<th>名称</th>
+			<th>说明</th>
+			<th>引用图表</th>
+		</tr>
+	</thead>
+	<tbody v-for="(chartItem, index) in chartItems">
+		<tr>
+			<td>
+				<a href="" @click.prevent="showChartItemDetail(index)">{{chartItem.code}} <i class="icon angle small" :class="{down:chartItem.detailVisible == null || !chartItem.detailVisible, up:chartItem.detailVisible}"></i></a>
+			</td>
+			<td>{{chartItem.name}}</td>
+			<td>{{chartItem.description}}</td>
+			<td>
+				<div class="chart-item" v-for="chart in chartItem.charts">
+					<a :href="'/proxy/board/chart?serverId=' + server.id + '&widgetId=' + chart.widgetId + '&chartId=' + chart.chartId + '&boardType=' + chart.boardType" class="ui label tiny">{{chart.name}}</a>
+				</div>
+			</td>
+		</tr>
+		<tr v-if="chartItem.detailVisible">
+			<td colspan="4">
+				<table class="ui table">
+					<tr>
+						<td style="width:7em">参数：</td>
+						<td>
+							<span v-if="chartItem.params == null || chartItem.params.length == 0">无</span>
+							<div v-if="chartItem.params != null && chartItem.params.length > 0">
+								<span v-for="param in chartItem.params" class="ui label tiny"><var>{{param.code}}</var>：{{param.description}}</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>统计数据：</td>
+						<td>
+							<span v-if="chartItem.values == null || chartItem.values.length == 0">无</span>
+							<div v-if="chartItem.values != null && chartItem.values.length > 0">
+								<span v-for="param in chartItem.values" class="ui label tiny"><var>{{param.code}}</var>：{{param.description}}</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>

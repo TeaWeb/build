@@ -6,6 +6,7 @@
 	<a :href="'/proxy/stat?serverId=' + server.id" class="item" v-if="boardType == 'stat'">统计看板</a>
 	<a :href="'/proxy/board/charts?serverId=' + server.id + '&boardType=' + boardType" class="item">可用图表</a>
 	<a :href="'/proxy/board/make?serverId=' + server.id + '&boardType=' + boardType" class="item active">制作图表</a>
+	<a :href="'/proxy/board/items?serverId=' + server.id + '&boardType=' + boardType" class="item">数据指标</a>
 </div>
 <div class="ui divider"></div>
 
