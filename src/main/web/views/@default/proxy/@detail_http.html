@@ -155,8 +155,10 @@
 			<td>特殊页面</td>
 			<td>
 				<span v-if="server.pages == null || server.pages.length == 0" class="disabled">还没有设置。</span>
-				<span v-if="server.pages != null" class="ui label tiny" v-for="(page, arrayIndex) in server.pages" style="margin-top:0.2em;margin-bottom:0.2em">{{page.status[0]}} -&gt; {{page.url}}
-				</span>
+				<div v-if="server.pages != null">
+					<div  class="ui label tiny" v-for="(page, arrayIndex) in server.pages" style="margin-top:0.2em;margin-bottom:0.2em">[{{page.status[0]}}] -&gt; <span v-if="page.newStatus > 0">[{{page.newStatus}}]</span>{{page.url}}
+					</div>
+				</div>
 			</td>
 		</tr>
 		<tr>

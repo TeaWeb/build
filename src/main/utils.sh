@@ -91,6 +91,7 @@ function build() {
     cp -R ${GOPATH}/src/main/web/resources ${TARGET}/web/
     cp -R ${GOPATH}/src/main/web/views ${TARGET}/web/
     cp -R ${GOPATH}/src/main/web/libs ${TARGET}/web/
+    cp -R ${GOPATH}/src/main/web/pages ${TARGET}/web/
     cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/web/libs/
 
     if [ -d ${GOPATH}/src/main/web/upgrade ]
