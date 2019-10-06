@@ -54,7 +54,7 @@
     </div>
 
 	<!-- 顶部二级菜单 -->
-	<div class="top-secondary-menu" v-cloak="">
+	<div class="top-secondary-menu" v-cloak="" v-if="teaSubMenus.alwaysMenu.items.length > 1">
 		<div class="ui menu text blue tiny borderless" v-for="menu in teaSubMenus.menus" v-if="menu.alwaysActive">
 			<div class="item"></div>
 			<a :href="item.url" class="item" :class="{active:item.isActive,sortable:item.isSortable}" v-for="item in menu.items" v-show="menu.isActive || menu.alwaysActive" :data-id="item.id"><var class="grey">{{item.name}}</var><sup v-if="item.supName.length > 0">&nbsp; {{item.supName}}</sup><span v-if="item.subName != null && item.subName.length > 0" :class="item.subColor">{{item.subName}}</span>
@@ -64,7 +64,7 @@
 	</div>
 
     <!-- 右侧主操作栏 -->
-    <div class="main" :class="{'without-menu':teaSubMenus.menus == null || teaSubMenus.menus.length == 0 || (teaSubMenus.menus.length == 1 && teaSubMenus.menus[0].alwaysActive)}" v-cloak="">
+    <div class="main" :class="{'without-menu':teaSubMenus.menus == null || teaSubMenus.menus.length == 0 || (teaSubMenus.menus.length == 1 && teaSubMenus.menus[0].alwaysActive), 'without-secondary-menu':teaSubMenus.alwaysMenu.items.length <= 1}" v-cloak="">
 		<!-- 左侧子菜单 -->
 		<div class="sub-menu" v-if="teaSubMenus.menus != null && teaSubMenus.menus.length > 0">
 			<div class="menus-box">

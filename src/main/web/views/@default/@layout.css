@@ -228,6 +228,12 @@ body.expanded .main {
     margin-bottom: 0 !important;
 }
 
+@media screen and (max-width: 512px) {
+    .top-secondary-menu {
+        left: 4em;
+    }
+}
+
 /** 右侧主操作区 **/
 .main {
     position: absolute;
@@ -246,6 +252,10 @@ body.expanded .main {
 
 .main.without-menu {
     left: 9em;
+}
+
+.main.without-secondary-menu {
+    top: 2.9em;
 }
 
 @media screen and (max-width: 512px) {
