@@ -8,9 +8,12 @@
 	<tr>
 		<td class="title">是否开启HTTP</td>
 		<td>
-			<span class="ui label tiny green" v-if="server.http">已开启</span>
-			<span class="ui label tiny red" v-if="!server.http">未开启</span>
-			&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.http" @click.prevent="startHttp()">快速启动</a><a href="" style="font-size: 12px" v-if="server.on && server.http" @click.prevent="shutdownHttp()">快速关闭</a>
+			<span v-if="server.shutdown != null && server.shutdown.on" class="ui label tiny red">临时关闭</span>
+			<div v-if="server.shutdown == null || !server.shutdown.on">
+				<span class="ui label tiny green" v-if="server.http">已开启</span>
+				<span class="ui label tiny red" v-if="!server.http">未开启</span>
+				&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.http" @click.prevent="startHttp()">快速启动</a><a href="" style="font-size: 12px" v-if="server.on && server.http" @click.prevent="shutdownHttp()">快速关闭</a>
+			</div>
 		</td>
 	</tr>
 	<tr>
@@ -164,8 +167,8 @@
 		<tr>
 			<td>临时关闭页面</td>
 			<td>
-				<span v-if="!server.shutdownPageOn" class="disabled">还没有设置。</span>
-				<span v-if="server.shutdownPageOn">{{server.shutdownPage}}</span>
+				<span v-if="server.shutdown == null || !server.shutdown.on" class="disabled">还没有设置。</span>
+				<span v-if="server.shutdown != null && server.shutdown.on" class="ui label tiny red">[{{server.shutdown.status}}]{{server.shutdown.url}}</span>
 			</td>
 		</tr>
 		<tr>

@@ -274,15 +274,7 @@
 			<tr>
 				<td>临时关闭页面</td>
 				<td>
-					<div class="ui checkbox">
-						<input type="checkbox" name="shutdownPageOn" id="shutdownPageOn" v-model="server.shutdownPageOn"/>
-						<label for="shutdownPageOn">是否开启</label>
-					</div>
-					<div class="ui field" style="margin-top:0.4em" v-show="server.shutdownPageOn">
-						<input type="text" name="shutdownPage" v-model="server.shutdownPage" placeholder="页面文件路径或一个完整URL" maxlength="100" style="width:30em"/>
-					</div>
-
-					<p class="comment">开启临时关闭页面时，所有请求的响应都会显示此页面。可用于临时升级网站使用。页面文件是相对于TeaWeb目录的页面文件比如errors/40x.html，或者一个完整的URL。</p>
+					<server-shutdown-box :shutdown="server.shutdown" prefix="shutdownPage"></server-shutdown-box>
 				</td>
 			</tr>
 			<tr>
