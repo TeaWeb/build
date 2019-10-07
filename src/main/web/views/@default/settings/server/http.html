@@ -1,6 +1,6 @@
 {$layout}
 
-<div v-if="error.length > 0" class="ui message warning">
+<div v-if="error.length > 0" class="ui message error">
 {{error}}
 </div>
 
@@ -14,11 +14,12 @@
     <form data-tea-action=".httpUpdate" class="ui form">
         <table class="ui table definition selectable">
             <tr>
-                <td>状态</td>
+                <td>是否启用</td>
                 <td>
                     <div class="ui toggle checkbox">
                         <input type="checkbox" name="on" value="1" v-model="server.http.on"/>
-                        <label></label>
+						<label v-if="server.http.on"><span class="green">启用</span></label>
+						<label v-if="!server.http.on">不启用</label>
                     </div>
                 </td>
             </tr>

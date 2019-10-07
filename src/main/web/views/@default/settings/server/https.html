@@ -1,6 +1,6 @@
 {$layout}
 
-<div v-if="error.length > 0" class="ui message warning">
+<div v-if="error.length > 0" class="ui message error">
 {{error}}
 </div>
 
@@ -12,13 +12,16 @@
     <h3>HTTPS</h3>
 
     <form data-tea-action=".httpsUpdate" class="ui form">
+		<input type="hidden" name="certType" :value="certTab"/>
+
         <table class="ui table definition selectable">
             <tr>
-                <td>状态</td>
+                <td>是否启用</td>
                 <td>
                     <div class="ui toggle checkbox">
                         <input type="checkbox" name="on" value="1" v-model="server.https.on"/>
-                        <label></label>
+                        <label v-if="server.https.on"><span class="green">启用</span></label>
+						<label v-if="!server.https.on">不启用</label>
                     </div>
                 </td>
             </tr>
@@ -30,20 +33,57 @@
                     <p class="comment">如果地址中的IP是0.0.0.0，表示服务器的所有IP都可以用来使用访问此服务。</p>
                 </td>
             </tr>
-            <tr>
-                <td>证书文件<span class="small">（Cert）</span></td>
-                <td>
-                    <input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"/>
-                    <p class="comment" v-if="server.https.cert.length > 0">已上传：{{server.https.cert}}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>私钥文件<span class="small">（Key）</span></td>
-                <td>
-                    <input type="file" name="keyFile" accept="application/pkcs8"/>
-                    <p class="comment" v-if="server.https.key.length > 0">已上传：{{server.https.key}}</p>
-                </td>
-            </tr>
+			<tr>
+				<td>选择证书文件</td>
+				<td>
+					<div class="ui tabular menu small attached" v-if="sharedCerts.length > 0">
+						<a href="" class="item" :class="{active:certTab == 'shared'}" @click.prevent="switchCertTab('shared')">从公用证书中选择</a>
+						<a href="" class="item" :class="{active:certTab == 'upload'}" @click.prevent="switchCertTab('upload')">从本地上传</a>
+					</div>
+
+					<!-- 共享的证书 -->
+					<div class="ui segment attached" v-if="certTab == 'shared'">
+						<div v-if="sharedCerts == null || sharedCerts.length == 0">暂时还没有公用的证书，可以在<a href="/proxy/certs">这里上传</a>。
+							<input type="hidden" name="sharedCertIds" value=""/>
+						</div>
+						<div v-if="sharedCerts != null && sharedCerts.length > 0">
+							<table class="ui table definition">
+								<tr>
+									<td class="title">选择一个公用证书</td>
+									<td>
+										<select class="ui dropdown" name="certId" v-model="server.certId">
+											<option v-for="sharedCert in sharedCerts" :value="sharedCert.id">{{sharedCert.summary}}</option>
+										</select>
+										<p class="comment">
+											<a href="/proxy/certs">更多证书可以在这里上传 &raquo;</a>
+										</p>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+
+					<div class="ui segment attached" v-if="certTab == 'upload'">
+						<table class="ui table">
+							<tr>
+								<td class="title">证书文件<span class="small">（Cert）</span></td>
+								<td>
+
+									<input type="file" name="certFile" accept="application/x-pem-file, application/pkcs10, application/x-pkcs12, application/x-x509-user-cert, application/x-x509-ca-cert, application/pkix-cert"/>
+									<p class="comment" v-if="server.https.cert.length > 0">已上传：{{server.https.cert}}</p>
+								</td>
+							</tr>
+							<tr>
+								<td>私钥文件<span class="small">（Key）</span></td>
+								<td>
+									<input type="file" name="keyFile" accept="application/pkcs8"/>
+									<p class="comment" v-if="server.https.key.length > 0">已上传：{{server.https.key}}</p>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
         </table>
 
         <button class="ui button primary">保存</button>
