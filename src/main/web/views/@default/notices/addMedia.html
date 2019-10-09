@@ -45,7 +45,7 @@
 			<tr>
 				<td>账号 *</td>
 				<td>
-					<input type="text" name="emailUsername" v-model="emailUsername" maxlength="100" placeholder="类似于 xxx@xxx.com" @input="changeEmailUsername()"/>
+					<input type="text" name="emailUsername" v-model="emailUsername" maxlength="500" placeholder="类似于 xxx@xxx.com" @input="changeEmailUsername()"/>
 					<p class="comment">邮箱账号，比如 123456@qq.com<span v-html="emailUsernameHelp"></span>。</p>
 				</td>
 			</tr>
@@ -59,7 +59,7 @@
 			<tr>
 				<td>发送者Email</td>
 				<td>
-					<input type="text" name="emailFrom" maxlength="100" placeholder="类似于 xxx@xxx.com"/>
+					<input type="text" name="emailFrom" maxlength="500" placeholder="类似于 xxx@xxx.com"/>
 					<p class="comment">默认和账号一致</p>
 				</td>
 			</tr>
@@ -160,7 +160,7 @@
 					<a class="item" :class="{active:scriptTab == 'code'}" @click.prevent="selectScriptTab('code')" v-if="!teaDemoEnabled">脚本代码</a>
 				</div>
 				<div class="ui bottom segment attached" v-show="scriptTab == 'path'">
-					<input type="text" name="scriptPath" maxlength="100"/>
+					<input type="text" name="scriptPath" maxlength="500"/>
 					<p class="comment">如果是Shell脚本，请不要忘记在头部添加 <em>#!脚本解释工具</em>，比如 <em>#!/bin/bash</em><br/>
 						执行此脚本时，在脚本中可以使用<span class="ui label tiny">${NoticeUser}</span>、<span class="ui label tiny">${NoticeSubject}</span>和<span class="ui label tiny">${NoticeBody}</span>三个环境变量分别代表通知的接收人标识、标题和内容。
 					</p>
@@ -179,7 +179,7 @@
 		<tr v-show="advancedOptionsVisible">
 			<td>当前工作目录<em>（CWD）</em></td>
 			<td>
-				<input type="text" name="scriptCwd" maxlength="100"/>
+				<input type="text" name="scriptCwd" maxlength="500"/>
 			</td>
 		</tr>
 		<tr v-show="advancedOptionsVisible">
@@ -219,7 +219,7 @@
 			<tr>
 				<td>Hook地址 *</td>
 				<td>
-					<textarea name="dingTalkWebhookURL" maxlength="200" placeholder="https://oapi.dingtalk.com/robot/send?access_token=xxx" rows="2"></textarea>
+					<textarea name="dingTalkWebhookURL" maxlength="500" placeholder="https://oapi.dingtalk.com/robot/send?access_token=xxx" rows="2"></textarea>
 					<p class="comment">填入自定义群机器人的Hook地址，<a href="https://open-doc.dingtalk.com/microapp/serverapi2/qf2nxq" target="_blank">获取方法&raquo;</a></p>
 				</td>
 			</tr>
@@ -265,7 +265,7 @@
 			<tr>
 				<td>Webhook地址 *</td>
 				<td>
-					<textarea name="qyWeixinRobotWebhookURL" maxlength="200" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx" rows="2"></textarea>
+					<textarea name="qyWeixinRobotWebhookURL" maxlength="500" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx" rows="2"></textarea>
 					<p class="comment">填入自定义群机器人的Webhook地址</p>
 				</td>
 			</tr>

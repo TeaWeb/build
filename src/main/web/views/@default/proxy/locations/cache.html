@@ -50,7 +50,7 @@
 						<div v-show="cleanToolVisible" style="margin-top:1em">
 							<div class="ui fields inline">
 								<div class="ui field">
-									<input type="text" name="cacheKey" placeholder="输入要清除的Key" @keyup.enter="cleanCache()" @keypress.enter.prevent="1" size="50" maxlength="200" v-model="cacheKey"/>
+									<input type="text" name="cacheKey" placeholder="输入要清除的Key" @keyup.enter="cleanCache()" @keypress.enter.prevent="1" size="50" maxlength="500" v-model="cacheKey"/>
 								</div>
 								<div class="ui field">
 									<button class="ui button" type="button" @click.prevent="cleanCache()">清除</button>

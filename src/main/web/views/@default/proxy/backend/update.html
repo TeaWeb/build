@@ -82,7 +82,7 @@
 			<tr>
 				<td>主机名<em>（Host）</em></td>
 				<td>
-					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="100" @input="changeHost"/>
+					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="500" @input="changeHost"/>
 					<p class="comment"><span class="red" v-if="hostError.length > 0">{{hostError}}</span>请求后端服务器时的Host，用于修改后端服务器接收到的域名，默认和客户端请求的主机名一致，通常不必填写，支持<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">请求变量</a>。</p>
 				</td>
 			</tr>
@@ -147,7 +147,7 @@
 			<tr v-if="checkOn && isHTTP">
 				<td class="color-border">健康检查URL *</td>
 				<td>
-					<input type="text" name="checkURL" maxlength="200" placeholder="http://..." v-model="backend.checkURL"/>
+					<input type="text" name="checkURL" maxlength="1024" placeholder="http://..." v-model="backend.checkURL"/>
 					<p class="comment">以GET方法请求该地址返回状态码20x或30x认为是健康的，可以选http或者https URL地址。</p>
 				</td>
 			</tr>
@@ -276,7 +276,7 @@
 							</div>
 							<div class="ui field">:</div>
 							<div class="ui field">
-								<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
+								<input type="text" placeholder="值" v-model="requestHeadersAddingValue" size="34" maxlength="1024" @keyup.enter="confirmRequestHeadersAdding" @keypress.enter.prevent="1"/>
 							</div>
 						</div>
 						<button class="ui button tiny" type="button" @click.prevent="confirmRequestHeadersAdding()" v-if="requestHeadersEditingIndex == -1">确认添加</button>
@@ -305,7 +305,7 @@
 							</div>
 							<div class="ui field">:</div>
 							<div class="ui field">
-								<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="256" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
+								<input type="text" placeholder="值" v-model="responseHeadersAddingValue" size="34" maxlength="1024" @keyup.enter="confirmResponseHeadersAdding" @keypress.enter.prevent="1"/>
 							</div>
 						</div>
 						<button class="ui button tiny" type="button" @click.prevent="confirmResponseHeadersAdding()" v-if="responseHeadersEditingIndex == -1">确认添加</button>
