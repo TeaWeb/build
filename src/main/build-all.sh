@@ -6,20 +6,25 @@
 
 if [ "$1" = "" ]
 then
+	export GO111MODULE=off
+
 	. build-all-agents.sh
 	. build-all-installers.sh
 
-	. build-linux-32.sh
-	. build-linux-64.sh
-	. build-linux-arm-64.sh
-	. build-linux-arm.sh
-	. build-darwin.sh
-	. build-windows-32.sh
-	. build-windows-64.sh
+	GOOS=linux GOARCH=386 build
+	GOOS=linux GOARCH=amd64 build
+	GOOS=linux GOARCH=arm build
+	GOOS=linux GOARCH=arm64 build
+	GOOS=linux GOARCH=mips64 build
+	GOOS=linux GOARCH=mips64le build
+	GOOS=darwin GOARCH=amd64 build
+	GOOS=windows GOARCH=386 build
+	GOOS=windows GOARCH=amd64 build
 elif [ "$2" != "" ]
 then
 		export GOOS=$1
 		export GOARCH=$2
+		export GO111MODULE=off
 		build
 elif [ "$2" = "" ]
 then
