@@ -20,24 +20,26 @@
             <td>端口<em>（port）</em></td>
             <td>{{config.port}}</td>
         </tr>
-        <tr v-if="config.username.length > 0">
-            <td>用户名<em>（username）</em></td>
-            <td>{{config.username}}</td>
-        </tr>
-        <tr v-if="config.password.length > 0">
-            <td>密码<em>（password）</em></td>
-            <td>{{config.password}}
-				<p class="comment" v-if="config.password.length > 0">实际密码已使用星号代替</p>
-			</td>
-        </tr>
-		<tr v-if="config.authMechanism.length > 0">
-			<td>认证机制</td>
-			<td>{{config.authMechanism}}</td>
-		</tr>
-		<tr v-if="config.authMechanismProperties.length > 0">
-			<td>认证附加参数</td>
-			<td>{{config.authMechanismProperties}}</td>
-		</tr>
+		<tbody v-if="config.authEnabled">
+			<tr v-if="config.username.length > 0">
+				<td>用户名<em>（username）</em></td>
+				<td>{{config.username}}</td>
+			</tr>
+			<tr v-if="config.password.length > 0">
+				<td>密码<em>（password）</em></td>
+				<td>{{config.password}}
+					<p class="comment" v-if="config.password.length > 0">实际密码已使用星号代替</p>
+				</td>
+			</tr>
+			<tr v-if="config.authMechanism.length > 0">
+				<td>认证机制</td>
+				<td>{{config.authMechanism}}</td>
+			</tr>
+			<tr v-if="config.authMechanismProperties.length > 0">
+				<td>认证附加参数</td>
+				<td>{{config.authMechanismProperties}}</td>
+			</tr>
+		</tbody>
     </table>
 
     <h4>组合后连接URI</h4>

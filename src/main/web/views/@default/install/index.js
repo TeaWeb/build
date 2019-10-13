@@ -114,14 +114,29 @@ Tea.context(function () {
 		this.saveFailed = false;
 		this.saveMessage = "";
 
-		this.$post(".save")
-			.params({
+		var params = {
+			"dbType": this.dbType,
+			"addr": this.dbAddr,
+			"username": this.dbUsername,
+			"password": this.dbPassword,
+			"dbName": this.dbName,
+			"autoCreate": this.autoCreate ? 1 : 0
+		};
+		if (this.dbType == "mongo") {
+			params = {
 				"dbType": this.dbType,
-				"addr": this.dbAddr,
-				"username": this.dbUsername,
-				"password": this.dbPassword,
-				"dbName": this.dbName
-			})
+				"addr": this.mongoAddr,
+				"authEnabled": this.mongoAuthEnabled ? 1 : 0,
+				"username": this.mongoUsername,
+				"password": this.mongoPassword,
+				"authMechanism": this.mongoAuthMechanism,
+				"authMechanismProperties": this.mongoAuthMechanismProperties,
+				"dbName": this.mongoDBName
+			};
+		}
+
+		this.$post(".save")
+			.params(params)
 			.success(function () {
 				this.saveSuccess = true;
 				this.goStep("finish");
