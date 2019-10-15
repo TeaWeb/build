@@ -1,0 +1,44 @@
+{$layout}
+
+<div class="ui menu text basic blue small">
+	<a href="/settings/postgres" class="item">连接设置</a>
+	<a href="/settings/postgres/data" class="item active">数据清理</a>
+</div>
+<div class="ui divider"></div>
+
+<div class="ui menu text basic blue tiny">
+	<a href="/settings/postgres/data" class="item">手动清理</a>
+	<a href="/settings/postgres/clean" class="item active">自动清理设置</a>
+</div>
+
+<form class="ui form" data-tea-action="$" data-tea-success="saveSuccess">
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">清理时间</td>
+			<td>
+				<div class="ui fields inline">
+					每天 &nbsp;
+					<div class="ui field">
+						<input type="text" size="2" maxlength="2" name="accessLogCleanHour" v-model="accessLog.cleanHour"/>
+					</div>
+					&nbsp;点钟
+				</div>
+				<p class="comment">24小时制，即0-23，建议设置在凌晨1-6点之间。</p>
+			</td>
+		</tr>
+		<tr>
+			<td>访问日志</td>
+			<td>
+				<div class="ui fields inline">
+					只保留最近 &nbsp;
+					<div class="ui field">
+						<input type="text" size="2" maxlength="4" name="accessLogKeepDays" v-model="accessLog.keepDays"/>
+					</div>
+					&nbsp;天
+				</div>
+				<p class="comment">建议根据日志增长的速度、服务器磁盘空间大小来决定日志保留天数，通常在30天左右。如果采用完整的访问日志，大概每1万请求占用20M-30M空间。</p>
+			</td>
+		</tr>
+	</table>
+	<button class="ui button primary" type="submit">保存</button> &nbsp; <a href="/settings/postgres/clean">返回</a>
+</form>

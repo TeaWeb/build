@@ -1,5 +1,13 @@
 {$layout}
 
+<div class="ui first-menu">
+	<div class="ui menu text basic blue small">
+		<a href="/settings/postgres" class="item active">连接设置</a>
+		<a href="/settings/postgres/data" class="item">数据清理</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
 <h3>PostgreSQL连接设置<a href="/settings/postgres/update">修改</a> </h3>
 
 <p class="ui message warning" v-if="shouldRestart">需要重启TeaWeb服务才能使配置生效。</p>

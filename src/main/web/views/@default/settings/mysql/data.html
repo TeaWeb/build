@@ -1,29 +1,29 @@
 {$layout}
 
 <div class="ui menu text basic blue small">
-	<a href="/settings/mongo" class="item">连接设置</a>
-	<a href="/settings/mongo/data" class="item active">数据清理</a>
+	<a href="/settings/mysql" class="item">连接设置</a>
+	<a href="/settings/mysql/data" class="item active">数据清理</a>
 </div>
 <div class="ui divider"></div>
 
 <div class="ui menu text basic blue tiny">
-	<a href="/settings/mongo/data" class="item active">手动清理</a>
-	<a href="/settings/mongo/clean" class="item">自动清理设置</a>
+	<a href="/settings/mysql/data" class="item active">手动清理</a>
+	<a href="/settings/mysql/clean" class="item">自动清理设置</a>
 </div>
 <div class="ui divider"></div>
 
 <h3>手动清理<span :class="{disabled:countCalculatedTables!=tables.length}"><var v-if="countCalculatedTables!=tables.length">正在读取</var> {{formatedTotalSize}} {{countCalculatedTables}}/{{tables.length}}</span></h3>
 
 <div>
-	<p class="comment">以下是TeaWeb在MongoDB数据库中使用的集合列表。MongoDB中“集合”的概念，同其他数据库的“数据表”的概念类似。通常情况下，删除MongoDB中的数据并不影响TeaWeb正常运行。</p>
+	<p class="comment">以下是TeaWeb在MySQL数据库中使用的数据表。通常情况下，删除数据库中的数据并不影响TeaWeb正常运行。</p>
 	<p v-if="!isLoaded">正在读取数据，请耐心等待...</p>
-	<p class="ui message info" v-if="isLoaded && tables.length == 0">当前MongoDB数据库中还没有TeaWeb相关数据，不需要做任何清理。</p>
+	<p class="ui message info" v-if="isLoaded && tables.length == 0">当前MySQL数据库中还没有TeaWeb相关数据，不需要做任何清理。</p>
 
 	<table class="ui table selectable" v-if="isLoaded && tables.length > 0">
 		<thead>
 			<tr>
-				<th>集合名</th>
-				<th>集合类型</th>
+				<th>表名</th>
+				<th>类型</th>
 				<th class="two wide">记录数</th>
 				<th class="two wide">占用空间</th>
 				<th>是否可删除</th>

@@ -1,0 +1,34 @@
+{$layout}
+
+<div class="ui menu text basic blue small">
+	<a href="/settings/postgres" class="item">连接设置</a>
+	<a href="/settings/postgres/data" class="item active">数据清理</a>
+</div>
+<div class="ui divider"></div>
+
+<div class="ui menu text basic blue tiny">
+	<a href="/settings/postgres/data" class="item">手动清理</a>
+	<a href="/settings/postgres/clean" class="item active">自动清理设置</a>
+</div>
+<div class="ui divider"></div>
+
+<h3>自动清理设置 <a href="/settings/postgres/cleanUpdate">修改</a></h3>
+
+<h4 style="margin-top:1em;font-weight: bold">访问日志</h4>
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">清理时间</td>
+		<td>
+			<span v-if="accessLog == null" class="disabled">没有设置</span>
+			<span v-if="accessLog != null">每天{{accessLog.cleanHour}}点钟</span>
+			<p class="comment" v-if="accessLog != null">24小时制，即0-23。</p>
+		</td>
+	</tr>
+	<tr>
+		<td>保留天数</td>
+		<td>
+			<span v-if="accessLog == null" class="disabled">没有设置</span>
+			<span v-if="accessLog != null">只保留最近{{accessLog.keepDays}}天</span>
+		</td>
+	</tr>
+</table>
