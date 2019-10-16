@@ -63,6 +63,9 @@ call go_get "github.com/lib/pq"
 REM siphash
 call go_get "github.com/dchest/siphash"
 
+REM captcha
+call go_get "github.com/dchest/captcha"
+
 REM aliyun
 call go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 

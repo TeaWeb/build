@@ -1,5 +1,6 @@
 bin/
 src/github.com/aliyun
+src/github.com/dchest/captcha
 src/github.com/dchest/siphash
 src/github.com/fsnotify
 src/github.com/go-sql-driver

@@ -77,6 +77,9 @@ go_get "github.com/lib/pq"
 # siphash
 go_get "github.com/dchest/siphash"
 
+# captcha
+go_get "github.com/dchest/captcha"
+
 # aliyun
 go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
