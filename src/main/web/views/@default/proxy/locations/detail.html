@@ -60,10 +60,27 @@
 				</td>
 			</tr>
 			<tr>
-				<td>文档根目录<em>(Root)</em></td>
+				<td class="color-border">文档根目录<em>(Root)</em></td>
 				<td>
 					<span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>
 					<a class="disabled" v-if="location.root.length == 0">还没有设置。</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="color-border">URL前缀<em>(StripPrefix)</em></td>
+				<td>
+					<span style="word-break: break-all;" v-if="location.urlPrefix.length > 0">{{location.urlPrefix}}</span>
+					<a class="disabled" v-if="location.urlPrefix.length == 0">还没有设置。</a>
+				</td>
+			</tr>
+			<!-- 首页文件 -->
+			<tr>
+				<td class="color-border">首页文件<em>(Index)</em></td>
+				<td>
+					<a class="disabled" v-if="location.index == null || location.index.length == 0">还没有设置。</a>
+					<div v-if="location.index != null">
+						<span class="ui label tiny" v-for="index in location.index">{{index}}</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -71,16 +88,6 @@
 				<td>
 					<span v-if="location.charset.length > 0">{{location.charset}}</span>
 					<a class="disabled" v-if="location.charset.length == 0">还没有设置。</a>
-				</td>
-			</tr>
-			<!-- 首页文件 -->
-			<tr>
-				<td>首页文件<em>(index)</em></td>
-				<td>
-					<a class="disabled" v-if="location.index == null || location.index.length == 0">还没有设置。</a>
-					<div v-if="location.index != null">
-						<span class="ui label small" v-for="index in location.index">{{index}}</span>
-					</div>
 				</td>
 			</tr>
 			<tr>

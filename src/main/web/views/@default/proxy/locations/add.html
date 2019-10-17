@@ -71,26 +71,21 @@
 					</td>
 				</tr>
                 <tr>
-                    <td>文档根目录<em>（Root）</em></td>
+                    <td class="color-border">文档根目录<em>（Root）</em></td>
                     <td>
                         <auto-complete-path-box name="root" placeholder="类似于 /home/www" :value="root" maxlength="500"></auto-complete-path-box>
                         <p class="comment">可以访问此根目录下的静态资源</p>
                     </td>
                 </tr>
+				<tr>
+					<td class="color-border">URL前缀<em>(StripPrefix)</em></td>
+					<td>
+						<input type="text" name="urlPrefix"/>
+						<p class="comment">实际访问资源文件时会将此前缀从URL中去掉，通常和匹配路径一致，格式类似于 /hello/world。</p>
+					</td>
+				</tr>
                 <tr>
-                    <td>字符编码<em>(charset)</em></td>
-                    <td>
-                        <select name="charset" class="ui dropdown" v-model="charset">
-							<option value="">未选择</option>
-                            <optgroup label="常用"></optgroup>
-                            <option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
-                            <optgroup label="所有"></optgroup>
-                            <option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} （{{charset.name}}）</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>首页文件<em>(index)</em></td>
+                    <td class="color-border">首页文件<em>(Index)</em></td>
                     <td>
 						<div class="indexes-box">
 							<span class="ui label tiny" v-for="(index, arrayIndex) in indexes" :key="arrayIndex">
@@ -116,6 +111,18 @@
                         <p class="comment">访问路径未指定文件名时，自动查找这些文件</p>
                     </td>
                 </tr>
+				<tr>
+					<td>字符编码<em>(charset)</em></td>
+					<td>
+						<select name="charset" class="ui dropdown" v-model="charset">
+							<option value="">未选择</option>
+							<optgroup label="常用"></optgroup>
+							<option :value="charset.charset" v-for="charset in usualCharsets">{{charset.charset}} （{{charset.name}}）</option>
+							<optgroup label="所有"></optgroup>
+							<option :value="charset.charset"  v-for="charset in charsets">{{charset.charset}} （{{charset.name}}）</option>
+						</select>
+					</td>
+				</tr>
 				<tr>
 					<td>请求Body最大尺寸</td>
 					<td>
