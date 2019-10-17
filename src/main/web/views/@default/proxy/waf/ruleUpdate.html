@@ -28,7 +28,7 @@
 			<td>规则</td>
 			<td>
 				<div v-show="rules.length > 0" class="rules-box">
-					<div v-for="(rule, index) in rules" class="ui label small" :class="{blue:ruleIndex == index}">
+					<div v-for="(rule, index) in rules" class="ui label tiny" :class="{blue:ruleIndex == index}">
 						<input type="hidden" name="rulePrefixes" :value="rule.checkpoint.prefix"/>
 						<input type="hidden" name="ruleParams" :value="rule.param"/>
 						<input type="hidden" name="ruleOperators" :value="rule.operator.code"/>
@@ -145,9 +145,9 @@
 							</td>
 						</tr>
 					</table>
-					<p class="ui message negative" v-if="isTested && matchedIndex == -1">未通过规则测试，停止在{{breakIndex+1}}项</p>
-					<p class="ui message positive" v-if="isTested && matchedIndex > -1 && connectorValue == 'or'">通过规则测试，停止在第{{matchedIndex+1}}项</p>
-					<p class="ui message positive" v-if="isTested && matchedIndex > -1 && connectorValue == 'and'">通过规则测试，停止在第{{matchedIndex+1}}项</p>
+					<p class="ui message negative" v-if="isTested && matchedIndex == -1">没有匹配成功，停止在{{breakIndex+1}}项</p>
+					<p class="ui message positive" v-if="isTested && matchedIndex > -1 && connectorValue == 'or'">匹配成功，停止在第{{matchedIndex+1}}项</p>
+					<p class="ui message positive" v-if="isTested && matchedIndex > -1 && connectorValue == 'and'">匹配成功，停止在第{{matchedIndex+1}}项</p>
 
 					<button class="ui button tiny" type="button" @click.prevent="test()">提交测试</button> &nbsp; <a href="" @click.prevent="showTestForm()">取消</a>
 				</div>

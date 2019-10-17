@@ -48,7 +48,7 @@
 			<td><span :class="{disabled:!set.on}">{{set.name}}</span>
 				<p>
 					<span v-if="set.on" class="ui label tiny green" style="padding:4px;font-size:0.6em">启用</span>
-					<span v-if="!set.on" class="ui label tiny" style="padding:4px;font-size:0.6em">停用</span>
+					<span v-if="!set.on" class="ui label tiny red" style="padding:4px;font-size:0.6em">停用</span>
 				</p>
 			</td>
 			<td class="rules-box">

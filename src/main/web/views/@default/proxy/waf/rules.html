@@ -27,7 +27,7 @@
 				<p class="comment" v-if="group.description.length > 0" style="padding-bottom:0">{{group.description}}</p>
 				<p>
 					<span v-if="group.on" class="ui label tiny green">启用</span>
-					<span v-if="!group.on" class="ui label tiny">停用</span>
+					<span v-if="!group.on" class="ui label tiny red">停用</span>
 					<span v-if="group.code.length > 0" class="ui label tiny">内置</span>
 					<span v-if="group.code.length == 0" class="ui label tiny">自定义</span>
 				</p>

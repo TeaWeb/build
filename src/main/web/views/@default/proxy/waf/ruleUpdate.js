@@ -19,7 +19,6 @@ Tea.context(function () {
 	if (this.oldRules != null) {
 		var that = this;
 		this.rules = this.oldRules.$map(function (k, rule) {
-			console.log(JSON.stringify(rule.options));
 			var checkpoint = that.checkpoints.$find(function (k1, v1) {
 				return v1.prefix == rule.prefix;
 			});
@@ -32,7 +31,7 @@ Tea.context(function () {
 				"value": rule.value,
 				"case": rule.case,
 				"options": JSON.stringify(checkpoint.options.$map(function (k2, v2) {
-					if (rule.options != null && typeof(rule.options[v2.code]) == "string") {
+					if (rule.options != null && typeof (rule.options[v2.code]) == "string") {
 						v2.value = rule.options[v2.code];
 					}
 					return v2;
