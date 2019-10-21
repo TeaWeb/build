@@ -2,7 +2,7 @@
  * 自动补全
  */
 Vue.component("auto-complete-box", {
-	props: ["name", "placeholder", "options", "value", "maxlength"],
+	props: ["name", "placeholder", "options", "value", "maxlength", "autocomplete"],
 	data: function () {
 		return {
 			newValue: this.value,
@@ -23,6 +23,9 @@ Vue.component("auto-complete-box", {
 	},
 	methods: {
 		search: function () {
+			if (this.autocomplete === false) {
+				return;
+			}
 			this.index = -1;
 			this.visible = (this.options.length > 0 && this.newValue.length > 0);
 			this.$emit("change", this.newValue);
@@ -102,7 +105,7 @@ Vue.component("auto-complete-box", {
  * 路径自动补全
  */
 Vue.component("auto-complete-path-box", {
-	props: ["name", "placeholder", "value", "maxlength"],
+	props: ["name", "placeholder", "value", "maxlength", "autocomplete"],
 	data: function () {
 		return {
 			"options": []
@@ -133,6 +136,7 @@ Vue.component("auto-complete-path-box", {
         :placeholder="this.placeholder" \
         :options="options" \
         :maxlength="maxlength" \
+        :autocomplete="autocomplete" \
         @change="change($event)"> \
             </auto-complete-box>'
 });

@@ -75,7 +75,7 @@
 		<tr>
 			<td>文档根目录<em>(root)</em></td>
 			<td>
-				<auto-complete-path-box name="root" placeholder="类似于 /home/www" :value="server.root" maxlength="100"></auto-complete-path-box>
+				<auto-complete-path-box name="root" placeholder="类似于 /home/www" :value="server.root" maxlength="100" :autocomplete="dirAutoComplete"></auto-complete-path-box>
 				<p class="comment">可以访问此根目录下的静态资源</p>
 			</td>
 		</tr>

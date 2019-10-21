@@ -80,5 +80,12 @@
 				<span v-if="!security.deny.$contains('all') && security.deny.length > 0">{{security.deny.join(", ")}}</span>
 			</td>
 		</tr>
+		<tr>
+			<td>目录自动补全</td>
+			<td>
+				<span v-if="security.dirAutoComplete" class="enabled">开启</span>
+				<span v-if="!security.dirAutoComplete" class="disabled">关闭</span>
+			</td>
+		</tr>
 	</table>
 </div>
