@@ -64,6 +64,15 @@
 					<p class="comment">可以重新定义登录界面的URL，但需要重新后才能生效</p>
 				</td>
 			</tr>
+			<tr>
+				<td>登录密码加密方式</td>
+				<td>
+					<select name="passwordEncryptType" v-model="security.passwordEncryptType" class="ui dropdown" style="width:4em">
+						<option v-for="t in types" :value="t.code">{{t.name}}</option>
+					</select>
+					<p class="comment">修改后再次修改密码后才有效。</p>
+				</td>
+			</tr>
         </table>
 
         <button class="ui button primary" type="submit">保存</button>
