@@ -2,7 +2,7 @@
 
 <div>
     <h3>安全设置</h3>
-    <p class="comment">你当前的IP：{{userIP}}</p>
+    <p class="comment">你当前的IP：{{userIP}}，记得不要把自己也阻挡在外哦。</p>
     <form class="ui form" data-tea-action=".security">
         <table class="ui table definition selectable">
             <tr>
@@ -17,15 +17,15 @@
                     <div v-if="!allowAll" id="allow-ips-box">
                         <div class="ui fields inline" v-for="(ip, index) in security.allow" v-if="ip != 'all'">
                             <div class="ui field">
-                                <input type="text" name="allowIPs" v-model="security.allow[index]"  style="width:10em" placeholder="IP地址"/>
+                                <input type="text" name="allowIPs" v-model="security.allow[index]"  style="width:12em" placeholder="IP地址"/>
                             </div>
                             <div class="ui field">
                                 <a href="" @click.prevent="deleteAllowIP(index)"><i class="ui icon remove"></i> </a>
                             </div>
                         </div>
-                        <p class="comment">如果允许的IP中包含0.0.0.0，表示允许所有的IP访问。</p>
+                        <p class="comment">如果允许的IP中包含0.0.0.0，表示允许所有的IP访问。支持IP范围比如192.168.1.100/24，或者192.168.1.1,192.168.1.100。</p>
                         <div class="ui field">
-                            <button class="ui button" type="button" @click.prevent="addAllowIP()">+</button>
+                            <button class="ui button tiny" type="button" @click.prevent="addAllowIP()">+</button>
                         </div>
                     </div>
                 </td>
@@ -35,14 +35,15 @@
                 <td id="deny-ips-box">
                     <div class="ui fields inline" v-for="(ip, index) in security.deny" :key="index">
                        <div class="ui field">
-                           <input type="text" name="denyIPs" v-model="security.deny[index]" style="width:10em" placeholder="IP地址"/>
+                           <input type="text" name="denyIPs" v-model="security.deny[index]" style="width:12em" placeholder="IP地址"/>
                        </div>
                         <div class="ui field">
                             <a href="" @click.prevent="deleteDenyIP(index)"><i class="ui icon remove"></i> </a>
                         </div>
                     </div>
+					<p class="comment">支持IP范围比如192.168.1.100/24，或者192.168.1.1,192.168.1.100。</p>
                     <div class="ui field">
-                        <button class="ui button" type="button" @click.prevent="addDenyIP()">+</button>
+                        <button class="ui button tiny" type="button" @click.prevent="addDenyIP()">+</button>
                     </div>
                 </td>
             </tr>
