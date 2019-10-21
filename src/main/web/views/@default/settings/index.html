@@ -5,7 +5,7 @@
 </div>
 
 <div v-if="serverChanged" class="ui message warning">
-    配置已改变，需要你在命令行下重启TeaWeb服务后生效。
+    配置已改变，部分功能需要在命令行下重启TeaWeb服务后才能生效。
 </div>
 
 <p class="comment">这里设置TeaWeb管理界面的访问地址。</p>
@@ -85,6 +85,13 @@
 			<td>
 				<span v-if="security.dirAutoComplete" class="enabled">开启</span>
 				<span v-if="!security.dirAutoComplete" class="disabled">关闭</span>
+			</td>
+		</tr>
+		<tr>
+			<td>登录界面URL</td>
+			<td>
+				<span v-if="security.loginURL == null || security.loginURL.length == 0">默认</span>
+				<span v-if="security.loginURL != null && security.loginURL.length > 0">{{security.loginURL}}</span>
 			</td>
 		</tr>
 	</table>
