@@ -27,6 +27,7 @@
 					<!-- HTTP -->
 					<option value="http" :selected="backend.scheme == 'http'" v-if="isHTTP">http</option>
 					<option value="https" :selected="backend.scheme == 'https'" v-if="isHTTP">https</option>
+					<option value="ftp" :selected="backend.scheme == 'ftp'" v-if="isHTTP">ftp</option>
 
 					<!-- TCP -->
 					<option value="tcp" :selected="backend.scheme == 'tcp'" v-if="isTCP">tcp</option>
@@ -71,6 +72,28 @@
 				</table>
 			</td>
 		</tr>
+
+		<!-- FTP目录、用户名 & 密码 -->
+		<tr v-if="backend.scheme == 'ftp'">
+			<td>FTP用户名</td>
+			<td>
+				<input type="text" name="ftpUsername" v-model="backend.ftp.username"/>
+			</td>
+		</tr>
+		<tr v-if="backend.scheme == 'ftp'">
+			<td>FTP密码</td>
+			<td>
+				<input type="text" name="ftpPassword" v-model="backend.ftp.password"/>
+			</td>
+		</tr>
+		<tr v-if="backend.scheme == 'ftp'">
+			<td>FTP目录</td>
+			<td>
+				<input type="text" name="ftpDir" v-model="backend.ftp.dir"/>
+				<p class="comment">访问的文件所在的目录，类似于dir1/dir2。</p>
+			</td>
+		</tr>
+
 		<tbody v-if="isHTTP">
 			<tr>
 				<td>请求URI</td>
@@ -79,7 +102,7 @@
 					<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
 				</td>
 			</tr>
-			<tr>
+			<tr v-if="backend.scheme == 'http' || backend.scheme == 'https'">
 				<td>主机名<em>（Host）</em></td>
 				<td>
 					<input type="text" name="host" placeholder="比如 teaos.cn" v-model="backend.host" maxlength="500" @input="changeHost"/>

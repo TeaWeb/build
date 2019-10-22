@@ -83,6 +83,9 @@ go_get "github.com/dchest/captcha"
 # aliyun
 go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 
+# ftp
+go_get "github.com/jlaffaye/ftp"
+
 # TeaWeb
 go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

@@ -26,6 +26,7 @@
 					<!-- HTTP -->
 					<option value="http" v-if="isHTTP">http</option>
 					<option value="https" v-if="isHTTP">https</option>
+					<option value="ftp" v-if="isHTTP">ftp</option>
 
 					<!-- TCP -->
 					<option value="tcp" v-if="isTCP">tcp</option>
@@ -72,6 +73,27 @@
 			</td>
 		</tr>
 
+		<!-- FTP目录、用户名 & 密码 -->
+		<tr v-if="scheme == 'ftp'">
+			<td>FTP用户名</td>
+			<td>
+				<input type="text" name="ftpUsername"/>
+			</td>
+		</tr>
+		<tr v-if="scheme == 'ftp'">
+			<td>FTP密码</td>
+			<td>
+				<input type="text" name="ftpPassword"/>
+			</td>
+		</tr>
+		<tr v-if="scheme == 'ftp'">
+			<td>FTP目录</td>
+			<td>
+				<input type="text" name="ftpDir"/>
+				<p class="comment">访问的文件所在的目录，类似于dir1/dir2。</p>
+			</td>
+		</tr>
+
 		<tr v-if="isHTTP">
 			<td>请求URI</td>
 			<td>
@@ -79,7 +101,7 @@
 				<p class="comment">${requestURI}为完整的请求URI，可以使用类似于"${requestURI}?arg1=value1&arg2=value2"的形式添加你的参数，<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">更多可以使用的请求变量&raquo;</a></p>
 			</td>
 		</tr>
-		<tr v-if="isHTTP">
+		<tr v-if="isHTTP && (scheme == 'http' || scheme == 'https')">
 			<td>主机名<em>（Host）</em></td>
 			<td>
 				<input type="text" name="host" v-model="host" placeholder="比如 teaos.cn" maxlength="200" @input="changeHost"/>
