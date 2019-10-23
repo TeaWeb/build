@@ -38,6 +38,11 @@ Tea.context(function () {
 			return;
 		}
 		this.$post(".clean")
-			.refresh();
+			.success(function (resp) {
+				if (resp.data.count > 0) {
+					alert("成功清除了" + resp.data.count + "个备份文件");
+				}
+				window.location.reload();
+			})
 	};
 });
