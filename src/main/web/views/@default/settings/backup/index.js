@@ -32,4 +32,12 @@ Tea.context(function () {
 			})
 			.refresh();
 	};
+
+	this.clean = function () {
+		if (!window.confirm("确定要清除30天以外的备份文件吗？")) {
+			return;
+		}
+		this.$post(".clean")
+			.refresh();
+	};
 });

@@ -1,8 +1,8 @@
 {$layout}
 
-<p class="comment" v-if="files.length == 0">配置内容为configs/目录；暂时还没有备份，每24小时会自动备份一次。<a href="" @click.prevent="backup()">[立即备份]</a> </p>
+<p class="comment" v-if="files.length == 0">配置内容为configs/目录；暂时还没有备份，每24小时会自动备份一次。<a href="" @click.prevent="backup()">[立即备份]</a> &nbsp; <a href="" @click.prevent="clean()">[清除30天以外的日志]</a></p>
 
-<p class="comment" v-if="files.length > 0">配置内容为configs/目录；每24小时会自动备份一次。<a href="" @click.prevent="backup()">[立即备份]</a></p>
+<p class="comment" v-if="files.length > 0">配置内容为configs/目录；每24小时会自动备份一次。<a href="" @click.prevent="backup()">[立即备份]</a> &nbsp; <a href="" @click.prevent="clean()">[清除30天以外的日志]</a></p>
 
 <p class="ui message error" v-if="shouldRestart">
 	恢复成功，需要立即重启TeaWeb后有些服务才会生效。
