@@ -36,7 +36,7 @@
 				<th style="width:5em">权重</th>
 				<th>已失败/最多次数
 				</th>
-				<th>当前连接/最大连接</th>
+				<th><span v-if="isTCP">当前连接</span><span v-if="isHTTP">当前请求数</span>/最大连接</th>
 				<th class="two op">操作</th>
 			</tr>
 		</thead>
