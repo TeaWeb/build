@@ -66,6 +66,9 @@
                     <p v-for="rewrite in location.rewrite">
                         <span class="ui label tiny">rewrite {{rewrite.pattern}} -&gt; {{rewrite.replace}}</span>
                     </p>
+					<div v-for="backend in location.backends">
+						<div class="ui label tiny">proxy {{location.pattern}} -&gt; <span v-if="backend.scheme != null && backend.scheme.length > 0">{{backend.scheme}}://</span>{{backend.address}}{{backend.requestURI}}</div>
+					</div>
                 </td>
                 <td>
                     <a :href="$url('/proxy/locations/detail', { 'serverId':server.id,'locationId':location.id })">详情</a> &nbsp;
