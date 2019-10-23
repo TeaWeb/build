@@ -1076,6 +1076,7 @@ Vue.component("server-page-box", {
 			vPrefix: (this.prefix == null) ? "" : this.prefix,
 			isAdding: false,
 			typicalPages: [
+				{"name": "403页面", "url": "web/pages/403.html"},
 				{"name": "404页面", "url": "web/pages/404.html"},
 				{"name": "50x页面", "url": "web/pages/50x.html"},
 				{"name": "暂时关闭英文页面", "url": "web/pages/shutdown_en.html"},

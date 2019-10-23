@@ -177,7 +177,7 @@
 						<input type="checkbox" name="accessAllowOn" value="1" v-model="accessAllowOn"/>
 						<label></label>
 					</div>
-					<p class="ui comment">如果开启了白名单，则只有在白名单上的IP才能调用API</p>
+					<p class="ui comment">如果开启了白名单，则只有在白名单上的IP才能访问。</p>
 				</td>
 			</tr>
 			<tr v-if="accessOn && accessAllowOn">
@@ -192,7 +192,7 @@
 						</div>
 					</div>
 					<div class="ui fields inline">
-						<button class="ui button" type="button" @click="addAccessAllowIP()">+</button>
+						<button class="ui button tiny" type="button" @click="addAccessAllowIP()">+</button>
 					</div>
 					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*。</p>
 				</td>
@@ -204,7 +204,7 @@
 						<input type="checkbox" name="accessDenyOn" value="1" v-model="accessDenyOn"/>
 						<label></label>
 					</div>
-					<p class="ui comment">如果开启了黑名单，则在黑名单上的IP禁止调用API</p>
+					<p class="ui comment">如果开启了黑名单，则在黑名单上的IP禁止访问。</p>
 				</td>
 			</tr>
 			<tr v-if="accessOn && accessDenyOn">
@@ -219,7 +219,7 @@
 						</div>
 					</div>
 					<div class="ui fields inline">
-						<button class="ui button" type="button" @click="addAccessDenyIP()">+</button>
+						<button class="ui button tiny" type="button" @click="addAccessDenyIP()">+</button>
 					</div>
 					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*。</p>
 				</td>
