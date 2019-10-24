@@ -1,5 +1,9 @@
 {$layout}
 
+{$var "header"}
+<script src="/js/vue.components.js" type="text/javascript"></script>
+{$end}
+
 <div v-if="error.length > 0" class="ui message error">
 {{error}}
 </div>
@@ -28,8 +32,8 @@
             <tr>
                 <td class="title">绑定地址</td>
                 <td>
-                    <textarea name="addresses" style="width:20em;height:5em" placeholder="每行一个地址" v-model="addresses"></textarea>
-                    <p class="comment" style="margin-bottom:0">每行一个地址，地址格式为："IP:端口"，比如："127.0.0.1:7777"。</p>
+					<single-value-list prefix="listen" value-name="网络地址" :values="addresses"></single-value-list>
+                    <p class="comment" style="margin-bottom:0">每行一个地址，地址格式为："IP:端口"，比如："127.0.0.1:7778"。</p>
                     <p class="comment">如果地址中的IP是0.0.0.0，表示服务器的所有IP都可以用来使用访问此服务。</p>
                 </td>
             </tr>

@@ -288,6 +288,10 @@ body.expanded .main {
     vertical-align: middle;
 }
 
+.main table td[colspan="2"] a {
+    font-weight: normal;
+}
+
 .main table td em {
     font-weight: normal;
     font-style: normal;
