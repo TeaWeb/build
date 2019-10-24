@@ -45,26 +45,4 @@ Tea.context(function () {
 			return v.ip;
 		});
 	}
-
-	this.addAccessAllowIP = function () {
-		this.accessAllowIPs.push("");
-		this.$delay(function () {
-			this.$find("form input[name='accessAllowIPs']").last().focus();
-		});
-	};
-
-	this.removeAccessAllowIP = function (index) {
-		this.accessAllowIPs.$remove(index);
-	};
-
-	this.addAccessDenyIP = function () {
-		this.accessDenyIPs.push("");
-		this.$delay(function () {
-			this.$find("form input[name='accessDenyIPs']").last().focus();
-		});
-	};
-
-	this.removeAccessDenyIP = function (index) {
-		this.accessDenyIPs.$remove(index);
-	};
 });

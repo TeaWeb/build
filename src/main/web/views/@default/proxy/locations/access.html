@@ -83,9 +83,9 @@
 			<td>IP白名单</td>
 			<td>
 				<span class="disabled" v-if="policy.access.allow.length == 0">还没有添加IP白名单</span>
-				<div class="ui field" v-for="client in policy.access.allow">
+				<span class="ui label tiny" v-for="client in policy.access.allow">
 					{{client.ip}}
-				</div>
+				</span>
 			</td>
 		</tr>
 		<tr v-if="policy.access.on">
@@ -99,9 +99,9 @@
 			<td>IP黑名单</td>
 			<td>
 				<span class="disabled" v-if="policy.access.deny.length == 0">还没有添加IP黑名单</span>
-				<div class="ui field" v-for="client in policy.access.deny">
+				<span class="ui label tiny" v-for="client in policy.access.deny">
 					{{client.ip}}
-				</div>
+				</span>
 			</td>
 	</table>
 </div>

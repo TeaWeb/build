@@ -8,6 +8,7 @@
 
 {$var "header"}
 <script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
+<script src="/js/vue.components.js" type="text/javascript"></script>
 {$end}
 <!--  检测配置是否有更新 end -->
 
@@ -22,7 +23,7 @@
 		<input type="hidden" name="locationId" :value="location.id"/>
 
 		<!-- 流量控制 -->
-		<table class="ui table">
+		<table class="ui table selectable">
 			<thead>
 			<tr>
 				<th colspan="2">流量控制</th>
@@ -155,7 +156,7 @@
 		</table>
 
 		<!-- 安全控制 -->
-		<table class="ui table">
+		<table class="ui table selectable">
 			<thead>
 			<tr>
 				<th colspan="2">安全控制</th>
@@ -183,18 +184,8 @@
 			<tr v-if="accessOn && accessAllowOn">
 				<td class="title">IP白名单</td>
 				<td>
-					<div class="ui fields inline" v-for="(ip,index) in accessAllowIPs" :key="index">
-						<div class="ui field">
-							<input type="text" name="accessAllowIPs" placeholder="IP地址" v-model="accessAllowIPs[index]"/>
-						</div>
-						<div class="ui field">
-							<a href="" @click.prevent="removeAccessAllowIP(index)"><i class="icon remove"></i> </a>
-						</div>
-					</div>
-					<div class="ui fields inline">
-						<button class="ui button tiny" type="button" @click="addAccessAllowIP()">+</button>
-					</div>
-					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*。</p>
+					<single-value-list prefix="accessAllowIP" :values="accessAllowIPs" value-name="IP地址"></single-value-list>
+					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*，也支持192.168.1.1/24、192.168.1.100-192.168.1.200类似的IP范围。</p>
 				</td>
 			</tr>
 			<tr v-if="accessOn">
@@ -210,18 +201,8 @@
 			<tr v-if="accessOn && accessDenyOn">
 				<td class="title">IP黑名单</td>
 				<td>
-					<div class="ui fields inline" v-for="(ip,index) in accessDenyIPs" :key="index">
-						<div class="ui field">
-							<input type="text" name="accessDenyIPs" placeholder="IP地址" v-model="accessDenyIPs[index]"/>
-						</div>
-						<div class="ui field">
-							<a href="" @click.prevent="removeAccessDenyIP(index)"><i class="icon remove"></i> </a>
-						</div>
-					</div>
-					<div class="ui fields inline">
-						<button class="ui button tiny" type="button" @click="addAccessDenyIP()">+</button>
-					</div>
-					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*。</p>
+					<single-value-list prefix="accessDenyIP" :values="accessDenyIPs" value-name="IP地址"></single-value-list>
+					<p class="comment">IP支持星号（*）通配符，比如192.168.1.*，也支持192.168.1.1/24、192.168.1.100-192.168.1.200类似的IP范围。</p>
 				</td>
 			</tr>
 		</table>
