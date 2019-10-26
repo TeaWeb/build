@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="form-box">
-		<form class="ui form" data-tea-action="$" data-tea-before="beforeSubmit" data-tea-done="doneSubmit" autocomplete="off">
+		<form class="ui form" data-tea-action="$" data-tea-before="beforeSubmit" data-tea-fail="failSubmit" data-tea-done="doneSubmit" autocomplete="off">
 			<input type="hidden" name="password" v-model="passwordMd5"/>
 			<input type="hidden" name="token" v-model="token"/>
 			<div class="ui segment stacked">
@@ -31,13 +31,13 @@
 				<div class="ui field">
 					<div class="ui left icon input">
 						<i class="ui user icon"></i>
-						<input type="text" name="username" v-model="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="200"/>
+						<input type="text" name="username" v-model="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="200" ref="usernameRef"/>
 					</div>
 				</div>
 				<div class="ui field">
 					<div class="ui left icon input">
 						<i class="ui lock icon"></i>
-						<input type="password" v-model="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="200" @input="changePassword()"/>
+						<input type="password" v-model="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="200" @input="changePassword()" ref="passwordRef"/>
 					</div>
 				</div>
 				<div class="ui field">
