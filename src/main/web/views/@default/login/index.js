@@ -1,6 +1,7 @@
 Tea.context(function () {
 	this.username = "";
 	this.password = "";
+	this.passwordMd5 = "";
 
 	this.isSubmitting = false;
 
@@ -11,7 +12,12 @@ Tea.context(function () {
 
 	this.$delay(function () {
 		this.$find("form input[name='username']").focus();
+		this.changePassword();
 	});
+
+	this.changePassword = function () {
+		this.passwordMd5 = md5(this.password.trim());
+	};
 
 	// 更多选项
 	this.moreOptionsVisible = false;

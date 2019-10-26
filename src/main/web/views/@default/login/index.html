@@ -7,57 +7,59 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
     {$TEA.VUE}
     {$TEA.SEMANTIC}
+	<script type="text/javascript" src="/js/md5.min.js"></script>
 </head>
 <body>
 
 <div>
-<div class="ui menu borderless inverted blue">
-	<a href="http://teaos.cn" class="item" target="_blank"><i class="icon leaf"></i>TeaWeb官网</a>
-	<a href="http://teaos.cn/download" class="item" target="_blank">下载</a>
-	<a href="http://teaos.cn/doc" class="item" target="_blank">文档</a>
-	<a href="http://teaos.cn/community" class="item" target="_blank">社区</a>
-</div>
+	<div class="ui menu borderless inverted blue">
+		<a href="http://teaos.cn" class="item" target="_blank"><i class="icon leaf"></i>TeaWeb官网</a>
+		<a href="http://teaos.cn/download" class="item" target="_blank">下载</a>
+		<a href="http://teaos.cn/doc" class="item" target="_blank">文档</a>
+		<a href="http://teaos.cn/community" class="item" target="_blank">社区</a>
+	</div>
 
-<div class="form-box">
-    <form class="ui form" data-tea-action="$" data-tea-before="beforeSubmit" data-tea-done="doneSubmit" autocomplete="off">
-        <div class="ui segment stacked">
-            <div class="ui header">
-                登录TeaWeb
-                <p>可视化智能Web服务</p>
-            </div>
-            <div class="ui field">
-                <div class="ui left icon input">
-                    <i class="ui user icon"></i>
-                    <input type="text" name="username" v-model="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="200"/>
-                </div>
-            </div>
-            <div class="ui field">
-                <div class="ui left icon input">
-                    <i class="ui lock icon"></i>
-                    <input type="password" name="password" v-model="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="200"/>
-                </div>
-            </div>
-			<div class="ui field">
-				<a href="" @click.prevent="showMoreOptions()">更多选项 <i class="icon angle" :class="{down:!moreOptionsVisible, up:moreOptionsVisible}"></i> </a>
-			</div>
-			<div class="ui field" v-show="moreOptionsVisible">
-				<div class="ui checkbox">
-					<input type="checkbox" name="remember" value="1" checked="checked"/>
-					<label>在这个电脑上记住登录（14天）</label>
+	<div class="form-box">
+		<form class="ui form" data-tea-action="$" data-tea-before="beforeSubmit" data-tea-done="doneSubmit" autocomplete="off">
+			<input type="hidden" name="password" v-model="passwordMd5"/>
+			<input type="hidden" name="token" v-model="token"/>
+			<div class="ui segment stacked">
+				<div class="ui header">
+					登录TeaWeb
+					<p>可视化智能Web服务</p>
 				</div>
+				<div class="ui field">
+					<div class="ui left icon input">
+						<i class="ui user icon"></i>
+						<input type="text" name="username" v-model="username" :readonly="teaDemoEnabled" placeholder="请输入用户名" maxlength="200"/>
+					</div>
+				</div>
+				<div class="ui field">
+					<div class="ui left icon input">
+						<i class="ui lock icon"></i>
+						<input type="password" v-model="password" :readonly="teaDemoEnabled" placeholder="请输入密码" maxlength="200" @input="changePassword()"/>
+					</div>
+				</div>
+				<div class="ui field">
+					<a href="" @click.prevent="showMoreOptions()">更多选项 <i class="icon angle" :class="{down:!moreOptionsVisible, up:moreOptionsVisible}"></i> </a>
+				</div>
+				<div class="ui field" v-show="moreOptionsVisible">
+					<div class="ui checkbox">
+						<input type="checkbox" name="remember" value="1" checked="checked"/>
+						<label>在这个电脑上记住登录（14天）</label>
+					</div>
+				</div>
+
+				<button class="ui button primary fluid" type="submit" v-if="!isSubmitting">登录</button>
+				<button class="ui button primary fluid disabled" type="submit" v-if="isSubmitting">登录中...</button>
+				<p class="comment">注意：为了安全起见，登录错误3次后，系统会被锁定，使用命令 <em>bin/teaweb reset</em> 重置后才可以登录。</p>
 			</div>
+		</form>
+	</div>
 
-            <button class="ui button primary fluid" type="submit" v-if="!isSubmitting">登录</button>
-			<button class="ui button primary fluid disabled" type="submit" v-if="isSubmitting">登录中...</button>
-            <p class="comment">注意：为了安全起见，登录错误3次后，系统会被锁定，使用命令 <em>bin/teaweb reset</em> 重置后才可以登录。</p>
-        </div>
-    </form>
-</div>
-
-<!--
-<footer>Background Image: Hawaiian Print From macOS</footer>
--->
-
+	<!--
+	<footer>Background Image: Hawaiian Print From macOS</footer>
+	-->
 </div>
 
 </body>
