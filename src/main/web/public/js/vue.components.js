@@ -497,7 +497,7 @@ Vue.component("http-header-box", {
 });
 
 /**
- * Agent Group密钥管理
+ * HTTP参数
  */
 Vue.component("http-params", {
 	props: ["params", "comment", "prefix"],
