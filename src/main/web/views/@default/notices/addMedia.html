@@ -344,6 +344,17 @@
 			</tr>
 		</tbody>
 
+		<!-- Telegram -->
+		<tbody v-if="mediaType == 'telegram'">
+			<tr>
+				<td>机器人Token</td>
+				<td>
+					<input type="text" name="telegramToken"/>
+					<p class="comment">在创建机器人的时候可以获得，类似于 123456:AAAA-AAAAAAAAAAAAAAAAAAAA</p>
+				</td>
+			</tr>
+		</tbody>
+
 		<!-- TeaOS云短信 -->
 		<tbody v-show="mediaType == 'teaSms'">
 			<tr>

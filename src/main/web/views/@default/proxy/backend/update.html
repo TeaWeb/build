@@ -252,7 +252,7 @@
 							<input type="text" name="maxConns" value="0" v-model="backend.maxConns" size="6" maxlength="10"/>
 						</div>
 					</div>
-					<p class="comment">0表示不限制</p>
+					<p class="comment">0表示使用系统默认</p>
 				</td>
 			</tr>
 			<tr v-if="isHTTP">
@@ -263,7 +263,7 @@
 							<input type="text" name="idleConns" value="0" v-model="backend.idleConns" size="6" maxlength="10"/>
 						</div>
 					</div>
-					<p class="comment">0表示默认</p>
+					<p class="comment">0表示使用系统默认</p>
 				</td>
 			</tr>
 			<tr v-if="isHTTP">

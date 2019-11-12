@@ -38,7 +38,7 @@
 		<td>{{media.id}}</td>
 	</tr>
 	<tr>
-		<td>类型</td>
+		<td class="color-border">类型</td>
 		<td>
 			{{mediaType.name}}
 			<p class="comment" v-html="mediaType.description"></p>
@@ -46,25 +46,25 @@
 	</tr>
 	<tbody v-if="media.type == 'email'">
 		<tr>
-			<td>SMTP</td>
+			<td class="color-border">SMTP</td>
 			<td>
 				{{media.options.smtp}}
 			</td>
 		</tr>
 		<tr>
-			<td>账号</td>
+			<td class="color-border">账号</td>
 			<td>
 				{{media.options.username}}
 			</td>
 		</tr>
 		<tr>
-			<td>密码 *</td>
+			<td class="color-border">密码 *</td>
 			<td>
 				{{media.options.password}}
 			</td>
 		</tr>
 		<tr>
-			<td>发送者Email</td>
+			<td class="color-border">发送者Email</td>
 			<td>
 				<span v-if="media.options.from.length > 0">{{media.options.from}}</span>
 				<span v-if="media.options.from.length == 0" class="disabled">没有设置</span>
@@ -73,19 +73,19 @@
 	</tbody>
 	<tbody v-if="media.type == 'webhook'">
 		<tr>
-			<td>URL</td>
+			<td class="color-border">URL</td>
 			<td>
 				{{media.options.url}}
 			</td>
 		</tr>
 		<tr>
-			<td>请求方法</td>
+			<td class="color-border">请求方法</td>
 			<td>
 				{{media.options.method}}
 			</td>
 		</tr>
 		<tr>
-			<td>自定义Header</td>
+			<td class="color-border">自定义Header</td>
 			<td>
 				<span v-if="media.options.headers == null || media.options.headers.length == 0" class="disabled">还没有自定义Header</span>
 				<div v-if="media.options.headers != null && media.options.headers.length > 0">
@@ -94,11 +94,11 @@
 			</td>
 		</tr>
 		<tr v-if="media.options.contentType != null && media.options.contentType.length > 0">
-			<td>
+			<td class="color-border">
 				<span v-if="media.options.contentType == 'params'">自定义参数</span>
 				<span v-if="media.options.contentType == 'body'">自定义内容</span>
 			</td>
-			<td>
+			<td class="color-border">
 				<div v-if="media.options.contentType == 'params'">
 					<span v-if="media.options.params == null || media.options.params.length == 0" class="disabled">还没有自定义参数</span>
 					<div v-if="media.options.params != null && media.options.params.length > 0">
@@ -113,21 +113,21 @@
 	</tbody>
 	<tbody v-if="media.type == 'script'">
 		<tr>
-			<td>脚本</td>
+			<td class="color-border">脚本</td>
 			<td>
 				<span v-if="media.options.scriptType == 'path'">{{media.options.path}}</span>
 				<div id="script-code-editor" v-show="media.options.scriptType == 'code'"></div>
 			</td>
 		</tr>
 		<tr>
-			<td>当前工作目录<em>（CWD）</em></td>
+			<td class="color-border">当前工作目录<em>（CWD）</em></td>
 			<td>
 				<span v-if="media.options.cwd.length > 0">{{media.options.cwd}}</span>
 				<span v-if="media.options.cwd.length == 0" class="disabled">没有设置</span>
 			</td>
 		</tr>
 		<tr>
-			<td>环境变量<em>（ENV）</em></td>
+			<td class="color-border">环境变量<em>（ENV）</em></td>
 			<td>
 				<span v-if="media.options.env == null || media.options.env.length == 0" class="disabled">没有设置</span>
 				<div v-if="media.options.env != null && media.options.env.length > 0">
@@ -140,7 +140,7 @@
 	</tbody>
 	<tbody v-if="media.type == 'dingTalk'">
 		<tr>
-			<td>Hook地址</td>
+			<td class="color-border">Hook地址</td>
 			<td>{{media.options.webhookURL}}</td>
 		</tr>
 	</tbody>
@@ -148,25 +148,25 @@
 	<!-- 企业微信 -->
 	<tbody v-if="media.type == 'qyWeixin'">
 		<tr>
-			<td>企业ID</td>
+			<td class="color-border">企业ID</td>
 			<td>
 				{{media.options.corporateId}}
 			</td>
 		</tr>
 		<tr>
-			<td>应用AgentId</td>
+			<td class="color-border">应用AgentId</td>
 			<td>
 				{{media.options.agentId}}
 			</td>
 		</tr>
 		<tr>
-			<td>应用Secret</td>
+			<td class="color-border">应用Secret</td>
 			<td>
 				{{media.options.appSecret}}
 			</td>
 		</tr>
 		<tr>
-			<td>内容文本格式</td>
+			<td class="color-border">内容文本格式</td>
 			<td>
 				<span v-if="media.options.textFormat == null">text</span>
 				{{media.options.textFormat}}
@@ -177,11 +177,11 @@
 	<!-- 企业微信群机器人 -->
 	<tbody v-if="media.type == 'qyWeixinRobot'">
 		<tr>
-			<td>Webhook地址</td>
+			<td class="color-border">Webhook地址</td>
 			<td>{{media.options.webhookURL}}</td>
 		</tr>
 		<tr>
-			<td>内容文本格式</td>
+			<td class="color-border">内容文本格式</td>
 			<td>
 				<span v-if="media.options.textFormat == null">text</span>
                 {{media.options.textFormat}}
@@ -191,50 +191,58 @@
 
 	<!-- 阿里云短信 -->
 	<tbody v-show="media.type == 'aliyunSms'">
-	<tr>
-		<td>签名名称</td>
-		<td>
-			{{media.options.sign}}
-		</td>
-	</tr>
-	<tr>
-		<td>模板CODE</td>
-		<td>
-			{{media.options.templateCode}}
-		</td>
-	</tr>
-	<tr>
-		<td>模板变量 *</td>
-		<td>
-			<div v-if="media.options.variables != null">
-				<span class="ui label small" v-for="(var1, index) in media.options.variables">
-					<em>{{var1.name}}</em>: {{var1.value}}
-				</span>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>AccessKey ID</td>
-		<td>
-			{{media.options.accessKeyId}}
-		</td>
-	</tr>
-	<tr>
-		<td>AccessKey Secret</td>
-		<td>
-			{{media.options.accessKeySecret}}
-		</td>
-	</tr>
+		<tr>
+			<td class="color-border">签名名称</td>
+			<td>
+				{{media.options.sign}}
+			</td>
+		</tr>
+		<tr>
+			<td class="color-border">模板CODE</td>
+			<td>
+				{{media.options.templateCode}}
+			</td>
+		</tr>
+		<tr>
+			<td class="color-border">模板变量 *</td>
+			<td>
+				<div v-if="media.options.variables != null">
+					<span class="ui label small" v-for="(var1, index) in media.options.variables">
+						<em>{{var1.name}}</em>: {{var1.value}}
+					</span>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="color-border">AccessKey ID</td>
+			<td>
+				{{media.options.accessKeyId}}
+			</td>
+		</tr>
+		<tr>
+			<td class="color-border">AccessKey Secret</td>
+			<td>
+				{{media.options.accessKeySecret}}
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- Telegram机器人 -->
+	<tbody v-show="media.type == 'telegram'">
+		<tr>
+			<td class="color-border">机器人Token</td>
+			<td>{{media.options.token}}</td>
+		</tr>
 	</tbody>
 
 	<!-- TeaOS云短信 -->
 	<tbody v-show="media.type == 'teaSms'">
 		<tr>
-			<td>AccessId</td>
+			<td class="color-border">AccessId</td>
 			<td>{{media.options.accessId}}</td>
 		</tr>
 		<tr>
-			<td>AccessSecret</td>
+			<td class="color-border">AccessSecret</td>
 			<td>{{media.options.accessSecret}}</td>
 		</tr>
 	</tbody>

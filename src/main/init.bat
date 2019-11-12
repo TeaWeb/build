@@ -72,6 +72,10 @@ call go_get "github.com/aliyun/alibaba-cloud-sdk-go"
 REM ftp
 call go_get "github.com/jlaffaye/ftp"
 
+REM telegram
+call go_get "github.com/go-telegram-bot-api/telegram-bot-api"
+call go_get "github.com/technoweenie/multipartstreamer"
+
 REM TeaWeb
 call go_get "github.com/TeaWeb/code"
 echo "   [TeaWeb]Don't worry, you can ignore 'no Go files' warning in TeaWeb code"

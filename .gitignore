@@ -6,6 +6,7 @@ src/github.com/fsnotify
 src/github.com/go-sql-driver
 src/github.com/go-ole
 src/github.com/go-redis
+src/github.com/go-telegram-bot-api/telegram-bot-api
 src/github.com/golang
 src/github.com/gorilla
 src/github.com/hpcloud
@@ -27,6 +28,7 @@ src/github.com/sirupsen
 src/github.com/StackExchange
 src/github.com/syndtr
 src/github.com/tatsushid
+src/github.com/technoweenie/multipartstreamer
 src/github.com/TeaWeb/agent
 src/github.com/TeaWeb/agentinstaller
 src/github.com/TeaWeb/code
