@@ -36,6 +36,24 @@ http.Server = function (options) {
 			}
 		}
 	}
+
+	this.findBackend = function (backendId) {
+		for (var i = 0; i < this.backends.length; i++) {
+			if (this.backends[i].id == backendId) {
+				return this.backends[i];
+			}
+		}
+
+		// location
+		for (var i = 0; i < this.locations.length; i++) {
+			var backend = this.locations[i].findBackend(backendId);
+			if (backend != null) {
+				return backend;
+			}
+		}
+
+		return null;
+	};
 };
 
 http.Backend = function (options) {
@@ -46,6 +64,7 @@ http.Backend = function (options) {
 	this.isDown = false;
 	this.isBackup = false;
 	this.name = [];
+	this.code = "";
 
 	if (options != null && typeof (options) == "object") {
 		for (var key in options) {
@@ -67,6 +86,7 @@ http.Location = function (options) {
 	this.root = "";
 	this.rewrite = [];
 	this.websocket = {};
+	this.backends = [];
 
 	if (options != null && typeof (options) == "object") {
 		for (var key in options) {
@@ -84,11 +104,30 @@ http.Location = function (options) {
 					var rewrite = new http.Rewrite(value[i]);
 					this.rewrite.push(rewrite);
 				}
-			} else if (typeof (key) == "string" && typeof (this[key]) == typeof (value)) {
+			}
+			// backends
+			else if (key == "backends") {
+				for (var i = 0; i < value.length; i++) {
+					var backend = new http.Backend(value[i]);
+					this.backends.push(backend);
+				}
+			}
+			// others
+			else if (typeof (key) == "string" && typeof (this[key]) == typeof (value)) {
 				this[key] = value;
 			}
 		}
 	}
+
+	this.findBackend = function (backendId) {
+		for (var i = 0; i < this.backends.length; i++) {
+			if (this.backends[i].id == backendId) {
+				return this.backends[i];
+			}
+		}
+
+		return null;
+	};
 };
 
 http.Fastcgi = function (options) {
