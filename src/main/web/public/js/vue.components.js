@@ -965,6 +965,9 @@ Vue.component("request-cond-box", {
 		},
 		isArrayOperator: function (operator) {
 			return ["in", "not in", "file ext", "mime type"].$contains(operator);
+		},
+		hasValue: function (operator) {
+			return !["file exist", "file not exist"].$contains(operator);
 		}
 	},
 	template: '<div> \
@@ -1005,7 +1008,7 @@ Vue.component("request-cond-box", {
 						<p class="comment">{{vOperatorDescription}}</p> \
 					</td> \
 				</tr> \
-				<tr v-show="!isArrayOperator(vOperator)"> \
+				<tr v-show="!isArrayOperator(vOperator) && hasValue(vOperator)"> \
 					<td>对比值</td> \
 					<td> \
 						<textarea type="text"  v-model="vValue" rows="2" placeholder="对比值"/> \
