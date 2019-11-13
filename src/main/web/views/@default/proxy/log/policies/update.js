@@ -47,6 +47,13 @@ Tea.context(function () {
 	this.changeStorageType();
 
 	/**
+	 * syslog
+	 */
+	if (this.policy.type == "syslog") {
+		this.syslogProtocol = this.policy.options.protocol;
+	}
+
+	/**
 	 * 更多设置
 	 */
 	this.moreOptionsVisible = false;

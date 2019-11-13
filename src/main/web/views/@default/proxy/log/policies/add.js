@@ -40,6 +40,11 @@ Tea.context(function () {
 	};
 
 	/**
+	 * syslog
+	 */
+	this.syslogProtocol = "none";
+
+	/**
 	 * 更多设置
 	 */
 	this.moreOptionsVisible = false;

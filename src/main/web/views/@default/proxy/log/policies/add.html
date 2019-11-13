@@ -184,6 +184,59 @@
 			</tr>
 		</tbody>
 
+		<!-- Syslog -->
+		<tbody v-show="selectedStorage != null && selectedStorage.type == 'syslog'">
+			<tr>
+				<td>网络协议</td>
+				<td>
+					<select class="ui dropdown" name="syslogProtocol" v-model="syslogProtocol" style="width:10em">
+						<option value="none">[无]</option>
+						<option value="tcp">TCP</option>
+						<option value="udp">UDP</option>
+						<option value="socket">Unix Socket</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr v-if="syslogProtocol == 'tcp' || syslogProtocol == 'udp'">
+				<td>网络地址 *</td>
+				<td>
+					<input type="text" name="syslogServerAddr"/>
+					<p class="comment">IP地址或主机名，不包括端口。</p>
+				</td>
+			</tr>
+			<tr v-if="syslogProtocol == 'tcp' || syslogProtocol == 'udp'">
+				<td>端口</td>
+				<td>
+					<input type="text" name="syslogServerPort"/>
+				</td>
+			</tr>
+
+			<tr v-if="syslogProtocol == 'socket'">
+				<td>Socket路径 *</td>
+				<td>
+					<input type="text" name="syslogSocket"/>
+				</td>
+			</tr>
+
+			<tr>
+				<td>标签<em>(Tag)</em></td>
+				<td>
+					<input type="text" name="syslogTag"/>
+					<p class="comment">选填项。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>优先级<em>(Priority)</em></td>
+				<td>
+					<select class="ui dropdown" name="syslogPriority" style="width:10em">
+						<option v-for="priority in syslogPriorities" :value="priority.value">{{priority.name}}</option>
+					</select>
+					<p class="comment">选填项。</p>
+				</td>
+			</tr>
+		</tbody>
+
 		<!-- 命令行输入流 -->
 		<tbody v-show="selectedStorage != null && selectedStorage.type == 'command'">
 			<tr>

@@ -35,7 +35,7 @@
 	<!-- 文件 -->
 	<tbody v-if="policy.type == 'file'">
 		<tr>
-			<td>日志文件路径</td>
+			<td class="color-border">日志文件路径</td>
 			<td><span v-html="formatVariables(policy.options.path)"></span></td>
 		</tr>
 	</tbody>
@@ -43,19 +43,19 @@
 	<!-- Elastic Search -->
 	<tbody v-if="policy.type == 'es'">
 		<tr>
-			<td>Endpoint</td>
+			<td class="color-border">Endpoint</td>
 			<td>
 				{{policy.options.endpoint}}
 			</td>
 		</tr>
 		<tr>
-			<td>Index</td>
+			<td class="color-border">Index</td>
 			<td>
 				<span v-html="formatVariables(policy.options.index)"></span>
 			</td>
 		</tr>
 		<tr>
-			<td>Mapping Type</td>
+			<td class="color-border">Mapping Type</td>
 			<td>
 				<span v-html="formatVariables(policy.options.mappingType)"></span>
 			</td>
@@ -65,45 +65,45 @@
 	<!-- MySQL -->
 	<tbody v-if="policy.type == 'mysql'">
 		<tr>
-			<td>主机地址</td>
+			<td class="color-border">主机地址</td>
 			<td>
 				{{policy.options.host}}
 			</td>
 		</tr>
 		<tr>
-			<td>端口</td>
+			<td class="color-border">端口</td>
 			<td>
                 {{policy.options.port}}
 			</td>
 		</tr>
 		<tr>
-			<td>用户名</td>
+			<td class="color-border">用户名</td>
 			<td>
 				<span v-if="policy.options.username == null || policy.options.username.length == 0 " class="disabled">没有设置</span>
                 {{policy.options.username}}
 			</td>
 		</tr>
 		<tr>
-			<td>密码</td>
+			<td class="color-border">密码</td>
 			<td>
 				<span v-if="policy.options.password == null || policy.options.password.length == 0 " class="disabled">没有设置</span>
                 {{policy.options.password}}
 			</td>
 		</tr>
 		<tr>
-			<td>数据库名称</td>
+			<td class="color-border">数据库名称</td>
 			<td>
                 {{policy.options.database}}
 			</td>
 		</tr>
 		<tr>
-			<td>数据表名称</td>
+			<td class="color-border">数据表名称</td>
 			<td>
                 <span v-html="formatVariables(policy.options.table)"></span>
 			</td>
 		</tr>
 		<tr>
-			<td>日志存储字段名</td>
+			<td class="color-border">日志存储字段名</td>
 			<td>
                 {{policy.options.logField}}
 			</td>
@@ -113,15 +113,63 @@
 	<!-- TCP Socket -->
 	<tbody v-if="policy.type == 'tcp'">
 		<tr>
-			<td>网络协议</td>
+			<td class="color-border">网络协议</td>
 			<td>
 				{{policy.options.network}}
 			</td>
 		</tr>
 		<tr>
-			<td>网络地址</td>
+			<td class="color-border">网络地址</td>
 			<td>
 				{{policy.options.addr}}
+			</td>
+		</tr>
+	</tbody>
+
+	<!-- Syslog -->
+	<tbody v-show="policy.type == 'syslog'">
+		<tr>
+			<td class="color-border">网络协议</td>
+			<td>
+				<span v-if="policy.options.protocol == 'none'">[无]</span>
+				<span v-if="policy.options.protocol == 'tcp'">TCP</span>
+				<span v-if="policy.options.protocol == 'udp'">UDP</span>
+				<span v-if="policy.options.protocol == 'socket'">Unix Socket</span>
+			</td>
+		</tr>
+
+		<tr v-if="policy.options.protocol == 'tcp' || policy.options.protocol == 'udp'">
+			<td class="color-border">网络地址</td>
+			<td>
+				{{policy.options.serverAddr}}
+			</td>
+		</tr>
+		<tr v-if="policy.options.protocol == 'tcp' || policy.options.protocol == 'udp'">
+			<td class="color-border">端口</td>
+			<td>
+				{{policy.options.serverPort}}
+			</td>
+		</tr>
+
+		<tr v-if="policy.options.protocol == 'socket'">
+			<td class="color-border">Socket路径</td>
+			<td>
+				{{policy.options.socket}}
+			</td>
+		</tr>
+
+		<tr>
+			<td class="color-border">标签<em>(Tag)</em></td>
+			<td>
+				<span v-if="policy.options.tag == null || policy.options.tag.length == 0" class="disabled">没有设置</span>
+				<span v-if="policy.options.tag != null && policy.options.tag.length > 0">{{policy.options.tag}}</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="color-border">优先级<em>(Priority)</em></td>
+			<td>
+				<span v-if="policy.options.priority == null || policy.options.priority == -1" class="disabled">没有设置</span>
+				<span v-if="policy.options.priority != null && policy.options.priority > 0">{{priorityName(policy.options.priority)}}</span>
 			</td>
 		</tr>
 	</tbody>
@@ -129,20 +177,20 @@
 	<!-- 命令行输入流 -->
 	<tbody v-if="policy.type == 'command'">
 		<tr>
-			<td>可执行命令</td>
+			<td class="color-border">可执行命令</td>
 			<td>
 				{{policy.options.command}}
 			</td>
 		</tr>
 		<tr>
-			<td>参数</td>
+			<td class="color-border">参数</td>
 			<td>
 				<span v-if="policy.options.args == null || policy.options.args.length == 0" class="disabled">没有设置</span>
 				<span v-if="policy.options.args != null">{{policy.options.args.join(" ")}}</span>
 			</td>
 		</tr>
 		<tr>
-			<td>工作目录</td>
+			<td class="color-border">工作目录</td>
 			<td>
 				<span v-if="policy.options.dir == null || policy.options.dir.length == 0" class="disabled">没有设置</span>
 				{{policy.options.dir}}
