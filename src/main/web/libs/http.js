@@ -54,6 +54,15 @@ http.Server = function (options) {
 
 		return null;
 	};
+
+	this.findLocation = function (locationId) {
+		for (var i = 0; i < this.locations.length; i++) {
+			if (this.locations[i].id == locationId) {
+				return this.locations[i];
+			}
+		}
+		return null;
+	};
 };
 
 http.Backend = function (options) {
