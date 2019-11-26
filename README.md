@@ -1,5 +1,5 @@
 # TeaWeb - 可视化的Web代理服务
-TeaWeb是一款集静态资源、缓存、代理、统计、日志、安全、监控于一体的可视化智能WebServer。
+TeaWeb是一款集静态资源、缓存、代理、统计、日志、安全、监控于一体的可视化智能WebServer。目标是 **做一个能让程序员和运维工程师喝着茶、唱着歌，就能把事情完成的一个智能化的简单易用的产品**。
 
 TeaWeb使用Go语言实现，在高可定制化前提下，保证高性能、高并发。
 
@@ -61,6 +61,4 @@ Client  <->  | TeaWeb:7777  |   <->  | Nginx, Apache, Tomcat,     |
 * [go msgpack](https://github.com/vmihailenco/msgpack) - Go语言版本的msgpack
 * [go psutil](https://github.com/shirou/gopsutil) - Go语言版本的psutil
 * [CodeMirror](https://codemirror.net/) - 一个很好的在线代码编辑器
-* [clipboard](https://github.com/zenorocha/clipboard.js) - Javascript控制剪切板
-* [go-pinyin](https://github.com/mozillazg/go-pinyin) - Go语言实现的汉字转拼音
 * [gorilla-websocket](https://github.com/gorilla/websocket) - A WebSocket implementation for Go.
