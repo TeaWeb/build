@@ -56,6 +56,16 @@
             </tr>
             <tbody v-show="advancedOptionsVisible">
 				<tr>
+					<td>是否终止往下匹配</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="isBreak" value="1" v-model="location.isBreak"/>
+							<label></label>
+						</div>
+						<p class="comment">如果选中了此选项，一旦匹配成功，不会继续匹配其他的路径规则。</p>
+					</td>
+				</tr>
+				<tr>
 					<td>匹配条件</td>
 					<td>
 						<request-cond-box prefix="request" :conds="location.conds" :operators="operators" :variables="variables"></request-cond-box>

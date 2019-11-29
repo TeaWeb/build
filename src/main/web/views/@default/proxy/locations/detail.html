@@ -60,6 +60,13 @@
 				</td>
 			</tr>
 			<tr>
+				<td>是否终止往下匹配</td>
+				<td>
+					<span v-if="location.isBreak">是</span>
+					<span v-if="!location.isBreak">否</span>
+				</td>
+			</tr>
+			<tr>
 				<td class="color-border">文档根目录<em>(Root)</em></td>
 				<td>
 					<span style="word-break: break-all;" v-if="location.root.length > 0">{{location.root}}</span>
