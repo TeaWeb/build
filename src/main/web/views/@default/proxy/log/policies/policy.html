@@ -60,6 +60,20 @@
 				<span v-html="formatVariables(policy.options.mappingType)"></span>
 			</td>
 		</tr>
+		<tr>
+			<td class="color-border">认证用户名</td>
+			<td>
+				<span v-if="policy.options.username != null && policy.options.username.length > 0">{{policy.options.username}}</span>
+				<span v-if="policy.options.username == null || policy.options.username.length == 0" class="disabled">没有设置。</span>
+			</td>
+		</tr>
+		<tr>
+			<td class="color-border">认证密码</td>
+			<td>
+				<span v-if="policy.options.password != null && policy.options.password.length > 0">{{policy.options.password}}</span>
+				<span v-if="policy.options.password == null || policy.options.password.length == 0" class="disabled">没有设置。</span>
+			</td>
+		</tr>
 	</tbody>
 
 	<!-- MySQL -->

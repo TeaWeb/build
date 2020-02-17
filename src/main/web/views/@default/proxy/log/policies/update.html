@@ -105,6 +105,20 @@
 						<span class="ui label tiny">年月日：${date}</span></p>
 				</td>
 			</tr>
+			<tr>
+				<td>认证用户名</td>
+				<td>
+					<input type="text" name="esUsername" v-model="policy.options.username"/>
+					<p class="comment">配置了认证后才需要填写。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>认证密码</td>
+				<td>
+					<input type="text" name="esPassword" v-model="policy.options.password"/>
+					<p class="comment">配置了认证后才需要填写。</p>
+				</td>
+			</tr>
 		</tbody>
 
 		<!-- MySQL -->
