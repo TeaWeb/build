@@ -65,4 +65,13 @@ Tea.context(function () {
 	this.saveFail = function (resp) {
 		alert(resp.message);
 	};
+
+	/**
+	 * 高级选项
+	 */
+	this.advancedOptionsVisible = false;
+
+	this.showAdvancedOptions = function () {
+		this.advancedOptionsVisible = !this.advancedOptionsVisible;
+	};
 });

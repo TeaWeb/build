@@ -42,6 +42,21 @@
 				<p class="comment">选中后，如果数据库不存在，在检查数据库时会尝试自动创建数据库。</p>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2">
+				<a href="" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">更多选项 <i class="icon down angle"></i> </a>
+				<a href="" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()" style="font-weight:normal">收起选项 <i class="icon up angle"></i> </a>
+			</td>
+		</tr>
+		<tbody v-show="advancedOptionsVisible">
+			<tr>
+				<td>连接池最大尺寸</td>
+				<td>
+					<input type="text" name="poolSize" style="width:5em" v-model="config.poolSize" maxlength="4"/>
+					<p class="comment">0表示默认，根据PostgreSQL所在服务器的性能可以适当增加连接池，从而提升写日志的速度。建议在10-100之间选择。</p>
+				</td>
+			</tr>
+		</tbody>
 	</table>
 
 	<div class="ui message error" v-if="!dbTestResult.ok && !dbTestResult.isRunning && dbTestResult.message.length > 0">{{dbTestResult.message}}</div>
