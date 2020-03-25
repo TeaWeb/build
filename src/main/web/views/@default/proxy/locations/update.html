@@ -57,10 +57,27 @@
 					</td>
 				</tr>
 				<tr>
-					<td>匹配条件</td>
+					<td>更多匹配条件</td>
 					<td>
 						<request-cond-box prefix="request" :conds="location.conds" :operators="operators" :variables="variables"></request-cond-box>
 						<p class="comment">满足以上条件时路径规则才会生效。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+					</td>
+				</tr>
+				<tr>
+					<td>禁止访问条件</td>
+					<td>
+						<request-cond-box prefix="deny" :conds="location.denyConds" :operators="operators" :variables="variables"></request-cond-box>
+						<p class="comment">满足以上任一条件时，用户访问时会返回<span class="ui label tiny">403 Forbidden</span>。参数中可以使用一些内置的变量：<a href="http://teaos.cn/doc/proxy/Variables.md#%E8%AF%B7%E6%B1%82%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F" target="_blank">点击这里查看</a>，比如${arg.name}表示名为name的参数值</p>
+					</td>
+				</tr>
+				<tr>
+					<td>禁止所有访问</td>
+					<td>
+						<div class="ui checkbox">
+							<input type="checkbox" name="denyAll" value="1" v-model="location.denyAll"/>
+							<label></label>
+						</div>
+						<p class="comment">匹配到当前路径规则的请求立即返回<span class="ui label tiny">403 Forbidden</span>。</p>
 					</td>
 				</tr>
                 <tr>

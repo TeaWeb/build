@@ -45,10 +45,24 @@
 				</td>
 			</tr>
 			<tr>
-				<td>匹配条件</td>
+				<td>更多匹配条件</td>
 				<td>
 					<span v-if="location.conds == null || location.conds.length == 0" class="disabled">无匹配条件</span>
 					<div class="ui label tiny" v-if="location.conds != null" v-for="cond in location.conds" style="margin-bottom:0.4em"><span >{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
+				</td>
+			</tr>
+			<tr>
+				<td>禁止访问条件</td>
+				<td>
+					<span v-if="location.denyConds == null || location.denyConds.length == 0" class="disabled">无匹配条件</span>
+					<div class="ui label tiny" v-if="location.denyConds != null" v-for="cond in location.denyConds" style="margin-bottom:0.4em"><span >{{cond.param}} <strong style="font-style:italic">{{cond.operator}}</strong> {{cond.value}}</span></div>
+				</td>
+			</tr>
+			<tr>
+				<td>禁止所有访问</td>
+				<td>
+					<span v-if="location.denyAll" class="red">是</span>
+					<span v-if="!location.denyAll">否</span>
 				</td>
 			</tr>
 			<tr>
