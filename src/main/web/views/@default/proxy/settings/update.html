@@ -1,0 +1,17 @@
+{$layout}
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess">
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">是否严格匹配域名</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="matchDomainStrictly" value="1" v-model="setting.matchDomainStrictly"/>
+					<label></label>
+				</div>
+				<p class="comment">如果选择了严格匹配域名，则没有在TeaWeb里绑定过的域名访问时都会返回404。</p>
+			</td>
+		</tr>
+	</table>
+	<submit-btn>保存</submit-btn> &nbsp; <a href="/proxy/settings">返回</a>
+</form>

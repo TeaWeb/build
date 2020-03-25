@@ -1,11 +1,6 @@
 {$layout}
 {$template "/proxy/menu"}
 
-<!-- 组件 -->
-{$var "header"}
-<script src="/js/vue.components.js" type="text/javascript"></script>
-{$end}
-
 <div class="ui menu text blue small" v-if="locationId.length == 0">
 	<a :href="'/proxy/backend?serverId=' + server.id" class="item">服务器列表</a>
 	<a :href="'/proxy/groups?serverId=' + server.id" class="item">分组管理</a>

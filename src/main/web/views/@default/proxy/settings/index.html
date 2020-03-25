@@ -1,0 +1,16 @@
+{$layout}
+
+<!-- 检测配置更新 -->
+<proxy-change-notify-box></proxy-change-notify-box>
+
+<h3>通用设置<a href="/proxy/settings/update">修改</a></h3>
+<table class="ui table selectable definition">
+	<tr>
+		<td class="title">是否严格匹配域名</td>
+		<td>
+			<span v-if="setting.matchDomainStrictly" class="green">是</span>
+			<span v-if="!setting.matchDomainStrictly" class="disabled">否</span>
+			<p class="comment">如果选择了严格匹配域名，则没有在TeaWeb里绑定过的域名访问时都会返回404。</p>
+		</td>
+	</tr>
+</table>

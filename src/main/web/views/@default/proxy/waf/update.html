@@ -2,11 +2,6 @@
 {$template "menu"}
 {$template "detail_menu"}
 
-<!-- 组件 -->
-{$var "header"}
-<script src="/js/vue.components.js" type="text/javascript"></script>
-{$end}
-
 <form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" style="margin-top:1em">
 	<input type="hidden" name="wafId" :value="config.id"/>
 	<table class="ui table definition selectable">

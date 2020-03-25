@@ -1,17 +1,12 @@
 {$layout}
 
-<!-- 检测配置是否有更新 begins -->
-<div class="ui icon message warning" v-if="statusChanged">
-    <i class="exclamation circle icon large"></i>
-    代理服务已被修改，<a href="" v-on:click.prevent="restart()">点此重启后生效</a>
-</div>
+<!-- 检测配置更新 -->
+<proxy-change-notify-box></proxy-change-notify-box>
 
 {$var "header"}
-<script src="/_/@default/proxy/@global.js" type="text/javascript"></script>
 <script src="/_/@default/proxy/fastcgi/@list.js" type="text/javascript"></script>
 <link rel="stylesheet" href="/_/@default/proxy/fastcgi/@list.css" type="text/css"/>
 {$end}
-<!--  检测配置是否有更新 end -->
 
 <div>
     {$template "/proxy/menu"}
