@@ -67,7 +67,7 @@
 							<tr v-for="option in checkpoint.options">
 								<td>{{option.name}}</td>
 								<td>
-									<div class="ui fields inline">
+									<div class="ui fields inline" v-if="option.type == 'field'">
 										<div class="ui field">
 											<input type="text" name="" :placeholder="option.placeholder" :maxlength="(option.maxLength > 0)?option.maxLength:1024" :size="option.size" v-model="option.value"/>
 										</div>
@@ -75,6 +75,17 @@
 											{{option.rightLabel}}
 										</div>
 									</div>
+									<div class="ui fields inline" v-if="option.type == 'options'">
+										<div class="ui field">
+											<select class="ui dropdown" :style="'width:' + option.size + 'em'" name="" v-model="option.value">
+												<option v-for="opt in option.options" :value="opt.value">{{opt.name}}</option>
+											</select>
+										</div>
+										<div class="ui field">
+                                            {{option.rightLabel}}
+										</div>
+									</div>
+									<p class="comment" v-if="option.comment != null && option.comment.length > 0">{{option.comment}}</p>
 								</td>
 							</tr>
 						</tbody>
