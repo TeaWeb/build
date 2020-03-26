@@ -1,0 +1,56 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+{$var "footer"}
+<!-- 地图相关 -->
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=DF6fe2b62ea3a7b2cd7a30694b79069f" ></script>
+{$end}
+
+{$template "/code_editor"}
+
+<div class="ui menu text blue small">
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=today'" class="item" :class="{active:day == 'today'}">今天</a>
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=yesterday'" class="item" :class="{active:day == 'yesterday'}">昨天</a>
+	<a :href="'/proxy/waf/history?wafId=' + config.id" class="item" :class="{active:isHistory}">历史</a>
+	<span class="item" v-if="isHistory" style="padding-left:0;padding-right:0">&raquo;</span>
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day" class="item" v-if="isHistory">{{day}}</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div class="ui menu text blue tiny">
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day + '&searchIP=' + searchIP" class="item" :class="{active:logType == ''}">访问日志</a>
+</div>
+
+<div v-if="mongoError.length > 0" class="ui message warning">
+	{{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
+</div>
+
+<!-- 检索 -->
+<form class="ui form segment" style="padding-bottom: 0">
+	<input type="hidden" name="wafId" :value="config.id"/>
+	<input type="hidden" name="day" :value="day"/>
+	<input type="hidden" name="logType" :value="logType"/>
+	<div class="ui fields inline">
+		<div class="ui field">
+			终端IP：<input type="text" name="searchIP" :value="searchIP" placeholder="x.x.x.x"/>
+		</div>
+		<div class="ui field">
+			<button class="ui button" type="submit">检索</button> &nbsp;
+			<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day + '&logType=' + logType" v-if="searchIP.length > 0">清除条件</a>
+		</div>
+	</div>
+</form>
+
+<p class="comment" v-if="mongoError.length == 0 && logs.length == 0">还没有相关日志。</p>
+
+{$template "/proxy/log/log_row"}
+
+<div class="ui page menu text blue" v-if="page > 1 || hasNext">
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day + '&fromId=' + fromId + '&page=' + (page-1) + '&logType=' + logType + '&searchIP=' + searchIP" class="item active" v-if="page > 1">上页</a>
+	<span v-if="page == 1" class="item">上页</span>
+	<span class="item">|</span>
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day + '&fromId=' + fromId + '&page=' + (page+1) + '&logType=' + logType + '&searchIP=' + searchIP" class="item active" v-if="hasNext">下页</a>
+	<span class="item" v-if="!hasNext">下页</span>
+</div>

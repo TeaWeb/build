@@ -1,0 +1,37 @@
+{$layout}
+{$template "menu"}
+{$template "detail_menu"}
+
+<div class="ui menu text small blue">
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=today'" class="item">今天</a>
+	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=yesterday'" class="item">昨天</a>
+	<a :href="'/proxy/waf/history?wafId=' + config.id" class="item active">历史</a>
+</div>
+
+<div class="ui divider"></div>
+
+<div v-if="mongoError.length > 0" class="ui message warning">
+	{{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
+</div>
+
+<p class="comment" v-if="mongoError.length == 0 && days.length == 0">最近60天没有任何日志。</p>
+<div v-if="days.length > 0">
+	<p class="comment">最近60天日志：</p>
+
+	<table class="ui table selectable" style="width:30em">
+		<tr v-for="(day, index) in days" v-if="index % 3 == 0">
+			<td>
+				<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day.day" v-if="day.has">{{day.day}} <span class="ui label tiny" v-if="day.day == today" v-if="day.has">今天</span> &raquo;</a>
+				<p v-if="!day.has" style="color:#ccc" title="没有数据">{{day.day}} <span class="ui label tiny" v-if="day.day == today" v-if="day.has">今天</span> &raquo;</p>
+			</td>
+			<td>
+				<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + days[index+1].day" v-if="days[index+1].has">{{days[index+1].day}} <span class="ui label tiny" v-if="days[index+1].day == today" v-if="days[index+1].has">今天</span> &raquo;</a>
+				<p v-if="!days[index+1].has" style="color:#ccc" title="没有数据">{{days[index+1].day}} <span class="ui label tiny" v-if="days[index+1].day == today" v-if="days[index+1].has">今天</span> &raquo;</p>
+			</td>
+			<td>
+				<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + days[index+2].day" v-if="days[index+2].has">{{days[index+2].day}} <span class="ui label tiny" v-if="days[index+2].day == today" v-if="days[index+2].has">今天</span> &raquo;</a>
+				<p v-if="!days[index+2].has" style="color:#ccc" title="没有数据">{{days[index+2].day}} <span class="ui label tiny" v-if="days[index+2].day == today" v-if="days[index+2].has">今天</span> &raquo;</p>
+			</td>
+		</tr>
+	</table>
+</div>

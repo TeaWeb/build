@@ -1,0 +1,165 @@
+/** 菜单 **/
+.tab-menu {
+    margin-bottom: 0 !important;
+}
+
+.main .menu.text {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.divider {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/** 日志表 **/
+.log-table .log-row table {
+    background: #eee;
+    font-size: 12px;
+    margin-top: 0.5em;
+    width: 100%;
+}
+
+.log-table .log-row p {
+    color: #999;
+}
+
+.log-table .log-row p em {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.log-table .log-row .error {
+    color: #dc143c;
+}
+
+.log-table .log-row .menu .item {
+    padding: 0.4em 0.7em !important;
+}
+
+.log-table .log-row .browser span {
+    display: inline-block;
+    background: grey;
+    color: white;
+    font-size: 0.7em;
+    text-transform: lowercase;
+    padding: 0 0.2em;
+}
+
+@keyframes log-move-in {
+    from {
+        left: 4em;
+        opacity: 0.3;
+        height: 0.1em;
+    }
+    to {
+        left: 0;
+        opacity: 1;
+        height: 2.2em;
+    }
+    100% {
+        position: relative;
+    }
+}
+
+.log-table .log-line {
+    -webkit-animation-name: log-move-in;
+    -moz-animation-name: log-move-in;
+    -o-animation-name: log-move-in;
+    animation-name: log-move-in;
+    -webkit-animation-duration: 0.1s;
+    -moz-animation-duration: 0.1s;
+    -o-animation-duration: 0.1s;
+    animation-duration: 0.1s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+
+    border-bottom: 1px solid rgba(34, 36, 38, .1);
+
+    position: absolute;
+    overflow: hidden;
+    height: 0;
+    white-space: nowrap;
+    text-overflow-ellipsis: ellipsis;
+}
+
+.log-table .log-td {
+    position: relative;
+    overflow: hidden;
+    border: 0 !important;
+    -ms-word-break: break-all;
+    word-break: break-all;
+}
+
+.log-table .log-animation-init {
+    position: absolute;
+    left: 4em;
+    right: 0.1em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow-ellipsis: ellipsis;
+    opacity: 0;
+    height: 0;
+    /**display: none;**/
+}
+
+.log-table .preview-box {
+
+}
+
+.log-table .map-box {
+    height: 20em;
+}
+
+.log-table .map-box .anchorBL {
+    left: auto !important;
+    right: 1em !important;
+}
+
+.log-table .map-box .BMap_cpyCtrl.anchorBL {
+    display: none;
+}
+
+.log-table td.padding0 {
+    margin: 0;
+    padding: 0;
+}
+
+.log-table td pre {
+    line-height: 2;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0;
+}
+
+.log-table td .pre-box {
+    max-height: 16em;
+    overflow-y: auto;
+}
+
+.log-table td .pre-box::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+/** codemirror **/
+.CodeMirror {
+    /**border: 1px solid #eee;**/
+    max-height: 20em !important;
+}
+
+.CodeMirror-vscrollbar {
+    width: 6px;
+    border-radius: 3px !important;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}
+
+.CodeMirror-wrap pre {
+    -ms-word-break: break-all !important;
+    word-break: break-all !important;
+}

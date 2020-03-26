@@ -10,6 +10,10 @@
 		<td>{{config.name}}</td>
 	</tr>
 	<tr>
+		<td>ID</td>
+		<td>{{config.id}}</td>
+	</tr>
+	<tr>
 		<td>内置规则分组</td>
 		<td class="groups-box">
 			<span v-for="group in groups" v-if="group.isChecked" class="ui label tiny">{{group.name}}</span>
