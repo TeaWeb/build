@@ -19,10 +19,6 @@
 
 <div class="ui divider"></div>
 
-<div class="ui menu text blue tiny">
-	<a :href="'/proxy/waf/day?wafId=' + config.id + '&day=' + day + '&searchIP=' + searchIP" class="item" :class="{active:logType == ''}">访问日志</a>
-</div>
-
 <div v-if="mongoError.length > 0" class="ui message warning">
 	{{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
 </div>
