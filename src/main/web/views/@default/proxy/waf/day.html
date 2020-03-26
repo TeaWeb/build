@@ -23,6 +23,12 @@
 	{{mongoError}}，<a href="/settings/mongo">去配置</a> 或者启动本机的MongoDB后，<a href="/log">刷新此页面</a>。
 </div>
 
+<!-- 统计 -->
+{$var "header"}
+<script src="/js/echarts.min.js" type="text/javascript"></script>
+{$end}
+<div id="chart-box" v-show="stat != null && stat.length > 0"></div>
+
 <!-- 检索 -->
 <form class="ui form segment" style="padding-bottom: 0">
 	<input type="hidden" name="wafId" :value="config.id"/>

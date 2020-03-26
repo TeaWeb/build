@@ -163,3 +163,8 @@
     -ms-word-break: break-all !important;
     word-break: break-all !important;
 }
+
+/** chart **/
+#chart-box {
+    height: 10em;
+}

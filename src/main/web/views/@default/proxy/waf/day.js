@@ -1,4 +1,8 @@
 Tea.context(function () {
+	this.$delay(function () {
+		this.renderChart();
+	});
+
 	this.sourceLogs = this.logs;
 	this.sourceLogs.$each(function (_, log) {
 		if (typeof (log["isOpen"]) === "undefined") {
@@ -340,5 +344,88 @@ Tea.context(function () {
 
 	this.selectPreviewTab = function (tab) {
 		this.previewTab = tab;
+	};
+
+	/**
+	 * chart
+	 */
+	this.renderChart = function () {
+		var chartBox = Tea.element("#chart-box")[0];
+		if (chartBox == null) {
+			return "";
+		}
+		var c = echarts.init(chartBox);
+		var option = {
+			textStyle: {
+				fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
+			},
+			title: {
+				text: "",
+				top: 10,
+				bottom: 10,
+				x: "center",
+				textStyle: {
+					fontSize: 12,
+					fontWeight: "bold",
+					fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
+				}
+			},
+			legend: {
+				orient: 'vertical',
+				x: 'right',
+				y: 'center',
+				data: this.stat.$map(function (k, v) {
+					return v.name;
+				}),
+				itemWidth: 6,
+				itemHeight: 6,
+				textStyle: {
+					fontSize: 12
+				}
+			},
+			xAxis: {
+				data: []
+			},
+			yAxis: {},
+			series: [{
+				name: '',
+				type: 'pie',
+				data: this.stat.$map(function (k, v) {
+					return {
+						name: v.name,
+						value: v.count
+					};
+				}),
+				radius: ['0%', '70%'],
+				center: ['50%', '54%']/**,
+				 label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: false,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                }**/
+			}],
+
+			grid: {
+				left: -10,
+				right: 0,
+				bottom: 0,
+				top: -10
+			},
+			tooltip: {
+				formatter: 'X:{b0} Y:{c0}',
+				show: true
+			},
+			animation: false
+		};
+
+		c.setOption(option);
 	};
 });
