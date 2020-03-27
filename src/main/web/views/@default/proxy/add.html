@@ -132,12 +132,14 @@
 				<tr>
 					<td class="title">服务类型 *</td>
 					<td>
-						<select class="ui dropdown" name="serverType" v-model="serverType" style="width:10em">
-							<option value="proxy">HTTP代理服务</option>
-							<option value="tcp">TCP代理服务</option>
+						<select class="ui dropdown" name="serverType" v-model="serverType" style="width:11em">
+							<option value="proxy">HTTP反向代理服务</option>
+							<option value="forwardProxy">HTTP正向代理服务</option>
+							<option value="tcp">TCP反向代理服务</option>
 							<option value="static">普通的Web服务</option>
 						</select>
-						<p class="comment" v-if="serverType == 'proxy'">通过TeaWeb将用户请求转发到一个或一组后端服务器中，通常可以实现负载均衡和反向代理服务。</p>
+						<p class="comment" v-if="serverType == 'proxy'">[Client] -&gt; [TeaWeb -&gt; Server] 通过TeaWeb将用户请求转发到一个或一组后端服务器中，通常可以实现负载均衡和反向代理服务。</p>
+						<p class="comment" v-if="serverType == 'forwardProxy'">[Client -&gt; TeaWeb] -&gt; [Server] 客户端通过配置此代理地址访问网络服务，通常用来隐藏客户端地址和安全审计使用。</p>
 						<p class="comment" v-if="serverType == 'static'">通过TeaWeb分发服务上的静态文件，之后也可以通过配置路径规则来实现动态内容的分发，比如Fastcgi。</p>
 						<p class="comment" style="padding:0">这里的服务类型只是方便你快速添加代理服务，成功添加后可以任意修改配置。</p>
 					</td>
@@ -224,9 +226,10 @@
 				<tr>
 					<td>服务类型</td>
 					<td>
-						<span v-if="serverType == 'proxy'">HTTP代理服务</span>
+						<span v-if="serverType == 'proxy'">HTTP反向代理服务</span>
+						<span v-if="serverType == 'forwardProxy'">HTTP正向代理服务</span>
 						<span v-if="serverType == 'static'">普通的Web服务</span>
-						<span v-if="serverType == 'tcp'">TCP代理服务</span>
+						<span v-if="serverType == 'tcp'">TCP反向代理服务</span>
 					</td>
 				</tr>
 				<tr v-if="serverType == 'static'">
@@ -246,7 +249,7 @@
 			</table>
 			<button class="ui button primary" type="submit">确认保存</button> &nbsp;&nbsp;
 			<a href="" @click.prevent="go('root')" v-if="serverType == 'static'">上一步</a>
-			<a href="" @click.prevent="go('backend')" v-if="serverType == 'proxy' || serverType == 'tcp'">上一步</a>
+			<a href="" @click.prevent="go('backend')" v-if="serverType == 'proxy' || serverType == 'forwardProxy' || serverType == 'tcp'">上一步</a>
 		</div>
 	</form>
 </div>

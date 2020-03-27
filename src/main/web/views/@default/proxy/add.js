@@ -181,6 +181,8 @@ Tea.context(function () {
 	this.nextType = function () {
 		if (this.serverType == "proxy" || this.serverType == "tcp") {
 			this.go("backend");
+		} else if (this.serverType == "forwardProxy") {
+			this.go("finish");
 		} else if (this.serverType == "static") {
 			this.go("root");
 			this.$delay(function () {

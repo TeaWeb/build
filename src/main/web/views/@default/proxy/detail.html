@@ -13,6 +13,8 @@
 
    	{$if .isTCP}
 		{$template "detail_tcp"}
+    {$else if .isForwardHTTP}
+		{$template "detail_forward_http"}
 	{$else}
 		{$template "detail_http"}
 	{$end}

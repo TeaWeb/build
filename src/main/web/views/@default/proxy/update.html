@@ -10,6 +10,8 @@
 
 	{$if .isTCP}
 		{$template "update_tcp"}
+	{$else if .isForwardHTTP}
+		{$template "update_forward_http"}
 	{$else}
 		{$template "update_http"}
 	{$end}
