@@ -4,13 +4,14 @@
 
 FROM=${1}
 
-if [ ${FROM} ]
+if [ -d ${FROM} ]
 then
 	if [ ! -d ./web ]
 	then
 		mkdir ./web
 	fi
 
+	yes|cp -R ${FROM}/web/certs ./web/
 	yes|cp -R ${FROM}/web/installers ./web/
 	yes|cp -R ${FROM}/web/libs ./web/
 	yes|cp -R ${FROM}/web/public ./web/

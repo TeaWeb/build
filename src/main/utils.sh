@@ -87,6 +87,7 @@ function build() {
     cp -R ${GOPATH}/src/main/configs/widgets ${TARGET}/configs/
     cp -R ${GOPATH}/src/main/www ${TARGET}/
 
+	cp -R ${GOPATH}/src/main/web/certs ${TARGET}/web/
     cp -R ${GOPATH}/src/main/web/public ${TARGET}/web/
     cp -R ${GOPATH}/src/main/web/resources ${TARGET}/web/
     cp -R ${GOPATH}/src/main/web/views ${TARGET}/web/
