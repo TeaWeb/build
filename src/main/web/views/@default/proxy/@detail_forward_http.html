@@ -12,7 +12,10 @@
 			<div v-if="server.shutdown == null || !server.shutdown.on">
 				<span class="ui label tiny green" v-if="server.http">已开启</span>
 				<span class="ui label tiny red" v-if="!server.http">未开启</span>
-				&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.http" @click.prevent="startHttp()">快速启动</a><a href="" style="font-size: 12px" v-if="server.on && server.http" @click.prevent="shutdownHttp()">快速关闭</a>
+				&nbsp; <a href="" style="font-size: 12px" v-if="!server.on || !server.http"
+						  @click.prevent="startHttp()">快速启动</a><a href="" style="font-size: 12px"
+																  v-if="server.on && server.http"
+																  @click.prevent="shutdownHttp()">快速关闭</a>
 			</div>
 		</td>
 	</tr>
@@ -34,58 +37,69 @@
 			<span class="ui label small" v-for="listen in server.listen">{{listen}}</span>
 		</td>
 	</tr>
-
+	<tr>
+		<td>使用MITM模式</td>
+		<td>
+			<span v-if="server.forwardHTTP.enableMITM" class="green">是</span>
+			<span v-if="!server.forwardHTTP.enableMITM" class="disabled">否</span>
+		</td>
+	</tr>
 	<tr>
 		<td colspan="2">
-			<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible" @click.prevent="showAdvancedOptions()">更多选项<span style="font-size: 0.8em;color:grey!important;">（日志等）</span> <i class="icon angle down"></i> </a>
-			<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible" @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
+			<a href="" style="font-weight: normal;" v-if="!advancedOptionsVisible"
+			   @click.prevent="showAdvancedOptions()">更多选项<span
+						style="font-size: 0.8em;color:grey!important;">（日志等）</span> <i class="icon angle down"></i> </a>
+			<a href="" style="font-weight: normal;" v-if="advancedOptionsVisible"
+			   @click.prevent="showAdvancedOptions()">收起选项 <i class="icon angle up"></i> </a>
 		</td>
 	</tr>
 	<tbody v-show="advancedOptionsVisible" v-for="accessLog in accessLogs">
-		<tr>
-			<td class="color-border">访问日志</td>
-			<td>
-				<span class="ui label green tiny" v-if="accessLog.on">已开启</span>
-				<span class="ui label tiny" v-if="!accessLog.on">未开启</span>
-			</td>
-		</tr>
-		<tr v-if="accessLog.on">
-			<td class="color-border">存储的访问日志字段</td>
-			<td>
-				<span v-for="field in accessLog.fields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em" :class="{'disabled':!field.isChecked}">{{field.name}}</span>
-			</td>
-		</tr>
-		<tr v-if="accessLog.on">
-			<td class="color-border">要存储的访问日志状态码</td>
-			<td>
-				<span class="ui label tiny" :class="{'disabled':!accessLog.status1}">1xx</span>
-				<span class="ui label tiny" :class="{'disabled':!accessLog.status2}">2xx</span>
-				<span class="ui label tiny" :class="{'disabled':!accessLog.status3}">3xx</span>
-				<span class="ui label tiny" :class="{'disabled':!accessLog.status4}">4xx</span>
-				<span class="ui label tiny" :class="{'disabled':!accessLog.status5}">5xx</span>
-			</td>
-		</tr>
-		<tr v-if="accessLog.on && accessLog.hasSelectedStoragePolicies">
-			<td class="color-border">输出的日志策略</td>
-			<td>
-				<span class="ui label tiny" v-for="policy in accessLog.storagePolicies" v-if="policy.isChecked">{{policy.name}}</span>
-			</td>
-		</tr>
-		<tr v-if="accessLog.on">
-			<td class="color-border">是否只输出到日志策略</td>
-			<td>
-				<span v-if="accessLog.storageOnly" class="ui label tiny green">已开启</span>
-				<span v-if="!accessLog.storageOnly" class="ui label tiny">未开启</span>
-			</td>
-		</tr>
+	<tr>
+		<td class="color-border">访问日志</td>
+		<td>
+			<span class="ui label green tiny" v-if="accessLog.on">已开启</span>
+			<span class="ui label tiny" v-if="!accessLog.on">未开启</span>
+		</td>
+	</tr>
+	<tr v-if="accessLog.on">
+		<td class="color-border">存储的访问日志字段</td>
+		<td>
+			<span v-for="field in accessLog.fields" class="ui label tiny" style="margin-top:0.2em;margin-bottom:0.2em"
+				  :class="{'disabled':!field.isChecked}">{{field.name}}</span>
+		</td>
+	</tr>
+	<tr v-if="accessLog.on">
+		<td class="color-border">要存储的访问日志状态码</td>
+		<td>
+			<span class="ui label tiny" :class="{'disabled':!accessLog.status1}">1xx</span>
+			<span class="ui label tiny" :class="{'disabled':!accessLog.status2}">2xx</span>
+			<span class="ui label tiny" :class="{'disabled':!accessLog.status3}">3xx</span>
+			<span class="ui label tiny" :class="{'disabled':!accessLog.status4}">4xx</span>
+			<span class="ui label tiny" :class="{'disabled':!accessLog.status5}">5xx</span>
+		</td>
+	</tr>
+	<tr v-if="accessLog.on && accessLog.hasSelectedStoragePolicies">
+		<td class="color-border">输出的日志策略</td>
+		<td>
+			<span class="ui label tiny" v-for="policy in accessLog.storagePolicies"
+				  v-if="policy.isChecked">{{policy.name}}</span>
+		</td>
+	</tr>
+	<tr v-if="accessLog.on">
+		<td class="color-border">是否只输出到日志策略</td>
+		<td>
+			<span v-if="accessLog.storageOnly" class="ui label tiny green">已开启</span>
+			<span v-if="!accessLog.storageOnly" class="ui label tiny">未开启</span>
+		</td>
+	</tr>
 	</tbody>
 	<tbody v-show="advancedOptionsVisible">
-		<tr>
-			<td>统计</td>
-			<td>
-				<span class="ui label green tiny" v-if="!server.disableStat">已开启</span>
-				<span class="ui label tiny" v-if="server.disableStat">未开启</span>
-			</td>
-		</tr>
+	<tr>
+		<td>统计</td>
+		<td>
+			<span class="ui label green tiny" v-if="!server.disableStat">已开启</span>
+			<span class="ui label tiny" v-if="server.disableStat">未开启</span>
+		</td>
+	</tr>
 	</tbody>
 </table>
