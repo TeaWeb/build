@@ -370,19 +370,6 @@ Tea.context(function () {
 					fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif"
 				}
 			},
-			legend: {
-				orient: 'vertical',
-				x: 'right',
-				y: 'center',
-				data: this.stat.$map(function (k, v) {
-					return v.name;
-				}),
-				itemWidth: 6,
-				itemHeight: 6,
-				textStyle: {
-					fontSize: 12
-				}
-			},
 			xAxis: {
 				data: []
 			},
