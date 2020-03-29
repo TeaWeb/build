@@ -35,7 +35,7 @@ Vue.component("proxy-change-notify-box", {
 		}
 	},
 	template: '<div> \
-	<div class="ui icon message warning" v-if="statusChanged">\
+	<div class="ui icon message warning" v-if="statusChanged" style="margin-top:0.5em">\
 		<i class="exclamation circle icon large"></i>\
 		代理服务已被修改，<a href="" @click.prevent="restart()">点此重启后生效</a>\
 	</div>\

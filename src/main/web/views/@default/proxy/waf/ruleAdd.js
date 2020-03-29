@@ -203,4 +203,28 @@ Tea.context(function () {
 			}
 		});
 	};
+
+	/**
+	 * action options
+	 */
+	this.actionGroupId = "";
+	this.actionSetId = "";
+
+	if (this.config.inbound.length > 0) {
+		this.actionGroupId = this.config.inbound[0].id;
+		if (this.config.inbound[0].ruleSets.length > 0) {
+			this.actionSetId = this.config.inbound[0].ruleSets[0].id;
+		}
+	}
+
+	var that = this;
+	this.groupSets = function (groupId) {
+		var group = that.config.inbound.$find(function (k, v) {
+			return v.id == groupId;
+		});
+		if (group == null) {
+			return [];
+		}
+		return group.ruleSets;
+	};
 });

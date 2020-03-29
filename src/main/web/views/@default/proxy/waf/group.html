@@ -62,7 +62,11 @@
 				<span class="ui disabled" v-if="set.rules.length == 0">暂时还没有规则</span>
 			</td>
 			<td>{{set.connector}}</td>
-			<td><span :class="{red:set.action == 'BLOCK' || set.action == 'CAPTCHA', green:set.action != 'BLOCK' && set.action != 'CAPTCHA'}">{{set.actionName}}[{{set.action}}]</span></td>
+			<td><span :class="{red:set.action == 'BLOCK' || set.action == 'CAPTCHA', green:set.action != 'BLOCK' && set.action != 'CAPTCHA'}">{{set.actionName}}[{{set.action}}]</span>
+				<div v-if="set.actionLinks.length > 0" style="margin-top:0.3em">
+					<span class="disabled">-&gt;</span> <span v-for="link in set.actionLinks"><a :href="link.url"><span class="disabled">[{{link.name}}]</span></a> &nbsp;</span>
+				</div>
+			</td>
 			<td>
 				<a :href="'/proxy/waf/group/rule/update?wafId=' + config.id + '&groupId=' + group.id + '&setId=' + set.id">修改</a> &nbsp; <a href="" @click.prevent="disableRule(set.id)" v-if="set.on">停用</a><a href="" @click.prevent="enableRule(set.id)" v-if="!set.on">启用</a> &nbsp; <a href="" @click.prevent="deleteRule(set.id)">删除</a>
 			</td>

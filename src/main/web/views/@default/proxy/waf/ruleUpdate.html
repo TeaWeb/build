@@ -137,11 +137,39 @@
 			</td>
 		</tr>
 		<tr>
-			<td>动作</td>
+			<td :class="{'color-border':action == 'go_group' || action == 'go_set'}">动作</td>
 			<td>
-				<select class="ui dropdown" name="action" v-model="action" style="width:15em">
+				<select class="ui dropdown" name="action" v-model="action" style="width:17em">
 					<option v-for="a in actions" :value="a.code">{{a.name}}({{a.code.toUpperCase()}})</option>
 				</select>
+				<p class="comment">匹配当前规则集后要执行的动作。</p>
+			</td>
+		</tr>
+		<tr v-if="action == 'go_group'">
+			<td class="color-border">下一个规则分组</td>
+			<td>
+				<select class="ui dropdown" name="action_groupId" style="width:12em" v-model="actionGroupId">
+					<option v-for="g in config.inbound" :value="g.id">{{g.name}}</option>
+				</select>
+				<p class="comment">当动作为"跳到下一个规则分组"时出现此选择。</p>
+			</td>
+		</tr>
+		<tr v-if="action == 'go_set'">
+			<td class="color-border">下一个规则分组</td>
+			<td>
+				<select class="ui dropdown" name="action_groupId" style="width:12em" v-model="actionGroupId">
+					<option v-for="g in config.inbound" :value="g.id">{{g.name}}</option>
+				</select>
+				<p class="comment">当动作为"跳到下一个规则集"时出现此选择。</p>
+			</td>
+		</tr>
+		<tr v-if="action == 'go_set'">
+			<td class="color-border">下一个规则集</td>
+			<td>
+				<select class="ui dropdown" name="action_setId" style="width:12em" v-model="actionSetId">
+					<option v-for="r in groupSets(actionGroupId)" :value="r.id">{{r.name}}</option>
+				</select>
+				<p class="comment">当动作为"跳到下一个规则集"时出现此选择。</p>
 			</td>
 		</tr>
 		<tr v-if="testParams.length > 0">
