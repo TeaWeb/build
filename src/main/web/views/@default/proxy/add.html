@@ -103,7 +103,7 @@
                     </span>
 						<div class="ui fields inline" v-if="listenAdding" style="margin-top:0.8em">
 							<div class="ui field">
-								<input type="text" name="addingListenName" style="width:18em" maxlength="100" placeholder="绑定的网络地址，比如 0.0.0.0:80" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
+								<input type="text" name="addingListenName" style="width:22em" maxlength="100" placeholder="绑定的网络地址，比如 8080 或 0.0.0.0:8080" @keyup.enter="confirmAddListen()" @keypress.enter.prevent="1" v-model="addingListenName" />
 							</div>
 							<div class="ui field">
 								<button class="ui button tiny" type="button" @click="confirmAddListen()">确定</button>
@@ -116,7 +116,7 @@
 						<div class="ui field" style="margin-top: 1em">
 							<button class="ui button tiny" type="button" @click="addListen()">+</button>
 						</div>
-						<p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址，一般是IP加端口，比如"192.168.1.100:80"；端口地址支持一个范围"[开始端口号-结束端口号]"，比如"192.168.1.100:[81-100]"。</p>
+						<p class="comment" style="padding-bottom:0;margin-bottom:0.4em">绑定的服务器端的网络地址，可以是一个单独的端口，比如8080，也可以是IP加端口，比如"192.168.1.100:80"；端口地址支持一个范围"[开始端口号-结束端口号]"，比如"192.168.1.100:[81-100]"。</p>
 						<p class="comment" style="padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0">要想通过服务器的所有IP地址都能访问到服务，可以将IP地址写成"0.0.0.0:端口"。</p>
 						<p class="comment" style="padding-top:0;margin-top:0.4em">如果想设置HTTPS/TLS，可以在完成代理服务添加后再设置。</p>
 					</td>
