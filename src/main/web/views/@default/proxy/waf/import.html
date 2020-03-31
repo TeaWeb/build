@@ -55,6 +55,26 @@
 				</div>
 			</td>
 		</tr>
+		<tr>
+			<td>覆盖同类型的规则分组</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="overwriteType" value="1" checked="checked"/>
+					<label></label>
+				</div>
+				<p class="comment">遇到同类型的规则分组新的自动覆盖老的。</p>
+			</td>
+		</tr>
+		<tr>
+			<td>覆盖同名的规则分组</td>
+			<td>
+				<div class="ui checkbox">
+					<input type="checkbox" name="overwriteName" value="1" checked="checked"/>
+					<label></label>
+				</div>
+				<p class="comment">遇到同名称的规则分组新的自动覆盖老的。</p>
+			</td>
+		</tr>
 	</table>
 	<button class="ui button primary" type="submit">确定导入</button> &nbsp; &nbsp; <a href="" @click.prevent="goFile()">上一步</a>
 </form>
@@ -62,6 +82,6 @@
 <!-- 结束 -->
 <div v-show="step == 'finish'">
 	<p class="ui message green" style="font-weight: normal;">
-		<i class="icon checkmark circle"></i> 成功导入{{countGroups}}个分组，{{countSets}}个规则集，<a :href="'/proxy/waf/rules?wafId=' + config.id">现在去查看 &raquo;</a>
+		<i class="icon checkmark circle"></i> 成功导入{{countGroups}}个分组，{{countSets}}个规则集，<a :href="'/proxy/waf/rules?wafId=' + config.id + '&inbound=1'">现在去查看 &raquo;</a>
 	</p>
 </div>
