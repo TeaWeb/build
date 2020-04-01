@@ -1,0 +1,28 @@
+{$layout}
+
+<div class="first-menu">
+	<div class="ui menu text small blue">
+		<a class="item active" href="/cache">策略列表</a>
+		<a class="item" href="/cache/createPolicy">+添加新策略</a>
+	</div>
+
+	<div class="ui divider"></div>
+</div>
+
+{$template "menu_second"}
+
+<form class="ui form" data-tea-action="$" data-tea-success="submitSuccess" data-tea-before="submitBefore">
+	<input type="hidden" name="filename" :value="policy.filename"/>
+	<table class="ui table definition selectable">
+		<tr>
+			<td class="title">要刷新的Key前缀</td>
+			<td>
+				<textarea rows="10" name="prefixes" ref="focusInput" v-model="prefixes"></textarea>
+				<p class="comment">每行一个Key前缀，比如"www.example.com/hello/"能匹配以这个前缀开头的所有URL Key；当前的Key为 {{policy.key}}；目前不支持整个集群刷新。<a href="" @click.prevent="reset" v-if="prefixes.length > 0">[清空]</a> </p>
+			</td>
+		</tr>
+	</table>
+	<submit-btn v-if="!isSubmitting && !isSuccess">提交</submit-btn>
+	<button class="ui button" type="button" v-if="isSubmitting">请等待操作完成...</button>
+	<button class="ui button green" type="submit" v-if="isSuccess">成功刷新了{{count}}个Key</button>
+</form>

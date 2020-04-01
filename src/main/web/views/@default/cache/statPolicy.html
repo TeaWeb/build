@@ -9,15 +9,7 @@
 	<div class="ui divider"></div>
 </div>
 
-<div class="second-menu">
-	<div class="ui menu text blue tiny">
-		<a :href="'/cache/policy?filename=' + policy.filename" class="item">{{policy.name}} &raquo; 详情</a>
-		<a :href="'/cache/testPolicy?filename=' + policy.filename" class="item">测试</a>
-		<a :href="'/cache/statPolicy?filename=' + policy.filename" class="item active">统计</a>
-		<a :href="'/cache/cleanPolicy?filename=' + policy.filename" class="item">清理</a>
-	</div>
-	<div class="ui divider"></div>
-</div>
+{$template "menu_second"}
 
 <div v-if="!isRunning">
 	<button class="ui button primary" @click.prevent="run()">开始统计 &nbsp;<i class="icon refresh small"></i></button> &nbsp;  &nbsp; <p class="comment">建议不要在比较忙碌的时刻进行此操作，以免影响用户访问。</p>

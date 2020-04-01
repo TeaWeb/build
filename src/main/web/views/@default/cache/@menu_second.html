@@ -1,0 +1,10 @@
+<div class="second-menu">
+	<div class="ui menu text blue tiny">
+		<a :href="'/cache/policy?filename=' + policy.filename" class="item" :class="{active:secondMenu == 'policy'}">{{policy.name}} &raquo; 详情</a>
+		<a :href="'/cache/testPolicy?filename=' + policy.filename" class="item" :class="{active:secondMenu == 'test'}">测试</a>
+		<a :href="'/cache/statPolicy?filename=' + policy.filename" class="item" :class="{active:secondMenu == 'stat'}">统计</a>
+		<a :href="'/cache/refreshPolicy?filename=' + policy.filename" class="item" :class="{active:secondMenu == 'refresh'}">批量刷新</a>
+		<a :href="'/cache/cleanPolicy?filename=' + policy.filename" class="item" :class="{active:secondMenu == 'clean'}">清理</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
