@@ -33,13 +33,25 @@
         </tr>
 
         <!-- 文件缓存 -->
-        <tr v-if="cacheType == 'file'">
-            <td>缓存存放目录</td>
-            <td>
-                <input type="text" name="fileDir" value="./cache"/>
-                <p class="ui comment">如果需要修改，请填写相对于TeaWeb安装目录的相对路径，或者是一个绝对路径。</p>
-            </td>
-        </tr>
+		<tbody v-if="cacheType == 'file'">
+			<tr>
+				<td>缓存存放目录</td>
+				<td>
+					<input type="text" name="fileDir" value="./cache"/>
+					<p class="ui comment">如果需要修改，请填写相对于TeaWeb安装目录的相对路径，或者是一个绝对路径。</p>
+				</td>
+			</tr>
+			<tr>
+				<td>是否自动创建目录</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="fileAutoCreate" value="1" checked="checked"/>
+						<label></label>
+					</div>
+					<p class="comment">当缓存目录不存在时会试图自动创建。</p>
+				</td>
+			</tr>
+		</tbody>
 
         <!-- Redis缓存 -->
 		<tbody v-if="cacheType == 'redis'">

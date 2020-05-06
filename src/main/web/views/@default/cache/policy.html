@@ -35,12 +35,21 @@
 	</tr>
 
 	<!-- 文件缓存 -->
-	<tr v-if="cacheType == 'file'">
-		<td>缓存存放目录</td>
-		<td>
-			{{policy.options.dir}}
-		</td>
-	</tr>
+	<tbody v-if="cacheType == 'file'">
+		<tr>
+			<td>缓存存放目录</td>
+			<td>
+				{{policy.options.dir}}
+			</td>
+		</tr>
+		<tr>
+			<td>是否自动创建目录</td>
+			<td>
+				<span v-if="policy.options.autoCreate">Y</span>
+				<span v-if="!policy.options.autoCreate">N</span>
+			</td>
+		</tr>
+	</tbody>
 
 	<!-- Redis缓存 -->
 	<tbody v-if="cacheType == 'redis'">
