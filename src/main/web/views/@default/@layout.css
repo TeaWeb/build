@@ -752,3 +752,8 @@ var.dash {
 .checkbox label a, .checkbox label {
     font-size: 0.8em !important;
 }
+
+/** Label **/
+.label {
+    word-break: break-all;
+}
