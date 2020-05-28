@@ -87,5 +87,131 @@ window.teaweb = {
 			return (Math.ceil(bytes * 100 / 1024) / 100) + " k";
 		}
 		return (Math.ceil(bytes * 100 / 1024 / 1024) / 100) + " m";
+	},
+
+	popup: function (url, options) {
+		if (options == null) {
+			options = {};
+		}
+		var width = "40em";
+		var height = "20em";
+		window.POPUP_CALLBACK = function () {
+			Swal.close();
+		};
+
+		if (options["width"] != null) {
+			width = options["width"];
+		}
+		if (options["height"] != null) {
+			height = options["height"];
+		}
+		if (typeof (options["callback"]) == "function") {
+			window.POPUP_CALLBACK = function () {
+				Swal.close();
+				options["callback"].apply(window, arguments);
+			};
+		}
+
+		Swal.fire({
+			html: '<iframe src="' + url + '#popup-' + width + '" style="border:0; width: 100%; height:' + height + '"></iframe>',
+			width: width,
+			padding: "0.5em",
+			showConfirmButton: false,
+			showCloseButton: true,
+			focusConfirm: false
+		});
+	},
+	popupFinish: function () {
+		if (window.POPUP_CALLBACK != null) {
+			window.POPUP_CALLBACK.apply(window, arguments);
+		}
+	},
+	isPopup: function () {
+		var hash = window.location.hash;
+		return hash != null && hash.startsWith("#popup");
+	},
+	Swal: function () {
+		return this.isPopup() ? window.parent.Swal : window.Swal;
+	},
+	success: function (message, callback) {
+		var width = "20em";
+		if (message.length > 30) {
+			width = "30em";
+		}
+		Swal.fire({
+			text: message,
+			confirmButtonText: "确定",
+			buttonsStyling: false,
+			icon: "success",
+			customClass: {
+				closeButton: "ui button",
+				cancelButton: "ui button",
+				confirmButton: "ui button primary"
+			},
+			width: width,
+			onAfterClose: function () {
+				if (typeof (callback) == "function") {
+					setTimeout(function () {
+						callback();
+					});
+				}
+			}
+		});
+	},
+	successReload: function (message) {
+		this.success(message, function () {
+			window.location.reload();
+		});
+	},
+	warn: function (message, callback) {
+		var width = "20em";
+		if (message.length > 30) {
+			width = "30em";
+		}
+		Swal.fire({
+			text: message,
+			confirmButtonText: "确定",
+			buttonsStyling: false,
+			customClass: {
+				closeButton: "ui button",
+				cancelButton: "ui button",
+				confirmButton: "ui button primary"
+			},
+			icon: "warning",
+			width: width,
+			onAfterClose: function () {
+				if (typeof (callback) == "function") {
+					setTimeout(function () {
+						callback();
+					});
+				}
+			}
+		});
+	},
+	confirm: function (message, callback) {
+		var width = "20em";
+		if (message.length > 30) {
+			width = "30em";
+		}
+		Swal.fire({
+			text: message,
+			confirmButtonText: "确定",
+			cancelButtonText: "取消",
+			showCancelButton: true,
+			showCloseButton: false,
+			buttonsStyling: false,
+			customClass: {
+				closeButton: "ui button",
+				cancelButton: "ui button",
+				confirmButton: "ui button primary"
+			},
+			icon: "warning",
+			width: width,
+			preConfirm: function () {
+				if (typeof (callback) == "function") {
+					callback.call(Tea.Vue);
+				}
+			}
+		});
 	}
 };

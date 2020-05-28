@@ -1,0 +1,30 @@
+{$layout}
+{$template "menu"}
+
+<p v-if="groups.length == 0" class="comment">暂时还没有分组。</p>
+
+<table class="ui table selectable" v-if="groups.length > 0">
+	<thead>
+		<tr>
+			<th>分组名称</th>
+			<th>包含的代理</th>
+			<th class="two op">操作</th>
+		</tr>
+	</thead>
+	<tr v-for="group in groups">
+		<td :class="{disabled:group.id.length == 0}">
+			{{group.name}}
+		</td>
+		<td>
+			<span class="ui label tiny" v-for="server in group.servers" style="margin-bottom: 0.4em">
+				<a :href="'/proxy/board?serverId=' + server.id" style="color:black;">{{server.description}}</a>
+				<a href="" title="删除" @click.prevent="deleteServer(group.id, server.id)" v-if="group.id.length > 0"><i class="icon remove"></i></a>
+			</span>
+			<a href="" class="ui label tiny" @click.prevent="addServer(group.id)" v-if="group.id.length > 0">+</a>
+		</td>
+		<td>
+			<a href="" @click.prevent="updateGroup(group.id)" v-if="group.id.length > 0">修改</a> &nbsp;
+			<a href="" @click.prevent="deleteGroup(group.id)" v-if="group.id.length > 0">删除</a>
+		</td>
+	</tr>
+</table>

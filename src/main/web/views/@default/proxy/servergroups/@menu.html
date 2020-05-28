@@ -1,0 +1,10 @@
+<div class="first-menu">
+	<div class="ui menu text blue small">
+		<a href="/proxy/servergroups" class="item" :class="{active:selectedMenu == 'index'}">分组列表</a>
+		<a href="/proxy/servergroups/add" class="item" :class="{active:selectedMenu == 'add'}">+添加分组</a>
+	</div>
+	<div class="ui divider"></div>
+</div>
+
+<!-- 检测配置更新 -->
+<proxy-change-notify-box></proxy-change-notify-box>

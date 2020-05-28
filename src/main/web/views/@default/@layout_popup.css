@@ -1,0 +1,290 @@
+/** 通用 **/
+.clear {
+  clear: both;
+}
+.hidden {
+  display: none;
+}
+pre {
+  white-space: pre-wrap;
+}
+a.disabled,
+a.disabled:hover,
+a.disabled:active,
+span.disabled {
+  color: #ccc !important;
+}
+a.enabled,
+span.enabled,
+span.green {
+  color: #21ba45;
+}
+span.grey,
+label.grey,
+p.grey {
+  color: grey !important;
+}
+p.grey {
+  margin-top: 0.8em;
+}
+span.red,
+pre.red {
+  color: #db2828;
+}
+pre:not(.CodeMirror-line) {
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+}
+tbody {
+  background: transparent;
+}
+.table.width30 {
+  width: 30em !important;
+}
+.table.width35 {
+  width: 35em !important;
+}
+.table.width40 {
+  width: 40em !important;
+}
+.table th,
+.table td {
+  font-size: 0.9em !important;
+}
+p.comment,
+div.comment {
+  color: rgba(0, 0, 0, 0.3);
+  padding-top: 0.4em;
+}
+p.comment em,
+div.comment em {
+  font-style: italic !important;
+}
+.truncate {
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+div.margin,
+p.margin {
+  margin-top: 1em;
+}
+/** 操作按钮容器 **/
+.op.one {
+  width: 4em;
+}
+.op.two {
+  width: 7.4em;
+}
+.op.three {
+  width: 9em;
+}
+.op.four {
+  width: 10em;
+}
+/** 扩展UI **/
+.field.text {
+  padding: .5em;
+}
+/** 右侧主操作区 **/
+.main {
+  position: absolute;
+  left: 22em;
+  top: 5.6em;
+  padding-bottom: 5em;
+  padding-right: 1em;
+  right: 1em;
+}
+@media screen and (max-width: 512px) {
+  .main {
+    left: 4em;
+  }
+}
+.main.without-menu {
+  left: 9em;
+}
+.main.without-secondary-menu {
+  top: 2.9em;
+}
+@media screen and (max-width: 512px) {
+  .main.without-menu {
+    left: 4em;
+  }
+}
+.main table td.title {
+  width: 10em;
+}
+.main table td.middle-title {
+  width: 14em;
+}
+.main table td {
+  vertical-align: top;
+}
+.main table td.color-border {
+  border-left: 1px #276ac6 solid !important;
+}
+.main table td.vertical-top {
+  vertical-align: top;
+}
+.main table td.vertical-middle {
+  vertical-align: middle;
+}
+.main table td[colspan="2"] a {
+  font-weight: normal;
+}
+.main table td em {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.9em;
+}
+.main h3 {
+  font-weight: normal;
+  margin-top: 0.5em !important;
+}
+.main h3 span {
+  font-size: 0.8em;
+}
+.main h3 span.label {
+  color: #6435c9;
+}
+.main h3 a {
+  margin-left: 1em;
+  font-size: 14px !important;
+  right: 1em;
+}
+.main h3 a::before {
+  content: "[";
+}
+.main h3 a::after {
+  content: "]";
+}
+.main h4 {
+  font-weight: normal;
+}
+.main td span.small {
+  font-size: 0.8em;
+}
+.main .button.mini {
+  font-size: 0.8em;
+  padding: 0.2em;
+  margin-left: 1em;
+}
+/** 右侧文本子菜单 **/
+.text.menu {
+  overflow-x: auto;
+}
+.text.menu::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+/** Vue **/
+[v-cloak] {
+  display: none !important;
+}
+/** auto complete **/
+.autocomplete-box .menu {
+  background: #eee !important;
+}
+.autocomplete-box .menu::-webkit-scrollbar {
+  width: 4px;
+}
+.autocomplete-box .menu .item {
+  border-top: none !important;
+}
+/** column **/
+@media screen and (max-width: 512px) {
+  .column:not(.one) {
+    width: 100% !important;
+  }
+}
+/** label **/
+label[for] {
+  cursor: pointer !important;
+}
+label.blue {
+  color: #2185d0 !important;
+}
+td .label.tiny {
+  padding: 2px;
+  font-size: 0.9em;
+}
+/** Menu **/
+.first-menu .menu.text {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.first-menu .divider {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.second-menu .menu.text {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.second-menu .menu.text em {
+  font-style: normal;
+}
+.second-menu .divider {
+  margin-top: 0 !important;
+}
+.menu a {
+  outline: none;
+}
+/** var **/
+span.olive,
+var.olive {
+  color: #b5cc18 !important;
+}
+var.dash {
+  border-bottom: 1px dashed grey;
+}
+/** Message **/
+.message .gopher {
+  width: 30px;
+  margin-right: 10px;
+}
+/** checkbox **/
+.checkbox label a,
+.checkbox label {
+  font-size: 0.8em !important;
+}
+/** page **/
+.page {
+  margin-top: 1em;
+  border-left: 1px solid #ddd;
+}
+.page a {
+  display: inline-block;
+  background: #fafafa;
+  color: #666;
+  padding: 6px 12px;
+  margin: 0;
+  font-size: 0.9em;
+  border: 1px solid #ddd;
+  border-left: 0;
+}
+.page a.active {
+  background: #2185d0 !important;
+  color: white;
+}
+.page a:hover {
+  background: #eee;
+}
+/** popup **/
+.swal2-html-container {
+  overflow-x: hidden;
+}
+.swal2-confirm:focus,
+.swal2-cancel:focus,
+.swal2-close:focus {
+  border: 3px #ddd solid !important;
+}
+.swal2-confirm,
+.swal2-cancel,
+.swal2-close {
+  border: 3px #fff solid !important;
+}
+.swal2-cancel {
+  margin-left: 2em !important;
+}
+/*# sourceMappingURL=@layout_popup.css.map */

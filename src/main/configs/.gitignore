@@ -13,3 +13,4 @@ mysql.conf
 postgres.conf
 db.conf
 proxy_setting.conf
+servergrouplist.conf

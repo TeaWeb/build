@@ -1,0 +1,15 @@
+{$layout "layout_popup"}
+
+<h3>修改分组</h3>
+<form class="ui form" data-tea-action="$" data-tea-success="success">
+	<input type="hidden" name="groupId" :value="group.id"/>
+	<table class="ui table selectable definition">
+		<tr>
+			<td class="title">分组名称 *</td>
+			<td>
+				<input type="text" name="name" ref="focusInput" v-model="group.name"/>
+			</td>
+		</tr>
+	</table>
+	<submit-btn></submit-btn>
+</form>

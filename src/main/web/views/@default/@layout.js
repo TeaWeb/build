@@ -165,3 +165,7 @@ Tea.context(function () {
 		modal.className = "modal visible";
 	};
 });
+
+window.NotifyPopup = function (resp) {
+	window.parent.teaweb.popupFinish(resp);
+};

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{$.teaTitle}控制台</title>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+	<link rel="shortcut icon" href="/images/favicon.png"/>
+	<link rel="stylesheet" type="text/css" href="/_/@default/@layout_popup.css" media="all"/>
+
+	<link rel="stylesheet" type="text/css" href="/css/semantic.iframe.min.css?v=bRafhK" media="all"/>
+	{$TEA.VUE}
+	{$echo "header"}
+	<script type="text/javascript" src="/_/@default/@layout.js"></script>
+	<script type="text/javascript" src="/ui/components.js"></script>
+	<script type="text/javascript" src="/js/teaweb.js"></script>
+	<script type="text/javascript" src="/js/sweetalert2/dist/sweetalert2.all.min.js"></script>
+	<style type="text/css">
+		.main {
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			overflow-y: auto;
+			padding-bottom: 0em;
+		}
+
+		.main::-webkit-scrollbar {
+			width: 4px;
+		}
+	</style>
+</head>
+<body>
+
+<div class="main">
+	<!-- 功能区 -->
+	{$TEA.VIEW}
+</div>
+
+</body>
+</html>
