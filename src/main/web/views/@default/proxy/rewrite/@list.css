@@ -6,6 +6,11 @@
     margin-top: 2em!important;
 }
 
+table td {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
 table td .label.tiny {
     padding: 3px!important;
 }

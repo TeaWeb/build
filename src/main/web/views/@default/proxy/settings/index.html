@@ -10,7 +10,7 @@
 		<td>
 			<span v-if="setting.matchDomainStrictly" class="green">是</span>
 			<span v-if="!setting.matchDomainStrictly" class="disabled">否</span>
-			<p class="comment">如果选择了严格匹配域名，则没有在TeaWeb里绑定过的域名访问时都会返回404。</p>
+			<p class="comment">如果选择了严格匹配域名，则没有在TeaWeb里绑定过的域名访问时会自动关闭连接。</p>
 		</td>
 	</tr>
 </table>
