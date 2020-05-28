@@ -392,6 +392,7 @@ Tea.context(function () {
 		if (this.envAddingName.length == 0) {
 			alert("请输入变量名");
 			this.$find("form input[name='envAddingName']").focus();
+			return;
 		}
 		this.env.push({
 			"name": this.envAddingName,
@@ -454,6 +455,7 @@ Tea.context(function () {
 		if (this.aliyunSmsTemplateVarAddingName.length == 0) {
 			alert("请输入变量名");
 			this.$find("form input[name='aliyunSmsTemplateVarAddingName']").focus();
+			return;
 		}
 		this.aliyunSmsTemplateVars.push({
 			"name": this.aliyunSmsTemplateVarAddingName,
