@@ -49,6 +49,7 @@ Tea.context(function () {
 	/**
 	 * syslog
 	 */
+	this.syslogProtocol = "";
 	if (this.policy.type == "syslog") {
 		this.syslogProtocol = this.policy.options.protocol;
 	}

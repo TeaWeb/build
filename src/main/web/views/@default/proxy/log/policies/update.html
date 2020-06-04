@@ -59,6 +59,16 @@
 					</p>
 				</td>
 			</tr>
+			<tr>
+				<td>是否自动创建目录</td>
+				<td>
+					<div class="ui checkbox">
+						<input type="checkbox" name="fileAutoCreate" value="1" v-model="policy.options.autoCreate"/>
+						<label></label>
+					</div>
+					<p class="comment">选中后，如果文件目录不存在时可以自动创建。</p>
+				</td>
+			</tr>
 		</tbody>
 
 		<!-- Elastic Search -->

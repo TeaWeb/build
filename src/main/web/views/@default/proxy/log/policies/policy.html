@@ -38,6 +38,13 @@
 			<td class="color-border">日志文件路径</td>
 			<td><span v-html="formatVariables(policy.options.path)"></span></td>
 		</tr>
+		<tr>
+			<td class="color-border">是否自动创建目录</td>
+			<td>
+				<span v-if="policy.options.autoCreate" class="green">Y</span>
+				<span v-if="!policy.options.autoCreate">N</span>
+			</td>
+		</tr>
 	</tbody>
 
 	<!-- Elastic Search -->
