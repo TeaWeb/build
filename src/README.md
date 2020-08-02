@@ -1,2 +1,16 @@
-你可以运行`main/`目录下的`init.sh`来下载源代码，也可以访问以下链接：
-* [项目主要源代码](https://github.com/TeaWeb/code)
+## 脚本说明
+~~~
+./build-all.sh - 构建所有平台上可以运行的项目，会产生多个压缩文件
+./build-darwin.sh - 构建darwin平台上可以运行的项目
+./build-linux-32.sh - 构建linux 32位平台上可以运行的项目
+./build-linux-64.sh - 构建linux 64位平台上可以运行的项目
+./build-windows-32.sh - 构建windows 32位平台上可以运行的项目
+./build-windows-64.sh - 构建windows 64位平台上可以运行的项目
+
+./run.sh - 直接从源码运行服务
+
+./utils.sh - 一些公用的shell函数
+~~~
+
+### 补充说明
+构建后的压缩文件会放在`$项目目录/dist/`目录下。
