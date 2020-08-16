@@ -1,0 +1,5 @@
+package index
+
+func init() {
+
+}

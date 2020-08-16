@@ -1,0 +1,61 @@
+/**body {
+    background:url(/images/Hawaiian-Print-2048.jpg)!important;
+    -webkit-background-size: cover;
+    background-size: cover;
+}**/
+
+.menu {
+    border-radius: 0!important;
+    background: #276ac6!important;
+}
+
+.form-box {
+    position: fixed;
+    top: 2.5em;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+form {
+    position: fixed;
+    width: 21em;
+    top: 50%;
+    left: 50%;
+    margin-left: -10em;
+    margin-top: -16em;
+}
+
+form .header {
+    text-align: center;
+    font-size: 1em!important;
+}
+
+form .header p {
+    font-size: 0.8em;
+    margin-top: 0.3em;
+    margin-bottom: 0;
+    font-weight: normal;
+    padding: 0;
+}
+
+form .comment {
+    margin-top: 0.5em;
+    padding: 0.5em;
+    color: gray;
+}
+
+footer {
+    position: fixed;
+    bottom: 1em;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+@media screen and (max-width: 512px) {
+   form {
+       width: 80%;
+       margin-left: -40%;
+   }
+}

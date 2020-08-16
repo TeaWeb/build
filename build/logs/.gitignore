@@ -1,0 +1,4 @@
+*.leveldb
+*.log
+*.buf
+pid

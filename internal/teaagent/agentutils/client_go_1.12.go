@@ -1,0 +1,10 @@
+// +build go1.12
+
+package agentutils
+
+import "net/http"
+
+// 关闭客户端连接
+func CloseHTTPClient(client *http.Client) {
+	client.CloseIdleConnections()
+}

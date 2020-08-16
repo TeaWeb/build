@@ -1,0 +1,148 @@
+// +build go1.12
+
+package teaconfigs
+
+import (
+	"crypto/tls"
+	"os"
+)
+
+var AllTlsVersions = []TLSVersion{"SSL 3.0", "TLS 1.0", "TLS 1.1", "TLS 1.2", "TLS 1.3"}
+
+var AllTLSCipherSuites = []TLSCipherSuite{
+	"TLS_RSA_WITH_RC4_128_SHA",
+	"TLS_RSA_WITH_3DES_EDE_CBC_SHA",
+	"TLS_RSA_WITH_AES_128_CBC_SHA",
+	"TLS_RSA_WITH_AES_256_CBC_SHA",
+	"TLS_RSA_WITH_AES_128_CBC_SHA256",
+	"TLS_RSA_WITH_AES_128_GCM_SHA256",
+	"TLS_RSA_WITH_AES_256_GCM_SHA384",
+	"TLS_ECDHE_ECDSA_WITH_RC4_128_SHA",
+	"TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+	"TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+	"TLS_ECDHE_RSA_WITH_RC4_128_SHA",
+	"TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA",
+	"TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+	"TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+	"TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+	"TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+	"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+	"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+	"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+	"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+	"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305",
+	"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305",
+	"TLS_AES_128_GCM_SHA256",
+	"TLS_AES_256_GCM_SHA384",
+	"TLS_CHACHA20_POLY1305_SHA256",
+}
+
+var TLSModernCipherSuites = []string{
+	"TLS_AES_128_GCM_SHA256",
+	"TLS_CHACHA20_POLY1305_SHA256",
+	"TLS_AES_256_GCM_SHA384",
+
+	"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305",
+	"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305",
+	"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+	"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+	"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+	"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+}
+
+var TLSIntermediateCipherSuites = []string{
+	"TLS_AES_128_GCM_SHA256",
+	"TLS_CHACHA20_POLY1305_SHA256",
+	"TLS_AES_256_GCM_SHA384",
+
+	"TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305",
+	"TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305",
+	"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+	"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+	"TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+	"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+	"TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256",
+	"TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
+
+	"TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA",
+	"TLS_RSA_WITH_3DES_EDE_CBC_SHA",
+}
+
+func (this *SSLConfig) convertMinVersion() {
+	switch this.MinVersion {
+	case "SSL 3.0":
+		this.minVersion = tls.VersionSSL30
+	case "TLS 1.0":
+		this.minVersion = tls.VersionTLS10
+	case "TLS 1.1":
+		this.minVersion = tls.VersionTLS11
+	case "TLS 1.2":
+		this.minVersion = tls.VersionTLS12
+	case "TLS 1.3":
+		this.minVersion = tls.VersionTLS13
+
+		os.Setenv("GODEBUG", "tls13=1") // TODO should be removed in go 1.14, in go 1.12 tls IS NOT FULL IMPLEMENTED YET
+	default:
+		this.minVersion = tls.VersionTLS10
+	}
+}
+
+func (this *SSLConfig) initCipherSuites() {
+	// cipher suites
+	suites := []uint16{}
+	for _, suite := range this.CipherSuites {
+		switch suite {
+		case "TLS_RSA_WITH_RC4_128_SHA":
+			suites = append(suites, tls.TLS_RSA_WITH_RC4_128_SHA)
+		case "TLS_RSA_WITH_3DES_EDE_CBC_SHA":
+			suites = append(suites, tls.TLS_RSA_WITH_3DES_EDE_CBC_SHA)
+		case "TLS_RSA_WITH_AES_128_CBC_SHA":
+			suites = append(suites, tls.TLS_RSA_WITH_AES_128_CBC_SHA)
+		case "TLS_RSA_WITH_AES_256_CBC_SHA":
+			suites = append(suites, tls.TLS_RSA_WITH_AES_256_CBC_SHA)
+		case "TLS_RSA_WITH_AES_128_CBC_SHA256":
+			suites = append(suites, tls.TLS_RSA_WITH_AES_128_CBC_SHA256)
+		case "TLS_RSA_WITH_AES_128_GCM_SHA256":
+			suites = append(suites, tls.TLS_RSA_WITH_AES_128_GCM_SHA256)
+		case "TLS_RSA_WITH_AES_256_GCM_SHA384":
+			suites = append(suites, tls.TLS_RSA_WITH_AES_256_GCM_SHA384)
+		case "TLS_ECDHE_ECDSA_WITH_RC4_128_SHA":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_RC4_128_SHA)
+		case "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA)
+		case "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA)
+		case "TLS_ECDHE_RSA_WITH_RC4_128_SHA":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_RC4_128_SHA)
+		case "TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA)
+		case "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA)
+		case "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA)
+		case "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256)
+		case "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256)
+		case "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256)
+		case "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256)
+		case "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384)
+		case "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384)
+		case "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305":
+			suites = append(suites, tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305)
+		case "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305":
+			suites = append(suites, tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305)
+		case "TLS_AES_128_GCM_SHA256":
+			suites = append(suites, tls.TLS_AES_128_GCM_SHA256)
+		case "TLS_AES_256_GCM_SHA384":
+			suites = append(suites, tls.TLS_AES_256_GCM_SHA384)
+		case "TLS_CHACHA20_POLY1305_SHA256":
+			suites = append(suites, tls.TLS_CHACHA20_POLY1305_SHA256)
+		}
+	}
+	this.cipherSuites = suites
+}
