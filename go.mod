@@ -2,6 +2,9 @@ module github.com/TeaWeb/build
 
 go 1.14
 
+// 临时解决winio对父子进程支持错误的问题
+replace github.com/Microsoft/go-winio v0.4.14 => github.com/bi-zone/go-winio v0.4.15
+
 require (
 	github.com/Azure/azure-sdk-for-go v45.1.0+incompatible
 	github.com/Azure/go-autorest/autorest v0.11.3

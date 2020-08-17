@@ -6,8 +6,9 @@ import (
 	"errors"
 	"github.com/Microsoft/go-winio"
 	"github.com/iwind/TeaGo/logs"
-	"github.com/iwind/TeaGo/processes"
+	"net"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -38,17 +39,19 @@ func (this *Loader) Load() error {
 				break
 			}
 
-			data := make([]byte, 1024)
-			for {
-				n, err := conn.Read(data)
-				if n > 0 {
-					w.Write(data[:n])
+			go func(conn net.Conn) {
+				data := make([]byte, 1024)
+				for {
+					n, err := conn.Read(data)
+					if n > 0 {
+						_, _ = w.Write(data[:n])
+					}
+					if err != nil {
+						logs.Println("[plugin]read error:", err)
+						break
+					}
 				}
-				if err != nil {
-					logs.Println("[plugin]read error:", err)
-					break
-				}
-			}
+			}(conn)
 		}
 	}()
 
@@ -64,17 +67,19 @@ func (this *Loader) Load() error {
 				break
 			}
 
-			data := make([]byte, 1024)
-			for {
-				n, err := r.Read(data)
-				if n > 0 {
-					conn.Write(data[:n])
+			go func(conn net.Conn) {
+				data := make([]byte, 1024)
+				for {
+					n, err := r.Read(data)
+					if n > 0 {
+						_, _ = conn.Write(data[:n])
+					}
+					if err != nil {
+						logs.Println("[plugin]write error:", err)
+						break
+					}
 				}
-				if err != nil {
-					logs.Println("[plugin]write error:", err)
-					break
-				}
-			}
+			}(conn)
 		}
 	}()
 
@@ -82,24 +87,30 @@ func (this *Loader) Load() error {
 
 	go this.pipe(reader, writer)
 
-	p := processes.NewProcess(this.path)
+	p, err := this.startProcess(this.path)
 
-	err = p.Start()
 	if err != nil {
 		logs.Println("[plugin][" + this.shortFileName() + "]start failed:" + err.Error())
 		return err
 	}
 
-	err = p.Wait()
-	if err != nil {
-		logs.Println("[plugin][" + this.shortFileName() + "]wait failed" + err.Error())
+	_, err = p.Wait()
 
-		reader.Close()
+	_ = rListener.Close()
+	_ = wListener.Close()
+	_ = reader.Close()
+	_ = writer.Close()
 
-		// 重新加载
-		time.Sleep(1 * time.Second)
-		return this.Load()
+	// 重新加载
+	time.Sleep(1 * time.Second)
+	return this.Load()
+}
+
+func (this *Loader) startProcess(path string) (*os.Process, error) {
+	attrs := &os.ProcAttr{
+		Dir:   filepath.Dir(path),
+		Env:   os.Environ(),
+		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
 	}
-
-	return nil
+	return os.StartProcess(path, []string{}, attrs)
 }

@@ -21,12 +21,9 @@ func main() {
 	p.Site = "https://github.com/TeaWeb/agent"
 	p.Description = "本地Agent插件"
 	p.OnStart(func() {
-		logs.Println("start1")
 		timers.Delay(2*time.Second, func(timer *time.Timer) {
-			logs.Println("start2")
 			teaagents.Start()
 		})
 	})
-	logs.Println("start")
 	loader.Start(p)
 }
