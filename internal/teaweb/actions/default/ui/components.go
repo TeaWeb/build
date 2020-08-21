@@ -2,7 +2,7 @@ package ui
 
 import (
 	"bytes"
-	"github.com/iwind/TeaGo/Tea"
+	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
@@ -15,7 +15,7 @@ func (this *ComponentsAction) RunGet(params struct{}) {
 
 	// TODO 增加缓存
 
-	webRoot := Tea.Root + "/web/public/js/components/"
+	webRoot := teautils.WebRoot() + "/public/js/components/"
 	f := files.NewFile(webRoot)
 
 	buf := bytes.NewBuffer([]byte{})
