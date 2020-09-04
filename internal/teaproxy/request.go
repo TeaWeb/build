@@ -754,6 +754,12 @@ func (this *Request) call(writer *ResponseWriter) error {
 		}
 	}
 
+	// 跳转到https
+	if this.redirectToHttps {
+		this.callRedirectToHttps(writer)
+		return nil
+	}
+
 	// hook
 	b := CallRequestBeforeHook(this, writer)
 	if !b {
@@ -842,12 +848,6 @@ func (this *Request) callBegin(writer *ResponseWriter) error {
 	// 临时关闭页面
 	if this.shutdown != nil {
 		return this.callShutdown(writer)
-	}
-
-	// 跳转到https
-	if this.redirectToHttps {
-		this.callRedirectToHttps(writer)
-		return nil
 	}
 
 	if this.tunnel != nil {
