@@ -236,3 +236,11 @@ func (this *ResponseWriter) Hijack() (conn net.Conn, buf *bufio.ReadWriter, err 
 	}
 	return
 }
+
+// Flush
+func (this *ResponseWriter) Flush() {
+	flusher, ok := this.writer.(http.Flusher)
+	if ok {
+		flusher.Flush()
+	}
+}

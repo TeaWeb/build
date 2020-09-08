@@ -234,6 +234,9 @@ func (this *Request) callBackend(writer *ResponseWriter) error {
 		this.responseCallback(writer)
 	}
 
+	// 是否需要刷新
+	shouldFlush := this.raw.Header.Get("Accept") == "text/event-stream"
+
 	// 准备
 	writer.Prepare(resp.ContentLength)
 
@@ -242,7 +245,21 @@ func (this *Request) callBackend(writer *ResponseWriter) error {
 
 	pool := this.bytePool(resp.ContentLength)
 	buf := pool.Get()
-	_, err = io.CopyBuffer(writer, resp.Body, buf)
+	if shouldFlush {
+		for {
+			n, readErr := resp.Body.Read(buf)
+			if n > 0 {
+				_, err = writer.Write(buf[:n])
+				writer.Flush()
+			}
+			if readErr != nil {
+				err = readErr
+				break
+			}
+		}
+	} else {
+		_, err = io.CopyBuffer(writer, resp.Body, buf)
+	}
 	pool.Put(buf)
 
 	err1 := resp.Body.Close()
