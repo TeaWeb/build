@@ -305,6 +305,8 @@ github.com/iwind/TeaGo v0.0.0-20200816060629-7c72fff8d588 h1:xDnaPnaiIh0dGwxC+JC
 github.com/iwind/TeaGo v0.0.0-20200816060629-7c72fff8d588/go.mod h1:v0gzuPp1f1hEEZr2R/uj8oA1yCAB/hak5b5zsuQfR+c=
 github.com/iwind/TeaGo v0.0.0-20200816132655-f784df8e9c42 h1:X58QYxjoTstHR4sQEwx4ChAFRYtlWAfqwimQ3d2osT0=
 github.com/iwind/TeaGo v0.0.0-20200816132655-f784df8e9c42/go.mod h1:KU4mS7QNiZ7QWEuDBk1zw0/Q2LrAPZv3tycEFBsuUwc=
+github.com/iwind/TeaGo v0.0.0-20200909062051-96811444bb22 h1:bCv4Emo49CZyZFbnq9lWNr8nYM1yrfhjuaM7KJEc0jk=
+github.com/iwind/TeaGo v0.0.0-20200909062051-96811444bb22/go.mod h1:KU4mS7QNiZ7QWEuDBk1zw0/Q2LrAPZv3tycEFBsuUwc=
 github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d h1:nxDdqzn7XmgGZCrUx2qyl6W5qHp2ioR8aXB9YgQ9qMA=
 github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d/go.mod h1:Z/PdoqueJP653H+hs+zp93mwMI2MS+xJDYf9WCuZNL8=
 github.com/jlaffaye/ftp v0.0.0-20200812143550-39e3779af0db h1:e30IC+OuZIeMVK33/zE7wDvxDaRmGuRt/ps67pzcxAw=

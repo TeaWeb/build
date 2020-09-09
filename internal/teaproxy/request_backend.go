@@ -251,6 +251,9 @@ func (this *Request) callBackend(writer *ResponseWriter) error {
 			if n > 0 {
 				_, err = writer.Write(buf[:n])
 				writer.Flush()
+				if err != nil {
+					break
+				}
 			}
 			if readErr != nil {
 				err = readErr
