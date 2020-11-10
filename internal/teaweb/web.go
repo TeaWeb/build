@@ -120,6 +120,8 @@ func Start() {
 
 	// 启动管理界面
 	server = TeaGo.NewServer(false).
+		ReadHeaderTimeout(3*time.Second).
+		ReadTimeout(60*time.Second).
 		AccessLog(false).
 
 		Get("/", new(index.IndexAction)).

@@ -9,34 +9,50 @@ type UserShouldAuth struct {
 	action *actions.ActionObject
 }
 
-func (auth *UserShouldAuth) BeforeAction(actionPtr actions.ActionWrapper, paramName string) (goNext bool) {
-	auth.action = actionPtr.Object()
+func (this *UserShouldAuth) BeforeAction(actionPtr actions.ActionWrapper, paramName string) (goNext bool) {
+	this.action = actionPtr.Object()
+
+	// 安全
+	action := this.action
+	action.AddHeader("X-Frame-Options", "SAMEORIGIN")
+	action.AddHeader("Content-Security-Policy", "default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'")
+
 	return true
 }
 
 // 存储用户名到SESSION
-func (auth *UserShouldAuth) StoreUsername(username string, remember bool) {
+func (this *UserShouldAuth) StoreUsername(username string, remember bool) {
 	// 修改sid的时间
 	if remember {
 		cookie := &http.Cookie{
-			Name:   "sid",
-			Value:  auth.action.Session().Sid,
-			Path:   "/",
-			MaxAge: 14 * 86400,
+			Name:     "sid",
+			Value:    this.action.Session().Sid,
+			Path:     "/",
+			MaxAge:   14 * 86400,
+			HttpOnly: true,
 		}
-		auth.action.AddCookie(cookie)
+		if this.action.Request.TLS != nil {
+			cookie.SameSite = http.SameSiteStrictMode
+			cookie.Secure = true
+		}
+		this.action.AddCookie(cookie)
 	} else {
 		cookie := &http.Cookie{
-			Name:   "sid",
-			Value:  auth.action.Session().Sid,
-			Path:   "/",
-			MaxAge: 0,
+			Name:     "sid",
+			Value:    this.action.Session().Sid,
+			Path:     "/",
+			MaxAge:   0,
+			HttpOnly: true,
 		}
-		auth.action.AddCookie(cookie)
+		if this.action.Request.TLS != nil {
+			cookie.SameSite = http.SameSiteStrictMode
+			cookie.Secure = true
+		}
+		this.action.AddCookie(cookie)
 	}
-	auth.action.Session().Write("username", username)
+	this.action.Session().Write("username", username)
 }
 
-func (auth *UserShouldAuth) Logout() {
-	auth.action.Session().Delete()
+func (this *UserShouldAuth) Logout() {
+	this.action.Session().Delete()
 }

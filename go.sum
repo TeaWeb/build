@@ -303,10 +303,12 @@ github.com/iwind/TeaGo v0.0.0-20200731084534-255664a0c121 h1:wgys8ruwEX92NP8tSbK
 github.com/iwind/TeaGo v0.0.0-20200731084534-255664a0c121/go.mod h1:zjM7k+b+Jthhf0T0fKwuF0iy4TWb5SsU1gmKR2l+OmE=
 github.com/iwind/TeaGo v0.0.0-20200816060629-7c72fff8d588 h1:xDnaPnaiIh0dGwxC+JCJyb1jcmfWH7FSXe35YZSjIiI=
 github.com/iwind/TeaGo v0.0.0-20200816060629-7c72fff8d588/go.mod h1:v0gzuPp1f1hEEZr2R/uj8oA1yCAB/hak5b5zsuQfR+c=
-github.com/iwind/TeaGo v0.0.0-20200816132655-f784df8e9c42 h1:X58QYxjoTstHR4sQEwx4ChAFRYtlWAfqwimQ3d2osT0=
-github.com/iwind/TeaGo v0.0.0-20200816132655-f784df8e9c42/go.mod h1:KU4mS7QNiZ7QWEuDBk1zw0/Q2LrAPZv3tycEFBsuUwc=
 github.com/iwind/TeaGo v0.0.0-20200909062051-96811444bb22 h1:bCv4Emo49CZyZFbnq9lWNr8nYM1yrfhjuaM7KJEc0jk=
 github.com/iwind/TeaGo v0.0.0-20200909062051-96811444bb22/go.mod h1:KU4mS7QNiZ7QWEuDBk1zw0/Q2LrAPZv3tycEFBsuUwc=
+github.com/iwind/TeaGo v0.0.0-20201110022333-4505cfeba483 h1:iQlMhGYBNrvbyp90f4W+/nHnCLIvaiVSQQKDyaaGtek=
+github.com/iwind/TeaGo v0.0.0-20201110022333-4505cfeba483/go.mod h1:KU4mS7QNiZ7QWEuDBk1zw0/Q2LrAPZv3tycEFBsuUwc=
+github.com/iwind/TeaGo v0.0.0-20201110043415-859f4b3b98f3 h1:fJ32s0nZmhH780KYG9oWi11chljyaZ4JLRTvKV8nzb0=
+github.com/iwind/TeaGo v0.0.0-20201110043415-859f4b3b98f3/go.mod h1:KU4mS7QNiZ7QWEuDBk1zw0/Q2LrAPZv3tycEFBsuUwc=
 github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d h1:nxDdqzn7XmgGZCrUx2qyl6W5qHp2ioR8aXB9YgQ9qMA=
 github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d/go.mod h1:Z/PdoqueJP653H+hs+zp93mwMI2MS+xJDYf9WCuZNL8=
 github.com/jlaffaye/ftp v0.0.0-20200812143550-39e3779af0db h1:e30IC+OuZIeMVK33/zE7wDvxDaRmGuRt/ps67pzcxAw=

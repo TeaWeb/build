@@ -123,10 +123,6 @@ func (this *AddAction) RunPost(params struct {
 		Field("replace", params.Replace).
 		Require("请输入目标URL")
 
-	if len(params.Replace) == 0 {
-		params.Replace = "/"
-	}
-
 	rewriteList, err := server.FindRewriteList(params.LocationId)
 	if err != nil {
 		this.Fail(err.Error())

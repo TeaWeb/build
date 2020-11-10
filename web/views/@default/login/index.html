@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="form-box">
-		<form class="ui form" data-tea-action="$" data-tea-before="beforeSubmit" data-tea-fail="failSubmit" data-tea-done="doneSubmit" autocomplete="off">
+		<form method="post" class="ui form" data-tea-action="$" data-tea-before="beforeSubmit" data-tea-fail="failSubmit" data-tea-done="doneSubmit" autocomplete="off">
 			<input type="hidden" name="password" v-model="passwordMd5"/>
 			<input type="hidden" name="token" v-model="token"/>
 			<div class="ui segment stacked">

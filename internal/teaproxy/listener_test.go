@@ -341,6 +341,7 @@ func TestDetectIPOrDomain(t *testing.T) {
 	a.IsTrue(testIsIP("192.168.1.102:1000"))
 	a.IsTrue(testIsIP("[1:2:3:4]:1000"))
 	a.IsTrue(!testIsIP("192.168.1.com"))
+	a.IsTrue(!testIsIP("www.teaos.cn"))
 	a.IsTrue(!testIsIP("192.168.1.com:12345"))
 	a.IsTrue(!testIsIP("local345:12345"))
 }

@@ -39,7 +39,7 @@ require (
 	github.com/gophercloud/gophercloud v0.12.0
 	github.com/gorilla/websocket v1.4.2
 	github.com/iij/doapi v0.0.0-20190504054126-0bbf12d6d7df
-	github.com/iwind/TeaGo v0.0.0-20200909062051-96811444bb22
+	github.com/iwind/TeaGo v0.0.0-20201110043415-859f4b3b98f3
 	github.com/iwind/gofcgi v0.0.0-20181229122301-daea2786cb0d
 	github.com/jlaffaye/ftp v0.0.0-20200812143550-39e3779af0db
 	github.com/json-iterator/go v1.1.10

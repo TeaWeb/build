@@ -17,6 +17,10 @@ type UserMustAuth struct {
 func (this *UserMustAuth) BeforeAction(actionPtr actions.ActionWrapper, paramName string) (goNext bool) {
 	var action = actionPtr.Object()
 
+	// 安全
+	action.AddHeader("X-Frame-Options", "SAMEORIGIN")
+	action.AddHeader("Content-Security-Policy", "default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'")
+
 	// 检查IP
 	if !configs.SharedAdminConfig().AllowIP(action.RequestRemoteIP()) {
 		action.ResponseWriter.WriteHeader(http.StatusForbidden)

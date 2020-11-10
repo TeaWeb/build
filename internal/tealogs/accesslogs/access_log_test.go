@@ -373,6 +373,7 @@ func TestAccessLog_JSON_compare(t *testing.T) {
 }
 
 func BenchmarkAccessLog_JSON_easyjson(b *testing.B) {
+	runtime.GOMAXPROCS(1)
 	for i := 0; i < b.N; i++ {
 		accessLog := &AccessLog{
 			RequestPath:     "/hello",
