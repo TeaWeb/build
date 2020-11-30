@@ -40,6 +40,7 @@ func (this *Request) callWebsocket(writer *ResponseWriter) error {
 			}
 			return this.websocket.MatchOrigin(origin)
 		},
+		Subprotocols: websocket.Subprotocols(this.raw),
 	}
 
 	// 自动补充Header
@@ -122,6 +123,7 @@ func (this *Request) callWebsocket(writer *ResponseWriter) error {
 			},
 			TLSClientConfig:  tlsConfig,
 			HandshakeTimeout: this.backend.FailTimeoutDuration(),
+			Subprotocols:     websocket.Subprotocols(this.raw),
 		}
 		header := http.Header{}
 		for k, v := range this.raw.Header {
