@@ -4,6 +4,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/agents"
 	"github.com/TeaWeb/build/internal/teatesting"
 	"github.com/iwind/TeaGo/assert"
+	"github.com/iwind/TeaGo/rands"
 	stringutil "github.com/iwind/TeaGo/utils/string"
 	"testing"
 	"time"
@@ -21,7 +22,7 @@ func TestAgentLogDAO_InsertOne(t *testing.T) {
 		log.TaskId = "abc"
 		log.SetTime(time.Now())
 		log.EventType = "start"
-		log.ProcessId = stringutil.Rand(16)
+		log.ProcessId = rands.HexString(16)
 		log.ProcessPid = 1024
 		err := AgentLogDAO().InsertOne("test", log)
 		if err != nil {

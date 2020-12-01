@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/TeaWeb/build/internal/teaconfigs/agents"
 	"github.com/TeaWeb/build/internal/teatesting"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"testing"
 )
 
@@ -26,7 +26,7 @@ func TestAddManyAgents(t *testing.T) {
 		agent.Host = "192.168.0." + fmt.Sprintf("%d", i)
 		agent.AllowAll = true
 		agent.Allow = []string{}
-		agent.Key = stringutil.Rand(32)
+		agent.Key = rands.HexString(32)
 		//agent.GroupIds = []string{"2kMMzOcWWPFrhdaM"}
 		err = agent.Save()
 		if err != nil {

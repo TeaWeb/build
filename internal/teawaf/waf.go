@@ -7,10 +7,10 @@ import (
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/TeaWeb/build/internal/teawaf/checkpoints"
 	"github.com/TeaWeb/build/internal/teawaf/requests"
-	"gopkg.in/yaml.v3"
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/files"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
+	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"net/http"
 	"reflect"
@@ -38,7 +38,7 @@ type WAF struct {
 
 func NewWAF() *WAF {
 	return &WAF{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 		On: true,
 	}
 }
@@ -432,7 +432,7 @@ func (this *WAF) MergeTemplate() (changedItems []string) {
 	for _, group := range groups {
 		oldGroup := this.FindRuleGroupWithCode(group.Code)
 		if oldGroup == nil {
-			group.Id = stringutil.Rand(16)
+			group.Id = rands.HexString(16)
 			this.AddRuleGroup(group)
 			changedItems = append(changedItems, "+group "+group.Name)
 			continue

@@ -6,7 +6,7 @@ import (
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	timeutil "github.com/iwind/TeaGo/utils/time"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
@@ -33,7 +33,7 @@ type Group struct {
 // 获取新分组
 func NewGroup(name string) *Group {
 	return &Group{
-		Id:   stringutil.Rand(16),
+		Id:   rands.HexString(16),
 		On:   true,
 		Name: name,
 	}
@@ -146,7 +146,7 @@ func (this *Group) WriteToFile(path string) error {
 
 // 生成密钥
 func (this *Group) GenerateKey() string {
-	return stringutil.Rand(32)
+	return rands.HexString(32)
 }
 
 // 匹配关键词

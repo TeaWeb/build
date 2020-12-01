@@ -3,7 +3,7 @@ package notices
 import (
 	"errors"
 	"github.com/TeaWeb/build/internal/teautils"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/utils/time"
 	"time"
 )
@@ -25,7 +25,7 @@ type NoticeMediaConfig struct {
 func NewNoticeMediaConfig() *NoticeMediaConfig {
 	return &NoticeMediaConfig{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

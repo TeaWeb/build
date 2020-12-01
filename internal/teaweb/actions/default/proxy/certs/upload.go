@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/files"
-	stringutil "github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"io/ioutil"
 	"strings"
 )
@@ -113,13 +113,13 @@ func (this *UploadAction) RunPostPair(params struct {
 			this.FailField("keyFile", "私钥文件不能包含证书内容")
 		}
 
-		certFilename = "ssl." + stringutil.Rand(16) + strings.ToLower(params.CertFile.Ext)
+		certFilename = "ssl." + rands.HexString(16) + strings.ToLower(params.CertFile.Ext)
 		err = ioutil.WriteFile(Tea.ConfigFile(certFilename), certData, 0777)
 		if err != nil {
 			this.Fail("保存证书失败：" + err.Error())
 		}
 
-		keyFilename = "ssl." + stringutil.Rand(16) + strings.ToLower(params.KeyFile.Ext)
+		keyFilename = "ssl." + rands.HexString(16) + strings.ToLower(params.KeyFile.Ext)
 		err = ioutil.WriteFile(Tea.ConfigFile(keyFilename), keyData, 0777)
 		if err != nil {
 			this.Fail("保存私钥失败：" + err.Error())
@@ -189,7 +189,7 @@ func (this *UploadAction) RunPostCA(params struct {
 			this.FailField("certFile", "证书文件不能包含密钥内容")
 		}
 
-		certFilename = "ssl." + stringutil.Rand(16) + strings.ToLower(params.CertFile.Ext)
+		certFilename = "ssl." + rands.HexString(16) + strings.ToLower(params.CertFile.Ext)
 		err = ioutil.WriteFile(Tea.ConfigFile(certFilename), certData, 0777)
 		if err != nil {
 			this.Fail("保存证书失败：" + err.Error())

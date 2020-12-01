@@ -3,9 +3,9 @@ package locations
 import (
 	"github.com/TeaWeb/build/internal/teaconfigs"
 	"github.com/TeaWeb/build/internal/teaweb/actions/default/proxy/proxyutils"
-	"gopkg.in/yaml.v3"
 	"github.com/iwind/TeaGo/actions"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
+	"gopkg.in/yaml.v3"
 )
 
 type DuplicateAction actions.Action
@@ -36,7 +36,7 @@ func (this *DuplicateAction) RunPost(params struct {
 		this.Fail(err.Error())
 	}
 
-	newLocation.Id = stringutil.Rand(16)
+	newLocation.Id = rands.HexString(16)
 	if len(newLocation.Name) == 0 {
 		newLocation.Name = "复制自" + location.PatternString()
 	} else {

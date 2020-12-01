@@ -11,8 +11,8 @@ import (
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/types"
-	"github.com/iwind/TeaGo/utils/string"
 	"regexp"
 )
 
@@ -78,7 +78,7 @@ func (this *AddAction) RunPost(params struct {
 
 	for _, g := range template.Inbound {
 		newGroup := teawaf.NewRuleGroup()
-		newGroup.Id = stringutil.Rand(16)
+		newGroup.Id = rands.HexString(16)
 		newGroup.On = lists.ContainsString(params.GroupCodes, g.Code)
 		newGroup.Code = g.Code
 		newGroup.Name = g.Name

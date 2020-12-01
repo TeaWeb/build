@@ -2,9 +2,9 @@ package locations
 
 import (
 	"github.com/TeaWeb/build/internal/teaconfigs"
-	"gopkg.in/yaml.v3"
 	"github.com/iwind/TeaGo/actions"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
+	"gopkg.in/yaml.v3"
 	"regexp"
 )
 
@@ -25,7 +25,7 @@ func (this *ExportAction) RunGet(params struct {
 		this.Fail("找不到Location")
 	}
 
-	location.Id = stringutil.Rand(16)
+	location.Id = rands.HexString(16)
 
 	data, err := yaml.Marshal(location)
 	if err != nil {

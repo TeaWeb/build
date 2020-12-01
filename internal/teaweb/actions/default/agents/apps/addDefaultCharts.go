@@ -4,7 +4,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/agents"
 	"github.com/TeaWeb/build/internal/teaweb/actions/default/agents/agentutils"
 	"github.com/iwind/TeaGo/actions"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type AddDefaultChartsAction actions.Action
@@ -36,7 +36,7 @@ func (this *AddDefaultChartsAction) Run(params struct {
 	}
 
 	for _, c := range source.Charts() {
-		c.Id = stringutil.Rand(16)
+		c.Id = rands.HexString(16)
 		item.AddChart(c)
 	}
 

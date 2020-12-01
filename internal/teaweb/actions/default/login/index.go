@@ -10,6 +10,7 @@ import (
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/logs"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/types"
 	stringutil "github.com/iwind/TeaGo/utils/string"
 	"net/http"
@@ -18,7 +19,7 @@ import (
 
 type IndexAction actions.Action
 
-var TokenSalt = stringutil.Rand(32)
+var TokenSalt = rands.HexString(32)
 
 // 登录
 func (this *IndexAction) RunGet() {

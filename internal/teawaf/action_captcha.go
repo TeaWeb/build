@@ -2,6 +2,7 @@ package teawaf
 
 import (
 	"github.com/TeaWeb/build/internal/teawaf/requests"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/types"
 	stringutil "github.com/iwind/TeaGo/utils/string"
 	"net/http"
@@ -9,7 +10,7 @@ import (
 	"time"
 )
 
-var captchaSalt = stringutil.Rand(32)
+var captchaSalt = rands.HexString(16)
 
 const (
 	CaptchaSeconds = 600 // 10 minutes

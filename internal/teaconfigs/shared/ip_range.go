@@ -3,7 +3,7 @@ package shared
 import (
 	"bytes"
 	"errors"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"net"
 	"regexp"
 	"strings"
@@ -39,7 +39,7 @@ type IPRangeConfig struct {
 // 获取新对象
 func NewIPRangeConfig() *IPRangeConfig {
 	return &IPRangeConfig{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

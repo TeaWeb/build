@@ -5,7 +5,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/shared"
 	"github.com/TeaWeb/build/internal/teaconst"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"net/http"
 	"path/filepath"
 	"regexp"
@@ -43,7 +43,7 @@ type FastcgiConfig struct {
 func NewFastcgiConfig() *FastcgiConfig {
 	return &FastcgiConfig{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

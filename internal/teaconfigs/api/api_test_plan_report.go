@@ -5,7 +5,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/utils/time"
 	"sync"
 	"time"
@@ -51,7 +51,7 @@ func NewAPITestPlanReportFromFile(filename string) *APITestPlanReport {
 
 // 初始化文件信息
 func (this *APITestPlanReport) InitFile() {
-	this.Filename = "report." + stringutil.Rand(16) + ".conf"
+	this.Filename = "report." + rands.HexString(16)+ ".conf"
 }
 
 // 计算总结果数

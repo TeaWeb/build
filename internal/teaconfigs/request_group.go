@@ -2,7 +2,7 @@ package teaconfigs
 
 import (
 	"github.com/TeaWeb/build/internal/teaconfigs/shared"
-	stringutil "github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // 请求条件分组
@@ -26,7 +26,7 @@ type RequestGroup struct {
 // 获取新对象
 func NewRequestGroup() *RequestGroup {
 	return &RequestGroup{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

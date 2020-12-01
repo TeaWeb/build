@@ -5,7 +5,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // API的mock格式定义
@@ -61,7 +61,7 @@ func NewAPIMockFromFile(filename string) *APIMock {
 // 保存
 func (this *APIMock) Save() error {
 	if len(this.Filename) == 0 {
-		this.Filename = "mock." + stringutil.Rand(16) + ".conf"
+		this.Filename = "mock." + rands.HexString(16) + ".conf"
 	}
 	writer, err := files.NewWriter(Tea.ConfigFile(this.Filename))
 	if err != nil {

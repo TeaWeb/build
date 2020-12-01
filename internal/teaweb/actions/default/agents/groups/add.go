@@ -3,7 +3,7 @@ package groups
 import (
 	"github.com/TeaWeb/build/internal/teaconfigs/agents"
 	"github.com/iwind/TeaGo/actions"
-	stringutil "github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type AddAction actions.Action
@@ -46,7 +46,7 @@ func (this *AddAction) RunPost(params struct {
 	group.Keys = []*agents.GroupKey{}
 	for index, key := range params.KeysKey {
 		if len(key) == 0 {
-			key = stringutil.Rand(32)
+			key = rands.HexString(32)
 		}
 		groupKey := agents.NewGroupKey()
 		groupKey.Key = key

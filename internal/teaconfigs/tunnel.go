@@ -1,6 +1,8 @@
 package teaconfigs
 
-import "github.com/iwind/TeaGo/utils/string"
+import (
+	"github.com/iwind/TeaGo/rands"
+)
 
 // 网络隧道定义
 type TunnelConfig struct {
@@ -19,7 +21,7 @@ type TunnelConfig struct {
 func NewTunnelConfig() *TunnelConfig {
 	return &TunnelConfig{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

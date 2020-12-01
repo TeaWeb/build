@@ -11,7 +11,7 @@ import (
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"gopkg.in/yaml.v3"
 )
 
@@ -41,7 +41,7 @@ type AgentConfig struct {
 func NewAgentConfig() *AgentConfig {
 	return &AgentConfig{
 		On:                  true,
-		Id:                  stringutil.Rand(16),
+		Id:                  rands.HexString(16),
 		CheckDisconnections: true,
 	}
 }
@@ -55,7 +55,7 @@ func LocalAgentConfig() *AgentConfig {
 			On:       true,
 			Id:       "local",
 			Name:     "本地",
-			Key:      stringutil.Rand(32),
+			Key:      rands.HexString(16),
 			AllowAll: false,
 			Allow:    []string{"127.0.0.1"},
 			Host:     "127.0.0.1",

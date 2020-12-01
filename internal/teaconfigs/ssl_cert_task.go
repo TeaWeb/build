@@ -1,6 +1,8 @@
 package teaconfigs
 
-import "github.com/iwind/TeaGo/utils/string"
+import (
+	"github.com/iwind/TeaGo/rands"
+)
 
 // 证书生成任务
 type SSLCertTask struct {
@@ -15,7 +17,7 @@ type SSLCertTask struct {
 // 获取新对象
 func NewSSLCertTask() *SSLCertTask {
 	return &SSLCertTask{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 		On: true,
 	}
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -68,7 +68,7 @@ func (this *NoticeScriptMedia) Generate(id string) (path string, err error) {
 func (this *NoticeScriptMedia) Send(user string, subject string, body string) (resp []byte, err error) {
 	// 脚本
 	if this.ScriptType == "code" {
-		path, err := this.Generate(stringutil.Rand(16))
+		path, err := this.Generate(rands.HexString(16))
 		if err != nil {
 			return nil, err
 		}

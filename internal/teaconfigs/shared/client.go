@@ -1,7 +1,7 @@
 package shared
 
 import (
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // 客户端配置
@@ -17,7 +17,7 @@ type ClientConfig struct {
 // 取得新配置对象
 func NewClientConfig() *ClientConfig {
 	return &ClientConfig{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 		On: true,
 	}
 }

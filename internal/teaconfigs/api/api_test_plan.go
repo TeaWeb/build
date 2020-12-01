@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"time"
 )
 
@@ -56,7 +56,7 @@ func NewAPITestPlanFromFile(filename string) *APITestPlan {
 // 保存当前测试计划
 func (this *APITestPlan) Save() error {
 	if len(this.Filename) == 0 {
-		this.Filename = "plan." + stringutil.Rand(16) + ".conf"
+		this.Filename = "plan." + rands.HexString(16)+ ".conf"
 	}
 	file := files.NewFile(Tea.ConfigFile(this.Filename))
 	writer, err := file.Writer()

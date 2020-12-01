@@ -1,6 +1,8 @@
 package notices
 
-import "github.com/iwind/TeaGo/utils/string"
+import (
+	"github.com/iwind/TeaGo/rands"
+)
 
 // 接收者
 type NoticeReceiver struct {
@@ -15,7 +17,7 @@ type NoticeReceiver struct {
 func NewNoticeReceiver() *NoticeReceiver {
 	return &NoticeReceiver{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

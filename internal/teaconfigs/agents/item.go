@@ -6,7 +6,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/widgets"
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/lists"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"time"
 )
 
@@ -30,7 +30,7 @@ type Item struct {
 func NewItem() *Item {
 	return &Item{
 		On:         true,
-		Id:         stringutil.Rand(16),
+		Id:         rands.HexString(16),
 		Thresholds: []*Threshold{},
 	}
 }

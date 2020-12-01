@@ -3,7 +3,7 @@ package teaagents
 import (
 	"bytes"
 	"github.com/TeaWeb/build/internal/teaconfigs/shared"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"io"
 	"os"
 	"os/exec"
@@ -25,7 +25,7 @@ type Process struct {
 // 获取新进程
 func NewProcess() *Process {
 	return &Process{
-		UniqueId: stringutil.Rand(16),
+		UniqueId: rands.HexString(16),
 	}
 }
 

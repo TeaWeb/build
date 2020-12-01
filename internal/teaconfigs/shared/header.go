@@ -1,6 +1,7 @@
 package shared
 
 import (
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/utils/string"
 	"regexp"
 )
@@ -24,7 +25,7 @@ type HeaderConfig struct {
 func NewHeaderConfig() *HeaderConfig {
 	return &HeaderConfig{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

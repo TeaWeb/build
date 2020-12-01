@@ -10,7 +10,7 @@ import (
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"io/ioutil"
 	"strings"
 	"time"
@@ -40,7 +40,7 @@ type SSLCertConfig struct {
 func NewSSLCertConfig(certFile string, keyFile string) *SSLCertConfig {
 	return &SSLCertConfig{
 		On:       true,
-		Id:       stringutil.Rand(16),
+		Id:       rands.HexString(16),
 		CertFile: certFile,
 		KeyFile:  keyFile,
 	}

@@ -4,7 +4,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/notices"
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // App定义
@@ -24,7 +24,7 @@ type AppConfig struct {
 // 获取新对象
 func NewAppConfig() *AppConfig {
 	return &AppConfig{
-		Id:            stringutil.Rand(16),
+		Id:            rands.HexString(16),
 		On:            true,
 		NoticeSetting: map[notices.NoticeLevel][]*notices.NoticeReceiver{},
 	}

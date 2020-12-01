@@ -10,8 +10,8 @@ import (
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/maps"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/types"
-	"github.com/iwind/TeaGo/utils/string"
 	"net/http"
 	"regexp"
 )
@@ -106,7 +106,7 @@ func (this *UpdateAction) RunPost(params struct {
 			continue
 		}
 		g = template.FindRuleGroupWithCode(groupCode)
-		g.Id = stringutil.Rand(16)
+		g.Id = rands.HexString(16)
 		g.On = true
 		waf.AddRuleGroup(g)
 	}

@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // API consumer
@@ -68,7 +68,7 @@ func (this *APIConsumer) Validate() error {
 // 保存
 func (this *APIConsumer) Save() error {
 	if len(this.Filename) == 0 {
-		this.Filename = "consumer." + stringutil.Rand(16) + ".conf"
+		this.Filename = "consumer." + rands.HexString(16) + ".conf"
 	}
 	writer, err := files.NewWriter(Tea.ConfigFile(this.Filename))
 	if err != nil {

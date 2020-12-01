@@ -8,7 +8,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -83,7 +83,7 @@ func (this *ScriptAction) Run(params map[string]string) (result string, err erro
 
 	// 脚本
 	if this.ScriptType == "code" {
-		path, err := this.Generate(stringutil.Rand(16))
+		path, err := this.Generate(rands.HexString(16))
 		if err != nil {
 			return "", err
 		}

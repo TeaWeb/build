@@ -1,6 +1,8 @@
 package teaconfigs
 
-import stringutil "github.com/iwind/TeaGo/utils/string"
+import (
+	"github.com/iwind/TeaGo/rands"
+)
 
 // 本地用户信息
 type ACMELocalUser struct {
@@ -15,7 +17,7 @@ type ACMELocalUser struct {
 // 获取新对象
 func NewACMELocalUser() *ACMELocalUser {
 	return &ACMELocalUser{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 		On: true,
 	}
 }

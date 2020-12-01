@@ -7,7 +7,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaweb/actions/default/proxy/waf/wafutils"
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"gopkg.in/yaml.v3"
 )
 
@@ -131,7 +131,7 @@ func (this *ImportAction) RunPost(params struct {
 			// 添加新的分组
 			countGroups++
 			countSets += len(group.RuleSets)
-			group.Id = stringutil.Rand(16) // 重新生成ID，避免和现有的ID冲突
+			group.Id = rands.HexString(16) // 重新生成ID，避免和现有的ID冲突
 			currentWAF.AddRuleGroup(group)
 		}
 

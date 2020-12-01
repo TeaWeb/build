@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type AddAgentAction actions.Action
@@ -61,7 +61,7 @@ func (this *AddAgentAction) RunPost(params struct {
 	}
 	agent.AllowAll = params.AllowAllIP
 	agent.Allow = params.IPs
-	agent.Key = stringutil.Rand(32)
+	agent.Key = rands.HexString(32)
 	agent.CheckDisconnections = params.CheckDisconnections
 	agent.AutoUpdates = params.AutoUpdates
 	agent.AddDefaultApps()

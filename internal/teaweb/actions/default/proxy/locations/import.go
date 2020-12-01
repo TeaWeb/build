@@ -4,7 +4,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs"
 	"github.com/TeaWeb/build/internal/teaweb/actions/default/proxy/proxyutils"
 	"github.com/iwind/TeaGo/actions"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"gopkg.in/yaml.v3"
 )
 
@@ -51,7 +51,7 @@ func (this *ImportAction) RunPost(params struct {
 	if err != nil {
 		this.Fail("文件解析失败：" + err.Error())
 	}
-	location.Id = stringutil.Rand(16)
+	location.Id = rands.HexString(16)
 
 	server.AddLocation(location)
 	err = server.Save()

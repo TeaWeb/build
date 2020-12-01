@@ -5,7 +5,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // 测试历史
@@ -51,7 +51,7 @@ func NewAPITestCaseFromFile(filename string) *APITestCase {
 // 保存到文件
 func (this *APITestCase) Save() error {
 	if len(this.Filename) == 0 {
-		this.Filename = "test.case." + stringutil.Rand(16) + ".conf"
+		this.Filename = "test.case." + rands.HexString(16) + ".conf"
 	}
 	writer, err := files.NewWriter(Tea.ConfigFile(this.Filename))
 	if err != nil {

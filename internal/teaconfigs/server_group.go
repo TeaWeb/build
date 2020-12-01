@@ -2,7 +2,7 @@ package teaconfigs
 
 import (
 	"github.com/iwind/TeaGo/lists"
-	stringutil "github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type ServerGroup struct {
@@ -14,7 +14,7 @@ type ServerGroup struct {
 
 func NewServerGroup() *ServerGroup {
 	return &ServerGroup{
-		Id:        stringutil.Rand(16),
+		Id:        rands.HexString(16),
 		IsOn:      true,
 		ServerIds: []string{},
 	}

@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
-	stringutil "github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"net"
 )
 
@@ -48,7 +48,7 @@ func (this *Helper) BeforeAction(action actions.ActionObject) bool {
 			if len(agent.Name) == 0 {
 				agent.Name = action.RequestRemoteIP()
 			}
-			agent.Key = stringutil.Rand(32)
+			agent.Key = rands.HexString(32)
 			agent.AddGroup(group.Id)
 			agent.Host = action.RequestRemoteIP()
 			agent.AllowAll = true

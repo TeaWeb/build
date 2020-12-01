@@ -3,7 +3,7 @@ package teawaf
 import (
 	"github.com/TeaWeb/build/internal/teawaf/requests"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type RuleConnector = string
@@ -30,7 +30,7 @@ type RuleSet struct {
 
 func NewRuleSet() *RuleSet {
 	return &RuleSet{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 		On: true,
 	}
 }

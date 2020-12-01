@@ -4,8 +4,8 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/shared"
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/lists"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/types"
-	stringutil "github.com/iwind/TeaGo/utils/string"
 	"regexp"
 	"strings"
 	"time"
@@ -45,7 +45,7 @@ type IPTable struct {
 func NewIPTable() *IPTable {
 	return &IPTable{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

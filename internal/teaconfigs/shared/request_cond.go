@@ -7,6 +7,7 @@ import (
 	"errors"
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/lists"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/types"
 	"github.com/iwind/TeaGo/utils/string"
 	"net"
@@ -44,7 +45,7 @@ type RequestCond struct {
 // 取得新对象
 func NewRequestCond() *RequestCond {
 	return &RequestCond{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

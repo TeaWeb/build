@@ -8,8 +8,8 @@ import (
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/timers"
-	stringutil "github.com/iwind/TeaGo/utils/string"
 	"net"
 	"net/http"
 	"strings"
@@ -91,7 +91,7 @@ type BackendConfig struct {
 func NewBackendConfig() *BackendConfig {
 	return &BackendConfig{
 		On:         true,
-		Id:         stringutil.Rand(16),
+		Id:         rands.HexString(16),
 		TeaVersion: teaconst.TeaVersion,
 	}
 }

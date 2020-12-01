@@ -4,7 +4,7 @@ import (
 	"github.com/TeaWeb/build/internal/teacluster"
 	"github.com/TeaWeb/build/internal/teaconfigs"
 	"github.com/iwind/TeaGo/actions"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type UpdateAction actions.Action
@@ -65,7 +65,7 @@ func (this *UpdateAction) RunPost(params struct {
 	node.On = params.On
 
 	if len(node.Id) == 0 {
-		node.Id = stringutil.Rand(16)
+		node.Id = rands.HexString(16)
 	}
 
 	err := node.Save()

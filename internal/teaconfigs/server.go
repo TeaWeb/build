@@ -9,6 +9,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaevents"
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/TeaWeb/build/internal/teawaf"
+	"github.com/iwind/TeaGo/rands"
 	"gopkg.in/yaml.v3"
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/files"
@@ -168,7 +169,7 @@ func LoadServerConfigsFromDir(dirPath string) []*ServerConfig {
 func NewServerConfig() *ServerConfig {
 	server := &ServerConfig{
 		On:      true,
-		Id:      stringutil.Rand(16),
+		Id:      rands.HexString(16),
 		API:     api.NewAPIConfig(),
 		CacheOn: true,
 		WAFOn:   true,
@@ -445,7 +446,7 @@ func (this *ServerConfig) compatible() {
 		if len(this.AccessLog) == 0 {
 			this.AccessLog = []*AccessLogConfig{
 				{
-					Id:      stringutil.Rand(16),
+					Id:      rands.HexString(16),
 					On:      !this.DisableAccessLog1,
 					Fields:  this.AccessLogFields1,
 					Status1: true,

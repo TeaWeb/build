@@ -5,7 +5,7 @@ import (
 	"github.com/TeaWeb/build/internal/teawaf"
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 type GroupAddAction actions.Action
@@ -52,7 +52,7 @@ func (this *GroupAddAction) RunPost(params struct {
 		Require("请输入分组名称")
 
 	group := teawaf.NewRuleGroup()
-	group.Id = stringutil.Rand(16)
+	group.Id = rands.HexString(16)
 	group.On = params.On
 	group.Name = params.Name
 	group.Description = params.Description

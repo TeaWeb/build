@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"image"
 	_ "image/gif"
 	_ "image/jpeg"
@@ -52,7 +52,7 @@ func (this *UpdateAvatarAction) RunPost(params struct {
 		dir.Mkdir()
 	}
 
-	rand := stringutil.Rand(16)
+	rand := rands.HexString(16)
 	_, err = params.AvatarFile.WriteToPath(dir.Path() + "/" + rand + params.AvatarFile.Ext)
 	if err != nil {
 		this.Fail("头像文件写入失败，请检查文件权限")

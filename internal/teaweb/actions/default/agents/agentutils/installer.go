@@ -10,7 +10,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 	"io"
@@ -225,7 +225,7 @@ func (this *Installer) Start() error {
 	agent.CheckDisconnections = true
 	agent.AllowAll = true
 	agent.On = true
-	agent.Key = stringutil.Rand(32)
+	agent.Key = rands.HexString(32)
 	agent.AddDefaultApps()
 	if len(this.GroupId) > 0 {
 		agent.AddGroup(this.GroupId)

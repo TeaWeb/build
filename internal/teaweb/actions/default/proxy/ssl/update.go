@@ -12,7 +12,7 @@ import (
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -241,7 +241,7 @@ func (this *UpdateAction) RunPost(params struct {
 				field := fmt.Sprintf("certFiles%d", index)
 				data, ok := fileBytes[field]
 				if ok {
-					filename := "ssl." + stringutil.Rand(16) + fileExts[field]
+					filename := "ssl." + rands.HexString(16) + fileExts[field]
 					configFile := files.NewFile(Tea.ConfigFile(filename))
 					err := configFile.Write(data)
 					if err != nil {
@@ -255,7 +255,7 @@ func (this *UpdateAction) RunPost(params struct {
 				field := fmt.Sprintf("keyFiles%d", index)
 				data, ok := fileBytes[field]
 				if ok {
-					filename := "ssl." + stringutil.Rand(16) + fileExts[field]
+					filename := "ssl." + rands.HexString(16) + fileExts[field]
 					configFile := files.NewFile(Tea.ConfigFile(filename))
 					err := configFile.Write(data)
 					if err != nil {

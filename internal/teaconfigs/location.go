@@ -5,6 +5,7 @@ import (
 	"github.com/TeaWeb/build/internal/teaconfigs/shared"
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/TeaWeb/build/internal/teawaf"
+	"github.com/iwind/TeaGo/rands"
 	stringutil "github.com/iwind/TeaGo/utils/string"
 	"net/http"
 	"regexp"
@@ -101,7 +102,7 @@ type LocationConfig struct {
 func NewLocation() *LocationConfig {
 	return &LocationConfig{
 		On:      true,
-		Id:      stringutil.Rand(16),
+		Id:      rands.HexString(16),
 		CacheOn: true,
 		WAFOn:   true,
 	}
@@ -343,7 +344,7 @@ func (this *LocationConfig) Compatible(version string) {
 		if len(this.AccessLog) == 0 && this.DisableAccessLog1 {
 			this.AccessLog = []*AccessLogConfig{
 				{
-					Id:      stringutil.Rand(16),
+					Id:      rands.HexString(16),
 					On:      !this.DisableAccessLog1,
 					Fields:  this.AccessLogFields1,
 					Status1: true,

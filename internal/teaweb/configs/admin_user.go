@@ -1,7 +1,7 @@
 package configs
 
 import (
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"sync"
 )
 
@@ -86,5 +86,5 @@ func (this *AdminUser) Reset() {
 
 // 生成Key
 func (this *AdminUser) GenerateKey() string {
-	return stringutil.Rand(32)
+	return rands.HexString(32)
 }

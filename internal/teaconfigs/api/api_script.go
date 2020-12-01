@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/files"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // 脚本定义
@@ -20,7 +20,7 @@ func NewAPIScript() *APIScript {
 // 保存
 func (this *APIScript) Save() error {
 	if len(this.Filename) == 0 {
-		this.Filename = "script." + stringutil.Rand(16) + ".conf"
+		this.Filename = "script." + rands.HexString(16) + ".conf"
 	}
 	writer, err := files.NewFile(Tea.ConfigFile(this.Filename)).Writer()
 	if err != nil {

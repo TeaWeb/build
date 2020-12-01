@@ -2,7 +2,7 @@ package teaconfigs
 
 import (
 	"github.com/iwind/TeaGo/assert"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"sync"
 	"testing"
 	"time"
@@ -89,7 +89,7 @@ func TestRewriteRule_NamedMatchConcurrent(t *testing.T) {
 				func() {
 					defer wg.Done()
 
-					var randomString = stringutil.Rand(16)
+					var randomString = rands.HexString(16)
 
 					replace, _, b := r.Match("/hello/world/"+randomString, func(source string) string {
 						return source

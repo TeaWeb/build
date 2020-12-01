@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"gopkg.in/yaml.v3"
 	"time"
 )
@@ -27,7 +27,7 @@ type Widget struct {
 // 获取新对象
 func NewWidget() *Widget {
 	return &Widget{
-		Id:        stringutil.Rand(16),
+		Id:        rands.HexString(16),
 		On:        true,
 		CreatedAt: time.Now().Unix(),
 	}

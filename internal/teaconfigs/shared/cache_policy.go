@@ -6,6 +6,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
+	"github.com/iwind/TeaGo/rands"
 	"github.com/iwind/TeaGo/utils/string"
 	"strings"
 	"time"
@@ -120,7 +121,7 @@ func (this *CachePolicy) Save() error {
 	defer Locker.WriteUnlockNotify()
 
 	if len(this.Filename) == 0 {
-		this.Id = stringutil.Rand(16)
+		this.Id = rands.HexString(16)
 		this.Filename = "cache.policy." + this.Id + ".conf"
 	}
 	writer, err := files.NewWriter(Tea.ConfigFile(this.Filename))

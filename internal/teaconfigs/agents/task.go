@@ -5,7 +5,7 @@ import (
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/files"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"runtime"
 	"strings"
 	"time"
@@ -30,7 +30,7 @@ type TaskConfig struct {
 func NewTaskConfig() *TaskConfig {
 	return &TaskConfig{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

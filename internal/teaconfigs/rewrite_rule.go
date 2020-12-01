@@ -6,7 +6,7 @@ import (
 	"github.com/TeaWeb/build/internal/teautils"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/maps"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"regexp"
 	"strings"
 )
@@ -70,7 +70,7 @@ type RewriteRule struct {
 func NewRewriteRule() *RewriteRule {
 	return &RewriteRule{
 		On:          true,
-		Id:          stringutil.Rand(16),
+		Id:          rands.HexString(16),
 		FlagOptions: maps.Map{},
 	}
 }

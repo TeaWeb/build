@@ -3,7 +3,7 @@ package widgets
 import (
 	"errors"
 	"github.com/TeaWeb/build/internal/teautils"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 )
 
 // Chart接口
@@ -28,7 +28,7 @@ type Chart struct {
 func NewChart() *Chart {
 	return &Chart{
 		On: true,
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 	}
 }
 

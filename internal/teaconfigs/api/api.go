@@ -6,7 +6,7 @@ import (
 	"github.com/iwind/TeaGo/files"
 	"github.com/iwind/TeaGo/lists"
 	"github.com/iwind/TeaGo/logs"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"math/rand"
 	"regexp"
 	"time"
@@ -215,7 +215,7 @@ func (this *API) ChangeVersion(oldName string, newName string) {
 // 保存到文件
 func (this *API) Save() error {
 	if len(this.Filename) == 0 {
-		this.Filename = "api." + stringutil.Rand(16) + ".conf"
+		this.Filename = "api." + rands.HexString(16) + ".conf"
 	}
 	writer, err := files.NewWriter(Tea.ConfigFile(this.Filename))
 	if err != nil {

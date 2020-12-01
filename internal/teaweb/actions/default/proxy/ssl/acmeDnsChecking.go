@@ -7,7 +7,7 @@ import (
 	"github.com/iwind/TeaGo/Tea"
 	"github.com/iwind/TeaGo/actions"
 	"github.com/iwind/TeaGo/lists"
-	"github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	"net"
 	"strings"
 	"time"
@@ -70,8 +70,8 @@ func (this *AcmeDnsCheckingAction) RunPost(params struct {
 	}
 
 	// write cert & key
-	certFile := "ssl." + stringutil.Rand(16) + ".pem"
-	keyFile := "ssl." + stringutil.Rand(16) + ".key"
+	certFile := "ssl." + rands.HexString(16) + ".pem"
+	keyFile := "ssl." + rands.HexString(16) + ".key"
 	err = req.WriteCertFile(Tea.ConfigFile(certFile))
 	if err != nil {
 		this.Fail("证书保存失败：" + err.Error())

@@ -1,7 +1,7 @@
 package agents
 
 import (
-	stringutil "github.com/iwind/TeaGo/utils/string"
+	"github.com/iwind/TeaGo/rands"
 	timeutil "github.com/iwind/TeaGo/utils/time"
 )
 
@@ -20,7 +20,7 @@ type GroupKey struct {
 // 创建新Key
 func NewGroupKey() *GroupKey {
 	return &GroupKey{
-		Id: stringutil.Rand(16),
+		Id: rands.HexString(16),
 		On: true,
 	}
 }
