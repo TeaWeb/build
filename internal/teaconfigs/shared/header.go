@@ -2,7 +2,6 @@ package shared
 
 import (
 	"github.com/iwind/TeaGo/rands"
-	"github.com/iwind/TeaGo/utils/string"
 	"regexp"
 )
 
