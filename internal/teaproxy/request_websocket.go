@@ -83,6 +83,30 @@ func (this *Request) callWebsocket(writer *ResponseWriter) error {
 			host = this.Format(this.backend.Host)
 		}
 
+		if this.backend.HasRequestURI() {
+			uri := this.Format(this.backend.RequestPath())
+			u, err := url.ParseRequestURI(uri)
+			if err == nil {
+				this.raw.URL.Path = CleanPath(u.Path)
+				this.raw.URL.RawQuery = u.RawQuery
+
+				args := this.Format(this.backend.RequestArgs())
+				if len(args) > 0 {
+					if len(u.RawQuery) > 0 {
+						this.raw.URL.RawQuery += "&" + args
+					} else {
+						this.raw.URL.RawQuery += args
+					}
+				}
+			}
+		} else {
+			u, err := url.ParseRequestURI(this.uri)
+			if err == nil {
+				this.raw.URL.Path = u.Path
+				this.raw.URL.RawQuery = u.RawQuery
+			}
+		}
+
 		wsURL := url.URL{
 			Scheme:   scheme,
 			Host:     host,
