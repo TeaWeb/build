@@ -194,6 +194,24 @@ func TestLogParse5(t *testing.T) {
 	}
 }
 
+func TestAccessLog_nil(t *testing.T) {
+	accessLog := &AccessLog{}
+	t.Log(string(accessLog.jsonEncode(1)))
+	t.Log(string(accessLog.jsonEncode("abc")))
+	t.Log(string(accessLog.jsonEncode(nil)))
+
+	{
+		var h *AccessLogClient = nil
+		t.Log(string(accessLog.jsonEncode(h)))
+	}
+
+	{
+		var h = new(AccessLogClient)
+		t.Log(string(accessLog.jsonEncode(h)))
+	}
+
+}
+
 func BenchmarkAccessLog_ParseUserAgent(b *testing.B) {
 	runtime.GOMAXPROCS(1)
 
