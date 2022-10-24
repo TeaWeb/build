@@ -21,3 +21,4 @@ avatars/*
 cache.*
 mock.*
 *.proxy.conf
+!server.sample.www.proxy.conf
