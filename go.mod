@@ -22,7 +22,7 @@ require (
 	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8
 	github.com/akamai/AkamaiOPEN-edgegrid-golang v0.9.18
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.411
-	github.com/aws/aws-sdk-go v1.29.15
+	github.com/aws/aws-sdk-go v1.34.28
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cloudflare/cloudflare-go v0.13.0
 	github.com/cpu/goacmedns v0.0.3
@@ -68,7 +68,7 @@ require (
 	github.com/transip/gotransip v5.8.2+incompatible
 	github.com/urfave/cli v1.22.4
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
-	go.mongodb.org/mongo-driver v1.4.0
+	go.mongodb.org/mongo-driver v1.5.1
 	golang.org/x/crypto v0.1.0
 	golang.org/x/net v0.1.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
