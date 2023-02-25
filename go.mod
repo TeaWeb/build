@@ -22,7 +22,7 @@ require (
 	github.com/TeaWeb/uaparser v0.0.0-20190526084055-a1c9449348d8
 	github.com/akamai/AkamaiOPEN-edgegrid-golang v0.9.18
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.411
-	github.com/aws/aws-sdk-go v1.29.15
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cloudflare/cloudflare-go v0.13.0
 	github.com/cpu/goacmedns v0.0.3
