@@ -70,9 +70,9 @@ require (
 	github.com/vmihailenco/msgpack v4.0.4+incompatible
 	go.mongodb.org/mongo-driver v1.4.0
 	golang.org/x/crypto v0.1.0
-	golang.org/x/net v0.1.0
+	golang.org/x/net v0.7.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
-	golang.org/x/sys v0.1.0
+	golang.org/x/sys v0.5.0
 	google.golang.org/api v0.30.0
 	gopkg.in/ns1/ns1-go.v2 v2.4.2
 	gopkg.in/sourcemap.v1 v1.0.5 // indirect
